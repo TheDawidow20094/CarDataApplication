@@ -1,0 +1,22 @@
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\Car Data Application.exe
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\Car Data Application.deps.json
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\Car Data Application.runtimeconfig.json
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\Car Data Application.runtimeconfig.dev.json
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\Car Data Application.dll
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\ref\Car Data Application.dll
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\Car Data Application.pdb
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.csproj.AssemblyReference.cache
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\App.g.cs
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application_MarkupCompile.cache
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application_MarkupCompile.lref
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.g.resources
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.AssemblyInfoInputs.cache
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.AssemblyInfo.cs
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.csproj.CoreCompileInputs.cache
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.dll
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\ref\Car Data Application.dll
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.pdb
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.genruntimeconfig.cache
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Views\MainWindow.g.cs
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Views\MainWindow.baml
