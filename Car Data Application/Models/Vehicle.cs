@@ -7,11 +7,13 @@ using Car_Data_Application.Models.Vehicle_Classes;
 
 namespace Car_Data_Application.Models
 {
-    class Vechicle
+    class Vehicle
     {
+        public int Id { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public int YearOfManufacture { get; set; }
+        public int CarMillage { get; set; }
         public string Plates { get; set; }
         public string Vin { get; set; }
         public Tank Tanks { get; set; }
@@ -24,11 +26,13 @@ namespace Car_Data_Application.Models
         public CyclicalCosts Inspection { get; set; }
 
 
-        public Vechicle(string brand, string model, int yearofmanufacture, string plates, string vin, Tank tanks, double consumptions, List<Refueling> refuelings, List<string> imagessrc, List<Service> services, FuelType fueltype, CyclicalCosts insurance, CyclicalCosts inspection)
+        public Vehicle(int id, string brand, string model, int yearofmanufacture, int carmillage, string plates, string vin, Tank tanks, double consumptions, List<Refueling> refuelings, List<string> imagessrc, List<Service> services, FuelType fueltype, CyclicalCosts insurance, CyclicalCosts inspection)
         {
+            this.Id = id;
             this.Brand = brand;
             this.Model = model;
             this.YearOfManufacture = yearofmanufacture;
+            this.CarMillage = carmillage;
             this.Plates = plates;
             this.Vin = vin;
             this.Tanks = tanks;

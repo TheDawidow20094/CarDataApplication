@@ -1,0 +1,296 @@
+[
+  {
+    "Id": 0,
+    "Brand": "Yamaha",
+    "Model": "FZ6",
+    "YearOfManufacture": 2004,
+    "CarMillage": 150000,
+    "FuelType": {
+      "Gasoline": true,
+      "Diesel": false,
+      "LPG": true
+    },
+    "Plates": "PZ 9726",
+    "VIN": "GFDCY46t234876",
+    "Insurance": {
+      "StartDate": "2021-05-12",
+      "EndDate": "2022-05-12",
+      "Price": 380
+    },
+    "Inspection": {
+      "StartDate": "2021-01-12",
+      "EndDate": "2022-02-12",
+      "Price": 150
+    },
+    "ImegesSrc": [
+      "Fazer1.png",
+      "Fazer2.png",
+      "Fazer3.png"
+    ],
+    "Tanks": {
+      "LPG": 80,
+      "Gasoline": 100,
+      "Diesel": 0
+    },
+    "Consumption": 6.5,
+    "Refuelings": [
+      {
+        "Liters": 12,
+        "PriceForLiter": 5.7,
+        "TotalPrice": 56,
+        "IsFull": true,
+        "CarMillage": 75023,
+        "Date": "2022-01-12",
+        "Time": "13:34",
+        "Comment": "Nie mam czasu na nic"
+      },
+      {
+        "Liters": 12,
+        "PriceForLiter": 5.7,
+        "TotalPrice": 56,
+        "IsFull": true,
+        "CarMillage": 75023,
+        "Date": "2022-01-12",
+        "Time": "13:34",
+        "Comment": "Nie mam czasu na nic"
+      }
+    ],
+    "Services": [
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      },
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      },
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      }
+    ]
+  },
+  {
+    "Id": 1,
+    "Brand": "Audi",
+    "Model": "A6",
+    "YearOfManufacture": 2003,
+    "CarMillage": 12858,
+    "FuelType": {
+      "Gasoline": true,
+      "Diesel": false,
+      "LPG": true
+    },
+    "Plates": "PZ 111111",
+    "VIN": "CBY5055646AA",
+    "Insurance": {
+      "StartDate": "2021-05-12",
+      "EndDate": "2022-05-12",
+      "Price": 450
+    },
+    "Inspection": {
+      "StartDate": "2021-01-12",
+      "EndDate": "2022-02-12",
+      "Price": 150
+    },
+    "ImegesSrc": [
+      "Fazer1.png",
+      "Fazer2.png",
+      "Fazer3.png"
+    ],
+    "Tanks": {
+      "LPG": 80,
+      "Gasoline": 200,
+      "Diesel": 0
+    },
+    "Consumption": 6.5,
+    "Refuelings": [
+      {
+        "Liters": 12,
+        "PriceForLiter": 5.7,
+        "TotalPrice": 56,
+        "IsFull": false,
+        "CarMillage": 75023,
+        "Date": "2022-01-12",
+        "Time": "13:34",
+        "Comment": "Nie mam czasu na nic"
+      },
+      {
+        "Liters": 12,
+        "PriceForLiter": 5.7,
+        "TotalPrice": 56,
+        "IsFull": true,
+        "CarMillage": 75023,
+        "Date": "2022-01-12",
+        "Time": "13:34",
+        "Comment": "Nie mam czasu na nic"
+      }
+    ],
+    "Services": [
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      },
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      },
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Brand": "Junak",
+    "Model": "Jakiś126",
+    "YearOfManufacture": 2016,
+    "CarMillage": 589666,
+    "FuelType": {
+      "Gasoline": false,
+      "Diesel": true,
+      "LPG": false
+    },
+    "Plates": "CBY 00587P",
+    "VIN": "GFDCY46t234876",
+    "Insurance": {
+      "StartDate": "2021-05-12",
+      "EndDate": "2022-05-12",
+      "Price": 380
+    },
+    "Inspection": {
+      "StartDate": "2021-01-12",
+      "EndDate": "2022-02-12",
+      "Price": 150
+    },
+    "ImegesSrc": [
+      "Fazer1.png",
+      "Fazer2.png",
+      "Fazer3.png"
+    ],
+    "Tanks": {
+      "LPG": 0,
+      "Gasoline": 0,
+      "Diesel": 900
+    },
+    "Consumption": 6.5,
+    "Refuelings": [
+      {
+        "Liters": 12,
+        "PriceForLiter": 5.7,
+        "TotalPrice": 56,
+        "IsFull": true,
+        "CarMillage": 75023,
+        "Date": "2022-01-12",
+        "Time": "13:34",
+        "Comment": "Nie mam czasu na nic"
+      },
+      {
+        "Liters": 12,
+        "PriceForLiter": 5.7,
+        "TotalPrice": 56,
+        "IsFull": true,
+        "CarMillage": 75023,
+        "Date": "2022-01-12",
+        "Time": "13:34",
+        "Comment": "Nie mam czasu na nic"
+      }
+    ],
+    "Services": [
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      },
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      },
+      {
+        "Name": "Wymiana koła",
+        "Category": "Eksploatacja",
+        "Price": 120,
+        "Date": "2021-05-22",
+        "Time": "11:55",
+        "CarMillage": 45808,
+        "Reminder": {
+          "Date": "2022-12-12",
+          "Millage": 100588
+        },
+        "Comment": "Tinder love"
+      }
+    ]
+  }
+  ]

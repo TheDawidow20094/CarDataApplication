@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Car_Data_Application.Models;
+using Car_Data_Application.Controllers;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Car_Data_Application.Views
 {
@@ -21,10 +24,22 @@ namespace Car_Data_Application.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Vehicle> MyVehicles = new List<Vehicle>();
         public MainWindow()
         {
+            InitializeData();
             InitializeComponent();
+        }
 
+        private void VehiclesOnClick(object sender, RoutedEventArgs e)
+        {
+            VehiclesContentGenerator Generator = new VehiclesContentGenerator();
+            Generator.GeneratorVechicleList(this, MyVehicles);
+        }
+        public void InitializeData()
+        {
+            string Json_Result = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
+            MyVehicles = JsonConvert.DeserializeObject<List<Vehicle>>(Json_Result);
         }
     }
 }
