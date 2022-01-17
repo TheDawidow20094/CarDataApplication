@@ -25,15 +25,15 @@
             <Button Grid.Row="0" Content="Zaloguj" x:Name="Login" Background="White"/>
             <Button Grid.Row="1" Content="Strona Głowna" Background="White"/>
             <Button Grid.Row="2" Content="Pojazdy" Click="VehiclesOnClick" Background="White"/>
-            <Button Grid.Row="3" Content="Historia Tankowań" Background="White"/>
+            <Button Grid.Row="3" Content="Historia Tankowań" Click="RefuelingHistoryClick" Background="White"/>
             <Button Grid.Row="4" Content="Statystyki" Background="White"/>
-            <Button Grid.Row="5" Content="Koszta" Background="White"/>
+            <Button Grid.Row="5" Content="Koszta" Click="ServicesClick" Background="White"/>
             <Button Grid.Row="6" Content="Kopia zapasowa" Background="White"/>
             <Button Grid.Row="7" Content="Ustawienia" Background="White"/>
 
         </Grid>
         
-        <ScrollViewer x:Name="ScrollViewerContent" Grid.Column="1" Grid.Row="0" Background="Aqua">
+        <ScrollViewer x:Name="ScrollViewerContent" Grid.Column="1" Grid.Row="0" Background = "">
         </ScrollViewer>
     </Grid>
 </Window>

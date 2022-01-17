@@ -37,11 +37,6 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(AddButton, 1);
             Mainwindow.MainGrid.Children.Add(AddButton);
 
-            //List<Vehicle> MyVehicles = new List<Vehicle>();
-
-            //string Json_Result = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
-            //MyVehicles = JsonConvert.DeserializeObject<List<Vehicle>>(Json_Result);
-
             Grid grid = new Grid();
 
             int VehicleIndex = 0;

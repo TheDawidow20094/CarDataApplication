@@ -36,6 +36,19 @@ namespace Car_Data_Application.Views
             VehiclesContentGenerator Generator = new VehiclesContentGenerator();
             Generator.GeneratorVechicleList(this, MyVehicles);
         }
+
+        private void RefuelingHistoryClick(object sender, RoutedEventArgs e)
+        {
+            RefuelingHistoryContentGenerator Generator = new RefuelingHistoryContentGenerator();
+            Generator.GeneratorRefulingHistory(this, MyVehicles);
+        }
+
+        private void ServicesClick(object sender, RoutedEventArgs e)
+        {
+            CostContentGenerator Generator = new CostContentGenerator();
+            Generator.CostGenerator(this, MyVehicles);
+        }
+
         public void InitializeData()
         {
             string Json_Result = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
