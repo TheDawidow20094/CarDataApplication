@@ -11,6 +11,12 @@
             <ColumnDefinition Width="0.2*"></ColumnDefinition>
             <ColumnDefinition Width="0.8*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.90*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+        </Grid.RowDefinitions>
+
         <Grid x:Name="SidePanel" Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.125*"></RowDefinition>
@@ -32,8 +38,17 @@
             <Button Grid.Row="7" Content="Ustawienia" Background="White"/>
 
         </Grid>
-        
-        <ScrollViewer x:Name="ScrollViewerContent" Grid.Column="1" Grid.Row="0" Background = "">
-        </ScrollViewer>
+
+        <ScrollViewer x:Name="ScrollViewerContent" Grid.Column="1" Grid.Row="0"  Background = "LightGreen"/>
+
+        <Grid x:Name="Footer" Grid.Row="1" Grid.Column="1"   Background="LightCoral">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Content="CAR" Background="Transparent"/>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="USER" Background="Transparent"/>
+        </Grid>
+
     </Grid>
 </Window>
