@@ -24,35 +24,44 @@ namespace Car_Data_Application.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Vehicle> MyVehicles = new List<Vehicle>();
+        User User = new User();
+        
         public MainWindow()
         {
             InitializeData();
             InitializeComponent();
+            SetFooterData();
         }
 
         private void VehiclesOnClick(object sender, RoutedEventArgs e)
         {
             VehiclesContentGenerator Generator = new VehiclesContentGenerator();
-            Generator.GeneratorVechicleList(this, MyVehicles);
+            Generator.GeneratorVechicleList(this, User);
         }
 
         private void RefuelingHistoryClick(object sender, RoutedEventArgs e)
         {
             RefuelingHistoryContentGenerator Generator = new RefuelingHistoryContentGenerator();
-            Generator.GeneratorRefulingHistory(this, MyVehicles);
+            Generator.GeneratorRefulingHistory(this, User);
         }
 
         private void ServicesClick(object sender, RoutedEventArgs e)
         {
             CostContentGenerator Generator = new CostContentGenerator();
-            Generator.CostGenerator(this, MyVehicles);
+            Generator.CostGenerator(this, User);
         }
 
         public void InitializeData()
         {
-            string Json_Result = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
-            MyVehicles = JsonConvert.DeserializeObject<List<Vehicle>>(Json_Result);
+
+            string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
+            User = JsonConvert.DeserializeObject<User>(JsonResultUser);
+        }
+
+        public void SetFooterData()
+        {
+            CarName.Content = User.Vehicles[0].Brand + " " + User.Vehicles[0].Model;
+            UserName.Text = User.UserName + " " + User.UserSurname;
         }
     }
 }

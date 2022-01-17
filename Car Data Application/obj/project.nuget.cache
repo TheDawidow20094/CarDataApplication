@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "U4+XzYsvN6+L75/nYWW21aRsIUu+QVgxfC+oDIybNIvsNCRXUVZXWMEvizyW+htzyzNHyhJ066Fx1VRneDkPgw==",
+  "dgSpecHash": "nVz4P2heWcTBoJccsN7nkdG8SAvi9uOWpnzwt/vYhkvC8PMBgvfZFsqxXb0SxTOaByBeoJqn4ESWHLonlvfRrQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Dawid\\source\\repos\\GIT-REPO\\CarDataApplication\\Car Data Application\\Car Data Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Dawid\\.nuget\\packages\\extendedwpfvisualtreehelper\\2.0.2\\extendedwpfvisualtreehelper.2.0.2.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Dawid\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",

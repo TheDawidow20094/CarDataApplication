@@ -15,14 +15,16 @@ namespace Car_Data_Application.Controllers
     class RefuelingHistoryContentGenerator
     {
 
-        public void GeneratorRefulingHistory(MainWindow mw, List<Vehicle> myvehicles)
+        public void GeneratorRefulingHistory(MainWindow mw, User user)
         {
+            object obj = mw.MainGrid.FindName("AddButton");
+            mw.MainGrid.Children.Remove((UIElement)obj);
             Grid MainGrid = new Grid();
 
             List<Refueling> RefuelingList = new List<Refueling>();
-            for (int i = 0; i < myvehicles[0].Refulings.Count; i++)
+            for (int i = 0; i < user.Vehicles[0].Refulings.Count; i++)
             {
-                RefuelingList.Add(myvehicles[0].Refulings[i]);
+                RefuelingList.Add(user.Vehicles[0].Refulings[i]);
 
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGridRow.Height = new GridLength(120);

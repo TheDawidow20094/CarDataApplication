@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     "net5.0-windows7.0": {
+      "ExtendedWPFVisualTreeHelper/2.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0-windows7.0/ExtendedWPFVisualTreeHelper.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0-windows7.0/ExtendedWPFVisualTreeHelper.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
       "Microsoft.NETCore.Platforms/1.1.0": {
         "type": "package",
         "compile": {
@@ -116,6 +128,23 @@
     }
   },
   "libraries": {
+    "ExtendedWPFVisualTreeHelper/2.0.2": {
+      "sha512": "DCYggPbsve9V5GHGLpoyOADtlBJwoV+/q/CPbDK2ZxY5PCJ2zxUellSTlZI/swff76kO7ra4SXjk23Gq36/e6g==",
+      "type": "package",
+      "path": "extendedwpfvisualtreehelper/2.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "extendedwpfvisualtreehelper.2.0.2.nupkg.sha512",
+        "extendedwpfvisualtreehelper.nuspec",
+        "lib/net451/ExtendedWPFVisualTreeHelper.dll",
+        "lib/net451/ExtendedWPFVisualTreeHelper.xml",
+        "lib/net5.0-windows7.0/ExtendedWPFVisualTreeHelper.dll",
+        "lib/net5.0-windows7.0/ExtendedWPFVisualTreeHelper.xml",
+        "lib/netcoreapp3.1/ExtendedWPFVisualTreeHelper.dll",
+        "lib/netcoreapp3.1/ExtendedWPFVisualTreeHelper.xml"
+      ]
+    },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "type": "package",
@@ -600,6 +629,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0-windows7.0": [
+      "ExtendedWPFVisualTreeHelper >= 2.0.2",
       "Newtonsoft.Json >= 13.0.1",
       "System.IO.FileSystem >= 4.3.0"
     ]
@@ -643,6 +673,10 @@
       "net5.0-windows7.0": {
         "targetAlias": "net5.0-windows",
         "dependencies": {
+          "ExtendedWPFVisualTreeHelper": {
+            "target": "Package",
+            "version": "[2.0.2, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.1, )"

@@ -14,16 +14,17 @@ using Newtonsoft.Json;
 namespace Car_Data_Application.Controllers
 {
     class VehiclesContentGenerator
-    {
+    {                                                                 
         public MainWindow Mainwindow;
-        public List<Vehicle> MyVehicles;
+        public User User;
 
-        public void GeneratorVechicleList(MainWindow mw, List<Vehicle> myvehicles)
+        public void GeneratorVechicleList(MainWindow mw, User user)
         {
             Mainwindow = mw;
-            MyVehicles = myvehicles;
+            User = user;
 
             Image AddButton = new Image();
+            AddButton.SetValue(FrameworkElement.NameProperty, "AddButton");
             ImageSourceConverter source = new ImageSourceConverter();
             AddButton.Margin = new Thickness(0, 0, 30, 10);
             AddButton.HorizontalAlignment = HorizontalAlignment.Right;
@@ -40,7 +41,7 @@ namespace Car_Data_Application.Controllers
             Grid grid = new Grid();
 
             int VehicleIndex = 0;
-            foreach (Vehicle vehicle in MyVehicles)
+            foreach (Vehicle vehicle in User.Vehicles)
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = new GridLength(120);
@@ -83,7 +84,7 @@ namespace Car_Data_Application.Controllers
         {
             Button btn = (Button)sender;
             int index = Int32.Parse(btn.Name.Substring(13));
-            new VehicleDetailContentGenerator().GeneratorVehicleDetail(Mainwindow, MyVehicles[index]);
+            new VehicleDetailContentGenerator().GeneratorVehicleDetail(Mainwindow, User.Vehicles[index]);
         }
     }
 }

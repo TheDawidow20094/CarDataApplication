@@ -1,296 +1,302 @@
-[
-  {
-    "Id": 0,
-    "Brand": "Yamaha",
-    "Model": "FZ6",
-    "YearOfManufacture": 2004,
-    "CarMillage": 150000,
-    "FuelType": {
-      "Gasoline": true,
-      "Diesel": false,
-      "LPG": true
-    },
-    "Plates": "PZ 9726",
-    "VIN": "GFDCY46t234876",
-    "Insurance": {
-      "StartDate": "2021-05-12",
-      "EndDate": "2022-05-12",
-      "Price": 380
-    },
-    "Inspection": {
-      "StartDate": "2021-01-12",
-      "EndDate": "2022-02-12",
-      "Price": 150
-    },
-    "ImegesSrc": [
-      "Fazer1.png",
-      "Fazer2.png",
-      "Fazer3.png"
-    ],
-    "Tanks": {
-      "LPG": 80,
-      "Gasoline": 100,
-      "Diesel": 0
-    },
-    "Consumption": 6.5,
-    "Refuelings": [
-      {
-        "Liters": 12,
-        "PriceForLiter": 5.7,
-        "TotalPrice": 56,
-        "IsFull": true,
-        "CarMillage": 75023,
-        "Date": "2022-01-12",
-        "Time": "13:34",
-        "Comment": "Nie mam czasu na nic"
+{
+  "UserID": 1,
+  "UserName": "Dawid",
+  "UserSurname": "Kaczmarek",
+  "UserLanguage": "PL",
+  "Vehicles": [
+    {
+      "Id": 0,
+      "Brand": "Yamaha",
+      "Model": "FZ6",
+      "YearOfManufacture": 2004,
+      "CarMillage": 150000,
+      "FuelType": {
+        "Gasoline": true,
+        "Diesel": false,
+        "LPG": true
       },
-      {
-        "Liters": 12,
-        "PriceForLiter": 5.7,
-        "TotalPrice": 56,
-        "IsFull": true,
-        "CarMillage": 75023,
-        "Date": "2022-01-12",
-        "Time": "13:34",
-        "Comment": "Nie mam czasu na nic"
-      }
-    ],
-    "Services": [
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
-        },
-        "Comment": "Tinder love"
+      "Plates": "PZ 9726",
+      "VIN": "GFDCY46t234876",
+      "Insurance": {
+        "StartDate": "2021-05-12",
+        "EndDate": "2022-05-12",
+        "Price": 380
       },
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
-        },
-        "Comment": "Tinder love"
+      "Inspection": {
+        "StartDate": "2021-01-12",
+        "EndDate": "2022-02-12",
+        "Price": 150
       },
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
-        },
-        "Comment": "Tinder love"
-      }
-    ]
-  },
-  {
-    "Id": 1,
-    "Brand": "Audi",
-    "Model": "A6",
-    "YearOfManufacture": 2003,
-    "CarMillage": 12858,
-    "FuelType": {
-      "Gasoline": true,
-      "Diesel": false,
-      "LPG": true
-    },
-    "Plates": "PZ 111111",
-    "VIN": "CBY5055646AA",
-    "Insurance": {
-      "StartDate": "2021-05-12",
-      "EndDate": "2022-05-12",
-      "Price": 450
-    },
-    "Inspection": {
-      "StartDate": "2021-01-12",
-      "EndDate": "2022-02-12",
-      "Price": 150
-    },
-    "ImegesSrc": [
-      "Fazer1.png",
-      "Fazer2.png",
-      "Fazer3.png"
-    ],
-    "Tanks": {
-      "LPG": 80,
-      "Gasoline": 200,
-      "Diesel": 0
-    },
-    "Consumption": 6.5,
-    "Refuelings": [
-      {
-        "Liters": 12,
-        "PriceForLiter": 5.7,
-        "TotalPrice": 56,
-        "IsFull": false,
-        "CarMillage": 75023,
-        "Date": "2022-01-12",
-        "Time": "13:34",
-        "Comment": "Nie mam czasu na nic"
+      "ImegesSrc": [
+        "Fazer1.png",
+        "Fazer2.png",
+        "Fazer3.png"
+      ],
+      "Tanks": {
+        "LPG": 80,
+        "Gasoline": 100,
+        "Diesel": 0
       },
-      {
-        "Liters": 12,
-        "PriceForLiter": 5.7,
-        "TotalPrice": 56,
-        "IsFull": true,
-        "CarMillage": 75023,
-        "Date": "2022-01-12",
-        "Time": "13:34",
-        "Comment": "Nie mam czasu na nic"
-      }
-    ],
-    "Services": [
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
+      "Consumption": 6.5,
+      "Refuelings": [
+        {
+          "Liters": 12,
+          "PriceForLiter": 5.7,
+          "TotalPrice": 56,
+          "IsFull": true,
+          "CarMillage": 75023,
+          "Date": "2022-01-12",
+          "Time": "13:34",
+          "Comment": "Nie mam czasu na nic"
         },
-        "Comment": "Tinder love"
-      },
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
+        {
+          "Liters": 12,
+          "PriceForLiter": 5.7,
+          "TotalPrice": 56,
+          "IsFull": true,
+          "CarMillage": 75023,
+          "Date": "2022-01-12",
+          "Time": "13:34",
+          "Comment": "Nie mam czasu na nic"
+        }
+      ],
+      "Services": [
+        {
+          "Name": "Wymiana koła",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Tinder love"
         },
-        "Comment": "Tinder love"
-      },
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
+        {
+          "Name": "Wymiana silnika",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Silnik"
         },
-        "Comment": "Tinder love"
-      }
-    ]
-  },
-  {
-    "Id": 2,
-    "Brand": "Junak",
-    "Model": "Jakiś126",
-    "YearOfManufacture": 2016,
-    "CarMillage": 589666,
-    "FuelType": {
-      "Gasoline": false,
-      "Diesel": true,
-      "LPG": false
+        {
+          "Name": "Wymiana chłodnicy",
+          "Category": "Eksploatacja",
+          "Price": 6000,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Wymiana"
+        }
+      ]
     },
-    "Plates": "CBY 00587P",
-    "VIN": "GFDCY46t234876",
-    "Insurance": {
-      "StartDate": "2021-05-12",
-      "EndDate": "2022-05-12",
-      "Price": 380
-    },
-    "Inspection": {
-      "StartDate": "2021-01-12",
-      "EndDate": "2022-02-12",
-      "Price": 150
-    },
-    "ImegesSrc": [
-      "Fazer1.png",
-      "Fazer2.png",
-      "Fazer3.png"
-    ],
-    "Tanks": {
-      "LPG": 0,
-      "Gasoline": 0,
-      "Diesel": 900
-    },
-    "Consumption": 6.5,
-    "Refuelings": [
-      {
-        "Liters": 12,
-        "PriceForLiter": 5.7,
-        "TotalPrice": 56,
-        "IsFull": true,
-        "CarMillage": 75023,
-        "Date": "2022-01-12",
-        "Time": "13:34",
-        "Comment": "Nie mam czasu na nic"
+    {
+      "Id": 1,
+      "Brand": "Audi",
+      "Model": "A6",
+      "YearOfManufacture": 2003,
+      "CarMillage": 12858,
+      "FuelType": {
+        "Gasoline": true,
+        "Diesel": false,
+        "LPG": true
       },
-      {
-        "Liters": 12,
-        "PriceForLiter": 5.7,
-        "TotalPrice": 56,
-        "IsFull": true,
-        "CarMillage": 75023,
-        "Date": "2022-01-12",
-        "Time": "13:34",
-        "Comment": "Nie mam czasu na nic"
-      }
-    ],
-    "Services": [
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
-        },
-        "Comment": "Tinder love"
+      "Plates": "PZ 111111",
+      "VIN": "CBY5055646AA",
+      "Insurance": {
+        "StartDate": "2021-05-12",
+        "EndDate": "2022-05-12",
+        "Price": 450
       },
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
-        },
-        "Comment": "Tinder love"
+      "Inspection": {
+        "StartDate": "2021-01-12",
+        "EndDate": "2022-02-12",
+        "Price": 150
       },
-      {
-        "Name": "Wymiana koła",
-        "Category": "Eksploatacja",
-        "Price": 120,
-        "Date": "2021-05-22",
-        "Time": "11:55",
-        "CarMillage": 45808,
-        "Reminder": {
-          "Date": "2022-12-12",
-          "Millage": 100588
+      "ImegesSrc": [
+        "Fazer1.png",
+        "Fazer2.png",
+        "Fazer3.png"
+      ],
+      "Tanks": {
+        "LPG": 80,
+        "Gasoline": 200,
+        "Diesel": 0
+      },
+      "Consumption": 6.5,
+      "Refuelings": [
+        {
+          "Liters": 12,
+          "PriceForLiter": 5.7,
+          "TotalPrice": 56,
+          "IsFull": false,
+          "CarMillage": 75023,
+          "Date": "2022-01-12",
+          "Time": "13:34",
+          "Comment": "Nie mam czasu na nic"
         },
-        "Comment": "Tinder love"
-      }
-    ]
-  }
+        {
+          "Liters": 12,
+          "PriceForLiter": 5.7,
+          "TotalPrice": 56,
+          "IsFull": true,
+          "CarMillage": 75023,
+          "Date": "2022-01-12",
+          "Time": "13:34",
+          "Comment": "Nie mam czasu na nic"
+        }
+      ],
+      "Services": [
+        {
+          "Name": "Wymiana koła",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Tinder love"
+        },
+        {
+          "Name": "Wymiana koła",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Tinder love"
+        },
+        {
+          "Name": "Wymiana koła",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Tinder love"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Brand": "Junak",
+      "Model": "Jakiś126",
+      "YearOfManufacture": 2016,
+      "CarMillage": 589666,
+      "FuelType": {
+        "Gasoline": false,
+        "Diesel": true,
+        "LPG": false
+      },
+      "Plates": "CBY 00587P",
+      "VIN": "GFDCY46t234876",
+      "Insurance": {
+        "StartDate": "2021-05-12",
+        "EndDate": "2022-05-12",
+        "Price": 380
+      },
+      "Inspection": {
+        "StartDate": "2021-01-12",
+        "EndDate": "2022-02-12",
+        "Price": 150
+      },
+      "ImegesSrc": [
+        "Fazer1.png",
+        "Fazer2.png",
+        "Fazer3.png"
+      ],
+      "Tanks": {
+        "LPG": 0,
+        "Gasoline": 0,
+        "Diesel": 900
+      },
+      "Consumption": 6.5,
+      "Refuelings": [
+        {
+          "Liters": 12,
+          "PriceForLiter": 5.7,
+          "TotalPrice": 56,
+          "IsFull": true,
+          "CarMillage": 75023,
+          "Date": "2022-01-12",
+          "Time": "13:34",
+          "Comment": "Nie mam czasu na nic"
+        },
+        {
+          "Liters": 12,
+          "PriceForLiter": 5.7,
+          "TotalPrice": 56,
+          "IsFull": true,
+          "CarMillage": 75023,
+          "Date": "2022-01-12",
+          "Time": "13:34",
+          "Comment": "Nie mam czasu na nic"
+        }
+      ],
+      "Services": [
+        {
+          "Name": "Wymiana koła",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Tinder love"
+        },
+        {
+          "Name": "Wymiana oleju",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Olej ten olej"
+        },
+        {
+          "Name": "Kupno świecy",
+          "Category": "Eksploatacja",
+          "Price": 120,
+          "Date": "2021-05-22",
+          "Time": "11:55",
+          "CarMillage": 45808,
+          "Reminder": {
+            "Date": "2022-12-12",
+            "Millage": 100588
+          },
+          "Comment": "Blablabla"
+        }
+      ]
+    }
   ]
+}

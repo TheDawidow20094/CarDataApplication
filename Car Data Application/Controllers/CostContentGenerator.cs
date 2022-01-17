@@ -14,15 +14,13 @@ namespace Car_Data_Application.Controllers
 {
     class CostContentGenerator
     {
-        public void CostGenerator(MainWindow mw, List<Vehicle> myvehicle)
+        public void CostGenerator(MainWindow mw, User user)
         {
             Grid MainGrid = new Grid();
 
-            List<Service> ServicesList = new List<Service>();
-            for (int i = 0; i < myvehicle[0].Services.Count; i++)
+            int index = 0;
+            foreach (Service servis in user.Vehicles[0].Services)
             {
-                ServicesList.Add(myvehicle[0].Services[i]);
-
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGridRow.Height = new GridLength(120);
                 MainGrid.RowDefinitions.Add(MainGridRow);
@@ -30,7 +28,7 @@ namespace Car_Data_Application.Controllers
                 Grid CostInfoGrid = new Grid();
                 CostInfoGrid.Margin = new Thickness(10);
                 CostInfoGrid.Background = Brushes.DarkGray;
-                Grid.SetRow(CostInfoGrid, i);
+                Grid.SetRow(CostInfoGrid, index);
 
                 for (int x = 0; x < 4; x++)
                 {
@@ -52,36 +50,39 @@ namespace Car_Data_Application.Controllers
                 CostInfoGrid.Children.Add(image);
 
                 TextBlock Name = new TextBlock();
-                Name.Text = ServicesList[i].Name.ToString();
+                Name.Text = servis.Name.ToString();
                 Grid.SetRow(Name, 0);
                 Grid.SetColumn(Name, 0);
                 CostInfoGrid.Children.Add(Name);
 
                 TextBlock Cost = new TextBlock();
-                Cost.Text = ServicesList[i].Price.ToString() + " zł";
+                Cost.Text = servis.Price.ToString() + " zł";
                 Grid.SetRow(Cost, 0);
                 Grid.SetColumn(Cost, 2);
                 CostInfoGrid.Children.Add(Cost);
 
                 TextBlock Data = new TextBlock();
-                Data.Text = ServicesList[i].Date.ToString();
+                Data.Text = servis.Date.ToString();
                 Grid.SetRow(Data, 1);
                 Grid.SetColumn(Data, 0);
                 CostInfoGrid.Children.Add(Data);
 
                 TextBlock ServiceType = new TextBlock();
-                ServiceType.Text = ServicesList[i].Category.ToString();
+                ServiceType.Text = servis.Category.ToString();
                 Grid.SetRow(ServiceType, 2);
                 Grid.SetColumn(ServiceType, 0);
                 CostInfoGrid.Children.Add(ServiceType);
 
                 TextBlock Descryption = new TextBlock();
-                Descryption.Text = ServicesList[i].Comment.ToString();
+                Descryption.Text = servis.Comment.ToString();
                 Grid.SetRow(Descryption, 3);
                 CostInfoGrid.Children.Add(Descryption);
 
                 MainGrid.Children.Add(CostInfoGrid);
+                index++;
             }
+
+            
 
             mw.ScrollViewerContent.Content = MainGrid;
         }
