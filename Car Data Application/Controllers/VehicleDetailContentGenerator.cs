@@ -15,21 +15,23 @@ namespace Car_Data_Application.Controllers
     {
         public void GeneratorVehicleDetail(MainWindow mainwindow, Vehicle vehicle)
         {
-            Grid grid = new Grid();
+            Grid maingrid = new Grid();
 
             for (int i = 0; i <= 6; i++) // 6 is number of displays windows with car data
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = new GridLength(120);
-                grid.RowDefinitions.Add(row);
+                maingrid.RowDefinitions.Add(row);
             }
-            
-            grid.Children.Add(DisplayVehicleImage(vehicle));
-            grid.Children.Add(GenarateVehicleNameGrid(vehicle));
-            grid.Children.Add(GeneratePrimaryInfoGrid(vehicle));
+
+            maingrid.Children.Add(DisplayVehicleImage(vehicle));
+            maingrid.Children.Add(GenarateVehicleNameGrid(vehicle));
+            maingrid.Children.Add(GeneratePrimaryInfoGrid(vehicle));
+            maingrid.Children.Add(GenarateFuelTankInfoGrid(vehicle));
+            maingrid.Children.Add(GenerateCyclicalCostGrid(vehicle));
 
 
-            mainwindow.ScrollViewerContent.Content = grid;
+            mainwindow.ScrollViewerContent.Content = maingrid;
         }
         public Image DisplayVehicleImage(Vehicle vehicle)
         {
@@ -150,6 +152,170 @@ namespace Car_Data_Application.Controllers
             primarmaryinfogrid.Children.Add(vehiclemillagevalue);
 
             return primarmaryinfogrid;
+        }
+
+        public Grid GenarateFuelTankInfoGrid(Vehicle vehicle)
+        {
+            Grid fuelinfogrid = new Grid();
+            fuelinfogrid.Margin = new Thickness(10);
+            Grid.SetRow(fuelinfogrid, 3);
+
+            ColumnDefinition fuelinfocolumnleft = new ColumnDefinition();
+            ColumnDefinition fuelinfocolumnright = new ColumnDefinition();
+            fuelinfogrid.ColumnDefinitions.Add(fuelinfocolumnleft);
+            fuelinfogrid.ColumnDefinitions.Add(fuelinfocolumnright);
+
+            for (int i = 0; i <= 3; i++) // number of user fueltanks
+            {
+                RowDefinition fuelinforow = new RowDefinition();
+                fuelinfogrid.RowDefinitions.Add(fuelinforow);
+            }
+
+            TextBlock gasolinetank = new TextBlock();
+            gasolinetank.Text = "Pojemność baku Paliwa";
+            Grid.SetRow(gasolinetank, 0);
+            Grid.SetColumn(gasolinetank, 0);
+            fuelinfogrid.Children.Add(gasolinetank);
+
+            TextBlock gasolinetankvalue = new TextBlock();
+            gasolinetankvalue.Text = vehicle.Tanks.Gasoline.ToString();
+            Grid.SetRow(gasolinetankvalue, 0);
+            Grid.SetColumn(gasolinetankvalue, 1);
+            fuelinfogrid.Children.Add(gasolinetankvalue);
+
+            TextBlock dieseltank = new TextBlock();
+            dieseltank.Text = "Pojemność baku Diesel";
+            Grid.SetRow(dieseltank, 1);
+            Grid.SetColumn(dieseltank, 0);
+            fuelinfogrid.Children.Add(dieseltank);
+
+            TextBlock dieseltankvalue = new TextBlock();
+            dieseltankvalue.Text = vehicle.Tanks.Diesel.ToString();
+            Grid.SetRow(dieseltankvalue, 1);
+            Grid.SetColumn(dieseltankvalue, 1);
+            fuelinfogrid.Children.Add(dieseltankvalue);
+
+            TextBlock lpgtank = new TextBlock();
+            lpgtank.Text = "Pojemność baku LPG";
+            Grid.SetRow(lpgtank, 2);
+            Grid.SetColumn(lpgtank, 0);
+            fuelinfogrid.Children.Add(lpgtank);
+
+            TextBlock lpgtankvalue = new TextBlock();
+            lpgtankvalue.Text = vehicle.Tanks.LPG.ToString();
+            Grid.SetRow(lpgtankvalue, 2);
+            Grid.SetColumn(lpgtankvalue, 1);
+            fuelinfogrid.Children.Add(lpgtankvalue);
+
+            return fuelinfogrid;
+        }
+
+        public Grid GenerateCyclicalCostGrid(Vehicle vehicle)
+        {
+            Grid cyclicalcostgrid = new Grid();
+            cyclicalcostgrid.Margin = new Thickness(10);
+            Grid.SetRow(cyclicalcostgrid, 4);
+
+            ColumnDefinition cyclicalcoscolumnleft = new ColumnDefinition();
+            ColumnDefinition cyclicalcoscolumnright = new ColumnDefinition();
+            cyclicalcostgrid.ColumnDefinitions.Add(cyclicalcoscolumnleft);
+            cyclicalcostgrid.ColumnDefinitions.Add(cyclicalcoscolumnright);
+
+            for (int i = 0; i <= 7; i++) // 7 number of cyclicalcost + (value) + empty space to divide insurance and inspection
+            {
+                RowDefinition cyclicalcostrow = new RowDefinition();
+                cyclicalcostgrid.RowDefinitions.Add(cyclicalcostrow);
+            }
+
+            TextBlock insurancestart = new TextBlock();
+            insurancestart.Text = "Rozpoczęcie okresu ubezpieczenia";
+            Grid.SetRow(insurancestart, 0);
+            Grid.SetColumn(insurancestart, 0);
+            cyclicalcostgrid.Children.Add(insurancestart);
+
+            TextBlock insurancestartvalue = new TextBlock();
+            insurancestartvalue.Text = vehicle.Insurance.StartDate.ToString();
+            Grid.SetRow(insurancestartvalue, 0);
+            Grid.SetColumn(insurancestartvalue, 1);
+            cyclicalcostgrid.Children.Add(insurancestartvalue);
+
+            TextBlock insuranceend = new TextBlock();
+            insuranceend.Text = "Koniec okresu ubezpieczenia";
+            Grid.SetRow(insuranceend, 1);
+            Grid.SetColumn(insuranceend, 0);
+            cyclicalcostgrid.Children.Add(insuranceend);
+
+            TextBlock insuranceendvalue = new TextBlock();
+            insuranceendvalue.Text = vehicle.Insurance.EndDate.ToString();
+            Grid.SetRow(insuranceendvalue, 1);
+            Grid.SetColumn(insuranceendvalue, 1);
+            cyclicalcostgrid.Children.Add(insuranceendvalue);
+
+            TextBlock insurancecost = new TextBlock();
+            insurancecost.Text = "Koszt odecnego ubezpieczenia";
+            Grid.SetRow(insurancecost, 2);
+            Grid.SetColumn(insurancecost, 0);
+            cyclicalcostgrid.Children.Add(insurancecost);
+
+            TextBlock insurancecostvalue = new TextBlock();
+            insurancecostvalue.Text = vehicle.Insurance.Price.ToString() + " zł";
+            Grid.SetRow(insurancecostvalue, 2);
+            Grid.SetColumn(insurancecostvalue, 1);
+            cyclicalcostgrid.Children.Add(insurancecostvalue);
+            
+            //============================DIVIDE ELEMENTS=======================================
+
+            TextBlock divideelementscolumn = new TextBlock();
+            divideelementscolumn.Text = "";
+            Grid.SetRow(divideelementscolumn, 3);
+            Grid.SetColumn(divideelementscolumn, 0);
+            cyclicalcostgrid.Children.Add(divideelementscolumn);
+
+            TextBlock divideelementsrow = new TextBlock();
+            divideelementsrow.Text = "";
+            Grid.SetRow(divideelementsrow, 3);
+            Grid.SetColumn(divideelementsrow, 1);
+            cyclicalcostgrid.Children.Add(divideelementsrow);
+
+            //===================================================================================
+
+            TextBlock inspectionstart = new TextBlock();
+            inspectionstart.Text = "Data wykonania przeglądu technicznego";
+            Grid.SetRow(inspectionstart, 4);
+            Grid.SetColumn(inspectionstart, 0);
+            cyclicalcostgrid.Children.Add(inspectionstart);
+
+            TextBlock inspectionstartvalue = new TextBlock();
+            inspectionstartvalue.Text = vehicle.Inspection.StartDate.ToString();
+            Grid.SetRow(inspectionstartvalue, 4);
+            Grid.SetColumn(inspectionstartvalue, 1);
+            cyclicalcostgrid.Children.Add(inspectionstartvalue);
+
+            TextBlock inspectionend = new TextBlock();
+            inspectionend.Text = "Koniec ważności przeglądu technicznego";
+            Grid.SetRow(inspectionend, 5);
+            Grid.SetColumn(inspectionend, 0);
+            cyclicalcostgrid.Children.Add(inspectionend);
+
+            TextBlock inspectionendvalue = new TextBlock();
+            inspectionendvalue.Text = vehicle.Inspection.EndDate.ToString();
+            Grid.SetRow(inspectionendvalue, 5);
+            Grid.SetColumn(inspectionendvalue, 1);
+            cyclicalcostgrid.Children.Add(inspectionendvalue);
+
+            TextBlock inspectioncost = new TextBlock();
+            inspectioncost.Text = "Koszt wykonania badania technicznego";
+            Grid.SetRow(inspectioncost, 6);
+            Grid.SetColumn(inspectioncost, 0);
+            cyclicalcostgrid.Children.Add(inspectioncost);
+
+            TextBlock inspectioncostvalue = new TextBlock();
+            inspectioncostvalue.Text = vehicle.Inspection.Price.ToString() + " zł";
+            Grid.SetRow(inspectioncostvalue, 6);
+            Grid.SetColumn(inspectioncostvalue, 1);
+            cyclicalcostgrid.Children.Add(inspectioncostvalue);
+
+            return cyclicalcostgrid;
         }
     }
 }
