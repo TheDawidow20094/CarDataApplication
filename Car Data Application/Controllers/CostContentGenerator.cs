@@ -19,7 +19,7 @@ namespace Car_Data_Application.Controllers
             Grid MainGrid = new Grid();
 
             int index = 0;
-            foreach (Service servis in user.Vehicles[0].Services)
+            foreach (Service servis in user.Vehicles[user.ActiveCarIndex].Services)
             {
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGridRow.Height = new GridLength(120);

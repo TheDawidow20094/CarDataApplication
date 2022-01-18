@@ -29,7 +29,7 @@
                 <RowDefinition Height="0.125*"></RowDefinition>
             </Grid.RowDefinitions>
             <Button Grid.Row="0" Content="Zaloguj" x:Name="Login" Background="White"/>
-            <Button Grid.Row="1" Content="Strona Głowna" Background="White"/>
+            <Button Grid.Row="1" Content="Strona Głowna" Click="HomeOnClick" Background="White"/>
             <Button Grid.Row="2" Content="Pojazdy" Click="VehiclesOnClick" Background="White"/>
             <Button Grid.Row="3" Content="Historia Tankowań" Click="RefuelingHistoryClick" Background="White"/>
             <Button Grid.Row="4" Content="Statystyki" Background="White"/>
@@ -46,7 +46,9 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="CarName" Grid.Column="1" Content="CAR" Background="Transparent"/>
+            <Grid x:Name="CarName" Grid.Column="1">
+                <Button x:Name="CarNameButton" Click="ChangeActiveCarClick"  Content="CAR" Background="Transparent"/>
+            </Grid>
             <TextBlock x:Name="UserName" VerticalAlignment="Center" HorizontalAlignment="Center" Text="USER" Background="Transparent"/>
         </Grid>
 

@@ -17,7 +17,7 @@ namespace Car_Data_Application.Controllers
         {
             Grid maingrid = new Grid();
 
-            for (int i = 0; i <= 6; i++) // 6 is number of displays windows with car data
+            for (int i = 0; i <= 6; i++) // 6 is number of displays blocks with car data
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = new GridLength(120);
@@ -48,16 +48,16 @@ namespace Car_Data_Application.Controllers
             Grid vehiclenamegrid = new Grid();
             vehiclenamegrid.Margin = new Thickness(10);
             Grid.SetRow(vehiclenamegrid, 1);
-
-            RowDefinition vehiclenamerowup = new RowDefinition();
-            RowDefinition vehiclenamerowbottom = new RowDefinition();
-            ColumnDefinition vehiclenamecolumnleft = new ColumnDefinition();
-            ColumnDefinition vehiclenamecolumnright = new ColumnDefinition();
-
-            vehiclenamegrid.RowDefinitions.Add(vehiclenamerowup);
-            vehiclenamegrid.RowDefinitions.Add(vehiclenamerowbottom);
-            vehiclenamegrid.ColumnDefinitions.Add(vehiclenamecolumnleft);
-            vehiclenamegrid.ColumnDefinitions.Add(vehiclenamecolumnright);
+            for (int i = 0; i < 2; i++)
+            {
+                RowDefinition vehiclenamerow = new RowDefinition();
+                vehiclenamegrid.RowDefinitions.Add(vehiclenamerow);
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                ColumnDefinition vehiclenamecolumn = new ColumnDefinition();
+                vehiclenamegrid.ColumnDefinitions.Add(vehiclenamecolumn);
+            }
 
             TextBlock vehiclebrand = new TextBlock();
             vehiclebrand.Text = "Marka";

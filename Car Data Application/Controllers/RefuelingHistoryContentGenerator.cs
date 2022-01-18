@@ -21,11 +21,9 @@ namespace Car_Data_Application.Controllers
             mw.MainGrid.Children.Remove((UIElement)obj);
             Grid MainGrid = new Grid();
 
-            List<Refueling> RefuelingList = new List<Refueling>();
-            for (int i = 0; i < user.Vehicles[0].Refulings.Count; i++)
+            int index = 0;
+            foreach (Refueling refueling in user.Vehicles[user.ActiveCarIndex].Refulings)
             {
-                RefuelingList.Add(user.Vehicles[0].Refulings[i]);
-
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGridRow.Height = new GridLength(120);
                 MainGrid.RowDefinitions.Add(MainGridRow);
@@ -33,7 +31,7 @@ namespace Car_Data_Application.Controllers
                 Grid RefuelingGrid = new Grid();
                 RefuelingGrid.Margin = new Thickness(10);
                 RefuelingGrid.Background = Brushes.DarkGray;
-                Grid.SetRow(RefuelingGrid, i);
+                Grid.SetRow(RefuelingGrid, index);
 
                 for (int x = 0; x <= 5; x++)
                 {
@@ -55,19 +53,19 @@ namespace Car_Data_Application.Controllers
                 RefuelingGrid.Children.Add(image);
 
                 TextBlock Date = new TextBlock();
-                Date.Text = RefuelingList[i].Date.ToString();
+                Date.Text = refueling.Date.ToString();
                 Grid.SetRow(Date, 1);
                 Grid.SetColumn(Date, 0);
                 RefuelingGrid.Children.Add(Date);
 
                 TextBlock Millage = new TextBlock();
-                Millage.Text = RefuelingList[i].CarMillage.ToString() + " km";
+                Millage.Text = refueling.CarMillage.ToString() + " km";
                 Grid.SetRow(Millage, 1);
                 Grid.SetColumn(Millage, 2);
                 RefuelingGrid.Children.Add(Millage);
 
                 TextBlock Cost = new TextBlock();
-                Cost.Text = RefuelingList[i].TotalPrice.ToString() + " zł";
+                Cost.Text = refueling.TotalPrice.ToString() + " zł";
                 Grid.SetRow(Cost, 2);
                 Grid.SetColumn(Cost, 0);
                 RefuelingGrid.Children.Add(Cost);
@@ -79,7 +77,7 @@ namespace Car_Data_Application.Controllers
                 RefuelingGrid.Children.Add(Kilometers);
 
                 TextBlock Liters = new TextBlock();
-                Liters.Text = RefuelingList[i].Liters.ToString() + " litrów";
+                Liters.Text = refueling.Liters.ToString() + " litrów";
                 Grid.SetRow(Liters, 3);
                 Grid.SetColumn(Liters, 0);
                 RefuelingGrid.Children.Add(Liters);
@@ -103,6 +101,7 @@ namespace Car_Data_Application.Controllers
                 RefuelingGrid.Children.Add(AverageFuelConsumption);
 
                 MainGrid.Children.Add(RefuelingGrid);
+                index++;
             }
 
             

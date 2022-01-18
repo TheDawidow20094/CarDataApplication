@@ -31,6 +31,14 @@ namespace Car_Data_Application.Views
             InitializeData();
             InitializeComponent();
             SetFooterData();
+            HomeContentGenerator OpenHomePage = new HomeContentGenerator();
+            OpenHomePage.GeneratorHomeContent(this, User);
+        }
+
+        public void InitializeData()
+        {
+            string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
+            User = JsonConvert.DeserializeObject<User>(JsonResultUser);
         }
 
         private void VehiclesOnClick(object sender, RoutedEventArgs e)
@@ -51,17 +59,22 @@ namespace Car_Data_Application.Views
             Generator.CostGenerator(this, User);
         }
 
-        public void InitializeData()
-        {
-
-            string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
-            User = JsonConvert.DeserializeObject<User>(JsonResultUser);
-        }
-
         public void SetFooterData()
         {
-            CarName.Content = User.Vehicles[0].Brand + " " + User.Vehicles[0].Model;
+            CarNameButton.Content = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
             UserName.Text = User.UserName + " " + User.UserSurname;
+        }
+
+        private void ChangeActiveCarClick(object sender, RoutedEventArgs e)
+        {
+            GenerateSelectedCar Generator = new GenerateSelectedCar();
+            Generator.GeneratorCarSelectList(this, User);
+        }
+
+        private void HomeOnClick(object sender, RoutedEventArgs e)
+        {
+            HomeContentGenerator Generator = new HomeContentGenerator();
+            Generator.GeneratorHomeContent(this, User);
         }
     }
 }
