@@ -14,8 +14,14 @@ namespace Car_Data_Application.Controllers
 {
     class CostContentGenerator
     {
+        private MainWindow mainWindow;
+
         public void CostGenerator(MainWindow mw, User user)
         {
+            mw.WhereAreYou = "CostPage";
+            mainWindow = mw;
+            SetButtonColor();
+
             Grid MainGrid = new Grid();
 
             int index = 0;
@@ -86,5 +92,19 @@ namespace Car_Data_Application.Controllers
 
             mw.ScrollViewerContent.Content = MainGrid;
         }
+
+        public void SetButtonColor()
+        {
+            BrushConverter bc = new BrushConverter();
+            mainWindow.HomePageButton.Background = Brushes.White;
+            mainWindow.LoginPageButton.Background = Brushes.White;
+            mainWindow.CarPageButton.Background = Brushes.White;
+            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
+            mainWindow.StatsPageButton.Background = Brushes.White;
+            mainWindow.CostPageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
+            mainWindow.BackupPageButton.Background = Brushes.White;
+            mainWindow.SetingPaneButton.Background = Brushes.White;
+        }
+
     }
 }

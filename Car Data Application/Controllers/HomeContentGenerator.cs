@@ -14,8 +14,14 @@ namespace Car_Data_Application.Controllers
 {
     class HomeContentGenerator
     {
+        private MainWindow mainWindow;
+
         public void GeneratorHomeContent(MainWindow mv, User user)
         {
+            mainWindow = mv;
+            mainWindow.WhereAreYou = "HomePage";
+            SetButtonColor();
+
             Grid Grid = new Grid();
             for (int i = 0; i < 3; i++) // 3 is number of displays blocks with data
             {
@@ -29,6 +35,19 @@ namespace Car_Data_Application.Controllers
             Grid.Children.Add(EnteriesListGenerator(user));
 
             mv.ScrollViewerContent.Content = Grid;
+        }
+
+        public void SetButtonColor()
+        {
+            BrushConverter bc = new BrushConverter();
+            mainWindow.HomePageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
+            mainWindow.LoginPageButton.Background = Brushes.White;
+            mainWindow.CarPageButton.Background = Brushes.White;
+            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
+            mainWindow.StatsPageButton.Background = Brushes.White;
+            mainWindow.CostPageButton.Background = Brushes.White;
+            mainWindow.BackupPageButton.Background = Brushes.White;
+            mainWindow.SetingPaneButton.Background = Brushes.White;
         }
 
         public Grid FuelDataGenerator(User user)

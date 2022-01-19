@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\App.xaml
-1-1644662438
+3-867434253
 
-18-1352431306
+211629303620
 195-1587479690
-Views\MainWindow.xaml;
+Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\RegisterWindow.xaml;
 
 False
 

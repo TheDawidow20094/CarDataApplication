@@ -9,19 +9,20 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Car_Data_Application.Views;
 using Car_Data_Application.Models;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Car_Data_Application.Controllers
 {
     class VehiclesContentGenerator
     {                                                                 
-        public MainWindow Mainwindow;
+        public MainWindow mainWindow;
         public User User;
 
         public void GeneratorVechicleList(MainWindow mw, User user)
         {
-            Mainwindow = mw;
+            mainWindow = mw;
             User = user;
+            SetButtonColor();
 
             Image AddButton = new Image();
             AddButton.SetValue(FrameworkElement.NameProperty, "AddButton");
@@ -36,7 +37,7 @@ namespace Car_Data_Application.Controllers
 
             Grid.SetRow(AddButton, 0);
             Grid.SetColumn(AddButton, 1);
-            Mainwindow.MainGrid.Children.Add(AddButton);
+            mainWindow.MainGrid.Children.Add(AddButton);
 
             Grid grid = new Grid();
 
@@ -72,7 +73,20 @@ namespace Car_Data_Application.Controllers
 
                 VehicleIndex++;
             }
-            Mainwindow.ScrollViewerContent.Content = grid;
+            mainWindow.ScrollViewerContent.Content = grid;
+        }
+
+        public void SetButtonColor()
+        {
+            BrushConverter bc = new BrushConverter();
+            mainWindow.HomePageButton.Background = Brushes.White;
+            mainWindow.LoginPageButton.Background = Brushes.White;
+            mainWindow.CarPageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
+            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
+            mainWindow.StatsPageButton.Background = Brushes.White;
+            mainWindow.CostPageButton.Background = Brushes.White;
+            mainWindow.BackupPageButton.Background = Brushes.White;
+            mainWindow.SetingPaneButton.Background = Brushes.White;
         }
 
         private void AddVehicle(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -84,7 +98,7 @@ namespace Car_Data_Application.Controllers
         {
             Button btn = (Button)sender;
             int index = Int32.Parse(btn.Name.Substring(13));
-            new VehicleDetailContentGenerator().GeneratorVehicleDetail(Mainwindow, User.Vehicles[index]);
+            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, User.Vehicles[index]);
         }
     }
 }

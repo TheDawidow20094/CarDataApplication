@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Car_Data_Application.Views"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="Car Data Application" Height="450" Width="800">
     <Grid x:Name="MainGrid">
@@ -28,18 +29,19 @@
                 <RowDefinition Height="0.125*"></RowDefinition>
                 <RowDefinition Height="0.125*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" Content="Zaloguj" x:Name="Login" Background="White"/>
-            <Button Grid.Row="1" Content="Strona Głowna" Click="HomeOnClick" Background="White"/>
-            <Button Grid.Row="2" Content="Pojazdy" Click="VehiclesOnClick" Background="White"/>
-            <Button Grid.Row="3" Content="Historia Tankowań" Click="RefuelingHistoryClick" Background="White"/>
-            <Button Grid.Row="4" Content="Statystyki" Background="White"/>
-            <Button Grid.Row="5" Content="Koszta" Click="ServicesClick" Background="White"/>
-            <Button Grid.Row="6" Content="Kopia zapasowa" Background="White"/>
-            <Button Grid.Row="7" Content="Ustawienia" Background="White"/>
+            <Button Grid.Row="0" Content="Zaloguj" Click="LoginClick" x:Name="LoginPageButton" Background="White"/>
+            <Button Grid.Row="1" Content="Strona Głowna" x:Name="HomePageButton" Click="HomeOnClick" Background="White"/>
+            <Button Grid.Row="2" Content="Pojazdy" x:Name="CarPageButton" Click="VehiclesOnClick" Background="White"/>
+            <Button Grid.Row="3" Content="Historia Tankowań" x:Name="RefuelingHistoryPageButton" Click="RefuelingHistoryClick" Background="White"/>
+            <Button Grid.Row="4" Content="Statystyki" x:Name="StatsPageButton" Background="White"/>
+            <Button Grid.Row="5" Content="Koszta" x:Name="CostPageButton" Click="ServicesClick" Background="White"/>
+            <Button Grid.Row="6" Content="Kopia zapasowa" x:Name="BackupPageButton" Background="White"/>
+            <Button Grid.Row="7" Content="Ustawienia" x:Name="SetingPaneButton" Click="SetingClick" Background="White"/>
 
         </Grid>
 
-        <ScrollViewer x:Name="ScrollViewerContent" Grid.Column="1" Grid.Row="0"  Background = "LightGreen"/>
+        <ScrollViewer x:Name="ScrollViewerContent" Grid.Column="1" Grid.Row="0" Background = "LightGreen">
+        </ScrollViewer>
 
         <Grid x:Name="Footer" Grid.Row="1" Grid.Column="1"   Background="LightCoral">
             <Grid.ColumnDefinitions>

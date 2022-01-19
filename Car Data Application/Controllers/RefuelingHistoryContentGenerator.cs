@@ -14,11 +14,14 @@ namespace Car_Data_Application.Controllers
 {
     class RefuelingHistoryContentGenerator
     {
+        private MainWindow mainWindow;
 
         public void GeneratorRefulingHistory(MainWindow mw, User user)
         {
-            object obj = mw.MainGrid.FindName("AddButton");
-            mw.MainGrid.Children.Remove((UIElement)obj);
+            mw.WhereAreYou = "RefuelingPage";
+            mainWindow = mw;
+            SetButtonColor();
+
             Grid MainGrid = new Grid();
 
             int index = 0;
@@ -106,9 +109,19 @@ namespace Car_Data_Application.Controllers
 
             
             mw.ScrollViewerContent.Content = MainGrid;
+        }
 
-
-
+        public void SetButtonColor()
+        {
+            BrushConverter bc = new BrushConverter();
+            mainWindow.HomePageButton.Background = Brushes.White;
+            mainWindow.LoginPageButton.Background = Brushes.White;
+            mainWindow.CarPageButton.Background = Brushes.White;
+            mainWindow.RefuelingHistoryPageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
+            mainWindow.StatsPageButton.Background = Brushes.White;
+            mainWindow.CostPageButton.Background = Brushes.White;
+            mainWindow.BackupPageButton.Background = Brushes.White;
+            mainWindow.SetingPaneButton.Background = Brushes.White;
         }
     }
 }

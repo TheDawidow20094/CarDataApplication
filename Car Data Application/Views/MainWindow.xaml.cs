@@ -25,6 +25,7 @@ namespace Car_Data_Application.Views
     public partial class MainWindow : Window
     {
         User User = new User();
+        public string WhereAreYou = "HomePage";
         
         public MainWindow()
         {
@@ -37,7 +38,7 @@ namespace Car_Data_Application.Views
 
         public void InitializeData()
         {
-            string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json");
+            string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json", Encoding.UTF8);
             User = JsonConvert.DeserializeObject<User>(JsonResultUser);
         }
 
@@ -62,7 +63,7 @@ namespace Car_Data_Application.Views
         public void SetFooterData()
         {
             CarNameButton.Content = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
-            UserName.Text = User.UserName + " " + User.UserSurname;
+            UserName.Text = User.Login;
         }
 
         private void ChangeActiveCarClick(object sender, RoutedEventArgs e)
@@ -75,6 +76,18 @@ namespace Car_Data_Application.Views
         {
             HomeContentGenerator Generator = new HomeContentGenerator();
             Generator.GeneratorHomeContent(this, User);
+        }
+
+        private void LoginClick(object sender, RoutedEventArgs e)
+        {
+            LoginWindow Loginwindow = new LoginWindow(this);
+            Loginwindow.ShowDialog();
+        }
+
+        private void SetingClick(object sender, RoutedEventArgs e)
+        {
+            SetingsContentGenerator Generator = new SetingsContentGenerator();
+            Generator.GenerateSetingContent(this, User);
         }
     }
 }
