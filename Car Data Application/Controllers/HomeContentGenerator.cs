@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Car_Data_Application.Models.Vehicle_Classes;
 
 namespace Car_Data_Application.Controllers
 {
@@ -16,7 +17,7 @@ namespace Car_Data_Application.Controllers
         public void GeneratorHomeContent(MainWindow mv, User user)
         {
             Grid Grid = new Grid();
-            for (int i = 0; i < 2; i++) // 2 is number of displays blocks with data
+            for (int i = 0; i < 3; i++) // 3 is number of displays blocks with data
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = new GridLength(120);
@@ -25,6 +26,7 @@ namespace Car_Data_Application.Controllers
 
             Grid.Children.Add(FuelDataGenerator(user));
             Grid.Children.Add(CostDataGenerator(user));
+            Grid.Children.Add(EnteriesListGenerator(user));
 
             mv.ScrollViewerContent.Content = Grid;
         }
@@ -47,6 +49,8 @@ namespace Car_Data_Application.Controllers
                 RowDefinition FuelDataGridRow = new RowDefinition();
                 FuelDataGrid.RowDefinitions.Add(FuelDataGridRow);
             }
+
+            int LastRefuelingElement = user.Vehicles[user.ActiveCarIndex].Refulings.Count();
 
             Image FuelIcon = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
@@ -74,7 +78,7 @@ namespace Car_Data_Application.Controllers
             FuelDataGrid.Children.Add(LatestConsumption);
 
             TextBlock LatestConsumptionValue = new TextBlock();
-            LatestConsumptionValue.Text = user.Vehicles[user.ActiveCarIndex].LatestFuelPrice.ToString() + " L/100km";
+            LatestConsumptionValue.Text = user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestConsumption.ToString() + " L/100km";
             Grid.SetRow(LatestConsumptionValue, 2);
             Grid.SetColumn(LatestConsumptionValue, 2);
             FuelDataGrid.Children.Add(LatestConsumptionValue);
@@ -86,7 +90,7 @@ namespace Car_Data_Application.Controllers
             FuelDataGrid.Children.Add(LatestFuelPrice);
 
             TextBlock LatestFuelPriceValue = new TextBlock();
-            LatestFuelPriceValue.Text = user.Vehicles[user.ActiveCarIndex].LatestFuelPrice.ToString() + " zł";
+            LatestFuelPriceValue.Text = user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestFuelPrice.ToString() + " zł";
             Grid.SetRow(LatestFuelPriceValue, 3);
             Grid.SetColumn(LatestFuelPriceValue, 2);
             FuelDataGrid.Children.Add(LatestFuelPriceValue);
@@ -127,7 +131,7 @@ namespace Car_Data_Application.Controllers
             CostDataGrid.Children.Add(ThisMounthText);
 
             TextBlock FuelCostValue = new TextBlock();
-            FuelCostValue.Text = user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł";
+            FuelCostValue.Text = user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł"; 
             Grid.SetRow(FuelCostValue, 2);
             Grid.SetColumn(FuelCostValue, 1);
             CostDataGrid.Children.Add(FuelCostValue);
@@ -181,6 +185,78 @@ namespace Car_Data_Application.Controllers
             CostDataGrid.Children.Add(PreviousMonthOtherCostText);
 
             return CostDataGrid;
+        }
+
+        public ScrollViewer EnteriesListGenerator (User user)
+        {
+            ScrollViewer DataViewer = new ScrollViewer();
+            Grid.SetRow(DataViewer, 2);
+
+            foreach (EntriesList entries in user.Vehicles[user.ActiveCarIndex].EntriesList)
+            {
+                Grid DataGrid = new Grid();
+                DataGrid.Margin = new Thickness(10);
+                DataGrid.Background = Brushes.LightGray;
+                for (int i = 0; i < 3; i++) // 3 is number of columns
+                {
+                    ColumnDefinition DataGridColumn = new ColumnDefinition();
+                    DataGrid.ColumnDefinitions.Add(DataGridColumn);
+                }
+                for (int x = 0; x < 4; x++) // 4 is number of rows
+                {
+                    RowDefinition DataGridRow = new RowDefinition();
+                    DataGrid.RowDefinitions.Add(DataGridRow);
+                }
+                DataViewer.Content = DataGrid;
+
+                TextBlock TypeValue = new TextBlock();
+                TypeValue.Text = entries.Type.ToString();
+                Grid.SetRow(TypeValue, 0);
+                Grid.SetColumn(TypeValue, 1);
+                DataGrid.Children.Add(TypeValue);
+
+                TextBlock DataText = new TextBlock();
+                DataText.Text = "Data:";
+                Grid.SetRow(DataText, 1);
+                Grid.SetColumn(DataText, 0);
+                DataGrid.Children.Add(DataText);
+
+                TextBlock DataValue = new TextBlock();
+                DataValue.Text = entries.Date.ToString();
+                Grid.SetRow(DataValue, 1);
+                Grid.SetColumn(DataValue, 2);
+                DataGrid.Children.Add(DataValue);
+
+                TextBlock CostText = new TextBlock();
+                CostText.Text = "Koszt:";
+                Grid.SetRow(CostText, 2);
+                Grid.SetColumn(CostText, 0);
+                DataGrid.Children.Add(CostText);
+
+                TextBlock CostTextValue = new TextBlock();
+                CostTextValue.Text = entries.Price.ToString() + " zł";
+                Grid.SetRow(CostTextValue, 2);
+                Grid.SetColumn(CostTextValue, 2);
+                DataGrid.Children.Add(CostTextValue);
+
+                TextBlock DescryptionText = new TextBlock();
+                DescryptionText.Text = "Opis:";
+                Grid.SetRow(DescryptionText, 3);
+                Grid.SetColumn(DescryptionText, 0);
+                DataGrid.Children.Add(DescryptionText);
+
+                TextBlock DescryptionValue = new TextBlock();
+                DescryptionValue.Text = entries.Descryption.ToString();
+                Grid.SetRow(DescryptionValue, 3);
+                Grid.SetColumn(DescryptionValue, 2);
+                DataGrid.Children.Add(DescryptionValue);
+
+            }
+
+            
+            
+
+            return DataViewer;
         }
     }
 }

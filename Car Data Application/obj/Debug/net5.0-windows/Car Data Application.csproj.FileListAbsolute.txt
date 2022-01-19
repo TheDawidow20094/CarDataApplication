@@ -22,3 +22,4 @@ C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj
 C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Views\MainWindow.baml
 C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
 C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Debug\net5.0-windows\ExtendedWPFVisualTreeHelper.dll
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Debug\net5.0-windows\Car Data Application.csproj.CopyComplete
