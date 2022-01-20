@@ -89,5 +89,11 @@ namespace Car_Data_Application.Views
             SetingsContentGenerator Generator = new SetingsContentGenerator();
             Generator.GenerateSetingContent(this, User);
         }
+
+        private void CalculatorClick(object sender, RoutedEventArgs e)
+        {
+            CalculatorContentGenerator Generator = new CalculatorContentGenerator();
+            Generator.CalculatorGenerator(this, User);
+        }
     }
 }

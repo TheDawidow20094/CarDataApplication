@@ -61,6 +61,11 @@ namespace Car_Data_Application.Controllers
                     RefuelingHistoryContentGenerator RefreshRefuelinfHistoryPage = new RefuelingHistoryContentGenerator();
                     RefreshRefuelinfHistoryPage.GeneratorRefulingHistory(Mainwindow, User);
                 break;
+
+                case "CalculatorPage":
+                    CalculatorContentGenerator RefreshCalculatorPage = new CalculatorContentGenerator();
+                    RefreshCalculatorPage.CalculatorGenerator(Mainwindow, User);
+                break;
             }
         }
     }

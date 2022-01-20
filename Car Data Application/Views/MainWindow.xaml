@@ -18,7 +18,7 @@
             <RowDefinition Height="0.1*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="SidePanel" Grid.Column="0" Grid.Row="0">
+        <Grid x:Name="SidePanel" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.125*"></RowDefinition>
                 <RowDefinition Height="0.125*"></RowDefinition>
@@ -28,6 +28,8 @@
                 <RowDefinition Height="0.125*"></RowDefinition>
                 <RowDefinition Height="0.125*"></RowDefinition>
                 <RowDefinition Height="0.125*"></RowDefinition>
+                <RowDefinition Height="0.125*"></RowDefinition>
+                
             </Grid.RowDefinitions>
             <Button Grid.Row="0" Content="Zaloguj" Click="LoginClick" x:Name="LoginPageButton" Background="White"/>
             <Button Grid.Row="1" Content="Strona Głowna" x:Name="HomePageButton" Click="HomeOnClick" Background="White"/>
@@ -36,8 +38,8 @@
             <Button Grid.Row="4" Content="Statystyki" x:Name="StatsPageButton" Background="White"/>
             <Button Grid.Row="5" Content="Koszta" x:Name="CostPageButton" Click="ServicesClick" Background="White"/>
             <Button Grid.Row="6" Content="Kopia zapasowa" x:Name="BackupPageButton" Background="White"/>
-            <Button Grid.Row="7" Content="Ustawienia" x:Name="SetingPaneButton" Click="SetingClick" Background="White"/>
-
+            <Button Grid.Row="7" Content="Kalkulator" x:Name="CalculatorPageButton" Click="CalculatorClick" Background="White"/>
+            <Button Grid.Row="8" Content="Ustawienia" x:Name="SetingPaneButton" Click="SetingClick" Background="White"/>
         </Grid>
 
         <ScrollViewer x:Name="ScrollViewerContent" Grid.Column="1" Grid.Row="0" Background = "LightGreen">

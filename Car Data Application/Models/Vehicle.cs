@@ -21,7 +21,7 @@ namespace Car_Data_Application.Models
         public double PreviousMounthOtherCost { get; set; }
         public string Plates { get; set; }
         public string Vin { get; set; }
-        public Tank Tanks { get; set; }
+        public Tanks Tanks { get; set; }
         public double Consumptions { get; set; }
         public List<Refueling> Refulings { get; set; }
         public List<string> ImagesSrc { get; set; }
@@ -32,7 +32,7 @@ namespace Car_Data_Application.Models
         public List<EntriesList> EntriesList { get; set; }
 
 
-        public Vehicle(int id, string brand, string model, int yearofmanufacture, int carmillage, double averagefuelconsumption, double thismounthfuelcost, double thismounthothercost, double previousmounthfuelcost, double previousmounthothercost, string plates, string vin, Tank tanks, double consumptions, List<Refueling> refuelings, List<string> imagessrc, List<Service> services, FuelType fueltype, CyclicalCosts insurance, CyclicalCosts inspection, List<EntriesList> entries)
+        public Vehicle(int id, string brand, string model, int yearofmanufacture, int carmillage, double averagefuelconsumption, double thismounthfuelcost, double thismounthothercost, double previousmounthfuelcost, double previousmounthothercost, string plates, string vin, Tanks tanks, double consumptions, List<Refueling> refuelings, List<string> imagessrc, List<Service> services, FuelType fueltype, CyclicalCosts insurance, CyclicalCosts inspection, List<EntriesList> entries)
         {
             this.Id = id;
             this.Brand = brand;

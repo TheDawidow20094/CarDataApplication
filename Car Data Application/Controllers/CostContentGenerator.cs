@@ -104,6 +104,7 @@ namespace Car_Data_Application.Controllers
             mainWindow.CostPageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
             mainWindow.BackupPageButton.Background = Brushes.White;
             mainWindow.SetingPaneButton.Background = Brushes.White;
+            mainWindow.CalculatorPageButton.Background = Brushes.White;
         }
 
     }

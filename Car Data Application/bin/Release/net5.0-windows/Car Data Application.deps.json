@@ -8,11 +8,20 @@
     ".NETCoreApp,Version=v5.0": {
       "Car Data Application/1.0.0": {
         "dependencies": {
+          "ExtendedWPFVisualTreeHelper": "2.0.2",
           "Newtonsoft.Json": "13.0.1",
           "System.IO.FileSystem": "4.3.0"
         },
         "runtime": {
           "Car Data Application.dll": {}
+        }
+      },
+      "ExtendedWPFVisualTreeHelper/2.0.2": {
+        "runtime": {
+          "lib/net5.0-windows7.0/ExtendedWPFVisualTreeHelper.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.0"
+          }
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -85,6 +94,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "ExtendedWPFVisualTreeHelper/2.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DCYggPbsve9V5GHGLpoyOADtlBJwoV+/q/CPbDK2ZxY5PCJ2zxUellSTlZI/swff76kO7ra4SXjk23Gq36/e6g==",
+      "path": "extendedwpfvisualtreehelper/2.0.2",
+      "hashPath": "extendedwpfvisualtreehelper.2.0.2.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",

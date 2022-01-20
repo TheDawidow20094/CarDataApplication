@@ -21,3 +21,9 @@ C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj
 C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\ref\Car Data Application.dll
 C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\Car Data Application.pdb
 C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\Car Data Application.genruntimeconfig.cache
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\bin\Release\net5.0-windows\ExtendedWPFVisualTreeHelper.dll
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\Car Data Application.csproj.AssemblyReference.cache
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\Views\LoginWindow.g.cs
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\Views\RegisterWindow.g.cs
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\Views\LoginWindow.baml
+C:\Users\Dawid\source\repos\GIT-REPO\CarDataApplication\Car Data Application\obj\Release\net5.0-windows\Views\RegisterWindow.baml
