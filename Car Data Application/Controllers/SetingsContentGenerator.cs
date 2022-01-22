@@ -25,7 +25,8 @@ namespace Car_Data_Application.Controllers
         {
             PUser = user;
             mainWindow = mw;
-            SetButtonColor();
+            mainWindow.AddButon.Visibility = Visibility.Hidden;
+            new CarDataAppController().SetButtonColor("SetingPaneButton", mainWindow.SidePanel.Children);
 
             Grid Grid = new Grid();
             for (int i = 0; i < 7; i++) // 7 is number of rows
@@ -115,18 +116,5 @@ namespace Car_Data_Application.Controllers
             MessageBox.Show("Dawid Kaczmarek : Jan Stark");
         }
 
-        public void SetButtonColor()
-        {
-            BrushConverter bc = new BrushConverter();
-            mainWindow.HomePageButton.Background = Brushes.White;
-            mainWindow.LoginPageButton.Background = Brushes.White;
-            mainWindow.CarPageButton.Background = Brushes.White;
-            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
-            mainWindow.StatsPageButton.Background = Brushes.White;
-            mainWindow.CostPageButton.Background = Brushes.White;
-            mainWindow.BackupPageButton.Background = Brushes.White;
-            mainWindow.SetingPaneButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
-            mainWindow.CalculatorPageButton.Background = Brushes.White;
-        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Car_Data_Application.Models.Vehicle_Classes
 {
-    class Refueling
+    public class Refueling
     {
         public double Liters { get; set; }
         public double PriceForLiter { get; set; }

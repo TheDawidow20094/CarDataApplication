@@ -20,7 +20,8 @@ namespace Car_Data_Application.Controllers
         {
             mw.WhereAreYou = "CostPage";
             mainWindow = mw;
-            SetButtonColor();
+            mainWindow.AddButon.Visibility = Visibility.Visible;
+            new CarDataAppController().SetButtonColor("CostPageButton", mainWindow.SidePanel.Children);
 
             Grid MainGrid = new Grid();
 
@@ -92,20 +93,5 @@ namespace Car_Data_Application.Controllers
 
             mw.ScrollViewerContent.Content = MainGrid;
         }
-
-        public void SetButtonColor()
-        {
-            BrushConverter bc = new BrushConverter();
-            mainWindow.HomePageButton.Background = Brushes.White;
-            mainWindow.LoginPageButton.Background = Brushes.White;
-            mainWindow.CarPageButton.Background = Brushes.White;
-            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
-            mainWindow.StatsPageButton.Background = Brushes.White;
-            mainWindow.CostPageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
-            mainWindow.BackupPageButton.Background = Brushes.White;
-            mainWindow.SetingPaneButton.Background = Brushes.White;
-            mainWindow.CalculatorPageButton.Background = Brushes.White;
-        }
-
     }
 }

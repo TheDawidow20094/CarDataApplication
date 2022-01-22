@@ -17,6 +17,8 @@ namespace Car_Data_Application.Controllers
     {
         public void GeneratorVehicleDetail(MainWindow mainwindow, Vehicle vehicle)
         {
+            mainwindow.AddButon.Visibility = Visibility.Hidden;
+
             Grid maingrid = new Grid();
 
             for (int i = 0; i <= 6; i++) // 6 is number of displays blocks with car data

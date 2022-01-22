@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Car_Data_Application.Models.Vehicle_Classes
 {
-    class CyclicalCosts
+    public class CyclicalCosts
     {
         public string StartDate { get; set; }
         public string EndDate { get; set; }

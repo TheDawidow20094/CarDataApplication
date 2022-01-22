@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Car_Data_Application.Models
 {
-    class User
+    public class User
     {
         public int Id { get; set; }
         public string Login { get; set; }

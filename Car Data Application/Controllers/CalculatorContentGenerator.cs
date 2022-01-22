@@ -14,52 +14,46 @@ namespace Car_Data_Application.Controllers
 {
     class CalculatorContentGenerator
     {
+        #region SetPrivateVariable
+
         private MainWindow mainWindow;
         private User PUser;
 
         private ComboBox CalculatorTypeSelector = new ComboBox();
         private Grid Grid = new Grid();
+        private Grid CalculatorGrid = new Grid();
         private TextBlock ResoultPriceValue = new TextBlock();
         private TextBox DistanceValue = new TextBox();
         private TextBox PriceForOneFuelUnitValue = new TextBox();
         private TextBox PriceForOneFuelUnitValueOptional = new TextBox();
         private TextBox FuelConsumptionValue = new TextBox();
         private TextBlock ResoultUsedFuel = new TextBlock();
+        private TextBlock ResoultUsedFuelAverageFuelCOnsumption = new TextBlock();
         private TextBox ConsumedFuelValue = new TextBox();
         private TextBox NumberOfKilometersTraveledValue = new TextBox();
 
-        private Grid AverageFuelConsumptionCalculatorGrid = new Grid();
-        private Grid TravelCostCalculatorGrid = new Grid();
+        #endregion
 
         public void CalculatorGenerator(MainWindow mw, User user)
         {
             mainWindow = mw;
             PUser = user;
             mainWindow.WhereAreYou = "CalculatorPage";
-            SetButtonColor();
+            mainWindow.AddButon.Visibility = Visibility.Hidden;
+            new CarDataAppController().SetButtonColor("CalculatorPageButton", mainWindow.SidePanel.Children);
 
-            for (int i = 0; i < 2; i++) // 2 is number of displays blocks with data
+            for (int i = 0; i < 3; i++) // 3 is number of displays blocks with data
             {
                 RowDefinition GridRow = new RowDefinition();
                 Grid.RowDefinitions.Add(GridRow);
             }
             Grid.Children.Add(MainContentGenerator());
 
-            mainWindow.ScrollViewerContent.Content = Grid;
-        }
+            CalculatorGrid.Children.Add(TravelCostCalculatorGenerator());
+            Grid.SetRow(CalculatorGrid, 1);
+            Grid.Children.Add(CalculatorGrid);
 
-        private void SetButtonColor()
-        {
-            BrushConverter bc = new BrushConverter();
-            mainWindow.HomePageButton.Background = Brushes.White;
-            mainWindow.LoginPageButton.Background = Brushes.White;
-            mainWindow.CarPageButton.Background = Brushes.White;
-            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
-            mainWindow.StatsPageButton.Background = Brushes.White;
-            mainWindow.CostPageButton.Background = Brushes.White;
-            mainWindow.BackupPageButton.Background = Brushes.White;
-            mainWindow.SetingPaneButton.Background = Brushes.White;
-            mainWindow.CalculatorPageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
+            mainWindow.ScrollViewerContent.Content = Grid;
         }
 
         private void HandleChangeCalculatorType(object sender, SelectionChangedEventArgs e)
@@ -67,15 +61,13 @@ namespace Car_Data_Application.Controllers
             switch (CalculatorTypeSelector.SelectedItem)
             {
                 case "Koszt podróży":
-                    //RefreshPage();
-                    Grid.Children.Remove(AverageFuelConsumptionCalculatorGrid);
-                    Grid.Children.Add(TravelCostCalculatorGenerator());
+                    CalculatorGrid.Children.Clear();
+                    CalculatorGrid.Children.Add(TravelCostCalculatorGenerator());
                 break;
 
                 case "Średnie spalanie":
-                    Grid.Children.Remove(TravelCostCalculatorGrid);
-                    //RefreshPage();
-                    Grid.Children.Add(AverageFuelConsumptionCalculatorGenerator());
+                    CalculatorGrid.Children.Clear();
+                    CalculatorGrid.Children.Add(AverageFuelConsumptionCalculatorGenerator());
                 break;
             }
         }
@@ -147,11 +139,12 @@ namespace Car_Data_Application.Controllers
             return MainContentGrid;
         }
 
+
         private Grid TravelCostCalculatorGenerator()
         {
-            TravelCostCalculatorGrid.Margin = new Thickness(10);
+            Grid TravelCostCalculatorGrid = new Grid();
             TravelCostCalculatorGrid.Background = Brushes.LightGray;
-            Grid.SetRow(TravelCostCalculatorGrid, 1);
+            TravelCostCalculatorGrid.Margin = new Thickness(10);
             for (int i = 0; i < 3; i++) // 3 columns in this grid
             {
                 ColumnDefinition TravelCostCalculatorGridColumn = new ColumnDefinition();
@@ -170,6 +163,7 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(DistanceText, 0);
             TravelCostCalculatorGrid.Children.Add(DistanceText);
 
+            DistanceValue = new TextBox();
             DistanceValue.Height = 35;
             DistanceValue.Width = 250;
             Grid.SetRow(DistanceValue, 0);
@@ -182,6 +176,7 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(PriceForOneFuelUnitText, 0);
             TravelCostCalculatorGrid.Children.Add(PriceForOneFuelUnitText);
 
+            PriceForOneFuelUnitValue = new TextBox();
             PriceForOneFuelUnitValue.Height = 35;
             PriceForOneFuelUnitValue.Width = 250;
             try { PriceForOneFuelUnitValue.Text = PUser.Vehicles[PUser.ActiveCarIndex].Refulings[PUser.ActiveCarIndex].LatestFuelPrice.ToString(); } catch { }
@@ -195,6 +190,7 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(FuelConsumptionText, 0);
             TravelCostCalculatorGrid.Children.Add(FuelConsumptionText);
 
+            FuelConsumptionValue = new TextBox();
             FuelConsumptionValue.Height = 35;
             FuelConsumptionValue.Width = 250;
             try { FuelConsumptionValue.Text = PUser.Vehicles[PUser.ActiveCarIndex].AverageFuelConsumption.ToString(); } catch { }
@@ -208,10 +204,12 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(ResoultText, 0);
             TravelCostCalculatorGrid.Children.Add(ResoultText);
 
+            ResoultPriceValue = new TextBlock();
             Grid.SetRow(ResoultPriceValue, 3);
             Grid.SetColumn(ResoultPriceValue, 2);
             TravelCostCalculatorGrid.Children.Add(ResoultPriceValue);
 
+            ResoultUsedFuel = new TextBlock();
             Grid.SetRow(ResoultUsedFuel, 4);
             Grid.SetColumn(ResoultUsedFuel, 2);
             TravelCostCalculatorGrid.Children.Add(ResoultUsedFuel);
@@ -243,11 +241,12 @@ namespace Car_Data_Application.Controllers
             catch (Exception ex) { MessageBox.Show("Krytyczny błąd w trakcie boliczeń " + ex); }
         }
 
+
         private Grid AverageFuelConsumptionCalculatorGenerator()
         {
+            Grid AverageFuelConsumptionCalculatorGrid = new Grid();
             AverageFuelConsumptionCalculatorGrid.Margin = new Thickness(10);
             AverageFuelConsumptionCalculatorGrid.Background = Brushes.LightGray;
-            Grid.SetRow(AverageFuelConsumptionCalculatorGrid, 1);
             for (int i = 0; i < 3; i++) // 3 columns in this grid
             {
                 ColumnDefinition AverageFuelConsumptionCalculatorGridColumn = new ColumnDefinition();
@@ -265,6 +264,8 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(ConsumedFuelText, 0);
             AverageFuelConsumptionCalculatorGrid.Children.Add(ConsumedFuelText);
 
+            ConsumedFuelValue = new TextBox();
+            ConsumedFuelValue = new TextBox();
             ConsumedFuelValue.Height = 35;
             ConsumedFuelValue.Width = 250;
             Grid.SetRow(ConsumedFuelValue, 0);
@@ -277,6 +278,7 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(NumberOfKilometersTraveledText, 0);
             AverageFuelConsumptionCalculatorGrid.Children.Add(NumberOfKilometersTraveledText);
 
+            NumberOfKilometersTraveledValue = new TextBox();
             NumberOfKilometersTraveledValue.Height = 35;
             NumberOfKilometersTraveledValue.Width = 250;
             Grid.SetRow(NumberOfKilometersTraveledValue, 1);
@@ -289,6 +291,7 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(PriceForOneFuelUnitText, 0);
             AverageFuelConsumptionCalculatorGrid.Children.Add(PriceForOneFuelUnitText);
 
+            PriceForOneFuelUnitValueOptional = new TextBox();
             PriceForOneFuelUnitValueOptional.Height = 35;
             PriceForOneFuelUnitValueOptional.Width = 250;
             Grid.SetRow(PriceForOneFuelUnitValueOptional, 2);
@@ -301,11 +304,12 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(ResoultText, 0);
             AverageFuelConsumptionCalculatorGrid.Children.Add(ResoultText);
 
-            ResoultUsedFuel.Height = 35;
-            ResoultUsedFuel.Width = 250;
-            Grid.SetRow(ResoultUsedFuel, 3);
-            Grid.SetColumn(ResoultUsedFuel, 2);
-            AverageFuelConsumptionCalculatorGrid.Children.Add(ResoultUsedFuel);
+            ResoultUsedFuelAverageFuelCOnsumption = new TextBlock();
+            ResoultUsedFuelAverageFuelCOnsumption.Height = 35;
+            ResoultUsedFuelAverageFuelCOnsumption.Width = 250;
+            Grid.SetRow(ResoultUsedFuelAverageFuelCOnsumption, 3);
+            Grid.SetColumn(ResoultUsedFuelAverageFuelCOnsumption, 2);
+            AverageFuelConsumptionCalculatorGrid.Children.Add(ResoultUsedFuelAverageFuelCOnsumption);
 
             Button CalculateButton = new Button();
             CalculateButton.Content = "Oblicz";
@@ -323,32 +327,27 @@ namespace Car_Data_Application.Controllers
         {
             try
             {
-                if (PriceForOneFuelUnitValueOptional != null)
+                if (PriceForOneFuelUnitValueOptional.Text != "")
                 {
                     double ConsumedFuel = Convert.ToDouble(ConsumedFuelValue.Text);
-                    double NumberOfKilometersTraveled = Convert.ToDouble(NumberOfKilometersTraveledValue);
-                    double PriceForOneFuelUnitOptional = Convert.ToDouble(PriceForOneFuelUnitValueOptional);
+                    double NumberOfKilometersTraveled = Convert.ToDouble(NumberOfKilometersTraveledValue.Text);
+                    double PriceForOneFuelUnitOptional = Convert.ToDouble(PriceForOneFuelUnitValueOptional.Text);
                     double FuelResult = ((ConsumedFuel / NumberOfKilometersTraveled) * 100);
                     double CostResult = FuelResult * PriceForOneFuelUnitOptional;
 
-                    ResoultUsedFuel.Text = "Spalanie wynosi " + FuelResult.ToString() + " litrów/100km" + " Koszt: " + CostResult.ToString();
+                    ResoultUsedFuelAverageFuelCOnsumption.Text = "Spalanie wynosi " + FuelResult.ToString() + " litrów/100km" + " Koszt: " + CostResult.ToString();
                 }
                 else
                 {
                     double ConsumedFuel = Convert.ToDouble(ConsumedFuelValue.Text);
-                    double NumberOfKilometersTraveled = Convert.ToDouble(NumberOfKilometersTraveledValue);
+                    double NumberOfKilometersTraveled = Convert.ToDouble(NumberOfKilometersTraveledValue.Text);
                     double Result = ((ConsumedFuel / NumberOfKilometersTraveled) * 100);
 
-                    ResoultUsedFuel.Text = "Spalanie wyniosło " + Result.ToString() + " litrów na 100/km";
+                    ResoultUsedFuelAverageFuelCOnsumption.Text = "Spalanie wyniosło " + Result.ToString() + " litrów na 100/km";
                 }
             }
             catch (Exception ex) { MessageBox.Show("Krytyczny błąd w trakcie boliczeń " + ex); }
         }
 
-        private void RefreshPage()
-        {
-            CalculatorContentGenerator RefreshPage = new CalculatorContentGenerator();
-            RefreshPage.CalculatorGenerator(mainWindow, PUser);
-        }
     }
 }

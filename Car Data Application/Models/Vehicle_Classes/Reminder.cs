@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Car_Data_Application.Models.Vehicle_Classes
 {
-    class Reminder
+    public class Reminder
     {
         public string Date { get; set; }
         public int Millage { get; set; }

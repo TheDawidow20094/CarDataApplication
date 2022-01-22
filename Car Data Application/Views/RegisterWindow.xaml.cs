@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Car_Data_Application.Controllers;
+using Car_Data_Application.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,39 +22,20 @@ namespace Car_Data_Application.Views
     public partial class RegisterWindow : Window
     {
         private MainWindow mainWindow;
+        private User PUser;
 
-        public RegisterWindow(MainWindow mw)
+        public RegisterWindow(MainWindow mw, User user)
         {
+            PUser = user;
             mainWindow = mw;
-            SetButtonColor();
+            new CarDataAppController().SetButtonColor("LoginPageButton", mainWindow.SidePanel.Children);
             InitializeComponent();
-            this.Closed += SetAllButtonColorToWhite;
+            this.Closed += RegisterWindow_Closed;
         }
 
-        public void SetButtonColor()
+        private void RegisterWindow_Closed(object sender, EventArgs e)
         {
-            BrushConverter bc = new BrushConverter();
-            mainWindow.HomePageButton.Background = Brushes.White;
-            mainWindow.LoginPageButton.Background = (Brush)bc.ConvertFrom("#07EDE9");
-            mainWindow.CarPageButton.Background = Brushes.White;
-            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
-            mainWindow.StatsPageButton.Background = Brushes.White;
-            mainWindow.CostPageButton.Background = Brushes.White;
-            mainWindow.BackupPageButton.Background = Brushes.White;
-            mainWindow.SetingPaneButton.Background = Brushes.White;
-        }
-
-        private void SetAllButtonColorToWhite(object sender, EventArgs e)
-        {
-            BrushConverter bc = new BrushConverter();
-            mainWindow.HomePageButton.Background = Brushes.White;
-            mainWindow.LoginPageButton.Background = Brushes.White;
-            mainWindow.CarPageButton.Background = Brushes.White;
-            mainWindow.RefuelingHistoryPageButton.Background = Brushes.White;
-            mainWindow.StatsPageButton.Background = Brushes.White;
-            mainWindow.CostPageButton.Background = Brushes.White;
-            mainWindow.BackupPageButton.Background = Brushes.White;
-            mainWindow.SetingPaneButton.Background = Brushes.White;
+            new CarDataAppController().GoToHomePage(mainWindow, PUser);
         }
     }
 }

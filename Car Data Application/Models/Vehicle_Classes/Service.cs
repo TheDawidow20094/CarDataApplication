@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Car_Data_Application.Models.Vehicle_Classes
 {
-    class Service
+    public class Service
     {
         public string Name { get; set; }
         public string Category { get; set; }

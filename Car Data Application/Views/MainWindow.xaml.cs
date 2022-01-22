@@ -25,15 +25,14 @@ namespace Car_Data_Application.Views
     public partial class MainWindow : Window
     {
         User User = new User();
-        public string WhereAreYou = "HomePage";
+        public string WhereAreYou = string.Empty;
         
         public MainWindow()
         {
             InitializeData();
             InitializeComponent();
             SetFooterData();
-            HomeContentGenerator OpenHomePage = new HomeContentGenerator();
-            OpenHomePage.GeneratorHomeContent(this, User);
+            new CarDataAppController().GoToHomePage(this, User);
         }
 
         public void InitializeData()
@@ -80,7 +79,7 @@ namespace Car_Data_Application.Views
 
         private void LoginClick(object sender, RoutedEventArgs e)
         {
-            LoginWindow Loginwindow = new LoginWindow(this);
+            LoginWindow Loginwindow = new LoginWindow(this, User);
             Loginwindow.ShowDialog();
         }
 

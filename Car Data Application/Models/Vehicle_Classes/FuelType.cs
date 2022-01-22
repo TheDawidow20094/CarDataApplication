@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Car_Data_Application.Models.Vehicle_Classes
 {
-    class FuelType
+    public class FuelType
     {
         public bool Gasoline { get; set; }
         public bool Diesel { get; set; }
