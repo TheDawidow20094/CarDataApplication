@@ -15,311 +15,263 @@ namespace Car_Data_Application.Controllers
 {
     class VehicleDetailContentGenerator
     {
+        private BrushConverter converter = new BrushConverter();
+        private int ActualMainGridRow = new int();
+
         public void GeneratorVehicleDetail(MainWindow mainwindow, Vehicle vehicle)
         {
             mainwindow.AddButon.Visibility = Visibility.Hidden;
 
-            Grid maingrid = new Grid();
+            Grid MainGrid = new Grid();
 
             for (int i = 0; i <= 6; i++) // 6 is number of displays blocks with car data
             {
-                RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(120);
-                maingrid.RowDefinitions.Add(row);
+                RowDefinition MainGridRow = new RowDefinition();
+                MainGrid.RowDefinitions.Add(MainGridRow);
             }
 
-            maingrid.Children.Add(DisplayVehicleImage(vehicle));
-            maingrid.Children.Add(GenarateVehicleNameGrid(vehicle));
-            maingrid.Children.Add(GeneratePrimaryInfoGrid(vehicle));
-            maingrid.Children.Add(GenarateFuelTankInfoGrid(vehicle));
-            maingrid.Children.Add(GenerateCyclicalCostGrid(vehicle));
+            MainGrid.Children.Add(DisplayVehicleImage(vehicle));
+            MainGrid.Children.Add(GenarateVehicleNameGrid(vehicle));
+            MainGrid.Children.Add(GeneratePrimaryInfoGrid(vehicle));
+            MainGrid.Children.Add(GenarateFuelTankInfoGrid(vehicle));
+            MainGrid.Children.Add(GenerateCyclicalCostGrid(vehicle));
 
 
-            mainwindow.ScrollViewerContent.Content = maingrid;
+            mainwindow.ScrollViewerContent.Content = MainGrid;
         }
-        public Image DisplayVehicleImage(Vehicle vehicle)
+
+        public Border DisplayVehicleImage(Vehicle vehicle)
         {
+            ActualMainGridRow = 0;
+
+            Border ImageBorder = new Border();
+            ImageBorder.BorderThickness = new Thickness(5);
+            ImageBorder.Margin = new Thickness(15, 5, 15, 5);
+            ImageBorder.BorderBrush = (Brush)converter.ConvertFrom("#FF407BB6");
+
             Image image = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
-            image.SetValue(Image.SourceProperty, source.ConvertFromString("pack://application:,,,/Images/draw.png"));
-            Grid.SetRow(image, 0);
+            image.Stretch = Stretch.UniformToFill;
+            image.VerticalAlignment = VerticalAlignment.Center;
+            ImageBorder.MaxHeight = 280;
 
-            return image;
+
+            if (File.Exists(@"..\..\..\Images\UserPictures\" + vehicle.PictureFileName))
+            {
+                image.SetValue(Image.SourceProperty, source.ConvertFromString(@"..\..\..\Images\UserPictures\" + vehicle.PictureFileName));
+            }
+            else
+            {
+                image.SetValue(Image.SourceProperty, source.ConvertFromString(@"..\..\..\Images\defaultcaricon.png"));
+            }
+
+            ImageBorder.Child = image;
+
+            return ImageBorder;
         }
 
-        public Grid GenarateVehicleNameGrid(Vehicle vehicle)
+        public Border GenarateVehicleNameGrid(Vehicle vehicle)
         {
-            Grid vehiclenamegrid = new Grid();
-            vehiclenamegrid.Margin = new Thickness(10);
-            Grid.SetRow(vehiclenamegrid, 1);
-            for (int i = 0; i < 2; i++)
-            {
-                RowDefinition vehiclenamerow = new RowDefinition();
-                vehiclenamegrid.RowDefinitions.Add(vehiclenamerow);
-            }
+            ActualMainGridRow = 1;
+
+            Border VehicleNameBorder = new Border();
+            GenerateBorderProps(ref VehicleNameBorder, ActualMainGridRow);
+
+            Grid vehicleNameGrid = new Grid();
+            VehicleNameBorder.Padding = new Thickness(20);
+            VehicleNameBorder.Child = vehicleNameGrid;
+
             for (int i = 0; i < 2; i++)
             {
                 ColumnDefinition vehiclenamecolumn = new ColumnDefinition();
-                vehiclenamegrid.ColumnDefinitions.Add(vehiclenamecolumn);
+                RowDefinition vehiclenamerow = new RowDefinition();
+                vehicleNameGrid.RowDefinitions.Add(vehiclenamerow);
+                vehicleNameGrid.ColumnDefinitions.Add(vehiclenamecolumn);
             }
 
-            TextBlock vehiclebrand = new TextBlock();
-            vehiclebrand.Text = "Marka";
-            Grid.SetRow(vehiclebrand, 0);
-            Grid.SetColumn(vehiclebrand, 0);
-            vehiclenamegrid.Children.Add(vehiclebrand);
+            vehicleNameGrid.Children.Add(GenerateTextBlock("Marka:" , 0, 0));
 
-            TextBlock vehiclebrandvalue = new TextBlock();
-            vehiclebrandvalue.Text = vehicle.Brand;
-            Grid.SetRow(vehiclebrandvalue, 0);
-            Grid.SetColumn(vehiclebrandvalue, 1);
-            vehiclenamegrid.Children.Add(vehiclebrandvalue);
+            vehicleNameGrid.Children.Add(GenerateTextBlock(vehicle.Brand, 0, 1));
 
-            TextBlock vehiclemodel = new TextBlock();
-            vehiclemodel.Text = "Model";
-            Grid.SetRow(vehiclemodel, 1);
-            Grid.SetColumn(vehiclemodel, 0);
-            vehiclenamegrid.Children.Add(vehiclemodel);
+            vehicleNameGrid.Children.Add(GenerateTextBlock("Model:", 1, 0));
 
-            TextBlock vehiclemodelvalue = new TextBlock();
-            vehiclemodelvalue.Text = vehicle.Model;
-            Grid.SetRow(vehiclemodelvalue, 1);
-            Grid.SetColumn(vehiclemodelvalue, 1);
-            vehiclenamegrid.Children.Add(vehiclemodelvalue);
+            vehicleNameGrid.Children.Add(GenerateTextBlock(vehicle.Model, 1, 1));
 
-            return vehiclenamegrid;
+            return VehicleNameBorder;
         }
 
-        public Grid GeneratePrimaryInfoGrid(Vehicle vehicle)
+        public Border GeneratePrimaryInfoGrid(Vehicle vehicle)
         {
-            Grid primarmaryinfogrid = new Grid();
-            primarmaryinfogrid.Margin = new Thickness(10);
-            Grid.SetRow(primarmaryinfogrid, 2);
+            ActualMainGridRow = 2;
 
-            ColumnDefinition primaryinfocolumnleft = new ColumnDefinition();
-            ColumnDefinition primaryinfocolumnright = new ColumnDefinition();
-            primarmaryinfogrid.ColumnDefinitions.Add(primaryinfocolumnleft);
-            primarmaryinfogrid.ColumnDefinitions.Add(primaryinfocolumnright);
+            Border PrimaryInfoBorder = new Border();
+            GenerateBorderProps(ref PrimaryInfoBorder, ActualMainGridRow);
 
-            for (int i = 0; i <= 4; i++) // 4 is number of multiply of rows in grid
+            Grid PrimarmaryInfoGrid = new Grid();
+            PrimaryInfoBorder.Padding = new Thickness(20);
+            PrimaryInfoBorder.Child = PrimarmaryInfoGrid;
+
+            for (int i = 0; i < 2; i++) // 2 number of columns
             {
-                RowDefinition primarmaryinforow = new RowDefinition();
-                primarmaryinfogrid.RowDefinitions.Add(primarmaryinforow);
+                ColumnDefinition PrimaryInfoGridColumn = new ColumnDefinition();
+                PrimarmaryInfoGrid.ColumnDefinitions.Add(PrimaryInfoGridColumn);
+            }
+            for (int i = 0; i <= 4; i++) // 4 number of rows
+            {
+                RowDefinition PrimarmaryInfoGridRow = new RowDefinition();
+                PrimarmaryInfoGrid.RowDefinitions.Add(PrimarmaryInfoGridRow);
             }
 
-            TextBlock vehicleyearofmanufacture = new TextBlock();
-            vehicleyearofmanufacture.Text = "Rok produkcji";
-            Grid.SetRow(vehicleyearofmanufacture, 0);
-            Grid.SetColumn(vehicleyearofmanufacture, 0);
-            primarmaryinfogrid.Children.Add(vehicleyearofmanufacture);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("Rok produkcji:",0,0));
 
-            TextBlock vehicleyearofmanufacturevalue = new TextBlock();
-            vehicleyearofmanufacturevalue.Text = vehicle.YearOfManufacture.ToString();
-            Grid.SetRow(vehicleyearofmanufacturevalue, 0);
-            Grid.SetColumn(vehicleyearofmanufacturevalue, 1);
-            primarmaryinfogrid.Children.Add(vehicleyearofmanufacturevalue);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.YearOfManufacture.ToString(), 0, 1));
 
-            TextBlock vehiclevin = new TextBlock();
-            vehiclevin.Text = "VIN";
-            Grid.SetRow(vehiclevin, 1);
-            Grid.SetColumn(vehiclevin, 0);
-            primarmaryinfogrid.Children.Add(vehiclevin);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("VIN:", 1, 0));
 
-            TextBlock vehiclevinvalue = new TextBlock();
-            vehiclevinvalue.Text = vehicle.Vin.ToString();
-            Grid.SetRow(vehiclevinvalue, 1);
-            Grid.SetColumn(vehiclevinvalue, 1);
-            primarmaryinfogrid.Children.Add(vehiclevinvalue);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.Vin.ToString(), 1, 1));
 
-            TextBlock vehicleplates = new TextBlock();
-            vehicleplates.Text = "Tablice Rejestracyjne";
-            Grid.SetRow(vehicleplates, 2);
-            Grid.SetColumn(vehicleplates, 0);
-            primarmaryinfogrid.Children.Add(vehicleplates);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("Tablice Rejestracyjne:", 2, 0));
 
-            TextBlock vehicleplatesvalue = new TextBlock();
-            vehicleplatesvalue.Text = vehicle.Plates.ToString();
-            Grid.SetRow(vehicleplatesvalue, 2);
-            Grid.SetColumn(vehicleplatesvalue, 1);
-            primarmaryinfogrid.Children.Add(vehicleplatesvalue);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.Plates.ToString(), 2, 1));
 
-            TextBlock vehiclemillage = new TextBlock();
-            vehiclemillage.Text = "Przebieg";
-            Grid.SetRow(vehiclemillage, 3);
-            Grid.SetColumn(vehiclemillage, 0);
-            primarmaryinfogrid.Children.Add(vehiclemillage);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("Przebieg:", 3, 0));
 
-            TextBlock vehiclemillagevalue = new TextBlock();
-            vehiclemillagevalue.Text = vehicle.CarMillage.ToString();
-            Grid.SetRow(vehiclemillagevalue, 3);
-            Grid.SetColumn(vehiclemillagevalue, 1);
-            primarmaryinfogrid.Children.Add(vehiclemillagevalue);
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.CarMillage.ToString(), 3, 1));
 
-            return primarmaryinfogrid;
+            return PrimaryInfoBorder;
         }
 
-        public Grid GenarateFuelTankInfoGrid(Vehicle vehicle)
+        public Border GenarateFuelTankInfoGrid(Vehicle vehicle)
         {
-            Grid fuelinfogrid = new Grid();
-            fuelinfogrid.Margin = new Thickness(10);
-            Grid.SetRow(fuelinfogrid, 3);
+            ActualMainGridRow = 3;
 
-            ColumnDefinition fuelinfocolumnleft = new ColumnDefinition();
-            ColumnDefinition fuelinfocolumnright = new ColumnDefinition();
-            fuelinfogrid.ColumnDefinitions.Add(fuelinfocolumnleft);
-            fuelinfogrid.ColumnDefinitions.Add(fuelinfocolumnright);
+            Border FuelInfoBorder = new Border();
+            GenerateBorderProps(ref FuelInfoBorder, ActualMainGridRow);
 
-            for (int i = 0; i <= 3; i++) // number of user fueltanks
+            Grid FuelInfoGrid = new Grid();
+            FuelInfoBorder.Child = FuelInfoGrid;
+            FuelInfoBorder.Padding = new Thickness(20);
+
+            for (int i = 0; i < 2; i++) // 2 number of columns
             {
-                RowDefinition fuelinforow = new RowDefinition();
-                fuelinfogrid.RowDefinitions.Add(fuelinforow);
+                ColumnDefinition FuelInfoGridColumn = new ColumnDefinition();
+                FuelInfoGrid.ColumnDefinitions.Add(FuelInfoGridColumn);
+            }
+            for (int i = 0; i <= 3; i++) //3 number of rows
+            {
+                RowDefinition FuelInfGridRow = new RowDefinition();
+                FuelInfoGrid.RowDefinitions.Add(FuelInfGridRow);
             }
 
-            TextBlock gasolinetank = new TextBlock();
-            gasolinetank.Text = "Pojemność baku Paliwa";
-            Grid.SetRow(gasolinetank, 0);
-            Grid.SetColumn(gasolinetank, 0);
-            fuelinfogrid.Children.Add(gasolinetank);
+            FuelInfoGrid.Children.Add(GenerateTextBlock("Pojemność baku Paliwa:",0,0));
 
-            TextBlock gasolinetankvalue = new TextBlock();
-            gasolinetankvalue.Text = vehicle.Tanks.Gasoline.ToString();
-            Grid.SetRow(gasolinetankvalue, 0);
-            Grid.SetColumn(gasolinetankvalue, 1);
-            fuelinfogrid.Children.Add(gasolinetankvalue);
+            FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Gasoline.ToString(), 0, 1));
 
-            TextBlock dieseltank = new TextBlock();
-            dieseltank.Text = "Pojemność baku Diesel";
-            Grid.SetRow(dieseltank, 1);
-            Grid.SetColumn(dieseltank, 0);
-            fuelinfogrid.Children.Add(dieseltank);
+            FuelInfoGrid.Children.Add(GenerateTextBlock("Pojemność baku Diesel:", 1, 0));
 
-            TextBlock dieseltankvalue = new TextBlock();
-            dieseltankvalue.Text = vehicle.Tanks.Diesel.ToString();
-            Grid.SetRow(dieseltankvalue, 1);
-            Grid.SetColumn(dieseltankvalue, 1);
-            fuelinfogrid.Children.Add(dieseltankvalue);
+            FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Diesel.ToString(), 1, 1));
 
-            TextBlock lpgtank = new TextBlock();
-            lpgtank.Text = "Pojemność baku LPG";
-            Grid.SetRow(lpgtank, 2);
-            Grid.SetColumn(lpgtank, 0);
-            fuelinfogrid.Children.Add(lpgtank);
+            FuelInfoGrid.Children.Add(GenerateTextBlock("Pojemność baku LPG:", 2, 0));
 
-            TextBlock lpgtankvalue = new TextBlock();
-            lpgtankvalue.Text = vehicle.Tanks.LPG.ToString();
-            Grid.SetRow(lpgtankvalue, 2);
-            Grid.SetColumn(lpgtankvalue, 1);
-            fuelinfogrid.Children.Add(lpgtankvalue);
+            FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.LPG.ToString(), 2, 1));
 
-            return fuelinfogrid;
+            return FuelInfoBorder;
         }
 
-        public Grid GenerateCyclicalCostGrid(Vehicle vehicle)
+        public Border GenerateCyclicalCostGrid(Vehicle vehicle)
         {
-            Grid cyclicalcostgrid = new Grid();
-            cyclicalcostgrid.Margin = new Thickness(10);
-            Grid.SetRow(cyclicalcostgrid, 4);
+            ActualMainGridRow = 4;
 
-            ColumnDefinition cyclicalcoscolumnleft = new ColumnDefinition();
-            ColumnDefinition cyclicalcoscolumnright = new ColumnDefinition();
-            cyclicalcostgrid.ColumnDefinitions.Add(cyclicalcoscolumnleft);
-            cyclicalcostgrid.ColumnDefinitions.Add(cyclicalcoscolumnright);
+            Border CyclicalCostBorder = new Border();
+            GenerateBorderProps(ref CyclicalCostBorder, ActualMainGridRow);
 
-            for (int i = 0; i <= 7; i++) // 7 number of cyclicalcost + (value) + empty space to divide insurance and inspection
+            Grid CyclicalCostGrid = new Grid();
+            CyclicalCostBorder.Padding = new Thickness(20);
+            CyclicalCostBorder.Child = CyclicalCostGrid;
+
+            for (int i = 0; i < 2; i++) // numbers of column
             {
-                RowDefinition cyclicalcostrow = new RowDefinition();
-                cyclicalcostgrid.RowDefinitions.Add(cyclicalcostrow);
+                ColumnDefinition CyclicalCostColumn = new ColumnDefinition();
+                CyclicalCostGrid.ColumnDefinitions.Add(CyclicalCostColumn);
+            }
+            for (int i = 0; i <= 7; i++) // 7 number of rows
+            {
+                RowDefinition CyclicalCostRow = new RowDefinition();
+                CyclicalCostGrid.RowDefinitions.Add(CyclicalCostRow);
             }
 
-            TextBlock insurancestart = new TextBlock();
-            insurancestart.Text = "Rozpoczęcie okresu ubezpieczenia";
-            Grid.SetRow(insurancestart, 0);
-            Grid.SetColumn(insurancestart, 0);
-            cyclicalcostgrid.Children.Add(insurancestart);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("Rozpoczęcie okresu ubezpieczenia:",0,0));
 
-            TextBlock insurancestartvalue = new TextBlock();
-            insurancestartvalue.Text = vehicle.Insurance.StartDate.ToString();
-            Grid.SetRow(insurancestartvalue, 0);
-            Grid.SetColumn(insurancestartvalue, 1);
-            cyclicalcostgrid.Children.Add(insurancestartvalue);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.StartDate.ToString(), 0, 1));
 
-            TextBlock insuranceend = new TextBlock();
-            insuranceend.Text = "Koniec okresu ubezpieczenia";
-            Grid.SetRow(insuranceend, 1);
-            Grid.SetColumn(insuranceend, 0);
-            cyclicalcostgrid.Children.Add(insuranceend);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koniec okresu ubezpieczenia:", 1, 0));
 
-            TextBlock insuranceendvalue = new TextBlock();
-            insuranceendvalue.Text = vehicle.Insurance.EndDate.ToString();
-            Grid.SetRow(insuranceendvalue, 1);
-            Grid.SetColumn(insuranceendvalue, 1);
-            cyclicalcostgrid.Children.Add(insuranceendvalue);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.EndDate.ToString(), 1, 1));
 
-            TextBlock insurancecost = new TextBlock();
-            insurancecost.Text = "Koszt odecnego ubezpieczenia";
-            Grid.SetRow(insurancecost, 2);
-            Grid.SetColumn(insurancecost, 0);
-            cyclicalcostgrid.Children.Add(insurancecost);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koszt odecnego ubezpieczenia:", 2, 0));
 
-            TextBlock insurancecostvalue = new TextBlock();
-            insurancecostvalue.Text = vehicle.Insurance.Price.ToString() + " zł";
-            Grid.SetRow(insurancecostvalue, 2);
-            Grid.SetColumn(insurancecostvalue, 1);
-            cyclicalcostgrid.Children.Add(insurancecostvalue);
-            
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.Price.ToString() + " zł", 2, 1));
+
             //============================DIVIDE ELEMENTS=======================================
 
-            TextBlock divideelementscolumn = new TextBlock();
-            divideelementscolumn.Text = "";
-            Grid.SetRow(divideelementscolumn, 3);
-            Grid.SetColumn(divideelementscolumn, 0);
-            cyclicalcostgrid.Children.Add(divideelementscolumn);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("", 3, 0));
 
-            TextBlock divideelementsrow = new TextBlock();
-            divideelementsrow.Text = "";
-            Grid.SetRow(divideelementsrow, 3);
-            Grid.SetColumn(divideelementsrow, 1);
-            cyclicalcostgrid.Children.Add(divideelementsrow);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("", 3, 1));
 
             //===================================================================================
 
-            TextBlock inspectionstart = new TextBlock();
-            inspectionstart.Text = "Data wykonania przeglądu technicznego";
-            Grid.SetRow(inspectionstart, 4);
-            Grid.SetColumn(inspectionstart, 0);
-            cyclicalcostgrid.Children.Add(inspectionstart);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("Data wykonania przeglądu technicznego", 4, 0));
 
-            TextBlock inspectionstartvalue = new TextBlock();
-            inspectionstartvalue.Text = vehicle.Inspection.StartDate.ToString();
-            Grid.SetRow(inspectionstartvalue, 4);
-            Grid.SetColumn(inspectionstartvalue, 1);
-            cyclicalcostgrid.Children.Add(inspectionstartvalue);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.StartDate.ToString(), 4, 1));
 
-            TextBlock inspectionend = new TextBlock();
-            inspectionend.Text = "Koniec ważności przeglądu technicznego";
-            Grid.SetRow(inspectionend, 5);
-            Grid.SetColumn(inspectionend, 0);
-            cyclicalcostgrid.Children.Add(inspectionend);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koniec ważności przeglądu technicznego", 5, 0));
 
-            TextBlock inspectionendvalue = new TextBlock();
-            inspectionendvalue.Text = vehicle.Inspection.EndDate.ToString();
-            Grid.SetRow(inspectionendvalue, 5);
-            Grid.SetColumn(inspectionendvalue, 1);
-            cyclicalcostgrid.Children.Add(inspectionendvalue);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.EndDate.ToString(), 5, 1));
 
-            TextBlock inspectioncost = new TextBlock();
-            inspectioncost.Text = "Koszt wykonania badania technicznego";
-            Grid.SetRow(inspectioncost, 6);
-            Grid.SetColumn(inspectioncost, 0);
-            cyclicalcostgrid.Children.Add(inspectioncost);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koszt wykonania badania technicznego", 6, 0));
 
-            TextBlock inspectioncostvalue = new TextBlock();
-            inspectioncostvalue.Text = vehicle.Inspection.Price.ToString() + " zł";
-            Grid.SetRow(inspectioncostvalue, 6);
-            Grid.SetColumn(inspectioncostvalue, 1);
-            cyclicalcostgrid.Children.Add(inspectioncostvalue);
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.Price.ToString() + " zł", 6, 1));
 
-            return cyclicalcostgrid;
+            return CyclicalCostBorder;
+        }
+
+
+
+        public TextBlock GenerateTextBlock(string text, int row, int column)
+        {
+            TextBlock TextBlockName = new TextBlock();
+            TextBlockName.Foreground = (Brush)converter.ConvertFromString("#FFEDF5FD");
+            TextBlockName.FontFamily = new FontFamily("Arial Black");
+            TextBlockName.FontWeight = FontWeights.Bold;
+            TextBlockName.Text = text;
+            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
+            Grid.SetRow(TextBlockName, row);
+            Grid.SetColumn(TextBlockName, column);
+
+            if (column == 1)
+            {
+                TextBlockName.HorizontalAlignment = HorizontalAlignment.Right;
+            }
+            if (ActualMainGridRow == 1) 
+            {
+                TextBlockName.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+
+            return TextBlockName;
+        }
+
+        public void GenerateBorderProps(ref Border border, int row)
+        {
+            Brush BackgroundBrushh = (Brush)converter.ConvertFromString("#FF001A34");
+            border.Background = BackgroundBrushh;
+
+            border.BorderThickness = new Thickness(5);
+            border.BorderBrush = (Brush)converter.ConvertFrom("#FF407BB6");
+            border.CornerRadius = new CornerRadius(30);
+
+            border.Margin = new Thickness(15,5,15,5);
+            border.Padding = new Thickness(0, 0, 35, 0);
+            Grid.SetRow(border, row);
         }
     }
 }

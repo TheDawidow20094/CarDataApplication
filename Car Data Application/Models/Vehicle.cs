@@ -10,6 +10,7 @@ namespace Car_Data_Application.Models
      public class Vehicle
     {
         public int Id { get; set; }
+        public string PictureFileName { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public int YearOfManufacture { get; set; }
@@ -32,9 +33,10 @@ namespace Car_Data_Application.Models
         public List<EntriesList> EntriesList { get; set; }
 
 
-        public Vehicle(int id, string brand, string model, int yearofmanufacture, int carmillage, double averagefuelconsumption, double thismounthfuelcost, double thismounthothercost, double previousmounthfuelcost, double previousmounthothercost, string plates, string vin, Tanks tanks, double consumptions, List<Refueling> refuelings, List<string> imagessrc, List<Service> services, FuelType fueltype, CyclicalCosts insurance, CyclicalCosts inspection, List<EntriesList> entries)
+        public Vehicle(int id, string picturefilename, string brand, string model, int yearofmanufacture, int carmillage, double averagefuelconsumption, double thismounthfuelcost, double thismounthothercost, double previousmounthfuelcost, double previousmounthothercost, string plates, string vin, Tanks tanks, double consumptions, List<Refueling> refuelings, List<string> imagessrc, List<Service> services, FuelType fueltype, CyclicalCosts insurance, CyclicalCosts inspection, List<EntriesList> entries)
         {
             this.Id = id;
+            this.PictureFileName = picturefilename;
             this.Brand = brand;
             this.Model = model;
             this.YearOfManufacture = yearofmanufacture;

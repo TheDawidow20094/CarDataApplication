@@ -11,132 +11,158 @@ using Car_Data_Application.Views;
 using Car_Data_Application.Models;
 using System.Text.Json;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace Car_Data_Application.Controllers
 {
     class VehiclesContentGenerator
     {                                                                 
         private MainWindow mainWindow;
-        private User User;
+        private User PUser;
+        private BrushConverter bc = new BrushConverter();
 
         public void GeneratorVechicleList(MainWindow mw, User user)
         {
+            //add_photo_button_Click();
             mainWindow = mw;
-            User = user;
+            PUser = user;
+
+            mainWindow.AddButon.MouseLeftButtonDown += HandleAddButonClick;
             mainWindow.AddButon.Visibility = Visibility.Visible;
+
             new CarDataAppController().SetButtonColor("CarPageButton", mainWindow.SidePanel.Children);
 
             Grid grid = new Grid();
             BrushConverter converter = new BrushConverter();
 
             int VehicleIndex = 0;
-            foreach (Vehicle vehicle in User.Vehicles)
+            foreach (Vehicle vehicle in PUser.Vehicles)
             {
                 RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(120);
+                row.Height = new GridLength(140);
                 grid.RowDefinitions.Add(row);
 
                 Border ContentBorder = new Border();
                 Brush BackgroundBrushh = (Brush)converter.ConvertFromString("#FF001A34");
                 Brush ForegroundBrushh = (Brush)converter.ConvertFromString("#FFEDF5FD");
                 ContentBorder.Background = BackgroundBrushh;
-                ContentBorder.BorderThickness = new Thickness(5);
-                ContentBorder.CornerRadius = new CornerRadius(45);
 
-                //ContentBorder.Margin = new Thickness(10);
+                ContentBorder.Name = "VehicleButton_" + VehicleIndex;
+
+                ContentBorder.BorderThickness = new Thickness(5);
+                ContentBorder.BorderBrush = (Brush)bc.ConvertFrom("#FF407BB6");
+                ContentBorder.CornerRadius = new CornerRadius(30);
+
+                ContentBorder.Margin = new Thickness(15,0,15,0);
                 ContentBorder.Padding = new Thickness(0, 0, 35, 0);
                 ContentBorder.Height = 120;
                 ContentBorder.BorderThickness = new Thickness(5);
 
+                ContentBorder.MouseLeftButtonDown += HandleContentBoederClick;
 
-                ContentBorder.MouseEnter += Border_MouseEnter;
-                ContentBorder.MouseLeave += Border_MouseLeave;
+                Grid ContentBorderGrid = new Grid();
 
-                Border PictureBorder = new Border();
-                PictureBorder.Width = 60;
-                PictureBorder.Height = 60;
+                Image image = new Image();
+                ImageSourceConverter source = new ImageSourceConverter();
+                image.Margin = new Thickness(10);
+                image.HorizontalAlignment = HorizontalAlignment.Left;
+                if (File.Exists(@"..\..\..\Images\UserPictures\" + vehicle.PictureFileName))
+                {
+                    image.SetValue(Image.SourceProperty, source.ConvertFromString(@"..\..\..\Images\UserPictures\" + vehicle.PictureFileName));
+                }
+                else
+                {
+                    image.SetValue(Image.SourceProperty, source.ConvertFromString(@"..\..\..\Images\defaultcaricon.png"));
+                }
 
-                BitmapImage img = new BitmapImage(new Uri("pack://application:,,,/Images/car.png"));
-                ImageBrush PictureBorderImage = new ImageBrush();
-                PictureBorderImage.ImageSource = img;
+                Border ImageBorder = new Border();
+                ImageBorder.HorizontalAlignment = HorizontalAlignment.Left;
+                ImageBorder.CornerRadius = new CornerRadius(44,10,10,41);
+                ImageBorder.Child = image;
 
-                //PictureBorderImage.Stretch = Stretch.Fill;
+                TextBlock VehicleName = new TextBlock();
+                VehicleName.Text = vehicle.Brand + " " + vehicle.Model;
+                VehicleName.HorizontalAlignment = HorizontalAlignment.Right;
+                VehicleName.VerticalAlignment = VerticalAlignment.Center;
+                VehicleName.Padding = new Thickness(0,0,20,0);
+                VehicleName.FontSize = 20;
+                VehicleName.FontFamily = new FontFamily("Arial Black");
+                VehicleName.FontWeight = FontWeights.Bold;
+                VehicleName.Foreground = (Brush)bc.ConvertFrom("#FFEDF5FD");
 
-                PictureBorder.Background = PictureBorderImage;
-                //PictureBorder.Background = Brushes.Red;
+                ContentBorderGrid.Children.Add(ImageBorder);
+                ContentBorderGrid.Children.Add(VehicleName);
 
+                ContentBorder.Child = ContentBorderGrid;
 
-                //----------------------------------------------------------------------------------------
-                //----------------------------------------------------------------------------------------
-                //----------------------------------------------------------------------------------------
-                //----------------------------------------------------------------------------------------
+                ContentBorder.MouseEnter += HandleContentBorderMouseEnter;
+                ContentBorder.MouseLeave += HandleContentBorderMouseLeave;
 
-                //Button VehicleButton = new Button();
-                //VehicleButton.Name = "ButtonVehicle" + vehicle.Id.ToString();
-                //VehicleButton.Content = vehicle.Brand + " " + vehicle.Model;
-
-                //VehicleButton.Margin = new Thickness(10);
-                //VehicleButton.Padding = new Thickness(0, 0, 35, 0);
-                //VehicleButton.Height = 120;
-
-                //Brush BackgroundBrush = (Brush)converter.ConvertFromString("#FF407BB6");
-                //VehicleButton.Background = BackgroundBrush;
-                //Brush ForegroundBrush = (Brush)converter.ConvertFromString("#FFEDF5FD");
-                //VehicleButton.Foreground = ForegroundBrush;
-                //VehicleButton.BorderThickness = new Thickness(5);
-
-                //VehicleButton.Click += VehicleButtonClick;
-
-                //VehicleButton.HorizontalContentAlignment = HorizontalAlignment.Right;
-                //VehicleButton.FontFamily = new FontFamily("Arial Black");
-                //VehicleButton.FontSize = 20;
-                //VehicleButton.FontWeight = FontWeights.Bold;
-
-
-                //border.Child = VehicleButton;
-
-
-
-                //Image image = new Image();
-                //ImageSourceConverter source = new ImageSourceConverter();
-                //image.Margin = new Thickness(10);
-                //image.HorizontalAlignment = HorizontalAlignment.Left;                        
-                //image.SetValue(Image.SourceProperty, source.ConvertFromString("pack://application:,,,/Images/draw.png"));
-
-
-                Grid.SetRow(PictureBorder, VehicleIndex);
                 Grid.SetRow(ContentBorder, VehicleIndex);
 
                 grid.Children.Add(ContentBorder);
-                grid.Children.Add(PictureBorder);
 
                 VehicleIndex++;
             }
             mainWindow.ScrollViewerContent.Content = grid;
         }
 
-        private void Border_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void HandleAddButonClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Border x = (Border)sender;
-            x.Background = Brushes.Yellow;
+            new AddVehiclePageGenerator().PageGenerator(mainWindow, PUser);
         }
 
-        private void Border_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void HandleContentBoederClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Border x = (Border)sender;
-            x.Background = Brushes.Black;
+            Border sendedBorder = (Border)sender;
+            int index = Int32.Parse(sendedBorder.Name.Substring(14));
+            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, PUser.Vehicles[index]);
         }
 
-        private void AddVehicle(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void HandleContentBorderMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            MessageBox.Show("Dodajemy pojazd");
+            Border sendedBorder = (Border)sender;
+            sendedBorder.Background = (Brush)bc.ConvertFrom("#FF001A34");
+            Grid grid = sendedBorder.Child as Grid;
+            TextBlock textBlock = grid.Children[1] as TextBlock;
+            textBlock.Foreground = (Brush)bc.ConvertFrom("#FFEDF5FD");
+        }
+
+        private void HandleContentBorderMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Border sendedBorder = (Border)sender;
+            sendedBorder.Background = (Brush)bc.ConvertFrom("#FFEDF5FD");
+            Grid grid = sendedBorder.Child as Grid;
+            TextBlock textBlock = grid.Children[1] as TextBlock;
+            textBlock.Foreground = (Brush)bc.ConvertFrom("#FF001A34");
         }
 
         private void VehicleButtonClick(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
             int index = Int32.Parse(btn.Name.Substring(13));
-            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, User.Vehicles[index]);
+            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, PUser.Vehicles[index]);
         }
+
+        private void add_photo_button_Click()
+        {
+            var photo = new BitmapImage();
+
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.ShowDialog();
+
+                Uri fileUri = new Uri(openFileDialog.FileName);
+                photo = new BitmapImage(fileUri);
+
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(photo));
+                using (FileStream filestream = new FileStream(@"..\..\..\Images\bertone.png", FileMode.Create))
+                {
+                    encoder.Save(filestream);
+                    filestream.Close();
+                }
+
+        }
+
     }
 }

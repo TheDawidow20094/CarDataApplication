@@ -24,6 +24,7 @@ namespace Car_Data_Application.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        private BrushConverter Converter = new BrushConverter();
         User User = new User();
         public string WhereAreYou = string.Empty;
         
@@ -93,6 +94,16 @@ namespace Car_Data_Application.Views
         {
             CalculatorContentGenerator Generator = new CalculatorContentGenerator();
             Generator.CalculatorGenerator(this, User);
+        }
+
+        private void HandleAddButonMouseEnter(object sender, MouseEventArgs e)
+        {
+            AddButon.Background = (Brush)Converter.ConvertFromString("#FF4FE84F");
+        }
+
+        private void HandleAddButonMouseLeave(object sender, MouseEventArgs e)
+        {
+            AddButon.Background = (Brush)Converter.ConvertFromString("#FF38AE38");
         }
     }
 }
