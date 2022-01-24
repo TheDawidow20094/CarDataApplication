@@ -15,12 +15,12 @@ namespace Car_Data_Application.Controllers
 {
     class VehicleDetailContentGenerator
     {
-        private BrushConverter converter = new BrushConverter();
+        private BrushConverter Converter = new BrushConverter();
         private int ActualMainGridRow = new int();
 
         public void GeneratorVehicleDetail(MainWindow mainwindow, Vehicle vehicle)
         {
-            mainwindow.AddButon.Visibility = Visibility.Hidden;
+            InitialAssignValue(mainwindow);
 
             Grid MainGrid = new Grid();
 
@@ -40,6 +40,11 @@ namespace Car_Data_Application.Controllers
             mainwindow.ScrollViewerContent.Content = MainGrid;
         }
 
+        private void InitialAssignValue(MainWindow mainwindow)
+        {
+            mainwindow.AddButon.Visibility = Visibility.Hidden;
+        }
+
         public Border DisplayVehicleImage(Vehicle vehicle)
         {
             ActualMainGridRow = 0;
@@ -47,7 +52,7 @@ namespace Car_Data_Application.Controllers
             Border ImageBorder = new Border();
             ImageBorder.BorderThickness = new Thickness(5);
             ImageBorder.Margin = new Thickness(15, 5, 15, 5);
-            ImageBorder.BorderBrush = (Brush)converter.ConvertFrom("#FF407BB6");
+            ImageBorder.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
 
             Image image = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
@@ -240,7 +245,7 @@ namespace Car_Data_Application.Controllers
         public TextBlock GenerateTextBlock(string text, int row, int column)
         {
             TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)converter.ConvertFromString("#FFEDF5FD");
+            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
             TextBlockName.FontFamily = new FontFamily("Arial Black");
             TextBlockName.FontWeight = FontWeights.Bold;
             TextBlockName.Text = text;
@@ -262,11 +267,11 @@ namespace Car_Data_Application.Controllers
 
         public void SetBorderProps(ref Border border, int row)
         {
-            Brush BackgroundBrushh = (Brush)converter.ConvertFromString("#FF001A34");
+            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
             border.Background = BackgroundBrushh;
 
             border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)converter.ConvertFrom("#FF407BB6");
+            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
             border.CornerRadius = new CornerRadius(30);
 
             border.Margin = new Thickness(15,5,15,5);

@@ -20,28 +20,36 @@ namespace Car_Data_Application.Controllers
         private ComboBox LanguageComboBox = new ComboBox();
         private ComboBox MetricUnitComboBox = new ComboBox();
         private ComboBox CurrencyComboBox = new ComboBox();
+        private BrushConverter Converter = new BrushConverter();
 
         public void GenerateSetingContent(MainWindow mw, User user)
         {
-            PUser = user;
-            mainWindow = mw;
-            mainWindow.AddButon.Visibility = Visibility.Hidden;
-            new CarDataAppController().SetButtonColor("SetingPaneButton", mainWindow.SidePanel.Children);
-
+            InitialAssignValue(mw, user);
+            
             Grid Grid = new Grid();
+            Grid.Children.Add(GenerateSettingContentBorder(PUser));
+
+            mainWindow.ScrollViewerContent.Content = Grid;
+        }
+
+        private Border GenerateSettingContentBorder(User user)
+        {
+            Border SetingContentBorder = new Border();
+            SetBorderProps(ref SetingContentBorder, 0);
+
+            Grid VehicleNameGrid = new Grid();
+            SetingContentBorder.Padding = new Thickness(20);
+            SetingContentBorder.Child = VehicleNameGrid;
             for (int i = 0; i < 7; i++) // 7 is number of rows
             {
-                RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(50);
-                Grid.RowDefinitions.Add(row);
-                Grid.HorizontalAlignment = HorizontalAlignment.Center;
-                Grid.VerticalAlignment = VerticalAlignment.Center;
+                RowDefinition VehicleNameGridRow = new RowDefinition();
+                VehicleNameGridRow.Height = new GridLength(50);
+                VehicleNameGrid.RowDefinitions.Add(VehicleNameGridRow);
+                VehicleNameGrid.HorizontalAlignment = HorizontalAlignment.Center;
+                VehicleNameGrid.VerticalAlignment = VerticalAlignment.Center;
             }
 
-            TextBlock LanguageText = new TextBlock();
-            LanguageText.Text = "Język:";
-            Grid.SetRow(LanguageText, 0);
-            Grid.Children.Add(LanguageText);
+            VehicleNameGrid.Children.Add(GenerateTextBlock("Język:", 0));
 
             LanguageComboBox.Height = 35;
             LanguageComboBox.Width = 100;
@@ -50,12 +58,9 @@ namespace Car_Data_Application.Controllers
             LanguageComboBox.Items.Add("English");
             LanguageComboBox.SelectionChanged += HandleChangeLanguage;
             Grid.SetRow(LanguageComboBox, 1);
-            Grid.Children.Add(LanguageComboBox);
+            VehicleNameGrid.Children.Add(LanguageComboBox);
 
-            TextBlock MetricUnitText = new TextBlock();
-            MetricUnitText.Text = "Jednostki metryczne:";
-            Grid.SetRow(MetricUnitText, 2);
-            Grid.Children.Add(MetricUnitText);
+            VehicleNameGrid.Children.Add(GenerateTextBlock("Jednostki metryczne:", 2));
 
             MetricUnitComboBox.Height = 35;
             MetricUnitComboBox.Width = 100;
@@ -64,12 +69,9 @@ namespace Car_Data_Application.Controllers
             MetricUnitComboBox.Items.Add("Mil/Galon");
             MetricUnitComboBox.SelectionChanged += HandleChangeMetricUnit;
             Grid.SetRow(MetricUnitComboBox, 3);
-            Grid.Children.Add(MetricUnitComboBox);
+            VehicleNameGrid.Children.Add(MetricUnitComboBox);
 
-            TextBlock CurrencyText = new TextBlock();
-            CurrencyText.Text = "Waluta:";
-            Grid.SetRow(CurrencyText, 4);
-            Grid.Children.Add(CurrencyText);
+            VehicleNameGrid.Children.Add(GenerateTextBlock("Waluta:", 4));
 
             CurrencyComboBox.Height = 35;
             CurrencyComboBox.Width = 100;
@@ -79,7 +81,7 @@ namespace Car_Data_Application.Controllers
             CurrencyComboBox.Items.Add("USD");
             CurrencyComboBox.SelectionChanged += HandleChangeCurrency;
             Grid.SetRow(CurrencyComboBox, 5);
-            Grid.Children.Add(CurrencyComboBox);
+            VehicleNameGrid.Children.Add(CurrencyComboBox);
 
             Button ApplicationDevelopersButton = new Button();
             ApplicationDevelopersButton.Height = 35;
@@ -87,11 +89,19 @@ namespace Car_Data_Application.Controllers
             ApplicationDevelopersButton.Content = "Twórcy Aplikacji";
             ApplicationDevelopersButton.Click += ApplicationDevelopersButton_Click;
             Grid.SetRow(ApplicationDevelopersButton, 6);
-            Grid.Children.Add(ApplicationDevelopersButton);
+            VehicleNameGrid.Children.Add(ApplicationDevelopersButton);
 
-
-            mainWindow.ScrollViewerContent.Content = Grid;
+            return SetingContentBorder;
         }
+
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+            PUser = user;
+            mainWindow = mw;
+            mainWindow.AddButon.Visibility = Visibility.Hidden;
+            new CarDataAppController().SetButtonColor("SetingPaneButton", mainWindow.SidePanel.Children);
+        }
+
 
         private void HandleChangeCurrency(object sender, SelectionChangedEventArgs e)
         {
@@ -114,6 +124,33 @@ namespace Car_Data_Application.Controllers
         private void ApplicationDevelopersButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Dawid Kaczmarek : Jan Stark");
+        }
+
+        public void SetBorderProps(ref Border border, int row)
+        {
+            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
+            border.Background = BackgroundBrushh;
+
+            border.BorderThickness = new Thickness(5);
+            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
+            border.CornerRadius = new CornerRadius(30);
+
+            border.Margin = new Thickness(15, 5, 15, 5);
+            border.Padding = new Thickness(0, 0, 35, 0);
+            Grid.SetRow(border, row);
+        }
+
+        public TextBlock GenerateTextBlock(string text, int row)
+        {
+            TextBlock TextBlockName = new TextBlock();
+            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
+            TextBlockName.FontFamily = new FontFamily("Arial Black");
+            TextBlockName.FontWeight = FontWeights.Bold;
+            TextBlockName.Text = text;
+            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
+            Grid.SetRow(TextBlockName, row);
+
+            return TextBlockName;
         }
 
     }
