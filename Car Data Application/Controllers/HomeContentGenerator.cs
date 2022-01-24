@@ -1,10 +1,6 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Views;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,12 +11,13 @@ namespace Car_Data_Application.Controllers
     class HomeContentGenerator
     {
         private MainWindow mainWindow;
+        private BrushConverter Converter = new BrushConverter();
 
         public void GeneratorHomeContent(MainWindow mv, User user)
         {
             mainWindow = mv;
             mainWindow.WhereAreYou = "HomePage";
-            mainWindow.AddButon.Visibility = Visibility.Visible;
+            mainWindow.AddButon.Visibility = Visibility.Hidden;
             new CarDataAppController().SetButtonColor("HomePageButton", mainWindow.SidePanel.Children);
 
             Grid Grid = new Grid();
@@ -38,19 +35,19 @@ namespace Car_Data_Application.Controllers
             mv.ScrollViewerContent.Content = Grid;
         }
 
-        public Grid FuelDataGenerator(User user)
+        public Border FuelDataGenerator(User user)
         {
-            Grid FuelDataGrid = new Grid();
-            FuelDataGrid.Margin = new Thickness(10);
-            FuelDataGrid.Background = Brushes.LightGray;
-            Grid.SetRow(FuelDataGrid, 0);
+            Border FuelDataBorder = new Border();
+            SetBorderProps(ref FuelDataBorder, 0);
 
+            Grid FuelDataGrid = new Grid();
+            FuelDataBorder.Padding = new Thickness(20);
+            FuelDataBorder.Child = FuelDataGrid;
             for (int i = 0; i < 3; i++) // 3 columns in this grid
             {
                 ColumnDefinition FuelDataGridColumn = new ColumnDefinition();
                 FuelDataGrid.ColumnDefinitions.Add(FuelDataGridColumn);
             }
-
             for (int y = 0; y < 4; y++) // 4 rows in this grid
             {
                 RowDefinition FuelDataGridRow = new RowDefinition();
@@ -59,211 +56,152 @@ namespace Car_Data_Application.Controllers
 
             int LastRefuelingElement = user.Vehicles[user.ActiveCarIndex].Refulings.Count();
 
-            Image FuelIcon = new Image();
-            ImageSourceConverter source = new ImageSourceConverter();
-            FuelIcon.SetValue(Image.SourceProperty, source.ConvertFromString(@"../../../Images/Icons/fuelicon.png"));
-            Grid.SetRow(FuelIcon, 0);
-            Grid.SetColumn(FuelIcon, 1);
-            FuelDataGrid.Children.Add(FuelIcon);
+            FuelDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/fuelicon.png", 0 , 1));
 
-            TextBlock AvrageFuelConsumption = new TextBlock();
-            AvrageFuelConsumption.Text = "Średnie spalanie:";
-            Grid.SetRow(AvrageFuelConsumption, 1);
-            Grid.SetColumn(AvrageFuelConsumption, 0);
-            FuelDataGrid.Children.Add(AvrageFuelConsumption);
+            FuelDataGrid.Children.Add(GenerateTextBlock("Średnie spalanie:" , 1, 0));
 
-            TextBlock AvrageFuelConsumptionValue = new TextBlock();
-            AvrageFuelConsumptionValue.Text = user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption.ToString() + " L/100km";
-            Grid.SetRow(AvrageFuelConsumptionValue, 1);
-            Grid.SetColumn(AvrageFuelConsumptionValue, 2);
-            FuelDataGrid.Children.Add(AvrageFuelConsumptionValue);
+            FuelDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption.ToString() + " L/100km", 1, 2));
 
-            TextBlock LatestConsumption = new TextBlock();
-            LatestConsumption.Text = "Ostatnie spalanie:";
-            Grid.SetRow(LatestConsumption, 2);
-            Grid.SetColumn(LatestConsumption, 0);
-            FuelDataGrid.Children.Add(LatestConsumption);
+            FuelDataGrid.Children.Add(GenerateTextBlock("Ostatnie spalanie:", 2, 0));
 
-            TextBlock LatestConsumptionValue = new TextBlock();
-            LatestConsumptionValue.Text = user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestConsumption.ToString() + " L/100km";
-            Grid.SetRow(LatestConsumptionValue, 2);
-            Grid.SetColumn(LatestConsumptionValue, 2);
-            FuelDataGrid.Children.Add(LatestConsumptionValue);
+            FuelDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestConsumption.ToString() + " L/100km", 2, 2));
 
-            TextBlock LatestFuelPrice = new TextBlock();
-            LatestFuelPrice.Text = "Ostatnia cena paliwa:";
-            Grid.SetRow(LatestFuelPrice, 3);
-            Grid.SetColumn(LatestFuelPrice, 0);
-            FuelDataGrid.Children.Add(LatestFuelPrice);
+            FuelDataGrid.Children.Add(GenerateTextBlock("Ostatnia cena paliwa:", 3, 0));
 
-            TextBlock LatestFuelPriceValue = new TextBlock();
-            LatestFuelPriceValue.Text = user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestFuelPrice.ToString() + " zł";
-            Grid.SetRow(LatestFuelPriceValue, 3);
-            Grid.SetColumn(LatestFuelPriceValue, 2);
-            FuelDataGrid.Children.Add(LatestFuelPriceValue);
+            FuelDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestFuelPrice.ToString() + " zł", 3, 2));
 
-            return FuelDataGrid;
+            return FuelDataBorder;
         }
 
-        public Grid CostDataGenerator(User user)
+        public Border CostDataGenerator(User user)
         {
-            Grid CostDataGrid = new Grid();
-            CostDataGrid.Margin = new Thickness(10);
-            CostDataGrid.Background = Brushes.LightGray;
-            Grid.SetRow(CostDataGrid, 1);
+            Border CostDataBorder = new Border();
+            SetBorderProps(ref CostDataBorder, 1);
 
+            Grid CostDataGrid = new Grid();
+            CostDataBorder.Padding = new Thickness(20);
+            CostDataBorder.Child = CostDataGrid;
             for (int i = 0; i < 3; i++) // 3 columns in this grid
             {
                 ColumnDefinition FuelDataGridColumn = new ColumnDefinition();
                 CostDataGrid.ColumnDefinitions.Add(FuelDataGridColumn);
             }
-
             for (int y = 0; y < 7; y++) // 7 rows in this grid
             {
                 RowDefinition FuelDataGridRow = new RowDefinition();
                 CostDataGrid.RowDefinitions.Add(FuelDataGridRow);
             }
 
-            Image CostIcon = new Image();
-            ImageSourceConverter source = new ImageSourceConverter();
-            CostIcon.SetValue(Image.SourceProperty, source.ConvertFromString(@"../../../Images/Icons/cost.png"));
-            Grid.SetRow(CostIcon, 0);
-            Grid.SetColumn(CostIcon, 1);
-            CostDataGrid.Children.Add(CostIcon);
+            CostDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/cost.png", 0, 1));
 
-            TextBlock ThisMounthText = new TextBlock();
-            ThisMounthText.Text = "Ten miesiąc:";
-            Grid.SetRow(ThisMounthText, 1);
-            Grid.SetColumn(ThisMounthText, 0);
-            CostDataGrid.Children.Add(ThisMounthText);
+            CostDataGrid.Children.Add(GenerateTextBlock("Ten miesiąc:", 1, 0));
 
-            TextBlock FuelCostValue = new TextBlock();
-            FuelCostValue.Text = user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł"; 
-            Grid.SetRow(FuelCostValue, 2);
-            Grid.SetColumn(FuelCostValue, 1);
-            CostDataGrid.Children.Add(FuelCostValue);
+            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł", 2, 1));
 
-            TextBlock FuelText = new TextBlock();
-            FuelText.Text = "Paliwo";
-            Grid.SetRow(FuelText, 2);
-            Grid.SetColumn(FuelText, 2);
-            CostDataGrid.Children.Add(FuelText);
+            CostDataGrid.Children.Add(GenerateTextBlock("Paliwo:", 2, 2));
 
-            TextBlock ThisMounthOtherCostValue = new TextBlock();
-            ThisMounthOtherCostValue.Text = user.Vehicles[user.ActiveCarIndex].ThisMounthOtherCost.ToString() + " zł";
-            Grid.SetRow(ThisMounthOtherCostValue, 3);
-            Grid.SetColumn(ThisMounthOtherCostValue, 1);
-            CostDataGrid.Children.Add(ThisMounthOtherCostValue);
+            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthOtherCost.ToString() + " zł", 3, 1));
 
-            TextBlock OtherCostText = new TextBlock();
-            OtherCostText.Text = "Pozostałe koszta";
-            Grid.SetRow(OtherCostText, 3);
-            Grid.SetColumn(OtherCostText, 2);
-            CostDataGrid.Children.Add(OtherCostText);
+            CostDataGrid.Children.Add(GenerateTextBlock("Pozostałe koszta", 3, 2));
 
-            TextBlock PreviousMonthText = new TextBlock();
-            PreviousMonthText.Text = "Poprzedni miesiąc";
-            Grid.SetRow(PreviousMonthText, 4);
-            Grid.SetColumn(PreviousMonthText, 0);
-            CostDataGrid.Children.Add(PreviousMonthText);
+            CostDataGrid.Children.Add(GenerateTextBlock("Poprzedni miesiąc", 4, 0));
 
-            TextBlock PreviousMonthFuelCostValue = new TextBlock();
-            PreviousMonthFuelCostValue.Text = user.Vehicles[user.ActiveCarIndex].PreviousMounthFuelCost.ToString() + " zł";
-            Grid.SetRow(PreviousMonthFuelCostValue, 5);
-            Grid.SetColumn(PreviousMonthFuelCostValue, 1);
-            CostDataGrid.Children.Add(PreviousMonthFuelCostValue);
+            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthFuelCost.ToString() + " zł", 5, 1));
 
-            TextBlock PreviousMonthFuelCostText = new TextBlock();
-            PreviousMonthFuelCostText.Text = "Paliwo";
-            Grid.SetRow(PreviousMonthFuelCostText, 5);
-            Grid.SetColumn(PreviousMonthFuelCostText, 2);
-            CostDataGrid.Children.Add(PreviousMonthFuelCostText);
+            CostDataGrid.Children.Add(GenerateTextBlock("Paliwo:", 5, 2));
 
-            TextBlock PreviousMonthOtherCostValue = new TextBlock();
-            PreviousMonthOtherCostValue.Text = user.Vehicles[user.ActiveCarIndex].PreviousMounthOtherCost.ToString() + " zł";
-            Grid.SetRow(PreviousMonthOtherCostValue, 6);
-            Grid.SetColumn(PreviousMonthOtherCostValue, 1);
-            CostDataGrid.Children.Add(PreviousMonthOtherCostValue);
+            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthOtherCost.ToString() + " zł", 6, 1));
 
-            TextBlock PreviousMonthOtherCostText = new TextBlock();
-            PreviousMonthOtherCostText.Text = "Pozostałe koszta";
-            Grid.SetRow(PreviousMonthOtherCostText, 6);
-            Grid.SetColumn(PreviousMonthOtherCostText, 2);
-            CostDataGrid.Children.Add(PreviousMonthOtherCostText);
+            CostDataGrid.Children.Add(GenerateTextBlock("Pozostałe koszta", 6, 2));
 
-            return CostDataGrid;
+            return CostDataBorder;
         }
 
         public ScrollViewer EnteriesListGenerator (User user)
         {
+            Border EnteriesListBorder = new Border();
+            SetBorderProps(ref EnteriesListBorder, 2);
+
             ScrollViewer DataViewer = new ScrollViewer();
             Grid.SetRow(DataViewer, 2);
 
             foreach (EntriesList entries in user.Vehicles[user.ActiveCarIndex].EntriesList)
             {
-                Grid DataGrid = new Grid();
-                DataGrid.Margin = new Thickness(10);
-                DataGrid.Background = Brushes.LightGray;
+                Grid EnteriesListGrid = new Grid();
+                EnteriesListBorder.Padding = new Thickness(20);
+                EnteriesListBorder.Child = EnteriesListGrid;
                 for (int i = 0; i < 3; i++) // 3 is number of columns
                 {
-                    ColumnDefinition DataGridColumn = new ColumnDefinition();
-                    DataGrid.ColumnDefinitions.Add(DataGridColumn);
+                    ColumnDefinition EnteriesListGridColumn = new ColumnDefinition();
+                    EnteriesListGrid.ColumnDefinitions.Add(EnteriesListGridColumn);
                 }
                 for (int x = 0; x < 4; x++) // 4 is number of rows
                 {
-                    RowDefinition DataGridRow = new RowDefinition();
-                    DataGrid.RowDefinitions.Add(DataGridRow);
+                    RowDefinition EnteriesListGridRow = new RowDefinition();
+                    EnteriesListGrid.RowDefinitions.Add(EnteriesListGridRow);
                 }
-                DataViewer.Content = DataGrid;
 
-                TextBlock TypeValue = new TextBlock();
-                TypeValue.Text = entries.Type.ToString();
-                Grid.SetRow(TypeValue, 0);
-                Grid.SetColumn(TypeValue, 1);
-                DataGrid.Children.Add(TypeValue);
+                DataViewer.Content = EnteriesListBorder;
 
-                TextBlock DataText = new TextBlock();
-                DataText.Text = "Data:";
-                Grid.SetRow(DataText, 1);
-                Grid.SetColumn(DataText, 0);
-                DataGrid.Children.Add(DataText);
+                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Type.ToString(), 0, 1));
 
-                TextBlock DataValue = new TextBlock();
-                DataValue.Text = entries.Date.ToString();
-                Grid.SetRow(DataValue, 1);
-                Grid.SetColumn(DataValue, 2);
-                DataGrid.Children.Add(DataValue);
+                EnteriesListGrid.Children.Add(GenerateTextBlock("Data:", 1, 0));
 
-                TextBlock CostText = new TextBlock();
-                CostText.Text = "Koszt:";
-                Grid.SetRow(CostText, 2);
-                Grid.SetColumn(CostText, 0);
-                DataGrid.Children.Add(CostText);
+                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Date.ToString(), 1, 2));
 
-                TextBlock CostTextValue = new TextBlock();
-                CostTextValue.Text = entries.Price.ToString() + " zł";
-                Grid.SetRow(CostTextValue, 2);
-                Grid.SetColumn(CostTextValue, 2);
-                DataGrid.Children.Add(CostTextValue);
+                EnteriesListGrid.Children.Add(GenerateTextBlock("Koszt:", 2, 0));
 
-                TextBlock DescryptionText = new TextBlock();
-                DescryptionText.Text = "Opis:";
-                Grid.SetRow(DescryptionText, 3);
-                Grid.SetColumn(DescryptionText, 0);
-                DataGrid.Children.Add(DescryptionText);
+                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Price.ToString() + " zł", 2, 2));
 
-                TextBlock DescryptionValue = new TextBlock();
-                DescryptionValue.Text = entries.Descryption.ToString();
-                Grid.SetRow(DescryptionValue, 3);
-                Grid.SetColumn(DescryptionValue, 2);
-                DataGrid.Children.Add(DescryptionValue);
+                EnteriesListGrid.Children.Add(GenerateTextBlock("Opis:", 3, 0));
+
+                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Descryption.ToString(), 3, 2));
 
             }
 
-            
-            
-
             return DataViewer;
+        }
+
+
+        public void SetBorderProps(ref Border border, int row)
+        {
+            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
+            border.Background = BackgroundBrushh;
+
+            border.BorderThickness = new Thickness(5);
+            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
+            border.CornerRadius = new CornerRadius(30);
+
+            border.Margin = new Thickness(15, 5, 15, 5);
+            border.Padding = new Thickness(0, 0, 35, 0);
+            Grid.SetRow(border, row);
+
+        }
+
+        public TextBlock GenerateTextBlock(string text, int row, int column)
+        {
+            TextBlock TextBlockName = new TextBlock();
+            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
+            TextBlockName.FontFamily = new FontFamily("Arial Black");
+            TextBlockName.FontWeight = FontWeights.Bold;
+            TextBlockName.Text = text;
+            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
+            TextBlockName.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetRow(TextBlockName, row);
+            Grid.SetColumn(TextBlockName, column);
+
+            return TextBlockName;
+        }
+
+        public Image GenerateIcon(string path, int row, int column)
+        {
+            Image Icon = new Image();
+            ImageSourceConverter source = new ImageSourceConverter();
+            Icon.SetValue(Image.SourceProperty, source.ConvertFromString(@path));
+            Grid.SetRow(Icon, row);
+            Grid.SetColumn(Icon, column);
+
+            return Icon;
         }
     }
 }

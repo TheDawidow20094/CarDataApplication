@@ -16,8 +16,8 @@ namespace Car_Data_Application.Controllers
     class GenerateSelectedCar
     {
         public ComboBox Carlist = new ComboBox();
-        public User User;
-        public MainWindow Mainwindow;
+        private User User;
+        private MainWindow Mainwindow;
 
         public void GeneratorCarSelectList(MainWindow mw, User user)
         {

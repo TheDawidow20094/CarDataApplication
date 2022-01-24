@@ -11,14 +11,12 @@
 
   <ItemGroup>
     <None Remove="Images\draw.png" />
-    <None Remove="Views\AddIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\draw.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Views\AddIcon.png" />
   </ItemGroup>
 
   <ItemGroup>

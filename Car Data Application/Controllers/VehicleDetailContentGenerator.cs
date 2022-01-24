@@ -24,7 +24,7 @@ namespace Car_Data_Application.Controllers
 
             Grid MainGrid = new Grid();
 
-            for (int i = 0; i <= 6; i++) // 6 is number of displays blocks with car data
+            for (int i = 0; i < 6; i++) // 6 is number of rows
             {
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGrid.RowDefinitions.Add(MainGridRow);
@@ -75,7 +75,7 @@ namespace Car_Data_Application.Controllers
             ActualMainGridRow = 1;
 
             Border VehicleNameBorder = new Border();
-            GenerateBorderProps(ref VehicleNameBorder, ActualMainGridRow);
+            SetBorderProps(ref VehicleNameBorder, ActualMainGridRow);
 
             Grid vehicleNameGrid = new Grid();
             VehicleNameBorder.Padding = new Thickness(20);
@@ -105,7 +105,7 @@ namespace Car_Data_Application.Controllers
             ActualMainGridRow = 2;
 
             Border PrimaryInfoBorder = new Border();
-            GenerateBorderProps(ref PrimaryInfoBorder, ActualMainGridRow);
+            SetBorderProps(ref PrimaryInfoBorder, ActualMainGridRow);
 
             Grid PrimarmaryInfoGrid = new Grid();
             PrimaryInfoBorder.Padding = new Thickness(20);
@@ -146,7 +146,7 @@ namespace Car_Data_Application.Controllers
             ActualMainGridRow = 3;
 
             Border FuelInfoBorder = new Border();
-            GenerateBorderProps(ref FuelInfoBorder, ActualMainGridRow);
+            SetBorderProps(ref FuelInfoBorder, ActualMainGridRow);
 
             Grid FuelInfoGrid = new Grid();
             FuelInfoBorder.Child = FuelInfoGrid;
@@ -183,7 +183,7 @@ namespace Car_Data_Application.Controllers
             ActualMainGridRow = 4;
 
             Border CyclicalCostBorder = new Border();
-            GenerateBorderProps(ref CyclicalCostBorder, ActualMainGridRow);
+            SetBorderProps(ref CyclicalCostBorder, ActualMainGridRow);
 
             Grid CyclicalCostGrid = new Grid();
             CyclicalCostBorder.Padding = new Thickness(20);
@@ -260,7 +260,7 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        public void GenerateBorderProps(ref Border border, int row)
+        public void SetBorderProps(ref Border border, int row)
         {
             Brush BackgroundBrushh = (Brush)converter.ConvertFromString("#FF001A34");
             border.Background = BackgroundBrushh;

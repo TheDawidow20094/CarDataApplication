@@ -144,25 +144,5 @@ namespace Car_Data_Application.Controllers
             new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, PUser.Vehicles[index]);
         }
 
-        private void add_photo_button_Click()
-        {
-            var photo = new BitmapImage();
-
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.ShowDialog();
-
-                Uri fileUri = new Uri(openFileDialog.FileName);
-                photo = new BitmapImage(fileUri);
-
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(photo));
-                using (FileStream filestream = new FileStream(@"..\..\..\Images\bertone.png", FileMode.Create))
-                {
-                    encoder.Save(filestream);
-                    filestream.Close();
-                }
-
-        }
-
     }
 }

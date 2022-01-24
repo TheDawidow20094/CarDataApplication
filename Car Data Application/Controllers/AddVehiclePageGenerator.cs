@@ -1,8 +1,12 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Views;
+using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Car_Data_Application.Controllers
@@ -25,7 +29,7 @@ namespace Car_Data_Application.Controllers
                 MainGrid.RowDefinitions.Add(MainGridRow);
             }
 
-            //MainGrid.Children.Add(AddingPictureBorder());
+            MainGrid.Children.Add(AddingTitle());
             MainGrid.Children.Add(AddingVehiclePrimaryDataBorder());
             MainGrid.Children.Add(AddingPrimaryInfoBorder());
             MainGrid.Children.Add(AddingFuelTankInfoBorder());
@@ -36,9 +40,18 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public Border AddingPictureBorder()
+        public Border AddingTitle()
         {
-            return null; //napis
+            Border TitleBorder = new Border();
+            SetBorderProps(ref TitleBorder, 0, "#07A802", "#0BFF03");
+
+            Grid TitleGrid = new Grid();
+            TitleBorder.Padding = new Thickness(20);
+            TitleBorder.Child = TitleGrid;
+
+            TitleGrid.Children.Add(GenerateTextBlock("DODAJ POJAZD:",0,0, true));
+
+            return TitleBorder;
         }
 
         public Grid AddingVehiclePrimaryDataBorder()
@@ -77,7 +90,7 @@ namespace Car_Data_Application.Controllers
 
             Border VehicleNameBorder = new Border();
             Grid.SetColumn(VehicleNameBorder, 0);
-            GenerateBorderProps(ref VehicleNameBorder, 1);
+            SetBorderProps(ref VehicleNameBorder, 1);
 
             Grid VehicleNameGrid = new Grid();
             VehicleNameBorder.Padding = new Thickness(20);
@@ -108,7 +121,7 @@ namespace Car_Data_Application.Controllers
         public Border AddingPrimaryInfoBorder()
         {
             Border PrimaryInfoBorder = new Border();
-            GenerateBorderProps(ref PrimaryInfoBorder, 2);
+            SetBorderProps(ref PrimaryInfoBorder, 2);
 
             Grid PrimarmaryInfoGrid = new Grid();
             PrimaryInfoBorder.Padding = new Thickness(20);
@@ -147,7 +160,7 @@ namespace Car_Data_Application.Controllers
         public Border AddingFuelTankInfoBorder()
         {
             Border FuelInfoBorder = new Border();
-            GenerateBorderProps(ref FuelInfoBorder, 3);
+            SetBorderProps(ref FuelInfoBorder, 3);
 
             Grid FuelInfoGrid = new Grid();
             FuelInfoBorder.Child = FuelInfoGrid;
@@ -182,7 +195,7 @@ namespace Car_Data_Application.Controllers
         public Border AddingCyclicalCostBorder()
         {
             Border CyclicalCostBorder = new Border();
-            GenerateBorderProps(ref CyclicalCostBorder, 4);
+            SetBorderProps(ref CyclicalCostBorder, 4);
 
             Grid CyclicalCostGrid = new Grid();
             CyclicalCostBorder.Padding = new Thickness(20);
@@ -247,7 +260,7 @@ namespace Car_Data_Application.Controllers
             return TextBoxName;
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column)
+        public TextBlock GenerateTextBlock(string text, int row, int column, bool setcenteraligment = default)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)converter.ConvertFromString("#FFEDF5FD");
@@ -255,25 +268,52 @@ namespace Car_Data_Application.Controllers
             TextBlockName.FontWeight = FontWeights.Bold;
             TextBlockName.Text = text;
             TextBlockName.Margin = new Thickness(0, 2, 0, 2);
-            TextBlockName.HorizontalAlignment = HorizontalAlignment.Left;
+
+            if (setcenteraligment == true)
+            {
+                TextBlockName.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+
+            TextBlockName.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetRow(TextBlockName, row);
             Grid.SetColumn(TextBlockName, column);
 
             return TextBlockName;
         }
 
-        public void GenerateBorderProps(ref Border border, int row)
+        public void SetBorderProps(ref Border border, int row , string backgroundcolor = default, string bordercolor = default) // default - optional variable
         {
-            Brush BackgroundBrushh = (Brush)converter.ConvertFromString("#FF001A34");
+            Brush BackgroundBrushh = (Brush)converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
             border.Background = BackgroundBrushh;
 
             border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)converter.ConvertFrom("#FF407BB6");
+            border.BorderBrush = (Brush)converter.ConvertFrom(bordercolor == default ? "#FF407BB6" : bordercolor);
             border.CornerRadius = new CornerRadius(30);
 
             border.Margin = new Thickness(15, 5, 15, 5);
             border.Padding = new Thickness(0, 0, 35, 0);
             Grid.SetRow(border, row);
+
+        }
+
+        private void add_photo_button_Click()
+        {
+            var photo = new BitmapImage();
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.ShowDialog();
+
+            Uri fileUri = new Uri(openFileDialog.FileName);
+            photo = new BitmapImage(fileUri);
+
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(photo));
+            using (FileStream filestream = new FileStream(@"..\..\..\Images\", FileMode.Create))
+            {
+                encoder.Save(filestream);
+                filestream.Close();
+            }
+
         }
     }
 }
