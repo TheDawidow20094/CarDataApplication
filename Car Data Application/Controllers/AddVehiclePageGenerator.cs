@@ -13,13 +13,12 @@ namespace Car_Data_Application.Controllers
 {
     class AddVehiclePageGenerator
     {
-        private BrushConverter converter = new BrushConverter();
+        private BrushConverter Converter = new BrushConverter();
         private MainWindow mainwindow;
 
         public void PageGenerator(MainWindow mw, User user)
         {
-            mainwindow = mw;
-            mainwindow.AddButon.Visibility = Visibility.Hidden;
+            InitialAssignValue(mw);
 
             Grid MainGrid = new Grid();
 
@@ -38,6 +37,12 @@ namespace Car_Data_Application.Controllers
 
             mainwindow.ScrollViewerContent.Content = MainGrid;
 
+        }
+
+        private void InitialAssignValue(MainWindow mw)
+        {
+            mainwindow = mw;
+            mainwindow.AddButon.Visibility = Visibility.Hidden;
         }
 
         public Border AddingTitle()
@@ -70,7 +75,7 @@ namespace Car_Data_Application.Controllers
 
             Rectangle AddImageRectangle = new Rectangle();
             AddImageRectangle.Margin = new Thickness(0, 0, 15, 0);
-            AddImageRectangle.Stroke = (Brush)converter.ConvertFromString("#FF6D90B4");
+            AddImageRectangle.Stroke = (Brush)Converter.ConvertFromString("#FF6D90B4");
             AddImageRectangle.StrokeThickness = 4;
             AddImageRectangle.StrokeDashArray = new DoubleCollection() { 4 };
 
@@ -80,7 +85,7 @@ namespace Car_Data_Application.Controllers
             AddPictureText.VerticalAlignment = VerticalAlignment.Center;
             AddPictureText.FontSize = 70;
             AddPictureText.FontWeight = FontWeights.UltraBold;
-            AddPictureText.Foreground = (Brush)converter.ConvertFromString("#FF6D90B4");
+            AddPictureText.Foreground = (Brush)Converter.ConvertFromString("#FF6D90B4");
 
 
             AddImageGrid.Children.Add(AddImageRectangle);
@@ -106,11 +111,11 @@ namespace Car_Data_Application.Controllers
 
             VehicleNameGrid.Children.Add(GenerateTextBlock("Marka:", 0, 0));
 
-            VehicleNameGrid.Children.Add(GenerateTextBox("VehicleBrand" , 0, 1));
+            VehicleNameGrid.Children.Add(GenerateTextBox("VehicleBrand" , 0, 1, true));
 
             VehicleNameGrid.Children.Add(GenerateTextBlock("Model:", 1, 0));
 
-            VehicleNameGrid.Children.Add(GenerateTextBox("VehicleModel", 1, 1));
+            VehicleNameGrid.Children.Add(GenerateTextBox("VehicleModel", 1, 1, true));
 
             VehiclePrimaryDataGrid.Children.Add(VehicleNameBorder);
             VehiclePrimaryDataGrid.Children.Add(AddImageGrid);
@@ -247,10 +252,10 @@ namespace Car_Data_Application.Controllers
             return CyclicalCostBorder;
         }
 
-        public TextBox GenerateTextBox(string textboxname, int row, int column)
+        public TextBox GenerateTextBox(string textboxname, int row, int column, bool smallersize = false)
         {
             TextBox TextBoxName = new TextBox();
-            TextBoxName.Width = 150;
+            TextBoxName.Width = smallersize == true ? 100 : 150;
             TextBoxName.Margin = new Thickness(0, 2, 0, 2);
             TextBoxName.HorizontalAlignment = HorizontalAlignment.Right;
             TextBoxName.SetValue(FrameworkElement.NameProperty, textboxname + "_Textbox");
@@ -263,7 +268,7 @@ namespace Car_Data_Application.Controllers
         public TextBlock GenerateTextBlock(string text, int row, int column, bool setcenteraligment = default)
         {
             TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)converter.ConvertFromString("#FFEDF5FD");
+            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
             TextBlockName.FontFamily = new FontFamily("Arial Black");
             TextBlockName.FontWeight = FontWeights.Bold;
             TextBlockName.Text = text;
@@ -283,11 +288,11 @@ namespace Car_Data_Application.Controllers
 
         public void SetBorderProps(ref Border border, int row , string backgroundcolor = default, string bordercolor = default) // default - optional variable
         {
-            Brush BackgroundBrushh = (Brush)converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
+            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
             border.Background = BackgroundBrushh;
 
             border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)converter.ConvertFrom(bordercolor == default ? "#FF407BB6" : bordercolor);
+            border.BorderBrush = (Brush)Converter.ConvertFrom(bordercolor == default ? "#FF407BB6" : bordercolor);
             border.CornerRadius = new CornerRadius(30);
 
             border.Margin = new Thickness(15, 5, 15, 5);

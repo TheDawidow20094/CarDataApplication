@@ -18,8 +18,11 @@ namespace Car_Data_Application.Models.Vehicle_Classes
         public string Date { get; set; }
         public string Time { get; set; }
         public string Comment { get; set; }
+        public string FuelType { get; set; }
+        public double DistanceFromTheLastRefueling { get; set; }
+        public double Consumption { get; set; }
 
-        public Refueling(double liters, double priceforliter, double totalprice, bool isfull, int carmillage, double latestconsumption, double latestfuelprice, string date, string time, string comment)
+        public Refueling(double liters, double priceforliter, double totalprice, bool isfull, int carmillage, double latestconsumption, double latestfuelprice, string date, string time, string comment, string fueltype, double distancefromthelastrefueling, double consumption)
         {
             this.Liters = liters;
             this.PriceForLiter = priceforliter;
@@ -31,6 +34,9 @@ namespace Car_Data_Application.Models.Vehicle_Classes
             this.Date = date;
             this.Time = time;
             this.Comment = comment;
+            this.FuelType = fueltype;
+            this.DistanceFromTheLastRefueling = distancefromthelastrefueling;
+            this.Consumption = consumption;
         }
 
     }

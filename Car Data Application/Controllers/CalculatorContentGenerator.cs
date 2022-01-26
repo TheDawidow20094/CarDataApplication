@@ -173,6 +173,11 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(DistanceValue, 0);
             Grid.SetColumn(DistanceValue, 2);
             DistanceValue.MouseLeave += DistanceValueTryConvert;
+            DistanceValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            DistanceValue.Foreground = Brushes.White;
+            DistanceValue.FontFamily = new FontFamily("Arial Black");
+            DistanceValue.FontSize = 14;
+            DistanceValue.FontWeight = FontWeights.Bold;
             TravelCostCalculatorGrid.Children.Add(DistanceValue);
 
             TravelCostCalculatorGrid.Children.Add(GenerateTextBlock("Cena za litr:", 1, 0));
@@ -184,6 +189,11 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(PriceForOneFuelUnitValue, 1);
             Grid.SetColumn(PriceForOneFuelUnitValue, 2);
             PriceForOneFuelUnitValue.MouseLeave += PriceForOneFuelUnitValueTryConvert;
+            PriceForOneFuelUnitValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            PriceForOneFuelUnitValue.Foreground = Brushes.White;
+            PriceForOneFuelUnitValue.FontFamily = new FontFamily("Arial Black");
+            PriceForOneFuelUnitValue.FontSize = 14;
+            PriceForOneFuelUnitValue.FontWeight = FontWeights.Bold;
             TravelCostCalculatorGrid.Children.Add(PriceForOneFuelUnitValue);
 
             TravelCostCalculatorGrid.Children.Add(GenerateTextBlock("Spalanie:", 2, 0));
@@ -195,16 +205,27 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(FuelConsumptionValue, 2);
             Grid.SetColumn(FuelConsumptionValue, 2);
             FuelConsumptionValue.MouseLeave += FuelConsumptionValueTryConvert;
+            FuelConsumptionValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            FuelConsumptionValue.Foreground = Brushes.White;
+            FuelConsumptionValue.FontFamily = new FontFamily("Arial Black");
+            FuelConsumptionValue.FontSize = 14;
+            FuelConsumptionValue.FontWeight = FontWeights.Bold;
             TravelCostCalculatorGrid.Children.Add(FuelConsumptionValue);
 
             TravelCostCalculatorGrid.Children.Add(GenerateTextBlock("Wynik:", 3, 0));
 
             ResoultPriceValue = new TextBlock();
+            ResoultPriceValue.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
+            ResoultPriceValue.FontFamily = new FontFamily("Arial Black");
+            ResoultPriceValue.FontWeight = FontWeights.Bold;
             Grid.SetRow(ResoultPriceValue, 3);
             Grid.SetColumn(ResoultPriceValue, 2);
             TravelCostCalculatorGrid.Children.Add(ResoultPriceValue);
 
             ResoultUsedFuel = new TextBlock();
+            ResoultUsedFuel.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
+            ResoultUsedFuel.FontFamily = new FontFamily("Arial Black");
+            ResoultUsedFuel.FontWeight = FontWeights.Bold;
             Grid.SetRow(ResoultUsedFuel, 4);
             Grid.SetColumn(ResoultUsedFuel, 2);
             TravelCostCalculatorGrid.Children.Add(ResoultUsedFuel);
@@ -214,6 +235,10 @@ namespace Car_Data_Application.Controllers
             CalculateButton.Height = 60;
             CalculateButton.Width = 100;
             CalculateButton.Click += TravelCostCalculateButton_Click;
+            CalculateButton.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            CalculateButton.Foreground = Brushes.White;
+            CalculateButton.FontFamily = new FontFamily("Arial Black");
+            CalculateButton.FontWeight = FontWeights.Bold;
             Grid.SetRow(CalculateButton, 5);
             Grid.SetColumn(CalculateButton, 1);
             TravelCostCalculatorGrid.Children.Add(CalculateButton);
@@ -227,7 +252,7 @@ namespace Car_Data_Application.Controllers
             try
             {
                 Convert.ToDouble(textbox.Text);
-                textbox.Background = Brushes.White;
+                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
             }
             catch (Exception)
             {
@@ -242,7 +267,7 @@ namespace Car_Data_Application.Controllers
             try
             {
                 Convert.ToDouble(textbox.Text);
-                textbox.Background = Brushes.White;
+                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
             }
             catch (Exception)
             {
@@ -257,7 +282,7 @@ namespace Car_Data_Application.Controllers
             try
             {
                 Convert.ToDouble(textbox.Text);
-                textbox.Background = Brushes.White;
+                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
             }
             catch (Exception)
             {
@@ -311,6 +336,11 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(ConsumedFuelValue, 0);
             Grid.SetColumn(ConsumedFuelValue, 2);
             ConsumedFuelValue.MouseLeave += ConsumedFuelValueTryConvert;
+            ConsumedFuelValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            ConsumedFuelValue.Foreground = Brushes.White;
+            ConsumedFuelValue.FontFamily = new FontFamily("Arial Black");
+            ConsumedFuelValue.FontSize = 14;
+            ConsumedFuelValue.FontWeight = FontWeights.Bold;
             AverageFuelConsumptionCalculatorGrid.Children.Add(ConsumedFuelValue);
 
             AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock("Ilość przejechanych kilometrów:", 1, 0));
@@ -321,6 +351,11 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(NumberOfKilometersTraveledValue, 1);
             Grid.SetColumn(NumberOfKilometersTraveledValue, 2);
             NumberOfKilometersTraveledValue.MouseLeave += NumberOfKilometersTraveledValueTryConvert;
+            NumberOfKilometersTraveledValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            NumberOfKilometersTraveledValue.Foreground = Brushes.White;
+            NumberOfKilometersTraveledValue.FontFamily = new FontFamily("Arial Black");
+            NumberOfKilometersTraveledValue.FontSize = 14;
+            NumberOfKilometersTraveledValue.FontWeight = FontWeights.Bold;
             AverageFuelConsumptionCalculatorGrid.Children.Add(NumberOfKilometersTraveledValue);
 
             AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock("Cena za litr (opcjonalnie):", 2, 0));
@@ -331,6 +366,11 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(PriceForOneFuelUnitValueOptional, 2);
             Grid.SetColumn(PriceForOneFuelUnitValueOptional, 2);
             PriceForOneFuelUnitValueOptional.MouseLeave += PriceForOneFuelUnitValueOptionalTryConvert;
+            PriceForOneFuelUnitValueOptional.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            PriceForOneFuelUnitValueOptional.Foreground = Brushes.White;
+            PriceForOneFuelUnitValueOptional.FontFamily = new FontFamily("Arial Black");
+            PriceForOneFuelUnitValueOptional.FontSize = 14;
+            PriceForOneFuelUnitValueOptional.FontWeight = FontWeights.Bold;
             AverageFuelConsumptionCalculatorGrid.Children.Add(PriceForOneFuelUnitValueOptional);
 
             AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock("Wynik:", 3, 0));
@@ -338,6 +378,9 @@ namespace Car_Data_Application.Controllers
             ResoultUsedFuelAverageFuelCOnsumption = new TextBlock();
             ResoultUsedFuelAverageFuelCOnsumption.Height = 35;
             ResoultUsedFuelAverageFuelCOnsumption.Width = 250;
+            ResoultUsedFuelAverageFuelCOnsumption.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
+            ResoultUsedFuelAverageFuelCOnsumption.FontFamily = new FontFamily("Arial Black");
+            ResoultUsedFuelAverageFuelCOnsumption.FontWeight = FontWeights.Bold;
             Grid.SetRow(ResoultUsedFuelAverageFuelCOnsumption, 3);
             Grid.SetColumn(ResoultUsedFuelAverageFuelCOnsumption, 2);
             AverageFuelConsumptionCalculatorGrid.Children.Add(ResoultUsedFuelAverageFuelCOnsumption);
@@ -346,6 +389,11 @@ namespace Car_Data_Application.Controllers
             CalculateButton.Content = "Oblicz";
             CalculateButton.Height = 60;
             CalculateButton.Width = 100;
+            CalculateButton.BorderThickness = new Thickness(2);
+            CalculateButton.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            CalculateButton.Foreground = Brushes.White;
+            CalculateButton.FontFamily = new FontFamily("Arial Black");
+            CalculateButton.FontWeight = FontWeights.Bold;
             CalculateButton.Click += AverageFuelConsumptionCalculatorButton_Click;
             Grid.SetRow(CalculateButton, 4);
             Grid.SetColumn(CalculateButton, 1);
@@ -360,7 +408,7 @@ namespace Car_Data_Application.Controllers
             try
             {
                 Convert.ToDouble(textbox.Text);
-                textbox.Background = Brushes.White;
+                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
             }
             catch (Exception)
             {
@@ -375,7 +423,7 @@ namespace Car_Data_Application.Controllers
             try
             {
                 Convert.ToDouble(textbox.Text);
-                textbox.Background = Brushes.White;
+                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
             }
             catch (Exception)
             {
@@ -390,7 +438,7 @@ namespace Car_Data_Application.Controllers
             try
             {
                 Convert.ToDouble(textbox.Text);
-                textbox.Background = Brushes.White;
+                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
             }
             catch (Exception)
             {
@@ -426,7 +474,7 @@ namespace Car_Data_Application.Controllers
             catch (Exception) { MessageBox.Show("Nie można wykonać obliczeń, podane wartości są poprawne?"); }
         }
 
-        public void SetBorderProps(ref Border border, int row)
+        private void SetBorderProps(ref Border border, int row)
         {
             Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
             border.Background = BackgroundBrushh;
@@ -440,7 +488,7 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(border, row);
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column)
+        private TextBlock GenerateTextBlock(string text, int row, int column)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");

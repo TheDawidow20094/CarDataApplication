@@ -43,7 +43,6 @@ namespace Car_Data_Application.Controllers
             for (int i = 0; i < 7; i++) // 7 is number of rows
             {
                 RowDefinition VehicleNameGridRow = new RowDefinition();
-                VehicleNameGridRow.Height = new GridLength(50);
                 VehicleNameGrid.RowDefinitions.Add(VehicleNameGridRow);
                 VehicleNameGrid.HorizontalAlignment = HorizontalAlignment.Center;
                 VehicleNameGrid.VerticalAlignment = VerticalAlignment.Center;
@@ -82,14 +81,6 @@ namespace Car_Data_Application.Controllers
             CurrencyComboBox.SelectionChanged += HandleChangeCurrency;
             Grid.SetRow(CurrencyComboBox, 5);
             VehicleNameGrid.Children.Add(CurrencyComboBox);
-
-            Button ApplicationDevelopersButton = new Button();
-            ApplicationDevelopersButton.Height = 35;
-            ApplicationDevelopersButton.Width = 100;
-            ApplicationDevelopersButton.Content = "Twórcy Aplikacji";
-            ApplicationDevelopersButton.Click += ApplicationDevelopersButton_Click;
-            Grid.SetRow(ApplicationDevelopersButton, 6);
-            VehicleNameGrid.Children.Add(ApplicationDevelopersButton);
 
             return SetingContentBorder;
         }
@@ -147,7 +138,9 @@ namespace Car_Data_Application.Controllers
             TextBlockName.FontFamily = new FontFamily("Arial Black");
             TextBlockName.FontWeight = FontWeights.Bold;
             TextBlockName.Text = text;
-            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
+            TextBlockName.HorizontalAlignment = HorizontalAlignment.Center;
+            TextBlockName.VerticalAlignment = VerticalAlignment.Center;
+            TextBlockName.Margin = new Thickness(0, 15, 0, 15);
             Grid.SetRow(TextBlockName, row);
 
             return TextBlockName;

@@ -19,9 +19,6 @@ using Newtonsoft.Json;
 
 namespace Car_Data_Application.Views
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private BrushConverter Converter = new BrushConverter();

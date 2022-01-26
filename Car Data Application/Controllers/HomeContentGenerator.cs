@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Car_Data_Application.Models.Vehicle_Classes;
+using System;
 
 namespace Car_Data_Application.Controllers
 {
@@ -13,18 +14,14 @@ namespace Car_Data_Application.Controllers
         private MainWindow mainWindow;
         private BrushConverter Converter = new BrushConverter();
 
-        public void GeneratorHomeContent(MainWindow mv, User user)
+        public void GeneratorHomeContent(MainWindow mw, User user)
         {
-            mainWindow = mv;
-            mainWindow.WhereAreYou = "HomePage";
-            mainWindow.AddButon.Visibility = Visibility.Hidden;
-            new CarDataAppController().SetButtonColor("HomePageButton", mainWindow.SidePanel.Children);
-
+            InitialAssignValue(mw, user);
+           
             Grid Grid = new Grid();
             for (int i = 0; i < 3; i++) // 3 is number of displays blocks with data
             {
                 RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(120);
                 Grid.RowDefinitions.Add(row);
             }
 
@@ -32,10 +29,18 @@ namespace Car_Data_Application.Controllers
             Grid.Children.Add(CostDataGenerator(user));
             Grid.Children.Add(EnteriesListGenerator(user));
 
-            mv.ScrollViewerContent.Content = Grid;
+            mw.ScrollViewerContent.Content = Grid;
         }
 
-        public Border FuelDataGenerator(User user)
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+            mainWindow = mw;
+            mainWindow.WhereAreYou = "HomePage";
+            mainWindow.AddButon.Visibility = Visibility.Hidden;
+            new CarDataAppController().SetButtonColor("HomePageButton", mainWindow.SidePanel.Children);
+        }
+
+        private Border FuelDataGenerator(User user)
         {
             Border FuelDataBorder = new Border();
             SetBorderProps(ref FuelDataBorder, 0);
@@ -73,7 +78,7 @@ namespace Car_Data_Application.Controllers
             return FuelDataBorder;
         }
 
-        public Border CostDataGenerator(User user)
+        private Border CostDataGenerator(User user)
         {
             Border CostDataBorder = new Border();
             SetBorderProps(ref CostDataBorder, 1);
@@ -98,7 +103,7 @@ namespace Car_Data_Application.Controllers
 
             CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł", 2, 1));
 
-            CostDataGrid.Children.Add(GenerateTextBlock("Paliwo:", 2, 2));
+            CostDataGrid.Children.Add(GenerateTextBlock("Paliwo", 2, 2));
 
             CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthOtherCost.ToString() + " zł", 3, 1));
 
@@ -108,7 +113,7 @@ namespace Car_Data_Application.Controllers
 
             CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthFuelCost.ToString() + " zł", 5, 1));
 
-            CostDataGrid.Children.Add(GenerateTextBlock("Paliwo:", 5, 2));
+            CostDataGrid.Children.Add(GenerateTextBlock("Paliwo", 5, 2));
 
             CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthOtherCost.ToString() + " zł", 6, 1));
 
@@ -117,16 +122,25 @@ namespace Car_Data_Application.Controllers
             return CostDataBorder;
         }
 
-        public ScrollViewer EnteriesListGenerator (User user)
+        private Border EnteriesListGenerator (User user)
         {
-            Border EnteriesListBorder = new Border();
-            SetBorderProps(ref EnteriesListBorder, 2);
+            Border MainBorder = new Border();
+            SetBorderProps(ref MainBorder, 2, true, "#495152");
+            MainBorder.MaxHeight = 200;
 
             ScrollViewer DataViewer = new ScrollViewer();
-            Grid.SetRow(DataViewer, 2);
 
+            Grid AuxiliaryGrid = new Grid();
+
+            int index = 0;
             foreach (EntriesList entries in user.Vehicles[user.ActiveCarIndex].EntriesList)
             {
+                RowDefinition AuxiliaryGridGridRow = new RowDefinition();
+                AuxiliaryGrid.RowDefinitions.Add(AuxiliaryGridGridRow);
+
+                Border EnteriesListBorder = new Border();
+                SetBorderProps(ref EnteriesListBorder, index);
+
                 Grid EnteriesListGrid = new Grid();
                 EnteriesListBorder.Padding = new Thickness(20);
                 EnteriesListBorder.Child = EnteriesListGrid;
@@ -141,8 +155,6 @@ namespace Car_Data_Application.Controllers
                     EnteriesListGrid.RowDefinitions.Add(EnteriesListGridRow);
                 }
 
-                DataViewer.Content = EnteriesListBorder;
-
                 EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Type.ToString(), 0, 1));
 
                 EnteriesListGrid.Children.Add(GenerateTextBlock("Data:", 1, 0));
@@ -151,25 +163,36 @@ namespace Car_Data_Application.Controllers
 
                 EnteriesListGrid.Children.Add(GenerateTextBlock("Koszt:", 2, 0));
 
-                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Price.ToString() + " zł", 2, 2));
+                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Price.ToString() + " Zł", 2, 2));
 
                 EnteriesListGrid.Children.Add(GenerateTextBlock("Opis:", 3, 0));
 
                 EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Descryption.ToString(), 3, 2));
 
+                AuxiliaryGrid.Children.Add(EnteriesListBorder);
+                index++;
             }
 
-            return DataViewer;
+            DataViewer.Content = AuxiliaryGrid;
+            MainBorder.Child = DataViewer;
+
+            return MainBorder;
         }
 
 
-        public void SetBorderProps(ref Border border, int row)
+        private void SetBorderProps(ref Border border, int row, bool transparentborder = false, string backgroundcolor = default, string bordercolor = default)
         {
-            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
-            border.Background = BackgroundBrushh;
+            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
 
+            border.Background = BackgroundBrushh;
             border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
+
+            border.BorderBrush = (Brush)Converter.ConvertFromString(bordercolor == default ? "#FF407BB6" : backgroundcolor);
+            if (transparentborder == true)
+            {
+                border.BorderBrush = Brushes.Transparent;
+            }
+
             border.CornerRadius = new CornerRadius(30);
 
             border.Margin = new Thickness(15, 5, 15, 5);
@@ -178,7 +201,7 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column)
+        private TextBlock GenerateTextBlock(string text, int row, int column)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
@@ -193,11 +216,12 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        public Image GenerateIcon(string path, int row, int column)
+        private Image GenerateIcon(string path, int row, int column)
         {
             Image Icon = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
             Icon.SetValue(Image.SourceProperty, source.ConvertFromString(@path));
+            Icon.Width = 30;
             Grid.SetRow(Icon, row);
             Grid.SetColumn(Icon, column);
 

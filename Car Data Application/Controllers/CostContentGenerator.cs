@@ -19,10 +19,7 @@ namespace Car_Data_Application.Controllers
 
         public void CostGenerator(MainWindow mw, User user)
         {
-            mw.WhereAreYou = "CostPage";
-            mainWindow = mw;
-            mainWindow.AddButon.Visibility = Visibility.Visible;
-            new CarDataAppController().SetButtonColor("CostPageButton", mainWindow.SidePanel.Children);
+            InitialAssignValue(mw, user);
 
             Grid MainGrid = new Grid();
 
@@ -30,7 +27,6 @@ namespace Car_Data_Application.Controllers
             foreach (Service servis in user.Vehicles[user.ActiveCarIndex].Services)
             {
                 RowDefinition MainGridRow = new RowDefinition();
-                MainGridRow.Height = new GridLength(120);
                 MainGrid.RowDefinitions.Add(MainGridRow);
 
                 Border CostInfoBorder = new Border();
@@ -68,6 +64,14 @@ namespace Car_Data_Application.Controllers
             mw.ScrollViewerContent.Content = MainGrid;
         }
 
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+            mw.WhereAreYou = "CostPage";
+            mainWindow = mw;
+            mainWindow.AddButon.Visibility = Visibility.Visible;
+            new CarDataAppController().SetButtonColor("CostPageButton", mainWindow.SidePanel.Children);
+        }
+
         public void SetBorderProps(Border border, int row)
         {
             Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
@@ -88,6 +92,7 @@ namespace Car_Data_Application.Controllers
             Image Icon = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
             Icon.SetValue(Image.SourceProperty, source.ConvertFromString(@path));
+            Icon.Width = 30;
             Grid.SetRow(Icon, row);
             Grid.SetColumn(Icon, column);
 

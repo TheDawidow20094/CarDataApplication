@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Car_Data_Application.Controllers
@@ -19,10 +20,7 @@ namespace Car_Data_Application.Controllers
 
         public void GeneratorRefulingHistory(MainWindow mw, User user)
         {
-            mw.WhereAreYou = "RefuelingPage";
-            mainWindow = mw;
-            mainWindow.AddButon.Visibility = Visibility.Visible;
-            new CarDataAppController().SetButtonColor("RefuelingHistoryPageButton", mainWindow.SidePanel.Children);
+            InitialAssignValue(mw, user);
 
             Grid MainGrid = new Grid();
 
@@ -30,7 +28,6 @@ namespace Car_Data_Application.Controllers
             foreach (Refueling refueling in user.Vehicles[user.ActiveCarIndex].Refulings)
             {
                 RowDefinition MainGridRow = new RowDefinition();
-                MainGridRow.Height = new GridLength(120);
                 MainGrid.RowDefinitions.Add(MainGridRow);
 
                 Border RefuelingBorder = new Border();
@@ -52,27 +49,37 @@ namespace Car_Data_Application.Controllers
 
                 RefuelingGrid.Children.Add(GenerateIcon("../../../Images/Icons/fuelicon.png", 0, 1));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Date.ToString(), 0, 1));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Date.ToString(), 1, 0));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.CarMillage.ToString() + " km", 1, 2));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.CarMillage.ToString() + " Km", 1, 2));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.TotalPrice.ToString() + " zł", 2, 0));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.TotalPrice.ToString() + " Zł", 2, 0));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock("milion km", 2, 2));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.DistanceFromTheLastRefueling.ToString() + " Km", 2, 2));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Liters.ToString() + " litrów", 3, 0));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Liters.ToString() + " Litrów", 3, 0));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock("500zł", 3, 2));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.PriceForLiter.ToString() + " Zł", 3, 2));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock("ECO DIESEL", 4, 1));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.FuelType.ToString(), 4, 1));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock("12L / 100km", 4, 2));
+                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Consumption.ToString() + " L/100Km", 4, 2));
 
                 MainGrid.Children.Add(RefuelingBorder);
 
                 index++;
             }            
             mw.ScrollViewerContent.Content = MainGrid;
+        }
+
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+
+            mw.WhereAreYou = "RefuelingPage";
+            mainWindow = mw;
+            mainWindow.AddButon.Visibility = Visibility.Visible;
+            new CarDataAppController().SetButtonColor("RefuelingHistoryPageButton", mainWindow.SidePanel.Children);
+
         }
 
         public void SetBorderProps(Border border, int row)
@@ -95,6 +102,7 @@ namespace Car_Data_Application.Controllers
             Image Icon = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
             Icon.SetValue(Image.SourceProperty, source.ConvertFromString(@path));
+            Icon.Width = 30;
             Grid.SetRow(Icon, row);
             Grid.SetColumn(Icon, column);
 

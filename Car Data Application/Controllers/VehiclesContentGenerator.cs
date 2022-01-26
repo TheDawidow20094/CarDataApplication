@@ -19,21 +19,13 @@ namespace Car_Data_Application.Controllers
     {                                                                 
         private MainWindow mainWindow;
         private User PUser;
-        private BrushConverter bc = new BrushConverter();
+        private BrushConverter Converter = new BrushConverter();
 
         public void GeneratorVechicleList(MainWindow mw, User user)
         {
-            //add_photo_button_Click();
-            mainWindow = mw;
-            PUser = user;
-
-            mainWindow.AddButon.MouseLeftButtonDown += HandleAddButonClick;
-            mainWindow.AddButon.Visibility = Visibility.Visible;
-
-            new CarDataAppController().SetButtonColor("CarPageButton", mainWindow.SidePanel.Children);
+            InitialAssignValue(mw, user);
 
             Grid grid = new Grid();
-            BrushConverter converter = new BrushConverter();
 
             int VehicleIndex = 0;
             foreach (Vehicle vehicle in PUser.Vehicles)
@@ -43,22 +35,20 @@ namespace Car_Data_Application.Controllers
                 grid.RowDefinitions.Add(row);
 
                 Border ContentBorder = new Border();
-                Brush BackgroundBrushh = (Brush)converter.ConvertFromString("#FF001A34");
-                Brush ForegroundBrushh = (Brush)converter.ConvertFromString("#FFEDF5FD");
+                Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
+                Brush ForegroundBrushh = (Brush)Converter.ConvertFromString("#FFEDF5FD");
                 ContentBorder.Background = BackgroundBrushh;
 
                 ContentBorder.Name = "VehicleButton_" + VehicleIndex;
 
                 ContentBorder.BorderThickness = new Thickness(5);
-                ContentBorder.BorderBrush = (Brush)bc.ConvertFrom("#FF407BB6");
+                ContentBorder.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
                 ContentBorder.CornerRadius = new CornerRadius(30);
 
                 ContentBorder.Margin = new Thickness(15,0,15,0);
                 ContentBorder.Padding = new Thickness(0, 0, 35, 0);
                 ContentBorder.Height = 120;
                 ContentBorder.BorderThickness = new Thickness(5);
-
-                ContentBorder.MouseLeftButtonDown += HandleContentBoederClick;
 
                 Grid ContentBorderGrid = new Grid();
 
@@ -88,7 +78,7 @@ namespace Car_Data_Application.Controllers
                 VehicleName.FontSize = 20;
                 VehicleName.FontFamily = new FontFamily("Arial Black");
                 VehicleName.FontWeight = FontWeights.Bold;
-                VehicleName.Foreground = (Brush)bc.ConvertFrom("#FFEDF5FD");
+                VehicleName.Foreground = (Brush)Converter.ConvertFrom("#FFEDF5FD");
 
                 ContentBorderGrid.Children.Add(ImageBorder);
                 ContentBorderGrid.Children.Add(VehicleName);
@@ -107,6 +97,16 @@ namespace Car_Data_Application.Controllers
             mainWindow.ScrollViewerContent.Content = grid;
         }
 
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+            mainWindow = mw;
+            PUser = user;
+
+            mainWindow.AddButon.MouseLeftButtonDown += HandleAddButonClick;
+            mainWindow.AddButon.Visibility = Visibility.Visible;
+            new CarDataAppController().SetButtonColor("CarPageButton", mainWindow.SidePanel.Children);
+        }
+
         private void HandleAddButonClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             new AddVehiclePageGenerator().PageGenerator(mainWindow, PUser);
@@ -122,19 +122,19 @@ namespace Car_Data_Application.Controllers
         private void HandleContentBorderMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             Border sendedBorder = (Border)sender;
-            sendedBorder.Background = (Brush)bc.ConvertFrom("#FF001A34");
+            sendedBorder.Background = (Brush)Converter.ConvertFrom("#FF001A34");
             Grid grid = sendedBorder.Child as Grid;
             TextBlock textBlock = grid.Children[1] as TextBlock;
-            textBlock.Foreground = (Brush)bc.ConvertFrom("#FFEDF5FD");
+            textBlock.Foreground = (Brush)Converter.ConvertFrom("#FFEDF5FD");
         }
 
         private void HandleContentBorderMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             Border sendedBorder = (Border)sender;
-            sendedBorder.Background = (Brush)bc.ConvertFrom("#FFEDF5FD");
+            sendedBorder.Background = (Brush)Converter.ConvertFrom("#FFEDF5FD");
             Grid grid = sendedBorder.Child as Grid;
             TextBlock textBlock = grid.Children[1] as TextBlock;
-            textBlock.Foreground = (Brush)bc.ConvertFrom("#FF001A34");
+            textBlock.Foreground = (Brush)Converter.ConvertFrom("#FF001A34");
         }
 
         private void VehicleButtonClick(object sender, RoutedEventArgs e)
