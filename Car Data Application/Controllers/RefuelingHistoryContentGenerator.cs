@@ -72,6 +72,7 @@ namespace Car_Data_Application.Controllers
             mw.ScrollViewerContent.Content = MainGrid;
         }
 
+
         private void InitialAssignValue(MainWindow mw, User user)
         {
 

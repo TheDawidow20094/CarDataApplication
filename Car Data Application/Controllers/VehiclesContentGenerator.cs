@@ -40,6 +40,7 @@ namespace Car_Data_Application.Controllers
                 ContentBorder.Background = BackgroundBrushh;
 
                 ContentBorder.Name = "VehicleButton_" + VehicleIndex;
+                ContentBorder.MouseLeftButtonDown += HandleContentBorderClick;
 
                 ContentBorder.BorderThickness = new Thickness(5);
                 ContentBorder.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
@@ -102,17 +103,12 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             PUser = user;
 
-            mainWindow.AddButon.MouseLeftButtonDown += HandleAddButonClick;
+            mainWindow.WhereAreYou = "VehicleContentPage";
             mainWindow.AddButon.Visibility = Visibility.Visible;
             new CarDataAppController().SetButtonColor("CarPageButton", mainWindow.SidePanel.Children);
         }
 
-        private void HandleAddButonClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            new AddVehiclePageGenerator().PageGenerator(mainWindow, PUser);
-        }
-
-        private void HandleContentBoederClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void HandleContentBorderClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Border sendedBorder = (Border)sender;
             int index = Int32.Parse(sendedBorder.Name.Substring(14));

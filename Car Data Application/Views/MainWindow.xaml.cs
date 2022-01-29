@@ -102,5 +102,23 @@ namespace Car_Data_Application.Views
         {
             AddButon.Background = (Brush)Converter.ConvertFromString("#FF38AE38");
         }
+
+        private void HandleAddButtonClick(object sender, MouseButtonEventArgs e)
+        {
+            switch (WhereAreYou)
+            {
+                case "VehicleContentPage":
+                    new AddVehiclePageGenerator().PageGenerator(this, User);
+                break;
+
+                case "HomePage":
+                    MessageBox.Show("HomePage");
+                break;
+
+                case "RefuelingPage":
+                    MessageBox.Show("RefuelingPage");
+                break;
+            }
+        }
     }
 }

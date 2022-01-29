@@ -45,7 +45,7 @@ namespace Car_Data_Application.Controllers
             mainwindow.AddButon.Visibility = Visibility.Hidden;
         }
 
-        public Border AddingTitle()
+        private Border AddingTitle()
         {
             Border TitleBorder = new Border();
             SetBorderProps(ref TitleBorder, 0, "#07A802", "#0BFF03");
@@ -59,7 +59,7 @@ namespace Car_Data_Application.Controllers
             return TitleBorder;
         }
 
-        public Grid AddingVehiclePrimaryDataBorder()
+        private Grid AddingVehiclePrimaryDataBorder()
         {
             Grid VehiclePrimaryDataGrid = new Grid();
             VehiclePrimaryDataGrid.Margin = new Thickness(0, 5, 0, 5);
@@ -123,7 +123,7 @@ namespace Car_Data_Application.Controllers
             return VehiclePrimaryDataGrid;
         }
 
-        public Border AddingPrimaryInfoBorder()
+        private Border AddingPrimaryInfoBorder()
         {
             Border PrimaryInfoBorder = new Border();
             SetBorderProps(ref PrimaryInfoBorder, 2);
@@ -162,7 +162,7 @@ namespace Car_Data_Application.Controllers
             return PrimaryInfoBorder;
         }
 
-        public Border AddingFuelTankInfoBorder()
+        private Border AddingFuelTankInfoBorder()
         {
             Border FuelInfoBorder = new Border();
             SetBorderProps(ref FuelInfoBorder, 3);
@@ -197,7 +197,7 @@ namespace Car_Data_Application.Controllers
             return FuelInfoBorder;
         }
 
-        public Border AddingCyclicalCostBorder()
+        private Border AddingCyclicalCostBorder()
         {
             Border CyclicalCostBorder = new Border();
             SetBorderProps(ref CyclicalCostBorder, 4);
@@ -252,7 +252,7 @@ namespace Car_Data_Application.Controllers
             return CyclicalCostBorder;
         }
 
-        public TextBox GenerateTextBox(string textboxname, int row, int column, bool smallersize = false)
+        private TextBox GenerateTextBox(string textboxname, int row, int column, bool smallersize = false)
         {
             TextBox TextBoxName = new TextBox();
             TextBoxName.Width = smallersize == true ? 100 : 150;
@@ -265,7 +265,7 @@ namespace Car_Data_Application.Controllers
             return TextBoxName;
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column, bool setcenteraligment = default)
+        private TextBlock GenerateTextBlock(string text, int row, int column, bool setcenteraligment = default)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
@@ -286,7 +286,7 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        public void SetBorderProps(ref Border border, int row , string backgroundcolor = default, string bordercolor = default) // default - optional variable
+        private void SetBorderProps(ref Border border, int row , string backgroundcolor = default, string bordercolor = default) // default - optional variable
         {
             Brush BackgroundBrushh = (Brush)Converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
             border.Background = BackgroundBrushh;
