@@ -59,7 +59,8 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow.WhereAreYou = "CalculatorPage";
             mainWindow.AddButon.Visibility = Visibility.Hidden;
-            new CarDataAppController().SetButtonColor("CalculatorPageButton", mainWindow.SidePanel.Children);
+
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private void HandleChangeCalculatorType(object sender, SelectionChangedEventArgs e)

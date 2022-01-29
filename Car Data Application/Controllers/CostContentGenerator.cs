@@ -66,10 +66,10 @@ namespace Car_Data_Application.Controllers
 
         private void InitialAssignValue(MainWindow mw, User user)
         {
-            mw.WhereAreYou = "CostPage";
+            mw.WhereAreYou = "CostsPage";
             mainWindow = mw;
             mainWindow.AddButon.Visibility = Visibility.Visible;
-            new CarDataAppController().SetButtonColor("CostPageButton", mainWindow.SidePanel.Children);
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         public void SetBorderProps(Border border, int row)

@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Car_Data_Application.Views
 {
-    /// <summary>
-    /// Interaction logic for RegisterWindow.xaml
-    /// </summary>
     public partial class RegisterWindow : Window
     {
         private MainWindow mainWindow;
@@ -28,7 +25,8 @@ namespace Car_Data_Application.Views
         {
             PUser = user;
             mainWindow = mw;
-            new CarDataAppController().SetButtonColor("LoginPageButton", mainWindow.SidePanel.Children);
+            mainWindow.WhereAreYou = "RegisterPage";
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
             InitializeComponent();
             this.Closed += RegisterWindow_Closed;
         }

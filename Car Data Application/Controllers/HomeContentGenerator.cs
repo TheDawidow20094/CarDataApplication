@@ -36,8 +36,8 @@ namespace Car_Data_Application.Controllers
         {
             mainWindow = mw;
             mainWindow.WhereAreYou = "HomePage";
-            mainWindow.AddButon.Visibility = Visibility.Hidden;
-            new CarDataAppController().SetButtonColor("HomePageButton", mainWindow.SidePanel.Children);
+            mainWindow.AddButon.Visibility = Visibility.Hidden; 
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private Border FuelDataGenerator(User user)

@@ -28,7 +28,8 @@ namespace Car_Data_Application.Views
         {
             mainWindow = mw;
             PUser = user;
-            new CarDataAppController().SetButtonColor("LoginPageButton", mainWindow.SidePanel.Children);
+            mainWindow.WhereAreYou = "LoginPage";
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
             InitializeComponent();
             this.Closed += LoginWindow_Closed;
         }

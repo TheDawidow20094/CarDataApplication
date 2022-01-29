@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace Car_Data_Application.Controllers
 {
-    class SetingsContentGenerator
+    class SettingsContentGenerator
     {
         private MainWindow mainWindow;
         private User PUser;
@@ -90,9 +90,9 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow = mw;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
-            new CarDataAppController().SetButtonColor("SetingPaneButton", mainWindow.SidePanel.Children);
+            mainWindow.WhereAreYou = "SettingsPage";
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
-
 
         private void HandleChangeCurrency(object sender, SelectionChangedEventArgs e)
         {

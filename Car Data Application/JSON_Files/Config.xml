@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MainView>
+  <SidePanel>
+    <Button PL="Zaloguj" EN="Login" Name="LoginPage" IsEnabled="true"/>
+    <Button PL="Wyloguj" EN="Logout" Name="LogoutPage" IsEnabled="false"/>
+    <Button PL="Strona Główna" EN="Home" Name="HomePage" IsEnabled="true"/>
+    <Button PL="Pojazdy" EN="Vehicles" Name="VehiclesPage" IsEnabled="true"/>
+    <Button PL="Historia Tankowań" EN="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true"/>
+    <Button PL="Statystyki" EN="Stats" Name="StatsPage" IsEnabled="true"/>
+    <Button PL="Koszta" EN="Costs" Name="CostsPage" IsEnabled="true"/>
+    <Button PL="Kopia Zapasowa" EN="Backup" Name="BackupPage" IsEnabled="true"/>
+    <Button PL="Kalkulator" EN="Calculator" Name="CalculatorPage" IsEnabled="true"/>
+    <Button PL="Ustawienia" EN="Settings" Name="SettingsPage" IsEnabled="true"/>
+  </SidePanel>
+  <MainPanel>
+  </MainPanel>
+</MainView>

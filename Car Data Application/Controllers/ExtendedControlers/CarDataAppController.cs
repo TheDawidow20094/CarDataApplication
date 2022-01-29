@@ -10,17 +10,17 @@ namespace Car_Data_Application.Controllers
     {
         public void SetButtonColor(string ButtonName, UIElementCollection Buttons)
         {
-            BrushConverter bc = new BrushConverter();
+            BrushConverter Converter = new BrushConverter();
             foreach (Button Button in Buttons)
             {
                 if (Button.Name == ButtonName)
                 {
-                    Button.Foreground = (Brush)bc.ConvertFrom("#FF001A34");
-                    Button.Background = (Brush)bc.ConvertFrom("#FFEDF5FD");
+                    Button.Foreground = (Brush)Converter.ConvertFrom("#FF001A34");
+                    Button.Background = (Brush)Converter.ConvertFrom("#FFEDF5FD");
                 }
                 else
                 {
-                    Button.Foreground = (Brush)bc.ConvertFrom("#FFEDF5FD");
+                    Button.Foreground = (Brush)Converter.ConvertFrom("#FFEDF5FD");
                     Button.Background = Brushes.Transparent;
                 }
             }

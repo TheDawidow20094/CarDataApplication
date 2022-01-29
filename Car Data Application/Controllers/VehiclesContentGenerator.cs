@@ -102,10 +102,9 @@ namespace Car_Data_Application.Controllers
         {
             mainWindow = mw;
             PUser = user;
-
-            mainWindow.WhereAreYou = "VehicleContentPage";
             mainWindow.AddButon.Visibility = Visibility.Visible;
-            new CarDataAppController().SetButtonColor("CarPageButton", mainWindow.SidePanel.Children);
+            mainWindow.WhereAreYou = "VehiclesPage";
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private void HandleContentBorderClick(object sender, System.Windows.Input.MouseButtonEventArgs e)

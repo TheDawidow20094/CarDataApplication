@@ -52,12 +52,12 @@ namespace Car_Data_Application.Controllers
                     RefreshHomePage.GeneratorHomeContent(Mainwindow, User);
                 break;
 
-                case "CostPage":
+                case "CostsPage":
                     CostContentGenerator RefreshCostPage = new CostContentGenerator();
                     RefreshCostPage.CostGenerator(Mainwindow, User);
                 break;
 
-                case "RefuelingPage":
+                case "RefuelingHistoryPage":
                     RefuelingHistoryContentGenerator RefreshRefuelinfHistoryPage = new RefuelingHistoryContentGenerator();
                     RefreshRefuelinfHistoryPage.GeneratorRefulingHistory(Mainwindow, User);
                 break;

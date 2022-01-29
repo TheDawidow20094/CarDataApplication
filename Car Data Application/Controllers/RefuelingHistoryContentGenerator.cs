@@ -76,10 +76,10 @@ namespace Car_Data_Application.Controllers
         private void InitialAssignValue(MainWindow mw, User user)
         {
 
-            mw.WhereAreYou = "RefuelingPage";
+            mw.WhereAreYou = "RefuelingHistoryPage";
             mainWindow = mw;
             mainWindow.AddButon.Visibility = Visibility.Visible;
-            new CarDataAppController().SetButtonColor("RefuelingHistoryPageButton", mainWindow.SidePanel.Children);
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
 
         }
 
