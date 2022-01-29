@@ -12,13 +12,9 @@ using System.Windows.Media;
 
 namespace Car_Data_Application.Controllers
 {
-    class CalculatorContentGenerator
+    class CalculatorContentGenerator : CarDataAppController
     {
         #region SetPrivateVariable
-
-        private MainWindow mainWindow;
-        private User PUser;
-        private BrushConverter Converter = new BrushConverter();
 
         private ComboBox CalculatorTypeSelector = new ComboBox();
         private Grid Grid = new Grid();
@@ -60,7 +56,7 @@ namespace Car_Data_Application.Controllers
             mainWindow.WhereAreYou = "CalculatorPage";
             mainWindow.AddButon.Visibility = Visibility.Hidden;
 
-            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private void HandleChangeCalculatorType(object sender, SelectionChangedEventArgs e)

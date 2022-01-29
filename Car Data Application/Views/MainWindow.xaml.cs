@@ -18,6 +18,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
 using System.Xml;
+using Car_Data_Application.Models.XML_Models;
 
 namespace Car_Data_Application.Views
 {
@@ -26,7 +27,7 @@ namespace Car_Data_Application.Views
         private BrushConverter Converter = new BrushConverter();
         User User = new User();
         public string WhereAreYou = string.Empty;
-        Models.XML_Models.MainView Config;
+        MainGrid Config;
 
 
         public MainWindow()
@@ -48,15 +49,24 @@ namespace Car_Data_Application.Views
             Grid.SetColumn(SidePanel, 0);
 
             int index = 0;
-            foreach (Models.XML_Models.Button XmlButton in Config.SidePanel.Button)
+            foreach (XMLButton XmlButton in Config.SidePanel.XMLButton)
             {
-                if (bool.Parse(XmlButton.IsEnabled))
+                if (XmlButton.IsEnabled)
                 {
                     RowDefinition row = new RowDefinition();
                     SidePanel.RowDefinitions.Add(row);
 
                     Button button = new Button();
-                    button.Content = XmlButton.PL;
+                    switch (User.UserLanguage)
+                    {
+                        case "PL":
+                            button.Content = XmlButton.PL;
+                            break;
+
+                        case "ENG":
+                            button.Content = XmlButton.ENG;
+                            break;
+                    }
                     button.Name = XmlButton.Name;
                     button.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
                     button.Background = Brushes.Transparent;
@@ -73,29 +83,13 @@ namespace Car_Data_Application.Views
             this.MainGrid.Children.Add(SidePanel);
         }
 
-        private void HandleSidePanelButtonLeave(object sender, MouseEventArgs e)
-        {
-            Button button = (Button)sender;
-
-            if (!(WhereAreYou == button.Name))
-            {
-                button.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            }
-        }
-
-        private void HandleSidePanelButtonEnter(object sender, MouseEventArgs e)
-        {
-            Button button = (Button)sender;
-            button.Foreground = (Brush)Converter.ConvertFromString("#FF001A34");
-        }
-
         private void HandleSidePanelButtonClick(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
 
             switch (button.Name)
             {
-                case "LoginPage":
+                case "MyAccountPage":
                     new LoginWindow(this, User).ShowDialog();
                     break;
 
@@ -108,7 +102,7 @@ namespace Car_Data_Application.Views
                     break;
 
                 case "VehiclesPage":
-                    new VehiclesContentGenerator().GeneratorVechicleList(this, User);
+                    new VehiclesContentGenerator().GeneratorVechicleList(this, User, Config);
                     break;
 
                 case "RefuelingHistoryPage":
@@ -136,11 +130,27 @@ namespace Car_Data_Application.Views
             }
         }
 
-        private Models.XML_Models.MainView ReadXML()
+        private void HandleSidePanelButtonLeave(object sender, MouseEventArgs e)
         {
-            XmlSerializer XmlSerializer = new XmlSerializer(typeof(Models.XML_Models.MainView));
+            Button button = (Button)sender;
+
+            if (!(WhereAreYou == button.Name))
+            {
+                button.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
+            }
+        }
+
+        private void HandleSidePanelButtonEnter(object sender, MouseEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Foreground = (Brush)Converter.ConvertFromString("#FF001A34");
+        }
+
+        private MainGrid ReadXML()
+        {
+            XmlSerializer XmlSerializer = new XmlSerializer(typeof(MainGrid));
             FileStream XmlFileStream = new FileStream(@"../../../JSON_Files/Config.xml", FileMode.Open);
-            Models.XML_Models.MainView Config = (Models.XML_Models.MainView)XmlSerializer.Deserialize(XmlFileStream);
+            MainGrid Config = (MainGrid)XmlSerializer.Deserialize(XmlFileStream);
             
             return Config;
         }

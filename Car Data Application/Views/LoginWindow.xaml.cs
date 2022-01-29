@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Car_Data_Application.Views
 {
-    /// <summary>
-    /// Interaction logic for LoginWindow.xaml
-    /// </summary>
     public partial class LoginWindow : Window
     {
         private MainWindow mainWindow;
@@ -28,7 +25,7 @@ namespace Car_Data_Application.Views
         {
             mainWindow = mw;
             PUser = user;
-            mainWindow.WhereAreYou = "LoginPage";
+            mainWindow.WhereAreYou = "MyAccountPage";
             new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
             InitializeComponent();
             this.Closed += LoginWindow_Closed;
@@ -47,8 +44,7 @@ namespace Car_Data_Application.Views
         private void RegisterClick(object sender, RoutedEventArgs e)
         {
             this.Close();
-            RegisterWindow registerWindow = new RegisterWindow(mainWindow, PUser);
-            registerWindow.ShowDialog();
+            new RegisterWindow(mainWindow, PUser).ShowDialog();
         }
 
     }

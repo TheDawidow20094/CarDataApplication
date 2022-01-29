@@ -12,11 +12,8 @@ using System.Windows.Media;
 
 namespace Car_Data_Application.Controllers
 {
-    class CostContentGenerator
+    class CostContentGenerator : CarDataAppController
     {
-        private MainWindow mainWindow;
-        private BrushConverter Converter = new BrushConverter();
-
         public void CostGenerator(MainWindow mw, User user)
         {
             InitialAssignValue(mw, user);
@@ -69,7 +66,7 @@ namespace Car_Data_Application.Controllers
             mw.WhereAreYou = "CostsPage";
             mainWindow = mw;
             mainWindow.AddButon.Visibility = Visibility.Visible;
-            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         public void SetBorderProps(Border border, int row)

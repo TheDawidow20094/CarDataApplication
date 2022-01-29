@@ -9,11 +9,8 @@ using System;
 
 namespace Car_Data_Application.Controllers
 {
-    class HomeContentGenerator
+    class HomeContentGenerator : CarDataAppController
     {
-        private MainWindow mainWindow;
-        private BrushConverter Converter = new BrushConverter();
-
         public void GeneratorHomeContent(MainWindow mw, User user)
         {
             InitialAssignValue(mw, user);
@@ -37,7 +34,7 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             mainWindow.WhereAreYou = "HomePage";
             mainWindow.AddButon.Visibility = Visibility.Hidden; 
-            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private Border FuelDataGenerator(User user)
@@ -125,7 +122,7 @@ namespace Car_Data_Application.Controllers
         private Border EnteriesListGenerator (User user)
         {
             Border MainBorder = new Border();
-            SetBorderProps(ref MainBorder, 2, true, "#495152");
+            SetBorderProps(ref MainBorder, 2, false, "#FFEDF5FD", "#FF7DB5EC");
             MainBorder.MaxHeight = 200;
 
             ScrollViewer DataViewer = new ScrollViewer();
@@ -187,7 +184,7 @@ namespace Car_Data_Application.Controllers
             border.Background = BackgroundBrushh;
             border.BorderThickness = new Thickness(5);
 
-            border.BorderBrush = (Brush)Converter.ConvertFromString(bordercolor == default ? "#FF407BB6" : backgroundcolor);
+            border.BorderBrush = (Brush)Converter.ConvertFromString(bordercolor == default ? "#FF407BB6" : bordercolor);
             if (transparentborder == true)
             {
                 border.BorderBrush = Brushes.Transparent;

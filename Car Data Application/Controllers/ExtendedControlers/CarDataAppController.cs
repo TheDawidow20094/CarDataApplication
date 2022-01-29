@@ -1,4 +1,5 @@
 ﻿using Car_Data_Application.Models;
+using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System;
 using System.Windows.Controls;
@@ -8,6 +9,11 @@ namespace Car_Data_Application.Controllers
 {
     class CarDataAppController
     {
+        public MainWindow mainWindow;
+        public User PUser;
+        public BrushConverter Converter = new BrushConverter();
+        public MainGrid Config;
+
         public void SetButtonColor(string ButtonName, UIElementCollection Buttons)
         {
             BrushConverter Converter = new BrushConverter();

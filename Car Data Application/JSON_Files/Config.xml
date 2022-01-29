@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<MainView>
+<MainGrid>
   <SidePanel>
-    <Button PL="Zaloguj" EN="Login" Name="LoginPage" IsEnabled="true"/>
-    <Button PL="Wyloguj" EN="Logout" Name="LogoutPage" IsEnabled="false"/>
-    <Button PL="Strona Główna" EN="Home" Name="HomePage" IsEnabled="true"/>
-    <Button PL="Pojazdy" EN="Vehicles" Name="VehiclesPage" IsEnabled="true"/>
-    <Button PL="Historia Tankowań" EN="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true"/>
-    <Button PL="Statystyki" EN="Stats" Name="StatsPage" IsEnabled="true"/>
-    <Button PL="Koszta" EN="Costs" Name="CostsPage" IsEnabled="true"/>
-    <Button PL="Kopia Zapasowa" EN="Backup" Name="BackupPage" IsEnabled="true"/>
-    <Button PL="Kalkulator" EN="Calculator" Name="CalculatorPage" IsEnabled="true"/>
-    <Button PL="Ustawienia" EN="Settings" Name="SettingsPage" IsEnabled="true"/>
+    <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="true"/>
+    <XMLButton PL="Zarejestruj" ENG="Register" Name="RegisterPage" IsEnabled="false"/>
+    <XMLButton PL="Wyloguj" ENG="Logout" Name="LogoutPage" IsEnabled="false"/>
+    <XMLButton PL="Strona Główna" ENG="Home" Name="HomePage" IsEnabled="true"/>
+    <XMLButton PL="Pojazdy" ENG="Vehicles" Name="VehiclesPage" IsEnabled="true"/>
+    <XMLButton PL="Historia Tankowań" ENG="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true"/>
+    <XMLButton PL="Statystyki" ENG="Stats" Name="StatsPage" IsEnabled="true"/>
+    <XMLButton PL="Koszta" ENG="Costs" Name="CostsPage" IsEnabled="true"/>
+    <XMLButton PL="Kopia Zapasowa" ENG="Backup" Name="BackupPage" IsEnabled="true"/>
+    <XMLButton PL="Kalkulator" ENG="Calculator" Name="CalculatorPage" IsEnabled="true"/>
+    <XMLButton PL="Ustawienia" ENG="Settings" Name="SettingsPage" IsEnabled="true"/>
   </SidePanel>
   <MainPanel>
+    <VehiclesPage>
+      <VehicleNameGrid>
+        <Brand PL="Marka:" ENG="Brand:"/>
+        <Model PL="Model:" ENG="Model:"/>
+      </VehicleNameGrid>
+      <PrimaryInfoGrid>
+        <YearOfManufacture PL="Rok Produkcji:" ENG="Year Of Manufacture:"/>
+        <Vin PL="Vin:" ENG="Vin:"/>
+        <Plates PL="Tablice Rejestracyjne:" ENG="Plates:"/>
+        <Millage PL="Przebieg:" ENG="Millage:"/>
+      </PrimaryInfoGrid>
+      <FuelTankInfoGrid>
+        <Gasoline PL="Pojemność Baku Benzyny:" ENG="Capacity Of Gasoline Tank:"/>
+        <Diesel PL="Pojemność Baku Diesel:" ENG="Capacity Of Diesel Tank:"/>
+        <LPG PL="Pojemność Baku LPG:" ENG="Capacity Of LPG Tank:"/>
+      </FuelTankInfoGrid>
+      <CyclicalCostGrid>
+        <InsuranceStartDate PL="Rozpoczęcie Okresu Ubezpieczenia:" ENG="Insurance Start Date:"/>
+        <InsuranceEndDate PL="Koniec Okresu Ubezpieczenia:" ENG="Insurance End Date"/>
+        <InsurancePrice PL="Koszt Obecnego Ubezpieczenia:" ENG="Insurance Price:"/>
+        <InspectionStartDate PL="Data Wykonania Przeglądu Technicznego:" ENG="Last Technical Inspection:"/>
+        <InspectionEndDate PL="Koniec Ważności Przeglądu Technicznego:" ENG="The Next Technical Inspection:"/>
+        <InspectionPrice PL="Koszt Wykonania Przeglądu Technicznego:" ENG="Technical Inspection Price:"/>
+      </CyclicalCostGrid>
+    </VehiclesPage>
   </MainPanel>
-</MainView>
+</MainGrid>

@@ -12,18 +12,15 @@ using Car_Data_Application.Models;
 using System.Text.Json;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using Car_Data_Application.Models.XML_Models;
 
 namespace Car_Data_Application.Controllers
 {
-    class VehiclesContentGenerator
-    {                                                                 
-        private MainWindow mainWindow;
-        private User PUser;
-        private BrushConverter Converter = new BrushConverter();
-
-        public void GeneratorVechicleList(MainWindow mw, User user)
+    class VehiclesContentGenerator : CarDataAppController
+    {
+        public void GeneratorVechicleList(MainWindow mw, User user, MainGrid config)
         {
-            InitialAssignValue(mw, user);
+            InitialAssignValue(mw, user, config);
 
             Grid grid = new Grid();
 
@@ -98,20 +95,21 @@ namespace Car_Data_Application.Controllers
             mainWindow.ScrollViewerContent.Content = grid;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user)
+        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
         {
             mainWindow = mw;
             PUser = user;
+            Config = config;
             mainWindow.AddButon.Visibility = Visibility.Visible;
             mainWindow.WhereAreYou = "VehiclesPage";
-            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private void HandleContentBorderClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Border sendedBorder = (Border)sender;
             int index = Int32.Parse(sendedBorder.Name.Substring(14));
-            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, PUser.Vehicles[index]);
+            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, PUser.Vehicles[index], PUser, Config.MainPanel.VehiclesPage);
         }
 
         private void HandleContentBorderMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
@@ -136,7 +134,7 @@ namespace Car_Data_Application.Controllers
         {
             Button btn = (Button)sender;
             int index = Int32.Parse(btn.Name.Substring(13));
-            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, PUser.Vehicles[index]);
+            new VehicleDetailContentGenerator().GeneratorVehicleDetail(mainWindow, PUser.Vehicles[index], PUser, Config.MainPanel.VehiclesPage);
         }
 
     }

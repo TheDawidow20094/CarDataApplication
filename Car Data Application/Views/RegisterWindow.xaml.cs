@@ -23,12 +23,17 @@ namespace Car_Data_Application.Views
 
         public RegisterWindow(MainWindow mw, User user)
         {
-            PUser = user;
-            mainWindow = mw;
-            mainWindow.WhereAreYou = "RegisterPage";
-            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            InitialAssignValue(mw, user);
             InitializeComponent();
             this.Closed += RegisterWindow_Closed;
+        }
+
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+            PUser = user;
+            mainWindow = mw;
+            mainWindow.WhereAreYou = "MyAccountPage";
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private void RegisterWindow_Closed(object sender, EventArgs e)

@@ -13,14 +13,11 @@ using System.Windows.Media;
 
 namespace Car_Data_Application.Controllers
 {
-    class SettingsContentGenerator
+    class SettingsContentGenerator : CarDataAppController
     {
-        private MainWindow mainWindow;
-        private User PUser;
         private ComboBox LanguageComboBox = new ComboBox();
         private ComboBox MetricUnitComboBox = new ComboBox();
         private ComboBox CurrencyComboBox = new ComboBox();
-        private BrushConverter Converter = new BrushConverter();
 
         public void GenerateSetingContent(MainWindow mw, User user)
         {
@@ -52,9 +49,20 @@ namespace Car_Data_Application.Controllers
 
             LanguageComboBox.Height = 35;
             LanguageComboBox.Width = 100;
-            LanguageComboBox.SelectedItem = user.UserLanguage;
             LanguageComboBox.Items.Add("Polski");
             LanguageComboBox.Items.Add("English");
+
+            switch (user.UserLanguage)
+            {
+                case "PL":
+                    LanguageComboBox.SelectedItem = "Polski";
+                    break;
+
+                case "ENG":
+                    LanguageComboBox.SelectedItem = "English";
+                    break;
+            }
+
             LanguageComboBox.SelectionChanged += HandleChangeLanguage;
             Grid.SetRow(LanguageComboBox, 1);
             VehicleNameGrid.Children.Add(LanguageComboBox);
@@ -91,7 +99,7 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
             mainWindow.WhereAreYou = "SettingsPage";
-            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
         }
 
         private void HandleChangeCurrency(object sender, SelectionChangedEventArgs e)
@@ -108,7 +116,16 @@ namespace Car_Data_Application.Controllers
 
         private void HandleChangeLanguage(object sender, SelectionChangedEventArgs e)
         {
-            PUser.UserLanguage = LanguageComboBox.SelectedItem.ToString();
+            switch (LanguageComboBox.SelectedItem.ToString())
+            {
+                case "Polski":
+                    PUser.UserLanguage = "PL";
+                    break;
+
+                case "English":
+                    PUser.UserLanguage = "ENG";
+                    break;
+            }
             PUser.SerializeData();
         }
 
@@ -131,7 +148,7 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(border, row);
         }
 
-        public TextBlock GenerateTextBlock(string text, int row)
+        private TextBlock GenerateTextBlock(string text, int row)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
@@ -144,6 +161,13 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(TextBlockName, row);
 
             return TextBlockName;
+        }
+
+        private Button ApplyButton()
+        {
+            Button ApplyButton = new Button();
+
+            return ApplyButton;
         }
 
     }
