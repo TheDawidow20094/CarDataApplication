@@ -46,23 +46,23 @@ namespace Car_Data_Application.Controllers
             switch (mainWindow.WhereAreYou)
             {
                 case "HomePage":
-                    HomeContentGenerator RefreshHomePage = new HomeContentGenerator();
-                    RefreshHomePage.GeneratorHomeContent(mainWindow, PUser, homePage);
+                    new HomeContentGenerator().GeneratorHomeContent(mainWindow, PUser, homePage);
                 break;
 
                 case "CostsPage":
-                    CostContentGenerator RefreshCostPage = new CostContentGenerator();
-                    RefreshCostPage.CostGenerator(mainWindow, PUser);
+                    new CostContentGenerator().CostGenerator(mainWindow, PUser);
                 break;
 
                 case "RefuelingHistoryPage":
-                    RefuelingHistoryContentGenerator RefreshRefuelinfHistoryPage = new RefuelingHistoryContentGenerator();
-                    RefreshRefuelinfHistoryPage.GeneratorRefulingHistory(mainWindow, PUser);
+                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(mainWindow, PUser);
                 break;
 
                 case "CalculatorPage":
-                    CalculatorContentGenerator RefreshCalculatorPage = new CalculatorContentGenerator();
-                    RefreshCalculatorPage.CalculatorGenerator(mainWindow, PUser);
+                    new CalculatorContentGenerator().CalculatorGenerator(mainWindow, PUser);
+                break;
+
+                case "AddRefuelingPage":
+                    new AddRefuelingPageGenerator().PageGenerator(mainWindow, PUser, Config);
                 break;
             }
         }

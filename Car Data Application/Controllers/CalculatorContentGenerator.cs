@@ -230,6 +230,7 @@ namespace Car_Data_Application.Controllers
             CalculateButton.Foreground = Brushes.White;
             CalculateButton.FontFamily = new FontFamily("Arial Black");
             CalculateButton.FontWeight = FontWeights.Bold;
+            CalculateButton.Margin = new Thickness(0, 0, 0, 8);
             Grid.SetRow(CalculateButton, 5);
             Grid.SetColumn(CalculateButton, 1);
             TravelCostCalculatorGrid.Children.Add(CalculateButton);
@@ -386,6 +387,7 @@ namespace Car_Data_Application.Controllers
             CalculateButton.FontFamily = new FontFamily("Arial Black");
             CalculateButton.FontWeight = FontWeights.Bold;
             CalculateButton.Click += AverageFuelConsumptionCalculatorButton_Click;
+            CalculateButton.Margin = new Thickness(0, 0, 0, 8);
             Grid.SetRow(CalculateButton, 4);
             Grid.SetColumn(CalculateButton, 1);
             AverageFuelConsumptionCalculatorGrid.Children.Add(CalculateButton);

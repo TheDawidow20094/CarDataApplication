@@ -145,6 +145,9 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "AddRefuelingPage")]
 		public AddRefuelingPage AddRefuelingPage { get; set; }
+
+		[XmlElement(ElementName = "SettingsPage")]
+		public SettingsPage SettingsPage { get; set; }
 	}
 
 	[XmlRoot(ElementName = "AddRefuelingPage")]
@@ -297,6 +300,22 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "RegisterButton")]
 		public Translation RegisterButton { get; set; }
+	}
+
+	[XmlRoot(ElementName = "SettingsPage")]
+	public class SettingsPage
+	{
+		[XmlElement(ElementName = "Language")]
+		public Translation Language { get; set; }
+
+		[XmlElement(ElementName = "MetricUnit")]
+		public Translation MetricUnit { get; set; }
+
+		[XmlElement(ElementName = "Currency")]
+		public Translation Currency { get; set; }
+
+		[XmlElement(ElementName = "ApplyButton")]
+		public Translation ApplyButton { get; set; }
 	}
 
 	[XmlRoot(ElementName = "AddButonList")]

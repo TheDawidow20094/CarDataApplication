@@ -91,5 +91,11 @@
       <FuelType PL="Typ Paliwa:" ENG="Fuel Type:"/>
       <ButtonText PL="Dodaj Tankowanie" ENG="Add Refueling"/>
     </AddRefuelingPage>
+    <SettingsPage>
+      <Language PL="Język:" ENG="Language:"/>
+      <MetricUnit PL="Jednostki Metryczne:" ENG="Metric Unit:"/>
+      <Currency PL="Waluta:" ENG="Currency:"/>
+      <ApplyButton PL="Zatwierdź" ENG="Confirm"/>
+    </SettingsPage>
   </MainPanel>
 </MainGrid>

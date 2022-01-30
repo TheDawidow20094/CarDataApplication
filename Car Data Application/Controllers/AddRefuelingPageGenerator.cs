@@ -41,6 +41,7 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
+            mainWindow.WhereAreYou = "AddRefuelingPage";
         }
 
         private Border AddingTitle(AddRefuelingPage translation)
@@ -222,6 +223,7 @@ namespace Car_Data_Application.Controllers
             AddRefuelingButton.Foreground = Brushes.White;
             AddRefuelingButton.FontFamily = new FontFamily("Arial Black");
             AddRefuelingButton.FontWeight = FontWeights.Bold;
+            AddRefuelingButton.Margin = new Thickness(0,0,0,8);
             Grid.SetRow(AddRefuelingButton, 5);
 
             return AddRefuelingButton;

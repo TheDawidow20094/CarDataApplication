@@ -1,4 +1,5 @@
 ﻿using Car_Data_Application.Models;
+using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,25 +13,26 @@ namespace Car_Data_Application.Controllers
         private ComboBox MetricUnitComboBox = new ComboBox();
         private ComboBox CurrencyComboBox = new ComboBox();
 
-        public void GenerateSetingContent(MainWindow mw, User user)
+        public void GenerateSetingContent(MainWindow mw, User user, MainGrid config)
         {
-            InitialAssignValue(mw, user);
+            InitialAssignValue(mw, user, config);
             
             Grid Grid = new Grid();
-            Grid.Children.Add(GenerateSettingContentBorder(PUser));
+            Grid.Children.Add(GenerateSettingContentBorder(PUser, Config.MainPanel.SettingsPage));
 
             mainWindow.ScrollViewerContent.Content = Grid;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user)
+        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
         {
+            Config = config;
             PUser = user;
             mainWindow = mw;
             mainWindow.WhereAreYou = "SettingsPage";
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
         }
 
-        private Border GenerateSettingContentBorder(User user)
+        private Border GenerateSettingContentBorder(User user, SettingsPage translation)
         {
             Border SetingContentBorder = new Border();
             SetBorderProps(ref SetingContentBorder, 0);
@@ -46,7 +48,20 @@ namespace Car_Data_Application.Controllers
                 VehicleNameGrid.VerticalAlignment = VerticalAlignment.Center;
             }
 
-            VehicleNameGrid.Children.Add(GenerateTextBlock("Język:", 0));
+            switch (PUser.UserLanguage)
+            {
+                case "PL":
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Language.PL, 0));
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.MetricUnit.PL, 2));
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Currency.PL, 4));
+                    break;
+
+                case "ENG":
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Language.ENG, 0));
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.MetricUnit.ENG, 2));
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Currency.ENG, 4));
+                    break;
+            }
 
             LanguageComboBox.Height = 35;
             LanguageComboBox.Width = 100;
@@ -64,22 +79,16 @@ namespace Car_Data_Application.Controllers
                     break;
             }
 
-            LanguageComboBox.SelectionChanged += HandleChangeLanguage;
             Grid.SetRow(LanguageComboBox, 1);
             VehicleNameGrid.Children.Add(LanguageComboBox);
-
-            VehicleNameGrid.Children.Add(GenerateTextBlock("Jednostki metryczne:", 2));
 
             MetricUnitComboBox.Height = 35;
             MetricUnitComboBox.Width = 100;
             MetricUnitComboBox.SelectedItem = user.MetricUnit;
             MetricUnitComboBox.Items.Add("Litrów/100km");
             MetricUnitComboBox.Items.Add("Mil/Galon");
-            MetricUnitComboBox.SelectionChanged += HandleChangeMetricUnit;
             Grid.SetRow(MetricUnitComboBox, 3);
             VehicleNameGrid.Children.Add(MetricUnitComboBox);
-
-            VehicleNameGrid.Children.Add(GenerateTextBlock("Waluta:", 4));
 
             CurrencyComboBox.Height = 35;
             CurrencyComboBox.Width = 100;
@@ -91,6 +100,8 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(CurrencyComboBox, 5);
             VehicleNameGrid.Children.Add(CurrencyComboBox);
 
+            VehicleNameGrid.Children.Add(ApplySettingsButton(translation));
+
             return SetingContentBorder;
         }
 
@@ -98,32 +109,6 @@ namespace Car_Data_Application.Controllers
         {
             PUser.Currency = CurrencyComboBox.SelectedItem.ToString();
             PUser.SerializeData();
-        }
-
-        private void HandleChangeMetricUnit(object sender, SelectionChangedEventArgs e)
-        {
-            PUser.MetricUnit = MetricUnitComboBox.SelectedItem.ToString();
-            PUser.SerializeData();
-        }
-
-        private void HandleChangeLanguage(object sender, SelectionChangedEventArgs e)
-        {
-            switch (LanguageComboBox.SelectedItem.ToString())
-            {
-                case "Polski":
-                    PUser.UserLanguage = "PL";
-                    break;
-
-                case "English":
-                    PUser.UserLanguage = "ENG";
-                    break;
-            }
-            PUser.SerializeData();
-        }
-
-        private void ApplicationDevelopersButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Dawid Kaczmarek : Jan Stark");
         }
 
         public void SetBorderProps(ref Border border, int row)
@@ -136,7 +121,7 @@ namespace Car_Data_Application.Controllers
             border.CornerRadius = new CornerRadius(30);
 
             border.Margin = new Thickness(15, 5, 15, 5);
-            border.Padding = new Thickness(0, 0, 35, 0);
+            border.Padding = new Thickness(0, 5, 35, 0);
             Grid.SetRow(border, row);
         }
 
@@ -155,12 +140,51 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        private Button ApplySettingsButton()
+        private Button ApplySettingsButton(SettingsPage translation)
         {
             Button ApplySettingsButton = new Button();
+            switch (PUser.UserLanguage)
+            {
+                case "PL":
+                    ApplySettingsButton.Content = translation.ApplyButton.PL;
+                    break;
+
+                case "ENG":
+                    ApplySettingsButton.Content = translation.ApplyButton.ENG;
+                    break;
+            }
+            ApplySettingsButton.Height = 60;
+            ApplySettingsButton.Width = 100;
+            ApplySettingsButton.BorderThickness = new Thickness(2);
+            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+            ApplySettingsButton.Foreground = Brushes.White;
+            ApplySettingsButton.FontFamily = new FontFamily("Arial Black");
+            ApplySettingsButton.FontWeight = FontWeights.Bold;
+            ApplySettingsButton.Click += HandleApplySettingsButtonClick;
+            ApplySettingsButton.Margin = new Thickness(0, 15, 0, 5);
+            Grid.SetRow(ApplySettingsButton, 6);
 
             return ApplySettingsButton;
         }
 
+        private void HandleApplySettingsButtonClick(object sender, RoutedEventArgs e)
+        {
+            PUser.MetricUnit = MetricUnitComboBox.SelectedItem.ToString();
+            switch (LanguageComboBox.SelectedItem.ToString())
+            {
+                case "Polski":
+                    PUser.UserLanguage = "PL";
+                    break;
+
+                case "English":
+                    PUser.UserLanguage = "ENG";
+                    break;
+            }
+            PUser.SerializeData();
+
+            MainWindow RefreshApp = new MainWindow();
+            RefreshApp.Show();
+            mainWindow.Close();
+        }
     }
 }
