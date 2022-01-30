@@ -1,7 +1,6 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
-using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -32,10 +31,10 @@ namespace Car_Data_Application.Controllers
             }
         }
 
-        public void GoToHomePage(MainWindow mainWindow, User user)
+        public void GoToHomePage(MainWindow mainWindow, User user, MainGrid config)
         {
             HomeContentGenerator OpenHomePage = new HomeContentGenerator();
-            OpenHomePage.GeneratorHomeContent(mainWindow, user);
+            OpenHomePage.GeneratorHomeContent(mainWindow, user, config.MainPanel.HomePage);
         }
     }
 }

@@ -1,32 +1,19 @@
 ﻿using Car_Data_Application.Models;
+using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Car_Data_Application.Controllers
 {
-    class GenerateSelectedCar
+    class GenerateSelectedCar : CarDataAppController
     {
-        public ComboBox Carlist = new ComboBox();
-        private User User;
-        private MainWindow Mainwindow;
+        private ComboBox Carlist = new ComboBox();
 
-        public void GeneratorCarSelectList(MainWindow mw, User user)
+        public void GeneratorCarSelectList(MainWindow mw, User user, MainGrid config)
         {
-            Mainwindow = mw;
-            User = user;
-            Carlist.Background = Brushes.LightCoral;
-            Carlist.HorizontalContentAlignment = HorizontalAlignment.Center;
-            Carlist.VerticalContentAlignment = VerticalAlignment.Center;
-            Carlist.SelectionChanged += CarlistSelectionChanged;
+            InitialAssignValue(mw, user, config);
 
             foreach (Vehicle vehicle in user.Vehicles)
             {
@@ -36,35 +23,46 @@ namespace Car_Data_Application.Controllers
             mw.CarName.Children.Add(Carlist);        
         }
 
-        private void CarlistSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
         {
-            User.ActiveCarIndex = Carlist.SelectedIndex;
-            User.SerializeData();
-            RefreshPage();
+            mainWindow = mw;
+            PUser = user;
+            Config = config;
+            Carlist.Background = Brushes.LightCoral;
+            Carlist.HorizontalContentAlignment = HorizontalAlignment.Center;
+            Carlist.VerticalContentAlignment = VerticalAlignment.Center;
+            Carlist.SelectionChanged += CarlistSelectionChanged;
         }
 
-        public void RefreshPage()
+        private void CarlistSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            PUser.ActiveCarIndex = Carlist.SelectedIndex;
+            PUser.SerializeData();
+            RefreshPage(Config.MainPanel.HomePage);
+        }
+
+        private void RefreshPage(HomePage homePage)
         { 
-            switch (Mainwindow.WhereAreYou)
+            switch (mainWindow.WhereAreYou)
             {
                 case "HomePage":
                     HomeContentGenerator RefreshHomePage = new HomeContentGenerator();
-                    RefreshHomePage.GeneratorHomeContent(Mainwindow, User);
+                    RefreshHomePage.GeneratorHomeContent(mainWindow, PUser, homePage);
                 break;
 
                 case "CostsPage":
                     CostContentGenerator RefreshCostPage = new CostContentGenerator();
-                    RefreshCostPage.CostGenerator(Mainwindow, User);
+                    RefreshCostPage.CostGenerator(mainWindow, PUser);
                 break;
 
                 case "RefuelingHistoryPage":
                     RefuelingHistoryContentGenerator RefreshRefuelinfHistoryPage = new RefuelingHistoryContentGenerator();
-                    RefreshRefuelinfHistoryPage.GeneratorRefulingHistory(Mainwindow, User);
+                    RefreshRefuelinfHistoryPage.GeneratorRefulingHistory(mainWindow, PUser);
                 break;
 
                 case "CalculatorPage":
                     CalculatorContentGenerator RefreshCalculatorPage = new CalculatorContentGenerator();
-                    RefreshCalculatorPage.CalculatorGenerator(Mainwindow, User);
+                    RefreshCalculatorPage.CalculatorGenerator(mainWindow, PUser);
                 break;
             }
         }

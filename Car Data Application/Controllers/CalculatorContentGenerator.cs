@@ -1,11 +1,6 @@
 ﻿using Car_Data_Application.Models;
-using Car_Data_Application.Models.Vehicle_Classes;
 using Car_Data_Application.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -54,9 +49,8 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             PUser = user;
             mainWindow.WhereAreYou = "CalculatorPage";
-            mainWindow.AddButon.Visibility = Visibility.Hidden;
 
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
         }
 
         private void HandleChangeCalculatorType(object sender, SelectionChangedEventArgs e)
@@ -249,12 +243,12 @@ namespace Car_Data_Application.Controllers
             try
             {
                 Convert.ToDouble(textbox.Text);
-                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
+                textbox.Background = (Brush)Converter.ConvertFromString("#FFA0D0FF");
             }
             catch (Exception)
             {
-                textbox.Text = "";
-                textbox.Background = Brushes.Red;
+                textbox.Text = "0";
+                textbox.Background = (Brush)Converter.ConvertFromString("#FFFD9393");
                 MessageBox.Show("Błąd danych! Proszę wprowadzić poprawną wartość pola 'Spalanie:'");
             }
         }

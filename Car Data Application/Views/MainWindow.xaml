@@ -34,8 +34,25 @@
                 <TextBlock x:Name="UserName" VerticalAlignment="Center" HorizontalAlignment="Center" Text="USER" Background="Transparent" FontWeight="Bold"/>
             </Grid>
         </Grid>
-
-        <Border x:Name="AddButon" Grid.Row="0" Grid.Column="1" CornerRadius="28" Background="#FF3ABD3A" Margin="0,0,30,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="56" Width="56" MouseLeave="HandleAddButonMouseLeave" MouseEnter="HandleAddButonMouseEnter" Visibility="Hidden">
+        <Border x:Name="AddButonList" Grid.Row="0" Grid.Column="1" Width="150" Height="190" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,18,40" BorderThickness="4" CornerRadius="5" Background="#FF94ACC5" BorderBrush="#FF407BB6" Visibility="Hidden">
+            <Grid x:Name="AddButtonListContent">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border x:Name="AddRefueling" Grid.Row="0" BorderThickness="4" Margin="7" CornerRadius="4" Background="#FF5C7B9B" BorderBrush="#FF407BB6" MouseEnter="HandleAddButtonListMouseEnter" MouseLeave="HandleAddButtonListMouseLeave" MouseLeftButtonDown="HandleAddButtonControllerClick">
+                    <TextBlock x:Name="AddRefuelingTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" Foreground="#FFEDF5FD" FontWeight="Bold" FontFamily="Arial Black"/>
+                </Border>
+                <Border x:Name="AddService" Grid.Row="1" BorderThickness="4" Margin="7" CornerRadius="4" Background="#FF5C7B9B" BorderBrush="#FF407BB6" MouseEnter="HandleAddButtonListMouseEnter" MouseLeave="HandleAddButtonListMouseLeave" MouseLeftButtonDown="HandleAddButtonControllerClick">
+                    <TextBlock x:Name="AddServiceTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" Foreground="#FFEDF5FD" FontWeight="Bold" FontFamily="Arial Black"/>
+                </Border>
+                <Border x:Name="AddVehicle" Grid.Row="2" BorderThickness="4" Margin="7" CornerRadius="4" Background="#FF5C7B9B" BorderBrush="#FF407BB6" MouseEnter="HandleAddButtonListMouseEnter" MouseLeave="HandleAddButtonListMouseLeave" MouseLeftButtonDown="HandleAddButtonControllerClick">
+                    <TextBlock x:Name="AddVehicleTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" Foreground="#FFEDF5FD" FontWeight="Bold" FontFamily="Arial Black"/>
+                </Border>
+            </Grid>
+        </Border>
+        <Border x:Name="AddButon" Grid.Row="0" Grid.Column="1" CornerRadius="28" Background="#FF3ABD3A" Margin="0,0,30,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="56" Width="56" MouseLeave="HandleAddButonMouseLeave" MouseEnter="HandleAddButonMouseEnter" Visibility="Visible">
             <TextBlock  x:Name="AddButonText" Text="+" Foreground="White" FontSize="65" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="UltraBold" Height="104" Width="48" MouseLeftButtonDown="HandleAddButtonClick"/>
         </Border>
     </Grid>

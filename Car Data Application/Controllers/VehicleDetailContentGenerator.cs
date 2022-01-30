@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Car_Data_Application.Views;
+﻿using Car_Data_Application.Views;
 using Car_Data_Application.Models;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using System.IO;
-using System.Text.Json;
 using Car_Data_Application.Models.XML_Models;
 
 namespace Car_Data_Application.Controllers
@@ -43,10 +37,9 @@ namespace Car_Data_Application.Controllers
         private void InitialAssignValue(MainWindow mainwindow, User user)
         {
             PUser = user;
-            mainwindow.AddButon.Visibility = Visibility.Hidden;
         }
 
-        public Border DisplayVehicleImage(Vehicle vehicle)
+        private Border DisplayVehicleImage(Vehicle vehicle)
         {
             ActualMainGridRow = 0;
 
@@ -76,7 +69,7 @@ namespace Car_Data_Application.Controllers
             return ImageBorder;
         }
 
-        public Border GenarateVehicleNameGrid(Vehicle vehicle, VehicleNameGrid translation)
+        private Border GenarateVehicleNameGrid(Vehicle vehicle, VehicleNameGrid translation)
         {
             ActualMainGridRow = 1;
 
@@ -113,7 +106,7 @@ namespace Car_Data_Application.Controllers
             return VehicleNameBorder;
         }
 
-        public Border GeneratePrimaryInfoGrid(Vehicle vehicle, PrimaryInfoGrid translation)
+        private Border GeneratePrimaryInfoGrid(Vehicle vehicle, PrimaryInfoGrid translation)
         {
             ActualMainGridRow = 2;
 
@@ -163,7 +156,7 @@ namespace Car_Data_Application.Controllers
             return PrimaryInfoBorder;
         }
 
-        public Border GenarateFuelTankInfoGrid(Vehicle vehicle, FuelTankInfoGrid translation)
+        private Border GenarateFuelTankInfoGrid(Vehicle vehicle, FuelTankInfoGrid translation)
         {
             ActualMainGridRow = 3;
 
@@ -209,7 +202,7 @@ namespace Car_Data_Application.Controllers
             return FuelInfoBorder;
         }
 
-        public Border GenerateCyclicalCostGrid(Vehicle vehicle, CyclicalCostGrid translation)
+        private Border GenerateCyclicalCostGrid(Vehicle vehicle, CyclicalCostGrid translation)
         {
             ActualMainGridRow = 4;
 
@@ -276,9 +269,7 @@ namespace Car_Data_Application.Controllers
             return CyclicalCostBorder;
         }
 
-
-
-        public TextBlock GenerateTextBlock(string text, int row, int column)
+        private TextBlock GenerateTextBlock(string text, int row, int column)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
@@ -301,7 +292,7 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        public void SetBorderProps(ref Border border, int row)
+        private void SetBorderProps(ref Border border, int row)
         {
             Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
             border.Background = BackgroundBrushh;

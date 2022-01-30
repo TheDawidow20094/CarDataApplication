@@ -1,12 +1,5 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Views;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -27,6 +20,14 @@ namespace Car_Data_Application.Controllers
             Grid.Children.Add(GenerateSettingContentBorder(PUser));
 
             mainWindow.ScrollViewerContent.Content = Grid;
+        }
+
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+            PUser = user;
+            mainWindow = mw;
+            mainWindow.WhereAreYou = "SettingsPage";
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
         }
 
         private Border GenerateSettingContentBorder(User user)
@@ -93,15 +94,6 @@ namespace Car_Data_Application.Controllers
             return SetingContentBorder;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user)
-        {
-            PUser = user;
-            mainWindow = mw;
-            mainWindow.AddButon.Visibility = Visibility.Hidden;
-            mainWindow.WhereAreYou = "SettingsPage";
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
-        }
-
         private void HandleChangeCurrency(object sender, SelectionChangedEventArgs e)
         {
             PUser.Currency = CurrencyComboBox.SelectedItem.ToString();
@@ -163,11 +155,11 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        private Button ApplyButton()
+        private Button ApplySettingsButton()
         {
-            Button ApplyButton = new Button();
+            Button ApplySettingsButton = new Button();
 
-            return ApplyButton;
+            return ApplySettingsButton;
         }
 
     }

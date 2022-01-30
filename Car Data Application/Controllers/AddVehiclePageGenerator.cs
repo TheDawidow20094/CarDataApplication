@@ -11,11 +11,8 @@ using System.Windows.Shapes;
 
 namespace Car_Data_Application.Controllers
 {
-    class AddVehiclePageGenerator
+    class AddVehiclePageGenerator : CarDataAppController
     {
-        private BrushConverter Converter = new BrushConverter();
-        private MainWindow mainwindow;
-
         public void PageGenerator(MainWindow mw, User user)
         {
             InitialAssignValue(mw);
@@ -35,14 +32,13 @@ namespace Car_Data_Application.Controllers
             MainGrid.Children.Add(AddingCyclicalCostBorder());
 
 
-            mainwindow.ScrollViewerContent.Content = MainGrid;
+            mainWindow.ScrollViewerContent.Content = MainGrid;
 
         }
 
         private void InitialAssignValue(MainWindow mw)
         {
-            mainwindow = mw;
-            mainwindow.AddButon.Visibility = Visibility.Hidden;
+            mainWindow = mw;
         }
 
         private Border AddingTitle()
@@ -286,7 +282,7 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        private void SetBorderProps(ref Border border, int row , string backgroundcolor = default, string bordercolor = default) // default - optional variable
+        private void SetBorderProps(ref Border border, int row , string backgroundcolor = default, string bordercolor = default)
         {
             Brush BackgroundBrushh = (Brush)Converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
             border.Background = BackgroundBrushh;

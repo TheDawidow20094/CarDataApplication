@@ -36,7 +36,7 @@ namespace Car_Data_Application.Views
             InitializeComponent();
             GenerateSidePanel();
             SetFooterData();
-            new CarDataAppController().GoToHomePage(this, User);
+            new CarDataAppController().GoToHomePage(this, User, Config);
         }
 
         private void GenerateSidePanel()
@@ -87,44 +87,54 @@ namespace Car_Data_Application.Views
         {
             Button button = (Button)sender;
 
+            AddButonList.Visibility = Visibility.Hidden;
+
             switch (button.Name)
             {
                 case "MyAccountPage":
-                    new LoginWindow(this, User).ShowDialog();
+                    AddButon.Visibility = Visibility.Hidden;
+                    new LoginWindow(this, User, Config).ShowDialog();
                     break;
 
                 case "LogoutPage":
-
+                    AddButon.Visibility = Visibility.Hidden;
                     break;
 
                 case "HomePage":
-                    new HomeContentGenerator().GeneratorHomeContent(this, User);
+                    AddButon.Visibility = Visibility.Visible;
+                    new HomeContentGenerator().GeneratorHomeContent(this, User, Config.MainPanel.HomePage);
                     break;
 
                 case "VehiclesPage":
+                    AddButon.Visibility = Visibility.Visible;
                     new VehiclesContentGenerator().GeneratorVechicleList(this, User, Config);
                     break;
 
                 case "RefuelingHistoryPage":
+                    AddButon.Visibility = Visibility.Visible;
                     new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(this, User);
                     break;
 
                 case "StatsPage":
-
+                    AddButon.Visibility = Visibility.Hidden;
                     break;
 
                 case "CostsPage":
+                    AddButon.Visibility = Visibility.Visible;
                     new CostContentGenerator().CostGenerator(this, User);
                     break;
 
                 case "BackupPage":
+                    AddButon.Visibility = Visibility.Hidden;
                     break;
 
                 case "CalculatorPage":
+                    AddButon.Visibility = Visibility.Hidden;
                     new CalculatorContentGenerator().CalculatorGenerator(this, User);
                     break;
 
                 case "SettingsPage":
+                    AddButon.Visibility = Visibility.Hidden;
                     new SettingsContentGenerator().GenerateSetingContent(this, User);
                     break;
             }
@@ -169,7 +179,7 @@ namespace Car_Data_Application.Views
 
         private void ChangeActiveCarClick(object sender, RoutedEventArgs e)
         {
-            new GenerateSelectedCar().GeneratorCarSelectList(this, User);
+            new GenerateSelectedCar().GeneratorCarSelectList(this, User, Config);
         }
 
         private void HandleAddButonMouseEnter(object sender, MouseEventArgs e)
@@ -191,12 +201,64 @@ namespace Car_Data_Application.Views
                 break;
 
                 case "HomePage":
-                    MessageBox.Show("HomePage");
+                    TranslateControlersValue(Config.MainPanel.AddButonList);
+                    if (AddButonList.Visibility == Visibility.Hidden) { AddButonList.Visibility = Visibility.Visible; }
+                    else { AddButonList.Visibility = Visibility.Hidden; }
                 break;
 
                 case "RefuelingHistoryPage":
-                    MessageBox.Show("RefuelingPage");
+                    new AddRefuelingPageGenerator().PageGenerator(this, User, Config);
                 break;
+            }
+        }
+
+        private void HandleAddButtonListMouseEnter(object sender, MouseEventArgs e)
+        {
+            Border border = (Border)sender;
+            border.Background = (Brush)Converter.ConvertFromString("#FF5BA05B");
+        }
+
+        private void HandleAddButtonListMouseLeave(object sender, MouseEventArgs e)
+        {
+            Border border = (Border)sender;
+            border.Background = (Brush)Converter.ConvertFromString("#FF5C7B9B");
+        }
+
+        private void HandleAddButtonControllerClick(object sender, MouseButtonEventArgs e)
+        {
+            Border border = (Border)sender;
+            switch (border.Name)
+            {
+                case "AddRefueling":
+                    new AddRefuelingPageGenerator().PageGenerator(this, User, Config);
+                    AddButonList.Visibility = Visibility.Hidden;
+                    break;
+
+                case "AddService":
+                    break;
+
+                case "AddVehicle":
+                    new AddVehiclePageGenerator().PageGenerator(this, User);
+                    AddButonList.Visibility = Visibility.Hidden;
+                    break;
+            }
+        }
+
+        private void TranslateControlersValue(AddButonList translation)
+        {
+            switch (User.UserLanguage)
+            {
+                case "PL":
+                    AddRefuelingTextBlock.Text = translation.AddRefueling.PL;
+                    AddServiceTextBlock.Text = translation.AddCost.PL;
+                    AddVehicleTextBlock.Text = translation.AddVehicle.PL;
+                    break;
+
+                case "ENG":
+                    AddRefuelingTextBlock.Text = translation.AddRefueling.ENG;
+                    AddServiceTextBlock.Text = translation.AddCost.ENG;
+                    AddVehicleTextBlock.Text = translation.AddVehicle.ENG;
+                    break;
             }
         }
     }

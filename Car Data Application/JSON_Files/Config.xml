@@ -14,6 +14,24 @@
     <XMLButton PL="Ustawienia" ENG="Settings" Name="SettingsPage" IsEnabled="true"/>
   </SidePanel>
   <MainPanel>
+    <AddButonList>
+      <AddRefueling PL="Dodaj Tankowanie" ENG="Add Refueling"/>
+      <AddCost PL="Dodaj Koszt" ENG="Add Cost"/>
+      <AddVehicle PL="Dodaj Pojazd" ENG="Add Vehicle"/>
+    </AddButonList>
+    <LoginPanel>
+      <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
+      <PasswordText PL="Hasło" ENG="Password"/>
+      <LogInButton PL="Zaloguj" ENG="Login"/>
+      <RegisterButton PL="Zarejestruj" ENG="Register"/>
+    </LoginPanel>
+    <RegisterPanel>
+      <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
+      <PasswordText PL="Hasło" ENG="Password"/>
+      <RePasswordText PL="Powtórz Hasło" ENG="Confirm Password"/>
+      <EmailText PL="E-Mail" ENG="E-Mail"/>
+      <RegisterButton PL="Zarejestruj" ENG="Register"/>
+    </RegisterPanel>
     <VehiclesPage>
       <VehicleNameGrid>
         <Brand PL="Marka:" ENG="Brand:"/>
@@ -39,5 +57,39 @@
         <InspectionPrice PL="Koszt Wykonania Przeglądu Technicznego:" ENG="Technical Inspection Price:"/>
       </CyclicalCostGrid>
     </VehiclesPage>
+    <HomePage>
+      <FuelData>
+        <AverageConsumption PL="Średnie spalanie:" ENG="Average Consumption:"/>
+        <LastConsumption PL="Ostatie Spalanie:" ENG="Last Consumption:"/>
+        <LastFuelPrice PL="Ostatnia Cena Paliwa:" ENG="Last Fuel Price:"/>
+      </FuelData>
+      <CostData>
+        <ThisMounth PL="Ten Miesiąc:" ENG="Average Consumption:"/>
+        <ThisMounthFuelCost PL="Pozostałe Koszta:" ENG="Fuel Cost:"/>
+        <ThisMounthOtherCost PL="Średnie spalanie:" ENG="Other Cost:"/>
+        <PreviousMounth PL="Poprzedni Miesiąc:" ENG="Average Consumption:"/>
+        <PreviousMounthFuelCost PL="Cena Paliwa:" ENG="Fuel Cost:"/>
+        <PreviousMounthOtherCost PL="Pozostałe Koszta:" ENG="Other Cost:"/>
+      </CostData>
+      <XMLEntriesList>
+        <EntriesListText PL="Ostatnie Wpisy:" ENG="Entries List:"/>
+        <Date PL="Data:" ENG="Date:"/>
+        <Price PL="Koszt:" ENG="Price:"/>
+        <Descryption PL="Opis:" ENG="Descryption:"/>
+      </XMLEntriesList>
+    </HomePage>
+    <AddRefuelingPage>
+      <PageTitle PL="Dodaj Tankowanie:" ENG="Add Refueling:"/>
+      <Liters PL="Litry:" ENG="Liters:"/>
+      <PriceForLiter PL="Cena za Litr:" ENG="Price Per Liter:"/>
+      <TotalPrice PL="Cena:" ENG="Total Price:"/>
+      <IsFull PL="Tankowanie Do Pełna:" ENG="Full Refueling:"/>
+      <CarMillage PL="Przebieg:" ENG="Vehicle Millage:"/>
+      <Date PL="Data:" ENG="Date:"/>
+      <Time PL="Czas:" ENG="Time:"/>
+      <Comment PL="Komentarz:" ENG="Comment:"/>
+      <FuelType PL="Typ Paliwa:" ENG="Fuel Type:"/>
+      <ButtonText PL="Dodaj Tankowanie" ENG="Add Refueling"/>
+    </AddRefuelingPage>
   </MainPanel>
 </MainGrid>

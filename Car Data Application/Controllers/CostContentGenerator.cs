@@ -1,11 +1,6 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Models.Vehicle_Classes;
 using Car_Data_Application.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -65,11 +60,10 @@ namespace Car_Data_Application.Controllers
         {
             mw.WhereAreYou = "CostsPage";
             mainWindow = mw;
-            mainWindow.AddButon.Visibility = Visibility.Visible;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
         }
 
-        public void SetBorderProps(Border border, int row)
+        private void SetBorderProps(Border border, int row)
         {
             Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
             border.Background = BackgroundBrushh;
@@ -84,7 +78,7 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public Image GenerateIcon(string path, int row, int column)
+        private Image GenerateIcon(string path, int row, int column)
         {
             Image Icon = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
@@ -96,7 +90,7 @@ namespace Car_Data_Application.Controllers
             return Icon;
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column)
+        private TextBlock GenerateTextBlock(string text, int row, int column)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");

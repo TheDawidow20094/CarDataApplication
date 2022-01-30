@@ -9,9 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Car_Data_Application.Views;
 using Car_Data_Application.Models;
-using System.Text.Json;
-using System.Windows.Media.Imaging;
-using Microsoft.Win32;
 using Car_Data_Application.Models.XML_Models;
 
 namespace Car_Data_Application.Controllers
@@ -100,9 +97,8 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             PUser = user;
             Config = config;
-            mainWindow.AddButon.Visibility = Visibility.Visible;
             mainWindow.WhereAreYou = "VehiclesPage";
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[2]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
         }
 
         private void HandleContentBorderClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
