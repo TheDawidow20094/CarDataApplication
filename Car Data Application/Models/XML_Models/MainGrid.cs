@@ -148,6 +148,142 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "SettingsPage")]
 		public SettingsPage SettingsPage { get; set; }
+
+		[XmlElement(ElementName = "CalculatorPage")]
+		public CalculatorPage CalculatorPage { get; set; }
+
+		[XmlElement(ElementName = "AddVehiclePage")]
+		public AddVehiclePage AddVehiclePage { get; set; }
+	}
+
+	[XmlRoot(ElementName = "AddVehiclePage")]
+	public class AddVehiclePage
+	{
+		[XmlElement(ElementName = "Title")]
+		public Translation Title { get; set; }
+
+		[XmlElement(ElementName = "Brand")]
+		public Translation Brand { get; set; }
+
+		[XmlElement(ElementName = "Model")]
+		public Translation Model { get; set; }
+
+		[XmlElement(ElementName = "YearOfManufacture")]
+		public Translation YearOfManufacture { get; set; }
+
+		[XmlElement(ElementName = "VIN")]
+		public Translation VIN { get; set; }
+
+		[XmlElement(ElementName = "Plates")]
+		public Translation Plates { get; set; }
+
+		[XmlElement(ElementName = "VehicleMillage")]
+		public Translation VehicleMillage { get; set; }
+
+		[XmlElement(ElementName = "GasolineTank")]
+		public Translation GasolineTank { get; set; }
+
+		[XmlElement(ElementName = "DieselTank")]
+		public Translation DieselTank { get; set; }
+
+		[XmlElement(ElementName = "LPGTank")]
+		public Translation LPGTank { get; set; }
+
+		[XmlElement(ElementName = "InsuranceStartDate")]
+		public Translation InsuranceStartDate { get; set; }
+
+		[XmlElement(ElementName = "InsuranceEndDate")]
+		public Translation InsuranceEndDate { get; set; }
+
+		[XmlElement(ElementName = "InsurancePrice")]
+		public Translation InsurancePrice { get; set; }
+
+		[XmlElement(ElementName = "InspectionStartDate")]
+		public Translation InspectionStartDate { get; set; }
+
+		[XmlElement(ElementName = "InspectionEndDate")]
+		public Translation InspectionEndDate { get; set; }
+
+		[XmlElement(ElementName = "InspectionPrice")]
+		public Translation InspectionPrice { get; set; }
+
+		[XmlElement(ElementName = "AddButton")]
+		public Translation AddButton { get; set; }
+	}
+
+	[XmlRoot(ElementName = "CalculatorPage")]
+	public class CalculatorPage
+	{
+		[XmlElement(ElementName = "TravelCostCalculatorBorder")]
+		public TravelCostCalculatorBorder TravelCostCalculatorBorder { get; set; }
+
+		[XmlElement(ElementName = "AverageFuelConsumptionCalculatorBorder")]
+		public AverageFuelConsumptionCalculatorBorder AverageFuelConsumptionCalculatorBorder { get; set; }
+
+		[XmlElement(ElementName = "TravelCostCalculator")]
+		public Translation TravelCostCalculator { get; set; }
+
+		[XmlElement(ElementName = "AverageFuelConsumptionCalculator")]
+		public Translation AverageFuelConsumptionCalculator { get; set; }
+
+		[XmlElement(ElementName = "Gasoline")]
+		public Translation Gasoline { get; set; }
+
+		[XmlElement(ElementName = "Diesel")]
+		public Translation Diesel { get; set; }
+
+		[XmlElement(ElementName = "LPG")]
+		public Translation LPG { get; set; }
+
+		[XmlElement(ElementName = "NoVehicleException")]
+		public Translation NoVehicleException { get; set; }
+
+		[XmlElement(ElementName = "CalculateButton")]
+		public Translation CalculateButton { get; set; }
+	}
+
+	[XmlRoot(ElementName = "TravelCostCalculatorBorder")]
+	public class TravelCostCalculatorBorder
+	{
+		[XmlElement(ElementName = "Distance")]
+		public Translation Distance { get; set; }
+
+		[XmlElement(ElementName = "PriceForLiter")]
+		public Translation PriceForLiter { get; set; }
+
+		[XmlElement(ElementName = "Consumption")]
+		public Translation Consumption { get; set; }
+
+		[XmlElement(ElementName = "Resoult")]
+		public Translation Resoult { get; set; }
+
+		[XmlElement(ElementName = "CalculateButton")]
+		public Translation CalculateButton { get; set; }
+
+		[XmlElement(ElementName = "ErrorException")]
+		public Translation ErrorException { get; set; }
+	}
+
+	[XmlRoot(ElementName = "AverageFuelConsumptionCalculatorBorder")]
+	public class AverageFuelConsumptionCalculatorBorder
+	{
+		[XmlElement(ElementName = "ConsumedFuel")]
+		public Translation ConsumedFuel { get; set; }
+
+		[XmlElement(ElementName = "NumberOfKilometersTraveled")]
+		public Translation NumberOfKilometersTraveled { get; set; }
+
+		[XmlElement(ElementName = "PriceForLiterOptional")]
+		public Translation PriceForLiterOptional { get; set; }
+
+		[XmlElement(ElementName = "Resoult")]
+		public Translation Resoult { get; set; }
+
+		[XmlElement(ElementName = "CalculateButton")]
+		public Translation CalculateButton { get; set; }
+
+		[XmlElement(ElementName = "ErrorException")]
+		public Translation ErrorException { get; set; }
 	}
 
 	[XmlRoot(ElementName = "AddRefuelingPage")]

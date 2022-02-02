@@ -57,6 +57,25 @@
         <InspectionPrice PL="Koszt Wykonania Przeglądu Technicznego:" ENG="Technical Inspection Price:"/>
       </CyclicalCostGrid>
     </VehiclesPage>
+    <AddVehiclePage>
+      <Title PL="DODAJ POJAZD:" ENG="ADD VEHICLE:"/>
+      <Brand PL="Marka:" ENG="Brand:"/>
+      <Model PL="Model:" ENG="Model:"/>
+      <YearOfManufacture PL="Rok Produkcji:" ENG="Year of Manufacture:"/>
+      <VIN PL="VIN:" ENG="VIN:"/>
+      <Plates PL="Tablice Rejestracyjne:" ENG="Plates:"/>
+      <VehicleMillage PL="Przebieg:" ENG="Millage:"/>
+      <GasolineTank PL="Pojemność Baku Paliwa:" ENG="Gasoline Tank:"/>
+      <DieselTank PL="Pojemność Baku Diesel:" ENG="Diesel Tank:"/>
+      <LPGTank PL="Pojemność Baku LPG:" ENG="LPG Tank:"/>
+      <InsuranceStartDate PL="Rozpoczęcie Okresu Ubezpieczenia:" ENG="Insurance Start Date:"/>
+      <InsuranceEndDate PL="Koniec Okresu Ubezpieczenia:" ENG="Insurance End Date:"/>
+      <InsurancePrice PL="Koszt Obecnego Ubezpieczenia:" ENG="Insurance Price:"/>
+      <InspectionStartDate PL="Data Wykonania przeglądu Technicznego:" ENG="Inspection Start Date:"/>
+      <InspectionEndDate PL="Koniec Ważności Przeglądu Technicznego:" ENG="Inspection End Date:"/>
+      <InspectionPrice PL="Koszt Wykonania Badania Technicznego:" ENG="Inspection Price:"/>
+      <AddButton PL="Dodaj Pojazd" ENG="Add Vehicle"/>
+    </AddVehiclePage>
     <HomePage>
       <FuelData>
         <AverageConsumption PL="Średnie spalanie:" ENG="Average Consumption:"/>
@@ -97,5 +116,30 @@
       <Currency PL="Waluta:" ENG="Currency:"/>
       <ApplyButton PL="Zatwierdź" ENG="Confirm"/>
     </SettingsPage>
+    <CalculatorPage>
+      <TravelCostCalculatorBorder>
+        <Distance PL="Planowana Odległość:" ENG="Distance:"/>
+        <PriceForLiter PL="Cena za Litr:" ENG="Price For Liter:"/>
+        <Consumption PL="Spalanie:" ENG="Consumption:"/>
+        <Resoult PL="Wynik:" ENG="Resoult:"/>
+        <CalculateButton PL="Oblicz" ENG="Calculate"/>
+        <ErrorException PL="Nie można wykonać obliczeń, podane wartości są poprawne?:" ENG="Calculations cannot be performed, are the given values are correct?:"/>
+      </TravelCostCalculatorBorder>
+      <AverageFuelConsumptionCalculatorBorder>
+        <ConsumedFuel PL="Spalone Paliwo:" ENG="Consumed Fuel:"/>
+        <NumberOfKilometersTraveled PL="Ilość Przejechanych Kilometrów:" ENG="Number of Traveled Kilometers:"/>
+        <PriceForLiterOptional PL="Cena za Litr (Opcjonalnie):" ENG="Price for Liter (Optional):"/>
+        <Resoult PL="Wynik:" ENG="Resoult:"/>
+        <CalculateButton PL="Oblicz" ENG="Calculate"/>
+        <ErrorException PL="Nie można wykonać obliczeń, podane wartości są poprawne?:" ENG="Calculations cannot be performed, are the given values are correct?:"/>
+      </AverageFuelConsumptionCalculatorBorder>
+      <TravelCostCalculator PL="Kalkulator Kosztu Podróży" ENG="Travel Cost Calculator"/>
+      <AverageFuelConsumptionCalculator PL="Kalkulator Średniego Spalania" ENG="Average Fuel Consumption Calculator"/>
+      <Gasoline PL="Benzyna" ENG="Gasoline"/>
+      <Diesel PL="Diesel" ENG="Diesel"/>
+      <LPG PL="LPG" ENG="LPG"/>
+      <NoVehicleException PL="Brak Pojazdów w Bazie" ENG="No Vehicles Found"/>
+      <CalculateButton PL="Oblicz" ENG="Calculate"/>
+    </CalculatorPage>
   </MainPanel>
 </MainGrid>

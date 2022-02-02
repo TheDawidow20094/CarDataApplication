@@ -130,7 +130,7 @@ namespace Car_Data_Application.Views
 
                 case "CalculatorPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new CalculatorContentGenerator().CalculatorGenerator(this, User);
+                    new CalculatorContentGenerator().CalculatorGenerator(this, User, Config);
                     break;
 
                 case "SettingsPage":
@@ -197,7 +197,7 @@ namespace Car_Data_Application.Views
             switch (WhereAreYou)
             {
                 case "VehiclesPage":
-                    new AddVehiclePageGenerator().PageGenerator(this, User);
+                    new AddVehiclePageGenerator().PageGenerator(this, User, Config);
                 break;
 
                 case "HomePage":
@@ -238,7 +238,7 @@ namespace Car_Data_Application.Views
                     break;
 
                 case "AddVehicle":
-                    new AddVehiclePageGenerator().PageGenerator(this, User);
+                    new AddVehiclePageGenerator().PageGenerator(this, User, Config);
                     AddButonList.Visibility = Visibility.Hidden;
                     break;
             }

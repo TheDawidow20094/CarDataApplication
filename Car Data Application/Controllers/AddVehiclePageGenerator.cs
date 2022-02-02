@@ -1,8 +1,10 @@
 ﻿using Car_Data_Application.Models;
+using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,9 +15,9 @@ namespace Car_Data_Application.Controllers
 {
     class AddVehiclePageGenerator : CarDataAppController
     {
-        public void PageGenerator(MainWindow mw, User user)
+        public void PageGenerator(MainWindow mw, User user, MainGrid config)
         {
-            InitialAssignValue(mw);
+            InitialAssignValue(mw, user, config);
 
             Grid MainGrid = new Grid();
 
@@ -25,23 +27,25 @@ namespace Car_Data_Application.Controllers
                 MainGrid.RowDefinitions.Add(MainGridRow);
             }
 
-            MainGrid.Children.Add(AddingTitle());
-            MainGrid.Children.Add(AddingVehiclePrimaryDataBorder());
-            MainGrid.Children.Add(AddingPrimaryInfoBorder());
-            MainGrid.Children.Add(AddingFuelTankInfoBorder());
-            MainGrid.Children.Add(AddingCyclicalCostBorder());
+            MainGrid.Children.Add(AddingTitle(Config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingVehiclePrimaryDataBorder(Config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingPrimaryInfoBorder(Config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingFuelTankInfoBorder(Config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingCyclicalCostBorder(Config.MainPanel.AddVehiclePage));
 
 
             mainWindow.ScrollViewerContent.Content = MainGrid;
 
         }
 
-        private void InitialAssignValue(MainWindow mw)
+        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
         {
+            Config = config;
             mainWindow = mw;
+            PUser = user;
         }
 
-        private Border AddingTitle()
+        private Border AddingTitle(AddVehiclePage translation)
         {
             Border TitleBorder = new Border();
             SetBorderProps(ref TitleBorder, 0, "#07A802", "#0BFF03");
@@ -50,12 +54,12 @@ namespace Car_Data_Application.Controllers
             TitleBorder.Padding = new Thickness(20);
             TitleBorder.Child = TitleGrid;
 
-            TitleGrid.Children.Add(GenerateTextBlock("DODAJ POJAZD:",0,0, true));
+            TitleGrid.Children.Add(GenerateTextBlock(PUser.UserLanguage == "PL" ? translation.Title.PL : translation.Title.ENG , 0, 0, true));
 
             return TitleBorder;
         }
 
-        private Grid AddingVehiclePrimaryDataBorder()
+        private Grid AddingVehiclePrimaryDataBorder(AddVehiclePage translation)
         {
             Grid VehiclePrimaryDataGrid = new Grid();
             VehiclePrimaryDataGrid.Margin = new Thickness(0, 5, 0, 5);
@@ -105,13 +109,21 @@ namespace Car_Data_Application.Controllers
                 VehicleNameGrid.ColumnDefinitions.Add(VehicleNameGridColumn);
             }
 
-            VehicleNameGrid.Children.Add(GenerateTextBlock("Marka:", 0, 0));
+            switch (PUser.UserLanguage)
+            {
+                case "PL":
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.PL, 0, 0));
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.PL, 1, 0));
+                    break;
+                case "ENG":
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.ENG, 0, 0));
+                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.ENG, 1, 0));
+                    break;
+            }
 
-            VehicleNameGrid.Children.Add(GenerateTextBox("VehicleBrand" , 0, 1, true));
+            VehicleNameGrid.Children.Add(GenerateTextBox(translation.Brand.ENG.TrimEnd(':'), 0, 1, true));
 
-            VehicleNameGrid.Children.Add(GenerateTextBlock("Model:", 1, 0));
-
-            VehicleNameGrid.Children.Add(GenerateTextBox("VehicleModel", 1, 1, true));
+            VehicleNameGrid.Children.Add(GenerateTextBox(translation.Model.ENG.TrimEnd(':'), 1, 1, true));
 
             VehiclePrimaryDataGrid.Children.Add(VehicleNameBorder);
             VehiclePrimaryDataGrid.Children.Add(AddImageGrid);
@@ -119,7 +131,7 @@ namespace Car_Data_Application.Controllers
             return VehiclePrimaryDataGrid;
         }
 
-        private Border AddingPrimaryInfoBorder()
+        private Border AddingPrimaryInfoBorder(AddVehiclePage translation)
         {
             Border PrimaryInfoBorder = new Border();
             SetBorderProps(ref PrimaryInfoBorder, 2);
@@ -139,26 +151,34 @@ namespace Car_Data_Application.Controllers
                 PrimarmaryInfoGrid.RowDefinitions.Add(PrimarmaryInfoGridRow);
             }
 
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("Rok produkcji:", 0, 0));
+            switch (PUser.UserLanguage)
+            {
+                case "PL":
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.PL, 0, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.VIN.PL, 1, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.PL, 2, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.VehicleMillage.PL, 3, 0));
+                    break;
+                case "ENG":
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.ENG, 0, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.VIN.ENG, 1, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.ENG, 2, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.VehicleMillage.ENG, 3, 0));
+                    break;
+            }
 
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox("YearOfManufacture", 0, 1));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.YearOfManufacture.ENG.TrimEnd(':'), 0, 1));
 
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("VIN:", 1, 0));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.VIN.ENG.TrimEnd(':'), 1, 1));
 
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox("VIN", 1, 1));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.Plates.ENG.TrimEnd(':'), 2, 1));
 
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("Tablice Rejestracyjne:", 2, 0));
-
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox("Plates", 2, 1));
-
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock("Przebieg:", 3, 0));
-
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox("CarMillage", 3, 1));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.VehicleMillage.ENG.TrimEnd(':'), 3, 1));
 
             return PrimaryInfoBorder;
         }
 
-        private Border AddingFuelTankInfoBorder()
+        private Border AddingFuelTankInfoBorder(AddVehiclePage translation)
         {
             Border FuelInfoBorder = new Border();
             SetBorderProps(ref FuelInfoBorder, 3);
@@ -178,22 +198,30 @@ namespace Car_Data_Application.Controllers
                 FuelInfoGrid.RowDefinitions.Add(FuelInfGridRow);
             }
 
-            FuelInfoGrid.Children.Add(GenerateTextBlock("Pojemność baku Paliwa:", 0, 0));
+            switch (PUser.UserLanguage)
+            {
+                case"PL":
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.GasolineTank.PL, 0, 0));
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.DieselTank.PL, 1, 0));
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPGTank.PL, 2, 0));
+                    break;
+                case "ENG":
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.GasolineTank.ENG, 0, 0));
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.DieselTank.ENG, 1, 0));
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPGTank.ENG, 2, 0));
+                    break;
+            }
 
-            FuelInfoGrid.Children.Add(GenerateTextBox("GasolineTank", 0, 1));
+            FuelInfoGrid.Children.Add(GenerateTextBox(translation.GasolineTank.ENG.TrimEnd(':'), 0, 1));
 
-            FuelInfoGrid.Children.Add(GenerateTextBlock("Pojemność baku Diesel:", 1, 0));
+            FuelInfoGrid.Children.Add(GenerateTextBox(translation.DieselTank.ENG.TrimEnd(':'), 1, 1));
 
-            FuelInfoGrid.Children.Add(GenerateTextBox("DieselTank", 1, 1));
-
-            FuelInfoGrid.Children.Add(GenerateTextBlock("Pojemność baku LPG:", 2, 0));
-
-            FuelInfoGrid.Children.Add(GenerateTextBox("LPGTank", 2, 1));
+            FuelInfoGrid.Children.Add(GenerateTextBox(translation.LPGTank.ENG.TrimEnd(':'), 2, 1));
 
             return FuelInfoBorder;
         }
 
-        private Border AddingCyclicalCostBorder()
+        private Border AddingCyclicalCostBorder(AddVehiclePage translation)
         {
             Border CyclicalCostBorder = new Border();
             SetBorderProps(ref CyclicalCostBorder, 4);
@@ -213,17 +241,31 @@ namespace Car_Data_Application.Controllers
                 CyclicalCostGrid.RowDefinitions.Add(CyclicalCostRow);
             }
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("Rozpoczęcie okresu ubezpieczenia:", 0, 0));
+            switch (PUser.UserLanguage)
+            {
+                case"PL":
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.PL, 0, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.PL, 1, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.PL, 2, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.PL, 4, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.PL, 5, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionPrice.PL, 6, 0));
+                    break;
+                case "ENG":
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.ENG, 0, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.ENG, 1, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.ENG, 2, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.ENG, 4, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.ENG, 5, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionPrice.ENG, 6, 0));
+                    break;
+            }
 
-            CyclicalCostGrid.Children.Add(GenerateTextBox("InsuranceStartDate", 0, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBox(translation.InsuranceStartDate.ENG.TrimEnd(':'), 0, 1));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koniec okresu ubezpieczenia:", 1, 0));
+            CyclicalCostGrid.Children.Add(GenerateTextBox(translation.InsuranceEndDate.ENG.TrimEnd(':'), 1, 1));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBox("InsuranceEndDate", 1, 1));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koszt odecnego ubezpieczenia:", 2, 0));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBox("InsurancePrice", 2, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBox(translation.InsurancePrice.ENG.TrimEnd(':'), 2, 1));
 
             //============================DIVIDE ELEMENTS=======================================
 
@@ -233,17 +275,11 @@ namespace Car_Data_Application.Controllers
 
             //===================================================================================
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("Data wykonania przeglądu technicznego", 4, 0));
+            CyclicalCostGrid.Children.Add(GenerateTextBox(translation.InspectionStartDate.ENG.TrimEnd(':'), 4, 1));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBox("InspectionStartDate", 4, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBox(translation.InspectionEndDate.ENG.TrimEnd(':'), 5, 1));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koniec ważności przeglądu technicznego", 5, 0));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBox("InspectionEndDate", 5, 1));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("Koszt wykonania badania technicznego", 6, 0));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBox("InspectionPrice", 6, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBox(translation.InspectionPrice.ENG.TrimEnd(':'), 6, 1));
 
             return CyclicalCostBorder;
         }
@@ -254,7 +290,10 @@ namespace Car_Data_Application.Controllers
             TextBoxName.Width = smallersize == true ? 100 : 150;
             TextBoxName.Margin = new Thickness(0, 2, 0, 2);
             TextBoxName.HorizontalAlignment = HorizontalAlignment.Right;
-            TextBoxName.SetValue(FrameworkElement.NameProperty, textboxname + "_Textbox");
+
+            string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
+
+            TextBoxName.SetValue(FrameworkElement.NameProperty, TrimmedText + "_Textbox");
             Grid.SetRow(TextBoxName, row);
             Grid.SetColumn(TextBoxName, column);
             

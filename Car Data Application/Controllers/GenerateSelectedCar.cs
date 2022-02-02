@@ -58,7 +58,7 @@ namespace Car_Data_Application.Controllers
                 break;
 
                 case "CalculatorPage":
-                    new CalculatorContentGenerator().CalculatorGenerator(mainWindow, PUser);
+                    new CalculatorContentGenerator().CalculatorGenerator(mainWindow, PUser, Config);
                 break;
 
                 case "AddRefuelingPage":
