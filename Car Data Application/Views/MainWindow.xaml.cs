@@ -296,6 +296,7 @@ namespace Car_Data_Application.Views
         private void HandleWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             //size changes
+            //next comment
             if ((this.Width <= 550) && (SidePanelColumn.ActualWidth == 210))
             {
                 foreach (Grid Button in ((Grid)MainGrid.Children[3]).Children)
