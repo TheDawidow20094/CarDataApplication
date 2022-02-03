@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:Car_Data_Application.Views"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="Car Data Application" Height="600" Width="900">
+        SizeChanged="HandleWindowSizeChanged"
+        Title="Car Data Application" MinWidth="400" Height="600" Width="900">
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*" MinWidth="210"></ColumnDefinition>
-            <ColumnDefinition Width="0.8*"></ColumnDefinition>
+            <ColumnDefinition x:Name="SidePanelColumn" Width="210"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="1" >

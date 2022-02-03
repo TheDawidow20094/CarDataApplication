@@ -60,7 +60,7 @@ namespace Car_Data_Application.Controllers
         {
             mw.WhereAreYou = "CostsPage";
             mainWindow = mw;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
 
         private void SetBorderProps(Border border, int row)
