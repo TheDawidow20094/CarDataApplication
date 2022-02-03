@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <MainGrid>
   <SidePanel>
-    <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="true"/>
-    <XMLButton PL="Zarejestruj" ENG="Register" Name="RegisterPage" IsEnabled="false"/>
-    <XMLButton PL="Wyloguj" ENG="Logout" Name="LogoutPage" IsEnabled="false"/>
-    <XMLButton PL="Strona Główna" ENG="Home" Name="HomePage" IsEnabled="true"/>
-    <XMLButton PL="Pojazdy" ENG="Vehicles" Name="VehiclesPage" IsEnabled="true"/>
-    <XMLButton PL="Historia Tankowań" ENG="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true"/>
-    <XMLButton PL="Statystyki" ENG="Stats" Name="StatsPage" IsEnabled="true"/>
-    <XMLButton PL="Koszta" ENG="Costs" Name="CostsPage" IsEnabled="true"/>
-    <XMLButton PL="Kopia Zapasowa" ENG="Backup" Name="BackupPage" IsEnabled="true"/>
-    <XMLButton PL="Kalkulator" ENG="Calculator" Name="CalculatorPage" IsEnabled="true"/>
-    <XMLButton PL="Ustawienia" ENG="Settings" Name="SettingsPage" IsEnabled="true"/>
+    <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="true" Icon="user.png"/>
+    <XMLButton PL="Zarejestruj" ENG="Register" Name="RegisterPage" IsEnabled="false" Icon="user.png"/>
+    <XMLButton PL="Wyloguj" ENG="Logout" Name="LogoutPage" IsEnabled="false" Icon="user.png"/>
+    <XMLButton PL="Strona Główna" ENG="Home" Name="HomePage" IsEnabled="true" Icon="home.png"/>
+    <XMLButton PL="Pojazdy" ENG="Vehicles" Name="VehiclesPage" IsEnabled="true" Icon="car.png"/>
+    <XMLButton PL="Historia Tankowań" ENG="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true" Icon="gas-station.png"/>
+    <XMLButton PL="Statystyki" ENG="Stats" Name="StatsPage" IsEnabled="true" Icon="stats.png"/>
+    <XMLButton PL="Koszta" ENG="Costs" Name="CostsPage" IsEnabled="true" Icon="dollar.png"/>
+    <XMLButton PL="Kopia Zapasowa" ENG="Backup" Name="BackupPage" IsEnabled="true" Icon="cloud-upload.png"/>
+    <XMLButton PL="Kalkulator" ENG="Calculator" Name="CalculatorPage" IsEnabled="true" Icon="calculator.png"/>
+    <XMLButton PL="Ustawienia" ENG="Settings" Name="SettingsPage" IsEnabled="true" Icon="settings.png"/>
   </SidePanel>
   <MainPanel>
     <AddButonList>

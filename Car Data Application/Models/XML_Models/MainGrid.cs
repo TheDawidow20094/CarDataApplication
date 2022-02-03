@@ -22,6 +22,9 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlAttribute(AttributeName = "IsEnabled")]
 		public bool IsEnabled { get; set; }
+
+		[XmlAttribute(AttributeName = "Icon")]
+		public string Icon { get; set; }
 	}
 
 	[XmlRoot(ElementName = "SidePanel")]

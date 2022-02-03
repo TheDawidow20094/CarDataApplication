@@ -34,9 +34,83 @@ namespace Car_Data_Application.Views
         {
             InitializeData();
             InitializeComponent();
-            GenerateSidePanel();
+            GenerateSidePanel_Test();
             SetFooterData();
             new CarDataAppController().GoToHomePage(this, User, Config);
+        }
+
+        private void GenerateSidePanel_Test()
+        {
+            Config = ReadXML();
+            Grid SidePanel = new Grid();
+            SidePanel.SetValue(FrameworkElement.NameProperty, "SidePanel");
+            SidePanel.Background = (Brush)Converter.ConvertFromString("#FF2A2729");
+            Grid.SetRow(SidePanel, 0);
+            Grid.SetColumn(SidePanel, 0);
+
+            int index = 0;
+            foreach (XMLButton XmlButton in Config.SidePanel.XMLButton)
+            {
+                if (XmlButton.IsEnabled)
+                {
+                    RowDefinition row = new RowDefinition();
+                    SidePanel.RowDefinitions.Add(row);
+
+                    Grid SidePanelButton = new Grid();
+                    SidePanelButton.Name = XmlButton.Name;
+                    SidePanelButton.Background = Brushes.Transparent;
+                    SidePanelButton.MouseLeftButtonDown += HandleSidePanelButtonClick;
+                    SidePanelButton.MouseEnter += HandleSidePanelButtonEnter;
+                    SidePanelButton.MouseLeave += HandleSidePanelButtonLeave;
+
+                    TextBlock SidePanelButtonContent = new TextBlock();
+                    SidePanelButtonContent.Foreground = (Brush)Converter.ConvertFromString("#EDEDED");
+                    SidePanelButtonContent.FontWeight = FontWeights.Bold;
+                    SidePanelButtonContent.FontFamily = new FontFamily("Global User Interface");
+                    SidePanelButtonContent.FontSize = 16;
+
+                    SidePanelButtonContent.VerticalAlignment = VerticalAlignment.Center;
+                    SidePanelButtonContent.HorizontalAlignment = HorizontalAlignment.Left;
+                    SidePanelButtonContent.Margin = new Thickness(50, 0, 0, 0);
+
+                    switch (User.UserLanguage)
+                    {
+                        case "PL":
+                            SidePanelButtonContent.Text = XmlButton.PL;
+                            break;
+
+                        case "ENG":
+                            SidePanelButtonContent.Text = XmlButton.ENG;
+                            break;
+                    }
+
+                    SidePanelButton.Children.Add(SidePanelButtonContent);
+
+                    Image SidePanelButtonIcon = new Image();
+                    ImageSourceConverter source = new ImageSourceConverter();
+                    SidePanelButtonIcon.SetValue(Image.SourceProperty, source.ConvertFromString("../../../Images/Icons/SidePanel/" + XmlButton.Icon));
+                    SidePanelButtonIcon.Width = 22;
+                    SidePanelButtonIcon.Height = 22;
+                    SidePanelButtonIcon.HorizontalAlignment = HorizontalAlignment.Left;
+                    SidePanelButtonIcon.VerticalAlignment = VerticalAlignment.Center;
+                    SidePanelButtonIcon.Margin = new Thickness(18, 0, 0, 0);
+
+                    SidePanelButton.Children.Add(SidePanelButtonIcon);
+
+                    Border SidePanelButtonBorder = new Border();
+                    SidePanelButtonBorder.Name = XmlButton.Name;
+                    SidePanelButtonBorder.Background = Brushes.Transparent;
+                    SidePanelButtonBorder.HorizontalAlignment = HorizontalAlignment.Left;
+                    SidePanelButtonBorder.Width = 6;
+
+                    SidePanelButton.Children.Add(SidePanelButtonBorder);
+
+                    Grid.SetRow(SidePanelButton, index);
+                    SidePanel.Children.Add(SidePanelButton);
+                    index++;
+                }
+            }
+            this.MainGrid.Children.Add(SidePanel);
         }
 
         private void GenerateSidePanel()
@@ -85,7 +159,7 @@ namespace Car_Data_Application.Views
 
         private void HandleSidePanelButtonClick(object sender, RoutedEventArgs e)
         {
-            Button button = (Button)sender;
+            Grid button = (Grid)sender;
 
             AddButonList.Visibility = Visibility.Hidden;
 
@@ -142,18 +216,15 @@ namespace Car_Data_Application.Views
 
         private void HandleSidePanelButtonLeave(object sender, MouseEventArgs e)
         {
-            Button button = (Button)sender;
+            Grid button = (Grid)sender;
 
-            if (!(WhereAreYou == button.Name))
-            {
-                button.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            }
+            button.Background = Brushes.Transparent;
         }
 
         private void HandleSidePanelButtonEnter(object sender, MouseEventArgs e)
         {
-            Button button = (Button)sender;
-            button.Foreground = (Brush)Converter.ConvertFromString("#FF001A34");
+            Grid button = (Grid)sender;
+            button.Background = (Brush)Converter.ConvertFromString("#FF424041");
         }
 
         private MainGrid ReadXML()
