@@ -98,7 +98,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             Config = config;
             mainWindow.WhereAreYou = "VehiclesPage";
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
 
         private void HandleContentBorderClick(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -37,7 +37,7 @@ namespace Car_Data_Application.Views
             PUser = user;
             mainWindow = mw;
             mainWindow.WhereAreYou = "MyAccountPage";
-            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
+            new CarDataAppController().SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
 
         private void RegisterWindow_Closed(object sender, EventArgs e)

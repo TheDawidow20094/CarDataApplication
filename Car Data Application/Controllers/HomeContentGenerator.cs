@@ -36,7 +36,7 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             PUser = user;
             mainWindow.WhereAreYou = "HomePage";
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]).Children);
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
 
         private Border FuelDataGenerator(User user, FuelData translation)

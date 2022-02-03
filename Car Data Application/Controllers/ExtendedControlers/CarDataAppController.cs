@@ -1,6 +1,7 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -13,13 +14,13 @@ namespace Car_Data_Application.Controllers
         public BrushConverter Converter = new BrushConverter();
         public MainGrid Config;
 
-        public void SetButtonColor(string ButtonName, UIElementCollection Buttons)
+        public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
-            BrushConverter Converter = new BrushConverter();
-            foreach (Grid Button in Buttons)
+            //Grid SmallButtonsGrid = (Grid)SidePanel.Children;
+            foreach (Grid Button in SidePanel.Children)
             {
                 Border ButtonBorder = (Border)Button.Children[2];
-                if (Button.Name == ButtonName)
+                if (ButtonBorder.Name == ButtonName)
                 {
                     ButtonBorder.Background = (Brush)Converter.ConvertFrom("#0970c4");
                 }
