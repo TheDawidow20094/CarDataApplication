@@ -124,6 +124,13 @@
       <Consumption PL="Spalanie:" ENG="Consumption:"/>
     </RefuelingHistoryPage>
 
+    <CostPage>
+      <Cost PL="Koszt:" ENG="Cost:"/>
+      <Type PL="Typ:" ENG="Type:"/>
+      <Date PL="Data:" ENG="Date:"/>
+      <Comment PL="Komentarz:" ENG="Comment:"/>
+    </CostPage>
+
     <SettingsPage>
       <Language PL="Język:" ENG="Language:"/>
       <MetricUnit PL="Jednostki Metryczne:" ENG="Metric Unit:"/>

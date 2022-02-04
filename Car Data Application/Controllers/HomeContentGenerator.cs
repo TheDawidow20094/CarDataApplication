@@ -18,12 +18,17 @@ namespace Car_Data_Application.Controllers
             InitialAssignValue(mw, user);
            
             Grid Grid = new Grid();
-            for (int i = 0; i < 4; i++) // 4 is number of displays blocks with data
-            {
-                RowDefinition row = new RowDefinition();
-                if (i == 2) { row.Height = new GridLength(80); };
-                Grid.RowDefinitions.Add(row);
-            }
+            //for (int i = 0; i < 4; i++) // 4 is number of displays blocks with data
+            //{
+            //    RowDefinition row = new RowDefinition();
+            //    if (i == 2) { row.Height = new GridLength(80); };
+            //    Grid.RowDefinitions.Add(row);
+            //}
+
+            Grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(135) });
+            Grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(200) });
+            Grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
+            Grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(280) });
 
             Grid.Children.Add(FuelDataGenerator(user, homePage.FuelData));
             Grid.Children.Add(CostDataGenerator(user, homePage.CostData));
@@ -46,9 +51,7 @@ namespace Car_Data_Application.Controllers
             Grid FuelDataGrid = new Grid();
             SetGridProps(ref FuelDataGrid, 0);
 
-            ColumnDefinition columnDefinition = new ColumnDefinition();
-            columnDefinition.Width = new GridLength(114);
-            FuelDataGrid.ColumnDefinitions.Add(columnDefinition);
+            FuelDataGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(114) });
             FuelDataGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
             FuelDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/gas-station.png", 0, 0));
@@ -103,9 +106,7 @@ namespace Car_Data_Application.Controllers
             Grid CostDataGrid = new Grid();
             SetGridProps(ref CostDataGrid, 1);
 
-            ColumnDefinition columnDefinition = new ColumnDefinition();
-            columnDefinition.Width = new GridLength(114);
-            CostDataGrid.ColumnDefinitions.Add(columnDefinition);
+            CostDataGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(114) });
             CostDataGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
             CostDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/dollar.png", 0, 0));
@@ -186,7 +187,6 @@ namespace Car_Data_Application.Controllers
         {
             Grid EnteriesListMainGrid = new Grid();
             SetGridProps(ref EnteriesListMainGrid, 3);
-            EnteriesListMainGrid.MaxHeight = 200;
 
             ScrollViewer DataViewer = new ScrollViewer();
 

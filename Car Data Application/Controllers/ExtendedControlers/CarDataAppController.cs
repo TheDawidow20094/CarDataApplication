@@ -74,7 +74,7 @@ namespace Car_Data_Application.Controllers
                 Grid.SetColumnSpan(TextBlockName, 2);
                 TextBlockName.FontSize = 18;
                 TextBlockName.FontWeight = FontWeights.Bold;
-                TextBlockName.Margin = new Thickness(3, 8, 3, 8);
+                TextBlockName.Margin = new Thickness(3, 3, 3, 3);
             }
 
             Grid.SetRow(TextBlockName, row);

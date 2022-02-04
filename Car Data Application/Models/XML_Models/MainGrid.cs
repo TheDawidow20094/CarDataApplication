@@ -152,6 +152,9 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "RefuelingHistoryPage")]
 		public RefuelingHistoryPage RefuelingHistoryPage { get; set; }
 
+		[XmlElement(ElementName = "CostPage")]
+		public CostPage CostPage { get; set; }
+
 		[XmlElement(ElementName = "SettingsPage")]
 		public SettingsPage SettingsPage { get; set; }
 
@@ -345,6 +348,23 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "Consumption")]
 		public Translation Consumption { get; set; }
+	}
+
+	[XmlRoot(ElementName = "CostPage")]
+	public class CostPage
+	{
+
+		[XmlElement(ElementName = "Cost")]
+		public Translation Cost { get; set; }
+
+		[XmlElement(ElementName = "Type")]
+		public Translation Type { get; set; }
+
+		[XmlElement(ElementName = "Date")]
+		public Translation Date { get; set; }
+
+		[XmlElement(ElementName = "Comment")]
+		public Translation Comment { get; set; }
 	}
 
 	[XmlRoot(ElementName = "MainGrid")]

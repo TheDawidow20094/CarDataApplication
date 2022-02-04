@@ -154,7 +154,7 @@ namespace Car_Data_Application.Views
 
                 case "CostsPage":
                     AddButon.Visibility = Visibility.Visible;
-                    new CostContentGenerator().CostGenerator(this, User);
+                    new CostContentGenerator().CostGenerator(this, User, Config.MainPanel.CostPage);
                     break;
 
                 case "BackupPage":

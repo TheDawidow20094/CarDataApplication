@@ -19,16 +19,12 @@ namespace Car_Data_Application.Controllers
             int index = 0;
             foreach (Refueling refueling in user.Vehicles[user.ActiveCarIndex].Refulings)
             {
-                RowDefinition rowDefinition = new RowDefinition();
-                rowDefinition.Height = new GridLength(120);
-                MainGrid.RowDefinitions.Add(rowDefinition);
+                MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(120) });
 
                 Grid RefuelingGrid = new Grid();
                 SetGridProps(ref RefuelingGrid, index);
 
-                ColumnDefinition columnDefinition = new ColumnDefinition();
-                columnDefinition.Width = new GridLength(114);
-                RefuelingGrid.ColumnDefinitions.Add(columnDefinition);
+                RefuelingGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(114) });
                 RefuelingGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
 

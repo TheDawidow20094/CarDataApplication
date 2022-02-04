@@ -50,7 +50,7 @@ namespace Car_Data_Application.Controllers
                 break;
 
                 case "CostsPage":
-                    new CostContentGenerator().CostGenerator(mainWindow, PUser);
+                    new CostContentGenerator().CostGenerator(mainWindow, PUser, config.MainPanel.CostPage);
                 break;
 
                 case "RefuelingHistoryPage":
