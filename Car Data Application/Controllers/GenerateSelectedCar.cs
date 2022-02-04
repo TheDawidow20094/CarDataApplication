@@ -11,9 +11,9 @@ namespace Car_Data_Application.Controllers
     {
         private ComboBox Carlist = new ComboBox();
 
-        public void GeneratorCarSelectList(MainWindow mw, User user, MainGrid config)
+        public void GeneratorCarSelectList(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user, config);
+            InitialAssignValue(mw, user, paramConfig);
 
             foreach (Vehicle vehicle in user.Vehicles)
             {
@@ -23,11 +23,11 @@ namespace Car_Data_Application.Controllers
             mw.CarName.Children.Add(Carlist);        
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
             mainWindow = mw;
             PUser = user;
-            Config = config;
+            config = paramConfig;
             Carlist.Background = Brushes.LightCoral;
             Carlist.HorizontalContentAlignment = HorizontalAlignment.Center;
             Carlist.VerticalContentAlignment = VerticalAlignment.Center;
@@ -38,31 +38,31 @@ namespace Car_Data_Application.Controllers
         {
             PUser.ActiveCarIndex = Carlist.SelectedIndex;
             PUser.SerializeData();
-            RefreshPage(Config.MainPanel.HomePage);
+            RefreshPage(config);
         }
 
-        private void RefreshPage(HomePage homePage)
+        private void RefreshPage(Config paramConfig)
         { 
             switch (mainWindow.WhereAreYou)
             {
                 case "HomePage":
-                    new HomeContentGenerator().GeneratorHomeContent(mainWindow, PUser, homePage);
+                    new HomeContentGenerator().GeneratorHomeContent(mainWindow, PUser, config.MainPanel.HomePage);
                 break;
 
                 case "CostsPage":
-                    new CostContentGenerator().CostGenerator(mainWindow, PUser);
+                    new CostContentGenerator().CostGenerator(mainWindow, PUser, config.MainPanel.CostPage);
                 break;
 
                 case "RefuelingHistoryPage":
-                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(mainWindow, PUser);
+                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(mainWindow, PUser, config.MainPanel.RefuelingHistoryPage);
                 break;
 
                 case "CalculatorPage":
-                    new CalculatorContentGenerator().CalculatorGenerator(mainWindow, PUser, Config);
+                    new CalculatorContentGenerator().CalculatorGenerator(mainWindow, PUser, config);
                 break;
 
                 case "AddRefuelingPage":
-                    new AddRefuelingPageGenerator().PageGenerator(mainWindow, PUser, Config);
+                    new AddRefuelingPageGenerator().PageGenerator(mainWindow, PUser, config);
                 break;
             }
         }

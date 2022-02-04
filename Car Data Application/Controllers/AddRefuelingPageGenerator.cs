@@ -14,9 +14,9 @@ namespace Car_Data_Application.Controllers
 {
     class AddRefuelingPageGenerator : CarDataAppController
     {
-        public void PageGenerator(MainWindow mw, User user, MainGrid config)
+        public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user, config);
+            InitialAssignValue(mw, user, paramConfig);
 
             Grid MainGrid = new Grid();
             for (int i = 0; i <= 6; i++)
@@ -25,19 +25,19 @@ namespace Car_Data_Application.Controllers
                 MainGrid.RowDefinitions.Add(MainGridRow);
             }
 
-            MainGrid.Children.Add(AddingTitle(Config.MainPanel.AddRefuelingPage));
+            MainGrid.Children.Add(AddingTitle(config.MainPanel.AddRefuelingPage));
             MainGrid.Children.Add(AddingVehicleName());
-            MainGrid.Children.Add(MainContent(Config.MainPanel.AddRefuelingPage));
-            MainGrid.Children.Add(DataContent(Config.MainPanel.AddRefuelingPage));
-            MainGrid.Children.Add(CommentContent(Config.MainPanel.AddRefuelingPage));
-            MainGrid.Children.Add(AddRefuelingButton(Config.MainPanel.AddRefuelingPage));
+            MainGrid.Children.Add(MainContent(config.MainPanel.AddRefuelingPage));
+            MainGrid.Children.Add(DataContent(config.MainPanel.AddRefuelingPage));
+            MainGrid.Children.Add(CommentContent(config.MainPanel.AddRefuelingPage));
+            MainGrid.Children.Add(AddRefuelingButton(config.MainPanel.AddRefuelingPage));
 
             mainWindow.ScrollViewerContent.Content = MainGrid;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
-            Config = config;
+            config = paramConfig;
             mainWindow = mw;
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;

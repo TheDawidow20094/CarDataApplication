@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<MainGrid>
+<Config>
   <SidePanel>
     <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="true" Icon="user.png"/>
     <XMLButton PL="Zarejestruj" ENG="Register" Name="RegisterPage" IsEnabled="false" Icon="user.png"/>
@@ -19,12 +19,14 @@
       <AddCost PL="Dodaj Koszt" ENG="Add Cost"/>
       <AddVehicle PL="Dodaj Pojazd" ENG="Add Vehicle"/>
     </AddButonList>
+
     <LoginPanel>
       <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
       <PasswordText PL="Hasło" ENG="Password"/>
       <LogInButton PL="Zaloguj" ENG="Login"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </LoginPanel>
+
     <RegisterPanel>
       <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
       <PasswordText PL="Hasło" ENG="Password"/>
@@ -32,6 +34,7 @@
       <EmailText PL="E-Mail" ENG="E-Mail"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </RegisterPanel>
+
     <VehiclesPage>
       <VehicleNameGrid>
         <Brand PL="Marka:" ENG="Brand:"/>
@@ -44,19 +47,23 @@
         <Millage PL="Przebieg:" ENG="Millage:"/>
       </PrimaryInfoGrid>
       <FuelTankInfoGrid>
-        <Gasoline PL="Pojemność Baku Benzyny:" ENG="Capacity Of Gasoline Tank:"/>
-        <Diesel PL="Pojemność Baku Diesel:" ENG="Capacity Of Diesel Tank:"/>
-        <LPG PL="Pojemność Baku LPG:" ENG="Capacity Of LPG Tank:"/>
+        <FuelTankInfoTitle PL="Pojemność Baków" ENG="Capacity Of Tanks"/>
+        <Gasoline PL="Benzyna:" ENG="Gasoline:"/>
+        <Diesel PL="Diesel:" ENG="Diesel:"/>
+        <LPG PL="LPG:" ENG="LPG:"/>
       </FuelTankInfoGrid>
       <CyclicalCostGrid>
-        <InsuranceStartDate PL="Rozpoczęcie Okresu Ubezpieczenia:" ENG="Insurance Start Date:"/>
-        <InsuranceEndDate PL="Koniec Okresu Ubezpieczenia:" ENG="Insurance End Date"/>
-        <InsurancePrice PL="Koszt Obecnego Ubezpieczenia:" ENG="Insurance Price:"/>
-        <InspectionStartDate PL="Data Wykonania Przeglądu Technicznego:" ENG="Last Technical Inspection:"/>
-        <InspectionEndDate PL="Koniec Ważności Przeglądu Technicznego:" ENG="The Next Technical Inspection:"/>
-        <InspectionPrice PL="Koszt Wykonania Przeglądu Technicznego:" ENG="Technical Inspection Price:"/>
+        <InsuranceTitle PL="Ubezpieczenie" ENG="Insurance"/>
+        <InsuranceStartDate PL="Początek:" ENG="Start Date:"/>
+        <InsuranceEndDate PL="Koniec:" ENG="End Date"/>
+        <InsurancePrice PL="Koszt:" ENG="Price:"/>
+        <InspectionTitle PL="Przegląd Techniczny" ENG="Technical Inspection"/>
+        <InspectionStartDate PL="Data Wykonania:" ENG="Last:"/>
+        <InspectionEndDate PL="Koniec Ważności:" ENG="Next:"/>
+        <InspectionPrice PL="Koszt:" ENG="Price:"/>
       </CyclicalCostGrid>
     </VehiclesPage>
+
     <AddVehiclePage>
       <Title PL="DODAJ POJAZD:" ENG="ADD VEHICLE:"/>
       <Brand PL="Marka:" ENG="Brand:"/>
@@ -76,6 +83,7 @@
       <InspectionPrice PL="Koszt Wykonania Badania Technicznego:" ENG="Inspection Price:"/>
       <AddButton PL="Dodaj Pojazd" ENG="Add Vehicle"/>
     </AddVehiclePage>
+
     <HomePage>
       <FuelData>
         <AverageConsumption PL="Średnie spalanie:" ENG="Average Consumption:"/>
@@ -83,12 +91,12 @@
         <LastFuelPrice PL="Ostatnia Cena Paliwa:" ENG="Last Fuel Price:"/>
       </FuelData>
       <CostData>
-        <ThisMounth PL="Ten Miesiąc:" ENG="Average Consumption:"/>
-        <ThisMounthFuelCost PL="Pozostałe Koszta:" ENG="Fuel Cost:"/>
-        <ThisMounthOtherCost PL="Średnie spalanie:" ENG="Other Cost:"/>
-        <PreviousMounth PL="Poprzedni Miesiąc:" ENG="Average Consumption:"/>
-        <PreviousMounthFuelCost PL="Cena Paliwa:" ENG="Fuel Cost:"/>
-        <PreviousMounthOtherCost PL="Pozostałe Koszta:" ENG="Other Cost:"/>
+        <ThisMounth PL="Ten Miesiąc:" ENG="This Mounth:"/>
+        <ThisMounthFuelCost PL="Paliwo:" ENG="Fuel:"/>
+        <ThisMounthOtherCost PL="Serwisy:" ENG="Services:"/>
+        <PreviousMounth PL="Poprzedni Miesiąc:" ENG="Previous Mounth:"/>
+        <PreviousMounthFuelCost PL="Paliwo:" ENG="Fuel:"/>
+        <PreviousMounthOtherCost PL="Serwisy:" ENG="Services:"/>
       </CostData>
       <XMLEntriesList>
         <EntriesListText PL="Ostatnie Wpisy:" ENG="Entries List:"/>
@@ -97,6 +105,7 @@
         <Descryption PL="Opis:" ENG="Descryption:"/>
       </XMLEntriesList>
     </HomePage>
+
     <AddRefuelingPage>
       <PageTitle PL="Dodaj Tankowanie:" ENG="Add Refueling:"/>
       <Liters PL="Litry:" ENG="Liters:"/>
@@ -110,12 +119,28 @@
       <FuelType PL="Typ Paliwa:" ENG="Fuel Type:"/>
       <ButtonText PL="Dodaj Tankowanie" ENG="Add Refueling"/>
     </AddRefuelingPage>
+
+    <RefuelingHistoryPage>
+      <RefuelingCost PL="Koszt:" ENG="Cost:"/>
+      <AmountOfFuel PL="Ilość Paliwa:" ENG="Amount Of Fuel:"/>
+      <PricePerLiter PL="Cena za litr:" ENG="Price Per Liter:"/>
+      <Consumption PL="Spalanie:" ENG="Consumption:"/>
+    </RefuelingHistoryPage>
+
+    <CostPage>
+      <Cost PL="Koszt:" ENG="Cost:"/>
+      <Type PL="Typ:" ENG="Type:"/>
+      <Date PL="Data:" ENG="Date:"/>
+      <Comment PL="Komentarz:" ENG="Comment:"/>
+    </CostPage>
+
     <SettingsPage>
       <Language PL="Język:" ENG="Language:"/>
       <MetricUnit PL="Jednostki Metryczne:" ENG="Metric Unit:"/>
       <Currency PL="Waluta:" ENG="Currency:"/>
       <ApplyButton PL="Zatwierdź" ENG="Confirm"/>
     </SettingsPage>
+
     <CalculatorPage>
       <TravelCostCalculatorBorder>
         <Distance PL="Planowana Odległość:" ENG="Distance:"/>
@@ -141,5 +166,6 @@
       <NoVehicleException PL="Brak Pojazdów w Bazie" ENG="No Vehicles Found"/>
       <CalculateButton PL="Oblicz" ENG="Calculate"/>
     </CalculatorPage>
+
   </MainPanel>
-</MainGrid>
+</Config>

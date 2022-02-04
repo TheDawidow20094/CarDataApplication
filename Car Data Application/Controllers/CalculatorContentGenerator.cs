@@ -27,27 +27,27 @@ namespace Car_Data_Application.Controllers
 
         #endregion
 
-        public void CalculatorGenerator(MainWindow mw, User user, MainGrid config)
+        public void CalculatorGenerator(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user, config);
+            InitialAssignValue(mw, user, paramConfig);
 
             for (int i = 0; i < 3; i++) // 3 is number of displays blocks with data
             {
                 RowDefinition GridRow = new RowDefinition();
                 Grid.RowDefinitions.Add(GridRow);
             }
-            Grid.Children.Add(MainContentGenerator(Config.MainPanel.CalculatorPage));
+            Grid.Children.Add(MainContentGenerator(config.MainPanel.CalculatorPage));
 
-            CalculatorGrid.Children.Add(TravelCostCalculatorGenerator(Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder));
+            CalculatorGrid.Children.Add(TravelCostCalculatorGenerator(config.MainPanel.CalculatorPage.TravelCostCalculatorBorder));
             Grid.SetRow(CalculatorGrid, 1);
             Grid.Children.Add(CalculatorGrid);
 
             mainWindow.ScrollViewerContent.Content = Grid;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
-            Config = config;
+            config = paramConfig;
             mainWindow = mw;
             PUser = user;
             mainWindow.WhereAreYou = "CalculatorPage";
@@ -62,12 +62,12 @@ namespace Car_Data_Application.Controllers
             {
                 case 0:
                     CalculatorGrid.Children.Clear();
-                    CalculatorGrid.Children.Add(TravelCostCalculatorGenerator(Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder));
+                    CalculatorGrid.Children.Add(TravelCostCalculatorGenerator(config.MainPanel.CalculatorPage.TravelCostCalculatorBorder));
                 break;
 
                 case 1:
                     CalculatorGrid.Children.Clear();
-                    CalculatorGrid.Children.Add(AverageFuelConsumptionCalculatorGenerator(Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder));
+                    CalculatorGrid.Children.Add(AverageFuelConsumptionCalculatorGenerator(config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder));
                 break;
             }
         }
@@ -253,17 +253,17 @@ namespace Car_Data_Application.Controllers
         private void FuelConsumptionValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Consumption.PL : Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Consumption.ENG);
+            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Consumption.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Consumption.ENG);
         }
         private void PriceForOneFuelUnitValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.PriceForLiter.PL : Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.PriceForLiter.ENG);
+            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.PriceForLiter.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.PriceForLiter.ENG);
         }
         private void DistanceValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Distance.PL : Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Distance.ENG);
+            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Distance.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Distance.ENG);
         }
 
         private void TravelCostCalculateButton_Click(object sender, RoutedEventArgs e)
@@ -278,7 +278,7 @@ namespace Car_Data_Application.Controllers
                 ResoultPriceValue.Text = Resoult + " zł".ToString();
                 ResoultUsedFuel.Text = UsedFuel + " litrów";
             }
-            catch (Exception) { MessageBox.Show((PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.PL : Config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.ENG)); }
+            catch (Exception) { MessageBox.Show((PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.ENG)); }
         }
 
 
@@ -389,17 +389,17 @@ namespace Car_Data_Application.Controllers
         private void PriceForOneFuelUnitValueOptionalTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.PriceForLiterOptional.PL : Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.PriceForLiterOptional.ENG);
+            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.PriceForLiterOptional.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.PriceForLiterOptional.ENG);
         }
         private void NumberOfKilometersTraveledValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.NumberOfKilometersTraveled.PL : Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.NumberOfKilometersTraveled.ENG);
+            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.NumberOfKilometersTraveled.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.NumberOfKilometersTraveled.ENG);
         }
         private void ConsumedFuelValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ConsumedFuel.PL : Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ConsumedFuel.ENG);
+            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ConsumedFuel.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ConsumedFuel.ENG);
         }
 
         private void AverageFuelConsumptionCalculatorButton_Click(object sender, RoutedEventArgs e)
@@ -425,7 +425,7 @@ namespace Car_Data_Application.Controllers
                     ResoultUsedFuelAverageFuelCOnsumption.Text = "Spalanie wyniosło " + Result.ToString() + " litrów na 100/km";
                 }
             }
-            catch (Exception) { MessageBox.Show(PUser.UserLanguage == "PL" ? Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ErrorException.PL : Config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ErrorException.ENG); }
+            catch (Exception) { MessageBox.Show(PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ErrorException.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ErrorException.ENG); }
         }
 
         private void SetBorderProps(ref Border border, int row)

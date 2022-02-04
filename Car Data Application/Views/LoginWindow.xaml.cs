@@ -21,19 +21,19 @@ namespace Car_Data_Application.Views
     {
         private MainWindow mainWindow;
         private User PUser;
-        private MainGrid Config;
+        private Config config;
 
-        public LoginWindow(MainWindow mw, User user, MainGrid config)
+        public LoginWindow(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user, config);
+            InitialAssignValue(mw, user, paramConfig);
             InitializeComponent();
-            TranslateControlersValue(Config.MainPanel.LoginPanel);
+            TranslateControlersValue(config.MainPanel.LoginPanel);
             this.Closed += LoginWindow_Closed;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
-            Config = config;
+            config = paramConfig;
             mainWindow = mw;
             PUser = user;
             mainWindow.WhereAreYou = "MyAccountPage";
@@ -42,7 +42,7 @@ namespace Car_Data_Application.Views
 
         private void LoginWindow_Closed(object sender, EventArgs e)
         {
-            new CarDataAppController().GoToHomePage(mainWindow, PUser, Config);
+            new CarDataAppController().GoToHomePage(mainWindow, PUser, config);
         }
 
         private void LoginClick(object sender, RoutedEventArgs e)
@@ -53,7 +53,7 @@ namespace Car_Data_Application.Views
         private void RegisterClick(object sender, RoutedEventArgs e)
         {
             this.Close();
-            new RegisterWindow(mainWindow, PUser, Config).ShowDialog();
+            new RegisterWindow(mainWindow, PUser, config).ShowDialog();
         }
 
         private void TranslateControlersValue(LoginPanel translation)

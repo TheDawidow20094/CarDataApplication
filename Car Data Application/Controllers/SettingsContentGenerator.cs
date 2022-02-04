@@ -13,19 +13,19 @@ namespace Car_Data_Application.Controllers
         private ComboBox MetricUnitComboBox = new ComboBox();
         private ComboBox CurrencyComboBox = new ComboBox();
 
-        public void GenerateSetingContent(MainWindow mw, User user, MainGrid config)
+        public void GenerateSetingContent(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user, config);
+            InitialAssignValue(mw, user, paramConfig);
             
             Grid Grid = new Grid();
-            Grid.Children.Add(GenerateSettingContentBorder(PUser, Config.MainPanel.SettingsPage));
+            Grid.Children.Add(GenerateSettingContentBorder(PUser, config.MainPanel.SettingsPage));
 
             mainWindow.ScrollViewerContent.Content = Grid;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
-            Config = config;
+            config = paramConfig;
             PUser = user;
             mainWindow = mw;
             mainWindow.WhereAreYou = "SettingsPage";
