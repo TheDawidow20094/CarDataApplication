@@ -297,7 +297,7 @@ namespace Car_Data_Application.Views
         {
             //size changes
             //next comment
-            if ((this.Width <= 550) && (SidePanelColumn.ActualWidth == 210))
+            if ((this.Width <= 650) && (SidePanelColumn.ActualWidth == 210))
             {
                 foreach (Grid Button in ((Grid)MainGrid.Children[3]).Children)
                 {
@@ -305,7 +305,7 @@ namespace Car_Data_Application.Views
                 }
                 SidePanelColumn.Width = new GridLength(55);
             }
-            else if ((this.Width > 550) && (SidePanelColumn.ActualWidth == 55))
+            else if ((this.Width > 650) && (SidePanelColumn.ActualWidth == 55))
             {
                 foreach (Grid Button in ((Grid)MainGrid.Children[3]).Children)
                 {

@@ -83,12 +83,12 @@
         <LastFuelPrice PL="Ostatnia Cena Paliwa:" ENG="Last Fuel Price:"/>
       </FuelData>
       <CostData>
-        <ThisMounth PL="Ten Miesiąc:" ENG="Average Consumption:"/>
-        <ThisMounthFuelCost PL="Pozostałe Koszta:" ENG="Fuel Cost:"/>
-        <ThisMounthOtherCost PL="Średnie spalanie:" ENG="Other Cost:"/>
-        <PreviousMounth PL="Poprzedni Miesiąc:" ENG="Average Consumption:"/>
-        <PreviousMounthFuelCost PL="Cena Paliwa:" ENG="Fuel Cost:"/>
-        <PreviousMounthOtherCost PL="Pozostałe Koszta:" ENG="Other Cost:"/>
+        <ThisMounth PL="Ten Miesiąc:" ENG="This Mounth:"/>
+        <ThisMounthFuelCost PL="Paliwo:" ENG="Fuel:"/>
+        <ThisMounthOtherCost PL="Serwisy:" ENG="Services:"/>
+        <PreviousMounth PL="Poprzedni Miesiąc:" ENG="Previous Mounth:"/>
+        <PreviousMounthFuelCost PL="Paliwo:" ENG="Fuel:"/>
+        <PreviousMounthOtherCost PL="Serwisy:" ENG="Services:"/>
       </CostData>
       <XMLEntriesList>
         <EntriesListText PL="Ostatnie Wpisy:" ENG="Entries List:"/>

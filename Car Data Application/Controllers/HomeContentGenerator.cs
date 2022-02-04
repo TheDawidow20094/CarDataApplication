@@ -7,6 +7,7 @@ using System.Windows.Media;
 using Car_Data_Application.Models.Vehicle_Classes;
 using System;
 using Car_Data_Application.Models.XML_Models;
+using System.Windows.Media.Effects;
 
 namespace Car_Data_Application.Controllers
 {
@@ -20,6 +21,7 @@ namespace Car_Data_Application.Controllers
             for (int i = 0; i < 4; i++) // 4 is number of displays blocks with data
             {
                 RowDefinition row = new RowDefinition();
+                if (i == 2) { row.Height = new GridLength(80); };
                 Grid.RowDefinitions.Add(row);
             }
 
@@ -39,104 +41,125 @@ namespace Car_Data_Application.Controllers
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
 
-        private Border FuelDataGenerator(User user, FuelData translation)
+        private Grid FuelDataGenerator(User user, FuelData translation)
         {
-            Border FuelDataBorder = new Border();
-            SetBorderProps(ref FuelDataBorder, 0);
-
             Grid FuelDataGrid = new Grid();
-            FuelDataBorder.Padding = new Thickness(20);
-            FuelDataBorder.Child = FuelDataGrid;
-            for (int i = 0; i < 3; i++) // 3 columns in this grid
+            SetGridProps(ref FuelDataGrid, 0);
+
+            ColumnDefinition columnDefinition = new ColumnDefinition();
+            columnDefinition.Width = new GridLength(114);
+            FuelDataGrid.ColumnDefinitions.Add(columnDefinition);
+            FuelDataGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            FuelDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/gas-station.png", 0, 0));
+
+            Grid FuelDataGridContent = new Grid();
+            Grid.SetColumn(FuelDataGridContent, 1);
+            FuelDataGridContent.VerticalAlignment = VerticalAlignment.Center;
+            FuelDataGridContent.HorizontalAlignment = HorizontalAlignment.Center;
+
+
+            for (int i = 0; i < 2; i++) // 2 columns in this grid
             {
-                ColumnDefinition FuelDataGridColumn = new ColumnDefinition();
-                FuelDataGrid.ColumnDefinitions.Add(FuelDataGridColumn);
+                FuelDataGridContent.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            for (int y = 0; y < 4; y++) // 4 rows in this grid
+            for (int i = 0; i < 3; i++) // 3 rows in this grid
             {
-                RowDefinition FuelDataGridRow = new RowDefinition();
-                FuelDataGrid.RowDefinitions.Add(FuelDataGridRow);
+                FuelDataGridContent.RowDefinitions.Add(new RowDefinition());
             }
 
             int LastRefuelingElement = user.Vehicles[user.ActiveCarIndex].Refulings.Count();
-
-            FuelDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/fuelicon.png", 0, 1));
+            string LightTextColor = "#FF9C9397";
 
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    FuelDataGrid.Children.Add(GenerateTextBlock(translation.AverageConsumption.PL, 1, 0));
-                    FuelDataGrid.Children.Add(GenerateTextBlock(translation.LastConsumption.PL, 2, 0));
-                    FuelDataGrid.Children.Add(GenerateTextBlock(translation.LastFuelPrice.PL, 3, 0));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(translation.AverageConsumption.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastConsumption.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastFuelPrice.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
 
                 case "ENG":
-                    FuelDataGrid.Children.Add(GenerateTextBlock(translation.AverageConsumption.ENG, 1, 0));
-                    FuelDataGrid.Children.Add(GenerateTextBlock(translation.LastConsumption.ENG, 2, 0));
-                    FuelDataGrid.Children.Add(GenerateTextBlock(translation.LastFuelPrice.ENG, 3, 0));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(translation.AverageConsumption.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastConsumption.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastFuelPrice.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
             }
 
-            FuelDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption.ToString() + " L/100km", 1, 2));
+            FuelDataGridContent.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption.ToString() + " L/100km", 0, 1));
 
-            FuelDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestConsumption.ToString() + " L/100km", 2, 2));
+            FuelDataGridContent.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestConsumption.ToString() + " L/100km", 1, 1));
 
-            FuelDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestFuelPrice.ToString() + " zł", 3, 2));
+            FuelDataGridContent.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestFuelPrice.ToString() + " zł", 2, 1));
 
-            return FuelDataBorder;
+            FuelDataGrid.Children.Add(FuelDataGridContent);
+
+
+            return FuelDataGrid;
         }
 
-        private Border CostDataGenerator(User user, CostData translation)
+        private Grid CostDataGenerator(User user, CostData translation)
         {
-            Border CostDataBorder = new Border();
-            SetBorderProps(ref CostDataBorder, 1);
-
             Grid CostDataGrid = new Grid();
-            CostDataBorder.Padding = new Thickness(20);
-            CostDataBorder.Child = CostDataGrid;
-            for (int i = 0; i < 3; i++) // 3 columns in this grid
+            SetGridProps(ref CostDataGrid, 1);
+
+            ColumnDefinition columnDefinition = new ColumnDefinition();
+            columnDefinition.Width = new GridLength(114);
+            CostDataGrid.ColumnDefinitions.Add(columnDefinition);
+            CostDataGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            CostDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/dollar.png", 0, 0));
+
+            Grid CostDataGridContent = new Grid();
+            Grid.SetColumn(CostDataGridContent, 1);
+            CostDataGridContent.VerticalAlignment = VerticalAlignment.Center;
+            CostDataGridContent.HorizontalAlignment = HorizontalAlignment.Center;
+
+            for (int i = 0; i < 2; i++) // 2 columns in this grid
             {
                 ColumnDefinition FuelDataGridColumn = new ColumnDefinition();
-                CostDataGrid.ColumnDefinitions.Add(FuelDataGridColumn);
+                CostDataGridContent.ColumnDefinitions.Add(FuelDataGridColumn);
             }
-            for (int y = 0; y < 7; y++) // 7 rows in this grid
+            for (int y = 0; y < 6; y++) // 6 rows in this grid
             {
                 RowDefinition FuelDataGridRow = new RowDefinition();
-                CostDataGrid.RowDefinitions.Add(FuelDataGridRow);
+                CostDataGridContent.RowDefinitions.Add(FuelDataGridRow);
             }
 
-            CostDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/cost.png", 0, 1));
-
+            string LightTextColor = "#FF9C9397";
+            string DarkTextColor = "#FF2A2729"; // change to set in config
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.ThisMounth.PL, 1, 0));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.ThisMounthFuelCost.PL, 2, 2));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.ThisMounthOtherCost.PL, 3, 2));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.PreviousMounth.PL, 4, 0));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.PreviousMounthFuelCost.PL, 5, 2));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.PreviousMounthOtherCost.PL, 6, 2));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounth.PL, 0, 0, DarkTextColor, HorizontalAlignment.Center, true));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounthFuelCost.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounthOtherCost.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounth.PL, 3, 0, DarkTextColor, HorizontalAlignment.Right, true));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounthFuelCost.PL, 4, 0, LightTextColor, HorizontalAlignment.Right));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounthOtherCost.PL, 5, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
 
                 case "ENG":
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.ThisMounth.ENG, 1, 0));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.ThisMounthFuelCost.ENG, 2, 2));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.ThisMounthOtherCost.ENG, 3, 2));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.PreviousMounth.ENG, 4, 0));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.PreviousMounthFuelCost.ENG, 5, 2));
-                    CostDataGrid.Children.Add(GenerateTextBlock(translation.PreviousMounthOtherCost.ENG, 6, 2));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounth.ENG, 0, 0, DarkTextColor, HorizontalAlignment.Center, true));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounthFuelCost.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounthOtherCost.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounth.ENG, 3, 0, DarkTextColor, HorizontalAlignment.Right, true));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounthFuelCost.ENG, 4, 0, LightTextColor, HorizontalAlignment.Right));
+                    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounthOtherCost.ENG, 5, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
             }
 
-            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł", 2, 1));
+            CostDataGridContent.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł", 1, 1));
 
-            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthOtherCost.ToString() + " zł", 3, 1));
+            CostDataGridContent.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].ThisMounthOtherCost.ToString() + " zł", 2, 1));
 
-            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthFuelCost.ToString() + " zł", 5, 1));
+            CostDataGridContent.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthFuelCost.ToString() + " zł", 4, 1));
 
-            CostDataGrid.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthOtherCost.ToString() + " zł", 6, 1));
+            CostDataGridContent.Children.Add(GenerateTextBlock(user.Vehicles[user.ActiveCarIndex].PreviousMounthOtherCost.ToString() + " zł", 5, 1));
 
-            return CostDataBorder;
+            CostDataGrid.Children.Add(CostDataGridContent);
+
+            return CostDataGrid;
         }
 
         private TextBlock EntriesListText(XMLEntriesList translation)
@@ -152,18 +175,18 @@ namespace Car_Data_Application.Controllers
                     EntriesListTitle = translation.EntriesListText.ENG;
                     break;
             }
-            TextBlock EntriesListText = GenerateTextBlock(EntriesListTitle, 2, 0, "#FF407BB6", HorizontalAlignment.Center);
+            TextBlock EntriesListText = GenerateTextBlock(EntriesListTitle, 2, 0, "#FF2A2729", HorizontalAlignment.Center);
             EntriesListText.FontSize = 34;
-            EntriesListText.Margin = new Thickness(0,25,0,0);
+            EntriesListText.Margin = new Thickness(0,15,0,10);
 
             return EntriesListText;
         }
 
-        private Border EnteriesListGenerator (User user, XMLEntriesList translation)
+        private Grid EnteriesListGenerator (User user, XMLEntriesList translation)
         {
-            Border MainBorder = new Border();
-            SetBorderProps(ref MainBorder, 3, false, "#FFEDF5FD", "#FF7DB5EC");
-            MainBorder.MaxHeight = 200;
+            Grid EnteriesListMainGrid = new Grid();
+            SetGridProps(ref EnteriesListMainGrid, 3);
+            EnteriesListMainGrid.MaxHeight = 200;
 
             ScrollViewer DataViewer = new ScrollViewer();
 
@@ -172,16 +195,18 @@ namespace Car_Data_Application.Controllers
             int index = 0;
             foreach (EntriesList entries in user.Vehicles[user.ActiveCarIndex].EntriesList)
             {
-                RowDefinition AuxiliaryGridGridRow = new RowDefinition();
-                AuxiliaryGrid.RowDefinitions.Add(AuxiliaryGridGridRow);
+                AuxiliaryGrid.RowDefinitions.Add(new RowDefinition());
 
-                Border EnteriesListBorder = new Border();
-                SetBorderProps(ref EnteriesListBorder, index);
+                //Grid EnteriesListBorder = new Grid();
+                //SetGridProps(ref EnteriesListBorder, index);
 
                 Grid EnteriesListGrid = new Grid();
-                EnteriesListBorder.Padding = new Thickness(20);
-                EnteriesListBorder.Child = EnteriesListGrid;
-                for (int i = 0; i < 3; i++) // 3 is number of columns
+                SetGridProps(ref EnteriesListGrid, index);
+                EnteriesListGrid.Margin = new Thickness(70,10,70,10);
+
+
+                //EnteriesListGrid.Children.Add(EnteriesListGrid);
+                for (int i = 0; i < 2; i++) // 2 is number of columns
                 {
                     ColumnDefinition EnteriesListGridColumn = new ColumnDefinition();
                     EnteriesListGrid.ColumnDefinitions.Add(EnteriesListGridColumn);
@@ -192,22 +217,25 @@ namespace Car_Data_Application.Controllers
                     EnteriesListGrid.RowDefinitions.Add(EnteriesListGridRow);
                 }
 
+                string LightTextColor = "#FF9C9397";
+                string DarkTextColor = "#FF2A2729"; // change to set in config
+
                 switch (PUser.UserLanguage)
                 {
                     case "PL":
-                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Date.PL, 1, 0));
-                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Price.PL, 2, 0));
-                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Descryption.PL, 3, 0));
+                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Date.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Price.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Descryption.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
                         break;
 
                     case "ENG":
-                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Date.ENG, 1, 0));
-                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Price.ENG, 2, 0));
-                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Descryption.ENG, 3, 0));
+                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Date.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Price.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                        EnteriesListGrid.Children.Add(GenerateTextBlock(translation.Descryption.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
                         break;
                 }
 
-                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Type.ToString(), 0, 1));
+                EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Type.ToString(), 0, 0, DarkTextColor, HorizontalAlignment.Center, true));
 
                 EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Date.ToString(), 1, 2));
 
@@ -215,51 +243,53 @@ namespace Car_Data_Application.Controllers
 
                 EnteriesListGrid.Children.Add(GenerateTextBlock(entries.Descryption.ToString(), 3, 2));
 
-                AuxiliaryGrid.Children.Add(EnteriesListBorder);
+                AuxiliaryGrid.Children.Add(EnteriesListGrid);
                 index++;
             }
 
             DataViewer.Content = AuxiliaryGrid;
-            MainBorder.Child = DataViewer;
+            EnteriesListMainGrid.Children.Add(DataViewer);
 
-            return MainBorder;
+            return EnteriesListMainGrid;
         }
 
-        private void SetBorderProps(ref Border border, int row, bool transparentborder = false, string backgroundcolor = default, string bordercolor = default)
+        private void SetGridProps(ref Grid Grid, int row)
         {
-            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
+            Grid.Background = Brushes.WhiteSmoke;
 
-            border.Background = BackgroundBrushh;
-            border.BorderThickness = new Thickness(5);
+            Grid.Margin = new Thickness(25, 10, 25, 10);
+            //StackPanel.Padding = new Thickness(0, 0, 35, 0);
 
-            border.BorderBrush = (Brush)Converter.ConvertFromString(bordercolor == default ? "#FF407BB6" : bordercolor);
-            if (transparentborder == true)
-            {
-                border.BorderBrush = Brushes.Transparent;
-            }
+            DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
+            myDropShadowEffect.Color = Colors.Black;
+            myDropShadowEffect.Direction = 320;
+            myDropShadowEffect.ShadowDepth = 5;
+            myDropShadowEffect.Softness = 1;
+            myDropShadowEffect.Opacity = 0.25;
+            Grid.BitmapEffect = myDropShadowEffect;
 
-            border.CornerRadius = new CornerRadius(30);
-
-            border.Margin = new Thickness(15, 5, 15, 5);
-            border.Padding = new Thickness(0, 0, 35, 0);
-            Grid.SetRow(border, row);
+            Grid.SetRow(Grid, row);
 
         }
 
-        private TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = default, HorizontalAlignment horizontalAlignment = default)
+        private TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, bool isTitle = false)
         {
             TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor == default ? "#FFEDF5FD" : foregroundcolor);
+            TextBlockName.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor);
             TextBlockName.FontFamily = new FontFamily("Arial Black");
             TextBlockName.FontWeight = FontWeights.Bold;
             TextBlockName.Text = text;
-            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
+            TextBlockName.Margin = new Thickness(3);
             TextBlockName.VerticalAlignment = VerticalAlignment.Center;
-            //if (horizontalAlignment != default)
-            //{
-            //    TextBlockName.HorizontalAlignment = horizontalAlignment;
-            //}
             TextBlockName.HorizontalAlignment = horizontalAlignment;
+
+            if (isTitle)
+            {
+                Grid.SetColumnSpan(TextBlockName, 2);
+                TextBlockName.FontSize = 18;
+                TextBlockName.FontWeight = FontWeights.Bold;
+                TextBlockName.Margin = new Thickness(3,8,3,8);
+            }
 
             Grid.SetRow(TextBlockName, row);
             Grid.SetColumn(TextBlockName, column);
@@ -272,9 +302,14 @@ namespace Car_Data_Application.Controllers
             Image Icon = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
             Icon.SetValue(Image.SourceProperty, source.ConvertFromString(@path));
-            Icon.Width = 30;
-            Grid.SetRow(Icon, row);
+            Icon.Width = 64;
+            Icon.Margin = new Thickness(30,20,20,20);
+            Icon.HorizontalAlignment = HorizontalAlignment.Left;
+            Icon.VerticalAlignment = VerticalAlignment.Center;
+
+            //Grid.SetRow(Icon, row);
             Grid.SetColumn(Icon, column);
+            Grid.SetRowSpan(Icon, 3);
 
             return Icon;
         }

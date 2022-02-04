@@ -53,7 +53,7 @@
                 </Border>
             </Grid>
         </Border>
-        <Border x:Name="AddButon" Grid.Row="0" Grid.Column="1" CornerRadius="28" Background="#FF3ABD3A" Margin="0,0,30,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="56" Width="56" MouseLeave="HandleAddButonMouseLeave" MouseEnter="HandleAddButonMouseEnter" Visibility="Visible">
+        <Border x:Name="AddButon" Grid.Row="0" Grid.Column="1" CornerRadius="28" Background="#FF3ABD3A" Margin="0,0,20,60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="56" Width="56" MouseLeave="HandleAddButonMouseLeave" MouseEnter="HandleAddButonMouseEnter" Visibility="Visible">
             <TextBlock  x:Name="AddButonText" Text="+" Foreground="White" FontSize="65" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="UltraBold" Height="104" Width="48" MouseLeftButtonDown="HandleAddButtonClick"/>
         </Border>
     </Grid>
