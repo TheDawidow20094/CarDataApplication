@@ -1,5 +1,6 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Models.Vehicle_Classes;
+using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +10,7 @@ namespace Car_Data_Application.Controllers
 {
     class RefuelingHistoryContentGenerator : CarDataAppController
     {
-        public void GeneratorRefulingHistory(MainWindow mw, User user)
+        public void GeneratorRefulingHistory(MainWindow mw, User user, RefuelingHistoryPage translation)
         {
             InitialAssignValue(mw, user);
 
@@ -18,45 +19,74 @@ namespace Car_Data_Application.Controllers
             int index = 0;
             foreach (Refueling refueling in user.Vehicles[user.ActiveCarIndex].Refulings)
             {
-                RowDefinition MainGridRow = new RowDefinition();
-                MainGrid.RowDefinitions.Add(MainGridRow);
-
-                Border RefuelingBorder = new Border();
-                SetBorderProps(RefuelingBorder, index);
+                RowDefinition rowDefinition = new RowDefinition();
+                rowDefinition.Height = new GridLength(120);
+                MainGrid.RowDefinitions.Add(rowDefinition);
 
                 Grid RefuelingGrid = new Grid();
-                RefuelingBorder.Padding = new Thickness(15);
-                RefuelingBorder.Child = RefuelingGrid;
+                SetGridProps(ref RefuelingGrid, index);
+
+                ColumnDefinition columnDefinition = new ColumnDefinition();
+                columnDefinition.Width = new GridLength(114);
+                RefuelingGrid.ColumnDefinitions.Add(columnDefinition);
+                RefuelingGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+
+                RefuelingGrid.Children.Add(GenerateIcon("../../../Images/Icons/gas-station.png", 0, 0));
+
+                Grid RefuelingGridContent = new Grid();
+                Grid.SetColumn(RefuelingGridContent, 1);
+                RefuelingGridContent.HorizontalAlignment = HorizontalAlignment.Right;
+                RefuelingGridContent.VerticalAlignment = VerticalAlignment.Center;
+
                 for (int x = 0; x <= 5; x++) //5 is number of rows
                 {
-                    RowDefinition RefuelingRow = new RowDefinition();
-                    RefuelingGrid.RowDefinitions.Add(RefuelingRow);
+                    RefuelingGridContent.RowDefinitions.Add(new RowDefinition());
                 }
                 for (int y = 0; y <= 3; y++) //3 is number of columns
                 {
-                    ColumnDefinition RefuelingColumn = new ColumnDefinition();
-                    RefuelingGrid.ColumnDefinitions.Add(RefuelingColumn);
+                    RefuelingGridContent.ColumnDefinitions.Add(new ColumnDefinition());
                 }
 
-                RefuelingGrid.Children.Add(GenerateIcon("../../../Images/Icons/fuelicon.png", 0, 1));
+                string LightTextColor = "#FF9C9397";
+                string DarkTextColor = "#FF2A2729"; // change to set in config
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Date.ToString(), 1, 0));
+                switch (PUser.UserLanguage)
+                {
+                    case "PL":
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.RefuelingCost.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.AmountOfFuel.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.PricePerLiter.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.Consumption.PL, 4, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.CarMillage.ToString() + " Km", 1, 2));
+                    case "ENG":
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.RefuelingCost.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.AmountOfFuel.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.PricePerLiter.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
+                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.Consumption.ENG, 4, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
+                }
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.TotalPrice.ToString() + " Zł", 2, 0));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Date.ToString(), 0, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.DistanceFromTheLastRefueling.ToString() + " Km", 2, 2));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.CarMillage.ToString() + " km", 1, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Bottom));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Liters.ToString() + " Litrów", 3, 0));
+                RefuelingGridContent.Children.Add(GenerateTextBlock("+ " + refueling.DistanceFromTheLastRefueling.ToString() + " km", 2, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.PriceForLiter.ToString() + " Zł", 3, 2));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.TotalPrice.ToString() + " zł", 1, 1));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.FuelType.ToString(), 4, 1));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.PriceForLiter.ToString() + " zł", 2, 1));
 
-                RefuelingGrid.Children.Add(GenerateTextBlock(refueling.Consumption.ToString() + " L/100Km", 4, 2));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Liters.ToString() + " L", 3, 1));
 
-                MainGrid.Children.Add(RefuelingBorder);
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Consumption.ToString() + " L/100Km", 4, 1));
+
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.FuelType.ToString(), 3, 2));
+
+                RefuelingGrid.Children.Add(RefuelingGridContent);
+
+                MainGrid.Children.Add(RefuelingGrid);
 
                 index++;
             }            
@@ -67,50 +97,8 @@ namespace Car_Data_Application.Controllers
         {
             mw.WhereAreYou = "RefuelingHistoryPage";
             mainWindow = mw;
+            PUser = user;
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
-
-        private void SetBorderProps(Border border, int row)
-        {
-            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
-            border.Background = BackgroundBrushh;
-
-            border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
-            border.CornerRadius = new CornerRadius(30);
-
-            border.Margin = new Thickness(15, 5, 15, 5);
-            border.Padding = new Thickness(0, 0, 35, 0);
-            Grid.SetRow(border, row);
-
-        }
-
-        private Image GenerateIcon(string path, int row, int column)
-        {
-            Image Icon = new Image();
-            ImageSourceConverter source = new ImageSourceConverter();
-            Icon.SetValue(Image.SourceProperty, source.ConvertFromString(@path));
-            Icon.Width = 30;
-            Grid.SetRow(Icon, row);
-            Grid.SetColumn(Icon, column);
-
-            return Icon;
-        }
-
-        private TextBlock GenerateTextBlock(string text, int row, int column)
-        {
-            TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            TextBlockName.FontFamily = new FontFamily("Arial Black");
-            TextBlockName.FontWeight = FontWeights.Bold;
-            TextBlockName.Text = text;
-            TextBlockName.Margin = new Thickness(0);
-            TextBlockName.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetRow(TextBlockName, row);
-            Grid.SetColumn(TextBlockName, column);
-
-            return TextBlockName;
-        }
-
     }
 }

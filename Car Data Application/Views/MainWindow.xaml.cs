@@ -145,7 +145,7 @@ namespace Car_Data_Application.Views
 
                 case "RefuelingHistoryPage":
                     AddButon.Visibility = Visibility.Visible;
-                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(this, User);
+                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(this, User, Config.MainPanel.RefuelingHistoryPage);
                     break;
 
                 case "StatsPage":

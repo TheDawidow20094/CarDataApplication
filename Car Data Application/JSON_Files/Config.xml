@@ -19,12 +19,14 @@
       <AddCost PL="Dodaj Koszt" ENG="Add Cost"/>
       <AddVehicle PL="Dodaj Pojazd" ENG="Add Vehicle"/>
     </AddButonList>
+
     <LoginPanel>
       <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
       <PasswordText PL="Hasło" ENG="Password"/>
       <LogInButton PL="Zaloguj" ENG="Login"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </LoginPanel>
+
     <RegisterPanel>
       <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
       <PasswordText PL="Hasło" ENG="Password"/>
@@ -32,6 +34,7 @@
       <EmailText PL="E-Mail" ENG="E-Mail"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </RegisterPanel>
+
     <VehiclesPage>
       <VehicleNameGrid>
         <Brand PL="Marka:" ENG="Brand:"/>
@@ -57,6 +60,7 @@
         <InspectionPrice PL="Koszt Wykonania Przeglądu Technicznego:" ENG="Technical Inspection Price:"/>
       </CyclicalCostGrid>
     </VehiclesPage>
+
     <AddVehiclePage>
       <Title PL="DODAJ POJAZD:" ENG="ADD VEHICLE:"/>
       <Brand PL="Marka:" ENG="Brand:"/>
@@ -76,6 +80,7 @@
       <InspectionPrice PL="Koszt Wykonania Badania Technicznego:" ENG="Inspection Price:"/>
       <AddButton PL="Dodaj Pojazd" ENG="Add Vehicle"/>
     </AddVehiclePage>
+
     <HomePage>
       <FuelData>
         <AverageConsumption PL="Średnie spalanie:" ENG="Average Consumption:"/>
@@ -97,6 +102,7 @@
         <Descryption PL="Opis:" ENG="Descryption:"/>
       </XMLEntriesList>
     </HomePage>
+
     <AddRefuelingPage>
       <PageTitle PL="Dodaj Tankowanie:" ENG="Add Refueling:"/>
       <Liters PL="Litry:" ENG="Liters:"/>
@@ -110,12 +116,21 @@
       <FuelType PL="Typ Paliwa:" ENG="Fuel Type:"/>
       <ButtonText PL="Dodaj Tankowanie" ENG="Add Refueling"/>
     </AddRefuelingPage>
+
+    <RefuelingHistoryPage>
+      <RefuelingCost PL="Koszt:" ENG="Cost:"/>
+      <AmountOfFuel PL="Ilość Paliwa:" ENG="Amount Of Fuel:"/>
+      <PricePerLiter PL="Cena za litr:" ENG="Price Per Liter:"/>
+      <Consumption PL="Spalanie:" ENG="Consumption:"/>
+    </RefuelingHistoryPage>
+
     <SettingsPage>
       <Language PL="Język:" ENG="Language:"/>
       <MetricUnit PL="Jednostki Metryczne:" ENG="Metric Unit:"/>
       <Currency PL="Waluta:" ENG="Currency:"/>
       <ApplyButton PL="Zatwierdź" ENG="Confirm"/>
     </SettingsPage>
+
     <CalculatorPage>
       <TravelCostCalculatorBorder>
         <Distance PL="Planowana Odległość:" ENG="Distance:"/>
@@ -141,5 +156,6 @@
       <NoVehicleException PL="Brak Pojazdów w Bazie" ENG="No Vehicles Found"/>
       <CalculateButton PL="Oblicz" ENG="Calculate"/>
     </CalculatorPage>
+
   </MainPanel>
 </MainGrid>

@@ -38,15 +38,15 @@ namespace Car_Data_Application.Controllers
         {
             PUser.ActiveCarIndex = Carlist.SelectedIndex;
             PUser.SerializeData();
-            RefreshPage(Config.MainPanel.HomePage);
+            RefreshPage(Config);
         }
 
-        private void RefreshPage(HomePage homePage)
+        private void RefreshPage(MainGrid config)
         { 
             switch (mainWindow.WhereAreYou)
             {
                 case "HomePage":
-                    new HomeContentGenerator().GeneratorHomeContent(mainWindow, PUser, homePage);
+                    new HomeContentGenerator().GeneratorHomeContent(mainWindow, PUser, config.MainPanel.HomePage);
                 break;
 
                 case "CostsPage":
@@ -54,7 +54,7 @@ namespace Car_Data_Application.Controllers
                 break;
 
                 case "RefuelingHistoryPage":
-                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(mainWindow, PUser);
+                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(mainWindow, PUser, config.MainPanel.RefuelingHistoryPage);
                 break;
 
                 case "CalculatorPage":
