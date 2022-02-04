@@ -15,9 +15,9 @@ namespace Car_Data_Application.Controllers
 {
     class AddVehiclePageGenerator : CarDataAppController
     {
-        public void PageGenerator(MainWindow mw, User user, MainGrid config)
+        public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user, config);
+            InitialAssignValue(mw, user, paramConfig);
 
             Grid MainGrid = new Grid();
 
@@ -27,20 +27,20 @@ namespace Car_Data_Application.Controllers
                 MainGrid.RowDefinitions.Add(MainGridRow);
             }
 
-            MainGrid.Children.Add(AddingTitle(Config.MainPanel.AddVehiclePage));
-            MainGrid.Children.Add(AddingVehiclePrimaryDataBorder(Config.MainPanel.AddVehiclePage));
-            MainGrid.Children.Add(AddingPrimaryInfoBorder(Config.MainPanel.AddVehiclePage));
-            MainGrid.Children.Add(AddingFuelTankInfoBorder(Config.MainPanel.AddVehiclePage));
-            MainGrid.Children.Add(AddingCyclicalCostBorder(Config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingTitle(config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingVehiclePrimaryDataBorder(config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingPrimaryInfoBorder(config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingFuelTankInfoBorder(config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddingCyclicalCostBorder(config.MainPanel.AddVehiclePage));
 
 
             mainWindow.ScrollViewerContent.Content = MainGrid;
 
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
-            Config = config;
+            config = paramConfig;
             mainWindow = mw;
             PUser = user;
         }

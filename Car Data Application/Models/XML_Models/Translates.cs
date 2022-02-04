@@ -7,49 +7,9 @@ using System.Xml.Serialization;
 
 namespace Car_Data_Application.Models.XML_Models
 {
-	[XmlRoot(ElementName = "XMLButton")]
-	public class XMLButton
-	{
-
-		[XmlAttribute(AttributeName = "PL")]
-		public string PL { get; set; }
-
-		[XmlAttribute(AttributeName = "ENG")]
-		public string ENG { get; set; }
-
-		[XmlAttribute(AttributeName = "Name")]
-		public string Name { get; set; }
-
-		[XmlAttribute(AttributeName = "IsEnabled")]
-		public bool IsEnabled { get; set; }
-
-		[XmlAttribute(AttributeName = "Icon")]
-		public string Icon { get; set; }
-	}
-
-	[XmlRoot(ElementName = "SidePanel")]
-	public class SidePanel
-	{
-
-		[XmlElement(ElementName = "XMLButton")]
-		public List<XMLButton> XMLButton { get; set; }
-	}
-
-	[XmlRoot(ElementName = "Translation")]
-	public class Translation
-	{
-
-		[XmlAttribute(AttributeName = "PL")]
-		public string PL { get; set; }
-
-		[XmlAttribute(AttributeName = "ENG")]
-		public string ENG { get; set; }
-	}
-
 	[XmlRoot(ElementName = "VehicleNameGrid")]
 	public class VehicleNameGrid
 	{
-
 		[XmlElement(ElementName = "Brand")]
 		public Translation Brand { get; set; }
 
@@ -60,7 +20,6 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "PrimaryInfoGrid")]
 	public class PrimaryInfoGrid
 	{
-
 		[XmlElement(ElementName = "YearOfManufacture")]
 		public Translation YearOfManufacture { get; set; }
 
@@ -77,6 +36,8 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "FuelTankInfoGrid")]
 	public class FuelTankInfoGrid
 	{
+		[XmlElement(ElementName = "FuelTankInfoTitle")]
+		public Translation FuelTankInfoTitle { get; set; }
 
 		[XmlElement(ElementName = "Gasoline")]
 		public Translation Gasoline { get; set; }
@@ -91,6 +52,8 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "CyclicalCostGrid")]
 	public class CyclicalCostGrid
 	{
+		[XmlElement(ElementName = "InsuranceTitle")]
+		public Translation InsuranceTitle { get; set; }
 
 		[XmlElement(ElementName = "InsuranceStartDate")]
 		public Translation InsuranceStartDate { get; set; }
@@ -101,6 +64,9 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "InsurancePrice")]
 		public Translation InsurancePrice { get; set; }
 
+		[XmlElement(ElementName = "InspectionTitle")]
+		public Translation InspectionTitle { get; set; }
+
 		[XmlElement(ElementName = "InspectionStartDate")]
 		public Translation InspectionStartDate { get; set; }
 
@@ -109,60 +75,6 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "InspectionPrice")]
 		public Translation InspectionPrice { get; set; }
-	}
-
-	[XmlRoot(ElementName = "VehiclesPage")]
-	public class VehiclesPage
-	{
-
-		[XmlElement(ElementName = "VehicleNameGrid")]
-		public VehicleNameGrid VehicleNameGrid { get; set; }
-
-		[XmlElement(ElementName = "PrimaryInfoGrid")]
-		public PrimaryInfoGrid PrimaryInfoGrid { get; set; }
-
-		[XmlElement(ElementName = "FuelTankInfoGrid")]
-		public FuelTankInfoGrid FuelTankInfoGrid { get; set; }
-
-		[XmlElement(ElementName = "CyclicalCostGrid")]
-		public CyclicalCostGrid CyclicalCostGrid { get; set; }
-	}
-
-	[XmlRoot(ElementName = "MainPanel")]
-	public class MainPanel
-	{
-		[XmlElement(ElementName = "AddButonList")]
-		public AddButonList AddButonList { get; set; }
-
-		[XmlElement(ElementName = "VehiclesPage")]
-		public VehiclesPage VehiclesPage { get; set; }
-
-		[XmlElement(ElementName = "HomePage")]
-		public HomePage HomePage { get; set; }
-
-		[XmlElement(ElementName = "LoginPanel")]
-		public LoginPanel LoginPanel { get; set; }
-
-		[XmlElement(ElementName = "RegisterPanel")]
-		public RegisterPanel RegisterPanel { get; set; }
-
-		[XmlElement(ElementName = "AddRefuelingPage")]
-		public AddRefuelingPage AddRefuelingPage { get; set; }
-
-		[XmlElement(ElementName = "RefuelingHistoryPage")]
-		public RefuelingHistoryPage RefuelingHistoryPage { get; set; }
-
-		[XmlElement(ElementName = "CostPage")]
-		public CostPage CostPage { get; set; }
-
-		[XmlElement(ElementName = "SettingsPage")]
-		public SettingsPage SettingsPage { get; set; }
-
-		[XmlElement(ElementName = "CalculatorPage")]
-		public CalculatorPage CalculatorPage { get; set; }
-
-		[XmlElement(ElementName = "AddVehiclePage")]
-		public AddVehiclePage AddVehiclePage { get; set; }
 	}
 
 	[XmlRoot(ElementName = "AddVehiclePage")]
@@ -220,37 +132,6 @@ namespace Car_Data_Application.Models.XML_Models
 		public Translation AddButton { get; set; }
 	}
 
-	[XmlRoot(ElementName = "CalculatorPage")]
-	public class CalculatorPage
-	{
-		[XmlElement(ElementName = "TravelCostCalculatorBorder")]
-		public TravelCostCalculatorBorder TravelCostCalculatorBorder { get; set; }
-
-		[XmlElement(ElementName = "AverageFuelConsumptionCalculatorBorder")]
-		public AverageFuelConsumptionCalculatorBorder AverageFuelConsumptionCalculatorBorder { get; set; }
-
-		[XmlElement(ElementName = "TravelCostCalculator")]
-		public Translation TravelCostCalculator { get; set; }
-
-		[XmlElement(ElementName = "AverageFuelConsumptionCalculator")]
-		public Translation AverageFuelConsumptionCalculator { get; set; }
-
-		[XmlElement(ElementName = "Gasoline")]
-		public Translation Gasoline { get; set; }
-
-		[XmlElement(ElementName = "Diesel")]
-		public Translation Diesel { get; set; }
-
-		[XmlElement(ElementName = "LPG")]
-		public Translation LPG { get; set; }
-
-		[XmlElement(ElementName = "NoVehicleException")]
-		public Translation NoVehicleException { get; set; }
-
-		[XmlElement(ElementName = "CalculateButton")]
-		public Translation CalculateButton { get; set; }
-	}
-
 	[XmlRoot(ElementName = "TravelCostCalculatorBorder")]
 	public class TravelCostCalculatorBorder
 	{
@@ -298,7 +179,6 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "AddRefuelingPage")]
 	public class AddRefuelingPage
 	{
-
 		[XmlElement(ElementName = "PageTitle")]
 		public Translation PageTitle { get; set; }
 
@@ -336,7 +216,6 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "RefuelingHistoryPage")]
 	public class RefuelingHistoryPage
 	{
-
 		[XmlElement(ElementName = "RefuelingCost")]
 		public Translation RefuelingCost { get; set; }
 
@@ -353,7 +232,6 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "CostPage")]
 	public class CostPage
 	{
-
 		[XmlElement(ElementName = "Cost")]
 		public Translation Cost { get; set; }
 
@@ -365,31 +243,6 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "Comment")]
 		public Translation Comment { get; set; }
-	}
-
-	[XmlRoot(ElementName = "MainGrid")]
-	public class MainGrid
-	{
-
-		[XmlElement(ElementName = "SidePanel")]
-		public SidePanel SidePanel { get; set; }
-
-		[XmlElement(ElementName = "MainPanel")]
-		public MainPanel MainPanel { get; set; }
-	}
-
-	[XmlRoot(ElementName = "HomePage")]
-	public class HomePage
-	{
-
-		[XmlElement(ElementName = "FuelData")]
-		public FuelData FuelData { get; set; }
-
-		[XmlElement(ElementName = "CostData")]
-		public CostData CostData { get; set; }
-
-		[XmlElement(ElementName = "XMLEntriesList")]
-		public XMLEntriesList XMLEntriesList { get; set; }
 	}
 
 	[XmlRoot(ElementName = "FuelData")]
@@ -508,7 +361,5 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "AddVehicle")]
 		public Translation AddVehicle { get; set; }
-		}
+	}
 }
-
-

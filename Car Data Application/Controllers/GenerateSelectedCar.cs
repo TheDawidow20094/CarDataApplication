@@ -11,9 +11,9 @@ namespace Car_Data_Application.Controllers
     {
         private ComboBox Carlist = new ComboBox();
 
-        public void GeneratorCarSelectList(MainWindow mw, User user, MainGrid config)
+        public void GeneratorCarSelectList(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user, config);
+            InitialAssignValue(mw, user, paramConfig);
 
             foreach (Vehicle vehicle in user.Vehicles)
             {
@@ -23,11 +23,11 @@ namespace Car_Data_Application.Controllers
             mw.CarName.Children.Add(Carlist);        
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, MainGrid config)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
             mainWindow = mw;
             PUser = user;
-            Config = config;
+            config = paramConfig;
             Carlist.Background = Brushes.LightCoral;
             Carlist.HorizontalContentAlignment = HorizontalAlignment.Center;
             Carlist.VerticalContentAlignment = VerticalAlignment.Center;
@@ -38,10 +38,10 @@ namespace Car_Data_Application.Controllers
         {
             PUser.ActiveCarIndex = Carlist.SelectedIndex;
             PUser.SerializeData();
-            RefreshPage(Config);
+            RefreshPage(config);
         }
 
-        private void RefreshPage(MainGrid config)
+        private void RefreshPage(Config paramConfig)
         { 
             switch (mainWindow.WhereAreYou)
             {
@@ -58,11 +58,11 @@ namespace Car_Data_Application.Controllers
                 break;
 
                 case "CalculatorPage":
-                    new CalculatorContentGenerator().CalculatorGenerator(mainWindow, PUser, Config);
+                    new CalculatorContentGenerator().CalculatorGenerator(mainWindow, PUser, config);
                 break;
 
                 case "AddRefuelingPage":
-                    new AddRefuelingPageGenerator().PageGenerator(mainWindow, PUser, Config);
+                    new AddRefuelingPageGenerator().PageGenerator(mainWindow, PUser, config);
                 break;
             }
         }

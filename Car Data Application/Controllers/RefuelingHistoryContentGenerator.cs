@@ -68,7 +68,7 @@ namespace Car_Data_Application.Controllers
 
                 RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.CarMillage.ToString() + " km", 1, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Bottom));
 
-                RefuelingGridContent.Children.Add(GenerateTextBlock("+ " + refueling.DistanceFromTheLastRefueling.ToString() + " km", 2, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
+                RefuelingGridContent.Children.Add(GenerateTextBlock("+ " + refueling.DistanceFromTheLastRefueling.ToString() + " km", 2, 2, LightTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
 
                 RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.TotalPrice.ToString() + " zł", 1, 1));
 
@@ -76,9 +76,9 @@ namespace Car_Data_Application.Controllers
 
                 RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Liters.ToString() + " L", 3, 1));
 
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Consumption.ToString() + " L/100Km", 4, 1));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Consumption.ToString() + " L/100km", 4, 1));
 
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.FuelType.ToString(), 3, 2));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.FuelType.ToString(), 3, 2, LightTextColor, HorizontalAlignment.Right));
 
                 RefuelingGrid.Children.Add(RefuelingGridContent);
 

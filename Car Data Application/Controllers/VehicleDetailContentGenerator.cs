@@ -10,6 +10,10 @@ namespace Car_Data_Application.Controllers
 {
     class VehicleDetailContentGenerator : CarDataAppController
     {
+
+        private string LightTextColor = "#FF9C9397";
+        private string DarkTextColor = "#FF2A2729"; // change to set in config
+
         private int ActualMainGridRow = new int();
 
         public void GeneratorVehicleDetail(MainWindow mainwindow, Vehicle vehicle, User user, VehiclesPage vehiclesPage)
@@ -18,7 +22,7 @@ namespace Car_Data_Application.Controllers
 
             Grid MainGrid = new Grid();
 
-            for (int i = 0; i < 6; i++) // 6 is number of rows
+            for (int i = 0; i < 5; i++) // 6 is number of rows
             {
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGrid.RowDefinitions.Add(MainGridRow);
@@ -39,20 +43,19 @@ namespace Car_Data_Application.Controllers
             PUser = user;
         }
 
-        private Border DisplayVehicleImage(Vehicle vehicle)
+        private Grid DisplayVehicleImage(Vehicle vehicle)
         {
             ActualMainGridRow = 0;
 
-            Border ImageBorder = new Border();
-            ImageBorder.BorderThickness = new Thickness(5);
-            ImageBorder.Margin = new Thickness(15, 5, 15, 5);
-            ImageBorder.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
+            Grid ImageGrid = new Grid();
+            SetGridProps(ref ImageGrid, ActualMainGridRow);
 
             Image image = new Image();
             ImageSourceConverter source = new ImageSourceConverter();
             image.Stretch = Stretch.UniformToFill;
             image.VerticalAlignment = VerticalAlignment.Center;
-            ImageBorder.MaxHeight = 280;
+            image.Margin = new Thickness(15);
+            ImageGrid.MaxHeight = 280;
 
 
             if (File.Exists(@"..\..\..\Images\UserPictures\" + vehicle.PictureFileName))
@@ -64,21 +67,17 @@ namespace Car_Data_Application.Controllers
                 image.SetValue(Image.SourceProperty, source.ConvertFromString(@"..\..\..\Images\defaultcaricon.png"));
             }
 
-            ImageBorder.Child = image;
+            ImageGrid.Children.Add(image);
 
-            return ImageBorder;
+            return ImageGrid;
         }
 
-        private Border GenarateVehicleNameGrid(Vehicle vehicle, VehicleNameGrid translation)
+        private Grid GenarateVehicleNameGrid(Vehicle vehicle, VehicleNameGrid translation)
         {
             ActualMainGridRow = 1;
 
-            Border VehicleNameBorder = new Border();
-            SetBorderProps(ref VehicleNameBorder, ActualMainGridRow);
-
             Grid vehicleNameGrid = new Grid();
-            VehicleNameBorder.Padding = new Thickness(20);
-            VehicleNameBorder.Child = vehicleNameGrid;
+            SetGridProps(ref vehicleNameGrid, ActualMainGridRow);
 
             for (int i = 0; i < 2; i++)
             {
@@ -90,12 +89,12 @@ namespace Car_Data_Application.Controllers
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.PL, 0, 0));
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.PL, 1, 0));
+                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
                 case "ENG":
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.ENG, 0, 0));
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.ENG, 1, 0));
+                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
             }
 
@@ -103,19 +102,15 @@ namespace Car_Data_Application.Controllers
 
             vehicleNameGrid.Children.Add(GenerateTextBlock(vehicle.Model, 1, 1));
 
-            return VehicleNameBorder;
+            return vehicleNameGrid;
         }
 
-        private Border GeneratePrimaryInfoGrid(Vehicle vehicle, PrimaryInfoGrid translation)
+        private Grid GeneratePrimaryInfoGrid(Vehicle vehicle, PrimaryInfoGrid translation)
         {
             ActualMainGridRow = 2;
 
-            Border PrimaryInfoBorder = new Border();
-            SetBorderProps(ref PrimaryInfoBorder, ActualMainGridRow);
-
             Grid PrimarmaryInfoGrid = new Grid();
-            PrimaryInfoBorder.Padding = new Thickness(20);
-            PrimaryInfoBorder.Child = PrimarmaryInfoGrid;
+            SetGridProps(ref PrimarmaryInfoGrid, ActualMainGridRow);
 
             for (int i = 0; i < 2; i++) // 2 number of columns
             {
@@ -131,16 +126,16 @@ namespace Car_Data_Application.Controllers
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.PL, 0, 0));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Vin.PL, 1, 0));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.PL, 2, 0));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Millage.PL, 3, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Vin.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Millage.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
                 case "ENG":
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.ENG, 0, 0));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Vin.ENG, 1, 0));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.ENG, 2, 0));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Millage.ENG, 3, 0));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Vin.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Millage.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
                     break;
             }
 
@@ -153,157 +148,184 @@ namespace Car_Data_Application.Controllers
 
             PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.CarMillage.ToString(), 3, 1));
 
-            return PrimaryInfoBorder;
+            return PrimarmaryInfoGrid;
         }
 
-        private Border GenarateFuelTankInfoGrid(Vehicle vehicle, FuelTankInfoGrid translation)
+        private Grid GenarateFuelTankInfoGrid(Vehicle vehicle, FuelTankInfoGrid translation)
         {
             ActualMainGridRow = 3;
 
-            Border FuelInfoBorder = new Border();
-            SetBorderProps(ref FuelInfoBorder, ActualMainGridRow);
-
             Grid FuelInfoGrid = new Grid();
-            FuelInfoBorder.Child = FuelInfoGrid;
-            FuelInfoBorder.Padding = new Thickness(20);
+            SetGridProps(ref FuelInfoGrid, ActualMainGridRow);
 
             for (int i = 0; i < 2; i++) // 2 number of columns
             {
-                ColumnDefinition FuelInfoGridColumn = new ColumnDefinition();
-                FuelInfoGrid.ColumnDefinitions.Add(FuelInfoGridColumn);
+                FuelInfoGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            for (int i = 0; i <= 3; i++) //3 number of rows
-            {
-                RowDefinition FuelInfGridRow = new RowDefinition();
-                FuelInfoGrid.RowDefinitions.Add(FuelInfGridRow);
-            }
+
+            FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
+            int RowIndex = 0;
 
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.PL, 0, 0));
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.PL, 1, 0));
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.PL, 2, 0));
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.FuelTankInfoTitle.PL, RowIndex, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
                     break;
                 case "ENG":
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.ENG, 0, 0));
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.ENG, 1, 0));
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.ENG, 2, 0));
+                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.FuelTankInfoTitle.ENG, RowIndex, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
                     break;
             }
 
+            if (vehicle.Tanks.Gasoline != 0)
+            {
+                FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
+                RowIndex++;
 
-            FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Gasoline.ToString(), 0, 1));
+                switch (PUser.UserLanguage)
+                {
+                    case "PL":
+                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.PL, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
+                    case "ENG":
+                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.ENG, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
+                }
+                FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Gasoline.ToString(), RowIndex, 1));
+            }
 
-            FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Diesel.ToString(), 1, 1));
+            if (vehicle.Tanks.LPG != 0)
+            {
+                FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
+                RowIndex++;
 
-            FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.LPG.ToString(), 2, 1));
+                switch (PUser.UserLanguage)
+                {
+                    case "PL":
+                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.PL, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
+                    case "ENG":
+                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.ENG, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
+                }
+                FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.LPG.ToString(), RowIndex, 1));
+            }
 
-            return FuelInfoBorder;
+            if (vehicle.Tanks.Diesel != 0)
+            {
+                FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
+                RowIndex++;
+
+                switch (PUser.UserLanguage)
+                {
+                    case "PL":
+                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.PL, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
+                    case "ENG":
+                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.ENG, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+                        break;
+                }
+                FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Diesel.ToString(), RowIndex, 1));
+            }
+
+
+            return FuelInfoGrid;
         }
 
-        private Border GenerateCyclicalCostGrid(Vehicle vehicle, CyclicalCostGrid translation)
+        //private Grid GenarateFuelTankInfoGrid(Vehicle vehicle, FuelTankInfoGrid translation)
+        //{
+        //    ActualMainGridRow = 3;
+
+        //    Grid FuelInfoGrid = new Grid();
+        //    SetGridProps(ref FuelInfoGrid, ActualMainGridRow);
+
+        //    for (int i = 0; i < 2; i++) // 2 number of columns
+        //    {
+        //        ColumnDefinition FuelInfoGridColumn = new ColumnDefinition();
+        //        FuelInfoGrid.ColumnDefinitions.Add(FuelInfoGridColumn);
+        //    }
+        //    for (int i = 0; i <= 3; i++) //3 number of rows
+        //    {
+        //        RowDefinition FuelInfGridRow = new RowDefinition();
+        //        FuelInfoGrid.RowDefinitions.Add(FuelInfGridRow);
+        //    }
+
+        //    switch (PUser.UserLanguage)
+        //    {
+        //        case "PL":
+        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
+        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
+        //            break;
+        //        case "ENG":
+        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
+        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
+        //            break;
+        //    }
+
+
+        //    FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Gasoline.ToString(), 0, 1));
+
+        //    FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Diesel.ToString(), 1, 1));
+
+        //    FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.LPG.ToString(), 2, 1));
+
+        //    return FuelInfoGrid;
+        //}
+
+        private Grid GenerateCyclicalCostGrid(Vehicle vehicle, CyclicalCostGrid translation)
         {
             ActualMainGridRow = 4;
 
-            Border CyclicalCostBorder = new Border();
-            SetBorderProps(ref CyclicalCostBorder, ActualMainGridRow);
-
             Grid CyclicalCostGrid = new Grid();
-            CyclicalCostBorder.Padding = new Thickness(20);
-            CyclicalCostBorder.Child = CyclicalCostGrid;
+            SetGridProps(ref CyclicalCostGrid, ActualMainGridRow);
 
-            for (int i = 0; i < 2; i++) // numbers of column
+            for (int i = 0; i < 4; i++) // numbers of column and rows
             {
-                ColumnDefinition CyclicalCostColumn = new ColumnDefinition();
-                CyclicalCostGrid.ColumnDefinitions.Add(CyclicalCostColumn);
-            }
-            for (int i = 0; i <= 7; i++) // 7 number of rows
-            {
-                RowDefinition CyclicalCostRow = new RowDefinition();
-                CyclicalCostGrid.RowDefinitions.Add(CyclicalCostRow);
+                CyclicalCostGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                CyclicalCostGrid.RowDefinitions.Add(new RowDefinition());
             }
 
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.PL, 0, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.PL, 1, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.PL, 2, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.PL, 4, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.PL, 5, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.PL, 6, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceTitle.PL, 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionTitle.PL, 0, 2, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.PL, 1, 2, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.PL, 2, 2, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.PL, 3, 2, LightTextColor, HorizontalAlignment.Right));
                     break;
                 case "ENG":
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.ENG, 0, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.ENG, 1, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.ENG, 2, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.ENG, 4, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.ENG, 5, 0));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.ENG, 6, 0));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceTitle.ENG, 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionTitle.ENG, 0, 2, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.ENG, 1, 2, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.ENG, 2, 2, LightTextColor, HorizontalAlignment.Right));
+                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.ENG, 3, 2, LightTextColor, HorizontalAlignment.Right));
                     break;
             }
 
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.StartDate.ToString(), 0, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.StartDate.ToString(), 1, 1));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.EndDate.ToString(), 1, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.EndDate.ToString(), 2, 1));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.Price.ToString() + " zł", 2, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.Price.ToString() + " zł", 3, 1));
 
-            //============================DIVIDE ELEMENTS=======================================
+            
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("", 3, 0));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.StartDate.ToString(), 1, 3));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock("", 3, 1));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.EndDate.ToString(), 2, 3));
 
-            //===================================================================================
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.Price.ToString() + " zł", 3, 3));
 
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.StartDate.ToString(), 4, 1));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.EndDate.ToString(), 5, 1));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.Price.ToString() + " zł", 6, 1));
-
-            return CyclicalCostBorder;
-        }
-
-        private TextBlock GenerateTextBlock(string text, int row, int column)
-        {
-            TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            TextBlockName.FontFamily = new FontFamily("Arial Black");
-            TextBlockName.FontWeight = FontWeights.Bold;
-            TextBlockName.Text = text;
-            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
-            Grid.SetRow(TextBlockName, row);
-            Grid.SetColumn(TextBlockName, column);
-
-            if (column == 1)
-            {
-                TextBlockName.HorizontalAlignment = HorizontalAlignment.Right;
-            }
-            if (ActualMainGridRow == 1) 
-            {
-                TextBlockName.HorizontalAlignment = HorizontalAlignment.Center;
-            }
-
-            return TextBlockName;
-        }
-
-        private void SetBorderProps(ref Border border, int row)
-        {
-            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
-            border.Background = BackgroundBrushh;
-
-            border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
-            border.CornerRadius = new CornerRadius(30);
-
-            border.Margin = new Thickness(15,5,15,5);
-            border.Padding = new Thickness(0, 0, 35, 0);
-            Grid.SetRow(border, row);
+            return CyclicalCostGrid;
         }
     }
 }

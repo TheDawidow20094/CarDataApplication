@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<MainGrid>
+<Config>
   <SidePanel>
     <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="true" Icon="user.png"/>
     <XMLButton PL="Zarejestruj" ENG="Register" Name="RegisterPage" IsEnabled="false" Icon="user.png"/>
@@ -47,17 +47,20 @@
         <Millage PL="Przebieg:" ENG="Millage:"/>
       </PrimaryInfoGrid>
       <FuelTankInfoGrid>
-        <Gasoline PL="Pojemność Baku Benzyny:" ENG="Capacity Of Gasoline Tank:"/>
-        <Diesel PL="Pojemność Baku Diesel:" ENG="Capacity Of Diesel Tank:"/>
-        <LPG PL="Pojemność Baku LPG:" ENG="Capacity Of LPG Tank:"/>
+        <FuelTankInfoTitle PL="Pojemność Baków" ENG="Capacity Of Tanks"/>
+        <Gasoline PL="Benzyna:" ENG="Gasoline:"/>
+        <Diesel PL="Diesel:" ENG="Diesel:"/>
+        <LPG PL="LPG:" ENG="LPG:"/>
       </FuelTankInfoGrid>
       <CyclicalCostGrid>
-        <InsuranceStartDate PL="Rozpoczęcie Okresu Ubezpieczenia:" ENG="Insurance Start Date:"/>
-        <InsuranceEndDate PL="Koniec Okresu Ubezpieczenia:" ENG="Insurance End Date"/>
-        <InsurancePrice PL="Koszt Obecnego Ubezpieczenia:" ENG="Insurance Price:"/>
-        <InspectionStartDate PL="Data Wykonania Przeglądu Technicznego:" ENG="Last Technical Inspection:"/>
-        <InspectionEndDate PL="Koniec Ważności Przeglądu Technicznego:" ENG="The Next Technical Inspection:"/>
-        <InspectionPrice PL="Koszt Wykonania Przeglądu Technicznego:" ENG="Technical Inspection Price:"/>
+        <InsuranceTitle PL="Ubezpieczenie" ENG="Insurance"/>
+        <InsuranceStartDate PL="Początek:" ENG="Start Date:"/>
+        <InsuranceEndDate PL="Koniec:" ENG="End Date"/>
+        <InsurancePrice PL="Koszt:" ENG="Price:"/>
+        <InspectionTitle PL="Przegląd Techniczny" ENG="Technical Inspection"/>
+        <InspectionStartDate PL="Data Wykonania:" ENG="Last:"/>
+        <InspectionEndDate PL="Koniec Ważności:" ENG="Next:"/>
+        <InspectionPrice PL="Koszt:" ENG="Price:"/>
       </CyclicalCostGrid>
     </VehiclesPage>
 
@@ -165,4 +168,4 @@
     </CalculatorPage>
 
   </MainPanel>
-</MainGrid>
+</Config>

@@ -14,7 +14,7 @@ namespace Car_Data_Application.Controllers
         public MainWindow mainWindow;
         public User PUser;
         public BrushConverter Converter = new BrushConverter();
-        public MainGrid Config;
+        public Config config;
 
         public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
@@ -33,10 +33,10 @@ namespace Car_Data_Application.Controllers
             }
         }
 
-        public void GoToHomePage(MainWindow mainWindow, User user, MainGrid config)
+        public void GoToHomePage(MainWindow mainWindow, User user, Config paramConfig)
         {
             HomeContentGenerator OpenHomePage = new HomeContentGenerator();
-            OpenHomePage.GeneratorHomeContent(mainWindow, user, config.MainPanel.HomePage);
+            OpenHomePage.GeneratorHomeContent(mainWindow, user, paramConfig.MainPanel.HomePage);
         }
 
         public void SetGridProps(ref Grid Grid, int row)
@@ -44,7 +44,6 @@ namespace Car_Data_Application.Controllers
             Grid.Background = Brushes.WhiteSmoke;
 
             Grid.Margin = new Thickness(25, 10, 25, 10);
-            //StackPanel.Padding = new Thickness(0, 0, 35, 0);
 
             DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
             myDropShadowEffect.Color = Colors.Black;
