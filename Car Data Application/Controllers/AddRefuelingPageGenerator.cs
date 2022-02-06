@@ -19,12 +19,14 @@ namespace Car_Data_Application.Controllers
             InitialAssignValue(mw, user, paramConfig);
 
             Grid MainGrid = new Grid();
-            for (int i = 0; i <= 6; i++)
-            {
-                MainGrid.RowDefinitions.Add(new RowDefinition());
-            }
 
-            MainGrid.Children.Add(AddingTitle(config.MainPanel.AddRefuelingPage));
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50) });
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(140) });
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(210) });
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
+
+            //MainGrid.Children.Add(AddingTitle(config.MainPanel.AddRefuelingPage));
             MainGrid.Children.Add(AddingVehicleName());
             MainGrid.Children.Add(MainContent(config.MainPanel.AddRefuelingPage));
             MainGrid.Children.Add(DataContent(config.MainPanel.AddRefuelingPage));
@@ -41,6 +43,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
             mainWindow.WhereAreYou = "AddRefuelingPage";
+            SetButtonColor("RefuelingHistoryPage", ((Grid)mainWindow.MainGrid.Children[3]));
         }
 
         private Border AddingTitle(AddRefuelingPage translation)
@@ -58,7 +61,6 @@ namespace Car_Data_Application.Controllers
             }
 
             Border TitleBorder = new Border();
-            //SetBorderProps(ref TitleBorder, 0, "#07A802", "#0BFF03");
 
             Grid TitleGrid = new Grid();
             TitleBorder.Padding = new Thickness(20);
@@ -70,7 +72,7 @@ namespace Car_Data_Application.Controllers
 
         private TextBlock AddingVehicleName()
         {
-            TextBlock EntriesListText = GenerateTextBlock(PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand, 1, 0, "#FF2A2729", HorizontalAlignment.Center);
+            TextBlock EntriesListText = GenerateTextBlock(PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand, 0, 0, "#FF2A2729", HorizontalAlignment.Center);
             EntriesListText.FontSize = 34;
             EntriesListText.Margin = new Thickness(0, 15, 0, 10);
 
@@ -80,7 +82,7 @@ namespace Car_Data_Application.Controllers
         private Grid MainContent(AddRefuelingPage translation)
         {
             Grid MainContentGrid = new Grid();
-            SetGridProps(ref MainContentGrid, 2);
+            SetGridProps(ref MainContentGrid, 1);
 
             for (int i = 0; i < 4; i++) // 4 number of columns
             {
@@ -130,13 +132,11 @@ namespace Car_Data_Application.Controllers
         private Grid DataContent(AddRefuelingPage translation)
         {
             Grid DataContentGrid = new Grid();
-            SetGridProps(ref DataContentGrid, 3);
+            SetGridProps(ref DataContentGrid, 2);
 
-            //for (int i = 0; i < 2; i++) // 2 number of rows
-            //{
-                DataContentGrid.RowDefinitions.Add(new RowDefinition());
-            //}
-            for (int i = 0; i < 4; i++) // 2 number of columns
+            DataContentGrid.RowDefinitions.Add(new RowDefinition());
+
+            for (int i = 0; i < 4; i++) // 4 number of columns
             {
                 DataContentGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
@@ -201,22 +201,19 @@ namespace Car_Data_Application.Controllers
         private Grid CommentContent(AddRefuelingPage translation)
         {
             Grid CommentContentGrid = new Grid();
-            SetGridProps(ref CommentContentGrid, 4);
+            SetGridProps(ref CommentContentGrid, 3);
 
-            for (int i = 0; i < 2; i++) // 2 number of rows
-            {
-                RowDefinition CommentContentGridRow = new RowDefinition();
-                CommentContentGrid.RowDefinitions.Add(CommentContentGridRow);
-            }
+            CommentContentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40)});
+            CommentContentGrid.RowDefinitions.Add(new RowDefinition());
 
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.PL , 0, 0, LightTextColor, HorizontalAlignment.Center));
+                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.PL , 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
                     break;
 
                 case "ENG":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.ENG, 0, 0, LightTextColor, HorizontalAlignment.Center));
+                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.ENG, 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
                     break;
             }
 
@@ -247,7 +244,7 @@ namespace Car_Data_Application.Controllers
             AddRefuelingButton.FontFamily = new FontFamily("Arial Black");
             AddRefuelingButton.FontWeight = FontWeights.Bold;
             AddRefuelingButton.Margin = new Thickness(0,0,0,8);
-            Grid.SetRow(AddRefuelingButton, 5);
+            Grid.SetRow(AddRefuelingButton, 4);
 
             return AddRefuelingButton;
         }

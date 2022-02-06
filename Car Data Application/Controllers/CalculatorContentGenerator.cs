@@ -281,7 +281,6 @@ namespace Car_Data_Application.Controllers
             catch (Exception) { MessageBox.Show((PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.ENG)); }
         }
 
-
         private Border AverageFuelConsumptionCalculatorGenerator(AverageFuelConsumptionCalculatorBorder translation)
         {
             Border AverageFuelConsumptionCalculatorBorder = new Border();

@@ -72,15 +72,17 @@
       <VIN PL="VIN:" ENG="VIN:"/>
       <Plates PL="Tablice Rejestracyjne:" ENG="Plates:"/>
       <VehicleMillage PL="Przebieg:" ENG="Millage:"/>
-      <GasolineTank PL="Pojemność Baku Paliwa:" ENG="Gasoline Tank:"/>
-      <DieselTank PL="Pojemność Baku Diesel:" ENG="Diesel Tank:"/>
-      <LPGTank PL="Pojemność Baku LPG:" ENG="LPG Tank:"/>
-      <InsuranceStartDate PL="Rozpoczęcie Okresu Ubezpieczenia:" ENG="Insurance Start Date:"/>
-      <InsuranceEndDate PL="Koniec Okresu Ubezpieczenia:" ENG="Insurance End Date:"/>
-      <InsurancePrice PL="Koszt Obecnego Ubezpieczenia:" ENG="Insurance Price:"/>
-      <InspectionStartDate PL="Data Wykonania przeglądu Technicznego:" ENG="Inspection Start Date:"/>
-      <InspectionEndDate PL="Koniec Ważności Przeglądu Technicznego:" ENG="Inspection End Date:"/>
-      <InspectionPrice PL="Koszt Wykonania Badania Technicznego:" ENG="Inspection Price:"/>
+      <GasolineTank PL="Benzyna" ENG="Gasoline"/>
+      <DieselTank PL="Diesel" ENG="Diesel"/>
+      <LPGTank PL="LPG" ENG="LPG"/>
+      <InsuranceTitle PL="Ubezpieczenie" ENG="Insurance"/>
+      <InsuranceStartDate PL="Początek:" ENG="Start Date:"/>
+      <InsuranceEndDate PL="Koniec:" ENG="End Date"/>
+      <InsurancePrice PL="Koszt:" ENG="Price:"/>
+      <InspectionTitle PL="Przegląd Techniczny" ENG="Technical Inspection"/>
+      <InspectionStartDate PL="Data Wykonania:" ENG="Last:"/>
+      <InspectionEndDate PL="Koniec Ważności:" ENG="Next:"/>
+      <InspectionPrice PL="Koszt:" ENG="Price:"/>
       <AddButton PL="Dodaj Pojazd" ENG="Add Vehicle"/>
     </AddVehiclePage>
 

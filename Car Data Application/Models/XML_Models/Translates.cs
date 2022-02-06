@@ -110,6 +110,9 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "LPGTank")]
 		public Translation LPGTank { get; set; }
 
+		[XmlElement(ElementName = "InsuranceTitle")]
+		public Translation InsuranceTitle { get; set; }
+
 		[XmlElement(ElementName = "InsuranceStartDate")]
 		public Translation InsuranceStartDate { get; set; }
 
@@ -118,6 +121,9 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "InsurancePrice")]
 		public Translation InsurancePrice { get; set; }
+
+		[XmlElement(ElementName = "InspectionTitle")]
+		public Translation InspectionTitle { get; set; }
 
 		[XmlElement(ElementName = "InspectionStartDate")]
 		public Translation InspectionStartDate { get; set; }

@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
@@ -43,11 +44,11 @@ namespace Car_Data_Application.Controllers
             OpenHomePage.GeneratorHomeContent(mainWindow, user, paramConfig.MainPanel.HomePage);
         }
 
-        public void SetGridProps(ref Grid Grid, int row)
+        public void SetGridProps(ref Grid grid, int row)
         {
-            Grid.Background = Brushes.WhiteSmoke;
+            grid.Background = Brushes.WhiteSmoke;
 
-            Grid.Margin = new Thickness(25, 10, 25, 10);
+            grid.Margin = new Thickness(25, 10, 25, 10);
 
             DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
             myDropShadowEffect.Color = Colors.Black;
@@ -55,9 +56,9 @@ namespace Car_Data_Application.Controllers
             myDropShadowEffect.ShadowDepth = 5;
             myDropShadowEffect.Softness = 1;
             myDropShadowEffect.Opacity = 0.25;
-            Grid.BitmapEffect = myDropShadowEffect;
+            grid.BitmapEffect = myDropShadowEffect;
 
-            Grid.SetRow(Grid, row);
+            Grid.SetRow(grid, row);
 
         }
 
@@ -86,29 +87,43 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
-        public TextBox GenerateTextBox(string textboxname, int row, int column, bool biggersize = false, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, string value = "")
+        public TextBox GenerateTextBox(string textboxname, int row, int column, bool biggersize = false, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, string value = "", bool smallersize = false, Visibility visibility = Visibility.Visible)
         {
-            TextBox TextBoxName = new TextBox();
-            TextBoxName.Width = biggersize ? 250 : 120;
-            TextBoxName.Height = 30;
-            if (biggersize) { TextBoxName.Height = 130; TextBoxName.Margin = new Thickness(0,0,0,15); }
+            TextBox textBox = new TextBox();
+            textBox.Width = 120;
+            textBox.Height = 30;
+            textBox.Margin = new Thickness(2, 2, 6, 2);
+            if (biggersize) {
+                textBox.Width = 250;
+                textBox.Height = 140;
+                textBox.Margin = new Thickness(2,2,2,15);
+            }
+            if (smallersize)
+            {
+                textBox.Width = 100;
+            }
 
-            TextBoxName.Text = value;
-            TextBoxName.Margin = new Thickness(2, 2, 6, 2);
-            TextBoxName.HorizontalAlignment = horizontalAlignment;
-            TextBoxName.BorderThickness = new Thickness(0);
-            TextBoxName.FontWeight = FontWeights.Bold;
-            TextBoxName.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
-            TextBoxName.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
-            TextBoxName.FontFamily = new FontFamily("Global User Interface");
+            textBox.Text = value;
+            textBox.HorizontalAlignment = horizontalAlignment;
+            textBox.BorderThickness = new Thickness(0);
+            textBox.FontWeight = FontWeights.Bold;
+            textBox.Visibility = visibility;
+            textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            textBox.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+            textBox.FontFamily = new FontFamily("Global User Interface");
 
             string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
 
-            TextBoxName.SetValue(FrameworkElement.NameProperty, TrimmedText + "_Textbox");
-            Grid.SetRow(TextBoxName, row);
-            Grid.SetColumn(TextBoxName, column);
+            if (null != mainWindow.FindName(TrimmedText + "_Textbox"))
+            {
+                mainWindow.UnregisterName(TrimmedText + "_Textbox");
+            }
+            mainWindow.RegisterName(TrimmedText + "_Textbox", textBox);
 
-            return TextBoxName;
+            Grid.SetRow(textBox, row);
+            Grid.SetColumn(textBox, column);
+
+            return textBox;
         }
 
         public Image GenerateIcon(string path, int row, int column)

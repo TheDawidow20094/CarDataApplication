@@ -298,7 +298,6 @@ namespace Car_Data_Application.Views
             }
         }
 
-        
         private void HandleWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if ((this.Width <= 650) && (SidePanelColumn.ActualWidth == 210))
