@@ -21,8 +21,7 @@ namespace Car_Data_Application.Controllers
             Grid MainGrid = new Grid();
             for (int i = 0; i <= 6; i++)
             {
-                RowDefinition MainGridRow = new RowDefinition();
-                MainGrid.RowDefinitions.Add(MainGridRow);
+                MainGrid.RowDefinitions.Add(new RowDefinition());
             }
 
             MainGrid.Children.Add(AddingTitle(config.MainPanel.AddRefuelingPage));
@@ -59,127 +58,151 @@ namespace Car_Data_Application.Controllers
             }
 
             Border TitleBorder = new Border();
-            SetBorderProps(ref TitleBorder, 0, "#07A802", "#0BFF03");
+            //SetBorderProps(ref TitleBorder, 0, "#07A802", "#0BFF03");
 
             Grid TitleGrid = new Grid();
             TitleBorder.Padding = new Thickness(20);
             TitleBorder.Child = TitleGrid;
-            TitleGrid.Children.Add(GenerateTextBlock(TitleText, 0,0, null, HorizontalAlignment.Center));
+            TitleGrid.Children.Add(GenerateTextBlock(TitleText, 0,0, DarkTextColor, HorizontalAlignment.Center));
 
             return TitleBorder;
         }
 
         private TextBlock AddingVehicleName()
         {
-            string Title = PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand;
-
-            TextBlock EntriesListText = GenerateTextBlock(Title, 1, 0, "#FF407BB6", HorizontalAlignment.Center);
+            TextBlock EntriesListText = GenerateTextBlock(PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand, 1, 0, "#FF2A2729", HorizontalAlignment.Center);
             EntriesListText.FontSize = 34;
-            EntriesListText.Margin = new Thickness(0, 25, 0, 0);
+            EntriesListText.Margin = new Thickness(0, 15, 0, 10);
 
             return EntriesListText;
         }
 
-        private Border MainContent(AddRefuelingPage translation)
+        private Grid MainContent(AddRefuelingPage translation)
         {
-            Border MainContentBorder = new Border();
-            SetBorderProps(ref MainContentBorder, 2);
-
             Grid MainContentGrid = new Grid();
-            MainContentBorder.Padding = new Thickness(20);
-            MainContentBorder.Child = MainContentGrid;
+            SetGridProps(ref MainContentGrid, 2);
 
-            for (int i = 0; i < 2; i++) // 2 number of columns
+            for (int i = 0; i < 4; i++) // 4 number of columns
             {
-                ColumnDefinition MainContentGridColumn = new ColumnDefinition();
-                MainContentGrid.ColumnDefinitions.Add(MainContentGridColumn);
+                MainContentGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
             for (int i = 0; i < 3; i++) // 3 number of rows
             {
-                RowDefinition MainContentGridRow = new RowDefinition();
-                MainContentGrid.RowDefinitions.Add(MainContentGridRow);
+                MainContentGrid.RowDefinitions.Add(new RowDefinition());
             }
 
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.PL, 0, 0));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.PL, 1, 0));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.PL, 2, 0));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.PL, 0, 1));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.PL, 1, 1));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.PL, 2, 1));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.PL, 0, 2, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.PL, 1, 2, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.PL, 2, 2, LightTextColor, HorizontalAlignment.Right));
                     break;
 
                 case "ENG":
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.ENG, 0, 0));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.ENG, 1, 0));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.ENG, 2, 0));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.ENG, 0, 1));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.ENG, 1, 1));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.ENG, 2, 1));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.ENG, 0, 2, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.ENG, 1, 2, LightTextColor, HorizontalAlignment.Right));
+                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.ENG, 2, 2, LightTextColor, HorizontalAlignment.Right));
                     break;    
             }
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.Liters.ENG.TrimEnd(':'), 0, 0));
+            MainContentGrid.Children.Add(GenerateTextBox(translation.Liters.ENG.TrimEnd(':'), 0, 1));
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.PriceForLiter.ENG.TrimEnd(':'), 1, 0));
+            MainContentGrid.Children.Add(GenerateTextBox(translation.PriceForLiter.ENG.TrimEnd(':'), 1, 1));
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.TotalPrice.ENG.TrimEnd(':'), 2, 0));
+            MainContentGrid.Children.Add(GenerateTextBox(translation.TotalPrice.ENG.TrimEnd(':'), 2, 1));
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.CarMillage.ENG.TrimEnd(':'), 0, 1));
+            MainContentGrid.Children.Add(GenerateTextBox(translation.CarMillage.ENG.TrimEnd(':'), 0, 3));
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.FuelType.ENG.TrimEnd(':'), 1, 1));
+            MainContentGrid.Children.Add(GenerateTextBox(translation.FuelType.ENG.TrimEnd(':'), 1, 3));
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.IsFull.ENG.TrimEnd(':'), 2, 1));
+            MainContentGrid.Children.Add(GenerateTextBox(translation.IsFull.ENG.TrimEnd(':'), 2, 3));
 
-            return MainContentBorder;
+            return MainContentGrid;
         }
 
-        private Border DataContent(AddRefuelingPage translation)
+        private Grid DataContent(AddRefuelingPage translation)
         {
-            Border DataContentBorder = new Border();
-            SetBorderProps(ref DataContentBorder, 3);
-
             Grid DataContentGrid = new Grid();
-            DataContentBorder.Padding = new Thickness(20);
-            DataContentBorder.Child = DataContentGrid;
-            for (int i = 0; i < 2; i++) // 2 number of columns and rows
+            SetGridProps(ref DataContentGrid, 3);
+
+            //for (int i = 0; i < 2; i++) // 2 number of rows
+            //{
+                DataContentGrid.RowDefinitions.Add(new RowDefinition());
+            //}
+            for (int i = 0; i < 4; i++) // 2 number of columns
             {
-                ColumnDefinition DataContentGridColumn = new ColumnDefinition();
-                DataContentGrid.ColumnDefinitions.Add(DataContentGridColumn);
-                RowDefinition DataContentGridRow = new RowDefinition();
-                DataContentGrid.RowDefinitions.Add(DataContentGridRow);
+                DataContentGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.PL, 0, 0));
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.PL, 1, 0));
+                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.PL, 0, 2, LightTextColor, HorizontalAlignment.Right));
                     break;
 
                 case "ENG":
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.ENG, 0, 0));
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.ENG, 1, 0));
+                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.ENG, 0, 2, LightTextColor, HorizontalAlignment.Right));
                     break;
             }
 
-            DataContentGrid.Children.Add(GenerateTextBox(translation.Date.ENG.TrimEnd(':'), 0, 0));
+            DataContentGrid.Children.Add(GenerateDatePicker(translation.Date.ENG.TrimEnd(':'), 0, 1));
 
-            DataContentGrid.Children.Add(GenerateTextBox(translation.Time.ENG.TrimEnd(':'), 1, 0));
+            TextBox textBox = GenerateTextBox(translation.Time.ENG.TrimEnd(':'), 0, 3, false, HorizontalAlignment.Left, DateTime.Now.TimeOfDay.ToString().Substring(0, 5));
+            textBox.LostFocus += CheckTimeFormat;
+            DataContentGrid.Children.Add(textBox);
 
-            return DataContentBorder;
+            return DataContentGrid;
         }
 
-        private Border CommentContent(AddRefuelingPage translation)
+        private void CheckTimeFormat(object sender, RoutedEventArgs e)
         {
-            Border CommentContentBorder = new Border();
-            SetBorderProps(ref CommentContentBorder, 4);
+            TextBox textBox = (TextBox)sender;
+            int hour = new();
+            int minutes = new();
 
+            if (textBox.Text.Length != 5)
+            {
+                textBox.Text = DateTime.Now.TimeOfDay.ToString().Substring(0, 5);
+                //textBox.Background = Brushes.IndianRed;
+            }
+            else if((Int32.TryParse(textBox.Text.Substring(0, 2), out hour)) && (Int32.TryParse(textBox.Text.Substring(3, 2), out minutes)))
+            {
+                if (textBox.Text[2] != ':')
+                {
+                    textBox.Text = textBox.Text.Substring(0, 2) + ":" + textBox.Text.Substring(3,2);
+                }
+                
+                if ((hour < 24) &&  (minutes < 59) && (minutes >= 0) && (hour >= 0))
+                {
+                    textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+                    //textBox.Background = Brushes.IndianRed;
+                }
+                else
+                {
+                    textBox.Text = DateTime.Now.TimeOfDay.ToString().Substring(0, 5);
+                }
+            }
+            else
+            {
+                textBox.Text = DateTime.Now.TimeOfDay.ToString().Substring(0, 5);
+                //textBox.Background = Brushes.IndianRed;
+            }
+        }
+
+        private Grid CommentContent(AddRefuelingPage translation)
+        {
             Grid CommentContentGrid = new Grid();
-            CommentContentBorder.Padding = new Thickness(20);
-            CommentContentBorder.Child = CommentContentGrid;
+            SetGridProps(ref CommentContentGrid, 4);
+
             for (int i = 0; i < 2; i++) // 2 number of rows
             {
                 RowDefinition CommentContentGridRow = new RowDefinition();
@@ -189,17 +212,17 @@ namespace Car_Data_Application.Controllers
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.PL , 0, 0, null, HorizontalAlignment.Center));
+                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.PL , 0, 0, LightTextColor, HorizontalAlignment.Center));
                     break;
 
                 case "ENG":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.ENG, 0, 0, null, HorizontalAlignment.Center));
+                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.ENG, 0, 0, LightTextColor, HorizontalAlignment.Center));
                     break;
             }
 
-            CommentContentGrid.Children.Add(GenerateTextBox(translation.Comment.ENG.TrimEnd(':'), 1, 0, true, HorizontalAlignment.Center));
+            CommentContentGrid.Children.Add(GenerateTextBox(translation.Comment.ENG.TrimEnd(':'), 1, 0, true,  HorizontalAlignment.Center));
 
-            return CommentContentBorder;
+            return CommentContentGrid;
         }
 
         private Button AddRefuelingButton(AddRefuelingPage translation)
@@ -217,7 +240,7 @@ namespace Car_Data_Application.Controllers
                     break;
             } 
             AddRefuelingButton.Height = 60;
-            AddRefuelingButton.Width = 100;
+            AddRefuelingButton.Width = 140;
             AddRefuelingButton.Click += HandleAddRefuelingButtonClick;
             AddRefuelingButton.Background = (Brush)Converter.ConvertFromString("#07A802");
             AddRefuelingButton.Foreground = Brushes.White;
@@ -232,61 +255,6 @@ namespace Car_Data_Application.Controllers
         private void HandleAddRefuelingButtonClick(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("DZIAŁAM");
-        }
-
-
-
-
-        private void SetBorderProps(ref Border border, int row, string backgroundcolor = default, string bordercolor = default)
-        {
-            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString(backgroundcolor == default ? "#FF001A34" : backgroundcolor);
-            border.Background = BackgroundBrushh;
-
-            border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)Converter.ConvertFrom(bordercolor == default ? "#FF407BB6" : bordercolor);
-            border.CornerRadius = new CornerRadius(30);
-
-            border.Margin = new Thickness(15, 5, 15, 5);
-            border.Padding = new Thickness(0, 0, 35, 0);
-            Grid.SetRow(border, row);
-
-        }
-
-        private TextBox GenerateTextBox(string textboxname, int row, int column, bool biggersize = false, HorizontalAlignment horizontalAlignment = default)
-        {
-            TextBox TextBoxName = new TextBox();
-            TextBoxName.Width = biggersize ? 250 : 120;
-            if (biggersize){TextBoxName.Height = 130;}
-
-            TextBoxName.Margin = new Thickness(0, 2, 6, 2);
-            TextBoxName.HorizontalAlignment = horizontalAlignment == default ? HorizontalAlignment.Right : horizontalAlignment;
-
-            string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
-
-            TextBoxName.SetValue(FrameworkElement.NameProperty, TrimmedText + "_Textbox");
-            Grid.SetRow(TextBoxName, row);
-            Grid.SetColumn(TextBoxName, column);
-
-            return TextBoxName;
-        }
-
-        private TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = default, HorizontalAlignment horizontalAlignment = default)
-        {
-            TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor == default ? "#FFEDF5FD" : foregroundcolor);
-            TextBlockName.FontFamily = new FontFamily("Arial Black");
-            TextBlockName.FontWeight = FontWeights.Bold;
-            TextBlockName.Text = text;
-            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
-            TextBlockName.VerticalAlignment = VerticalAlignment.Center;
-            if (horizontalAlignment != default)
-            {
-                TextBlockName.HorizontalAlignment = horizontalAlignment;
-            }
-            Grid.SetRow(TextBlockName, row);
-            Grid.SetColumn(TextBlockName, column);
-
-            return TextBlockName;
         }
     }
 }

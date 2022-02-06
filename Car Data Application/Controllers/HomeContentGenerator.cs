@@ -18,12 +18,6 @@ namespace Car_Data_Application.Controllers
             InitialAssignValue(mw, user);
            
             Grid Grid = new Grid();
-            //for (int i = 0; i < 4; i++) // 4 is number of displays blocks with data
-            //{
-            //    RowDefinition row = new RowDefinition();
-            //    if (i == 2) { row.Height = new GridLength(80); };
-            //    Grid.RowDefinitions.Add(row);
-            //}
 
             Grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(135) });
             Grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(200) });

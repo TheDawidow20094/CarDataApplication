@@ -11,9 +11,6 @@ namespace Car_Data_Application.Controllers
     class VehicleDetailContentGenerator : CarDataAppController
     {
 
-        private string LightTextColor = "#FF9C9397";
-        private string DarkTextColor = "#FF2A2729"; // change to set in config
-
         private int ActualMainGridRow = new int();
 
         public void GeneratorVehicleDetail(MainWindow mainwindow, Vehicle vehicle, User user, VehiclesPage vehiclesPage)
@@ -230,48 +227,6 @@ namespace Car_Data_Application.Controllers
 
             return FuelInfoGrid;
         }
-
-        //private Grid GenarateFuelTankInfoGrid(Vehicle vehicle, FuelTankInfoGrid translation)
-        //{
-        //    ActualMainGridRow = 3;
-
-        //    Grid FuelInfoGrid = new Grid();
-        //    SetGridProps(ref FuelInfoGrid, ActualMainGridRow);
-
-        //    for (int i = 0; i < 2; i++) // 2 number of columns
-        //    {
-        //        ColumnDefinition FuelInfoGridColumn = new ColumnDefinition();
-        //        FuelInfoGrid.ColumnDefinitions.Add(FuelInfoGridColumn);
-        //    }
-        //    for (int i = 0; i <= 3; i++) //3 number of rows
-        //    {
-        //        RowDefinition FuelInfGridRow = new RowDefinition();
-        //        FuelInfoGrid.RowDefinitions.Add(FuelInfGridRow);
-        //    }
-
-        //    switch (PUser.UserLanguage)
-        //    {
-        //        case "PL":
-        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
-        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-        //            break;
-        //        case "ENG":
-        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
-        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-        //            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-        //            break;
-        //    }
-
-
-        //    FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Gasoline.ToString(), 0, 1));
-
-        //    FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Diesel.ToString(), 1, 1));
-
-        //    FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.LPG.ToString(), 2, 1));
-
-        //    return FuelInfoGrid;
-        //}
 
         private Grid GenerateCyclicalCostGrid(Vehicle vehicle, CyclicalCostGrid translation)
         {

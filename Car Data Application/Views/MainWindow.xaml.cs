@@ -239,6 +239,10 @@ namespace Car_Data_Application.Views
                 case "RefuelingHistoryPage":
                     new AddRefuelingPageGenerator().PageGenerator(this, User, config);
                 break;
+
+                case "CostsPage":
+                    new AddCostPageGenerator().PageGenerator(this, User, config);
+                    break;
             }
         }
 
@@ -265,6 +269,8 @@ namespace Car_Data_Application.Views
                     break;
 
                 case "AddService":
+                    new AddCostPageGenerator().PageGenerator(this, User, config);
+                    AddButonList.Visibility = Visibility.Hidden;
                     break;
 
                 case "AddVehicle":

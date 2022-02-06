@@ -89,47 +89,5 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
-
-        //private void SetBorderProps(Border border, int row)
-        //{
-        //    Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
-        //    border.Background = BackgroundBrushh;
-
-        //    border.BorderThickness = new Thickness(5);
-        //    border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
-        //    border.CornerRadius = new CornerRadius(30);
-
-        //    border.Margin = new Thickness(15, 5, 15, 5);
-        //    border.Padding = new Thickness(0, 0, 35, 0);
-        //    Grid.SetRow(border, row);
-
-        //}
-
-        //private Image GenerateIcon(string path, int row, int column)
-        //{
-        //    Image Icon = new Image();
-        //    ImageSourceConverter source = new ImageSourceConverter();
-        //    Icon.SetValue(Image.SourceProperty, source.ConvertFromString(@path));
-        //    Icon.Width = 30;
-        //    Grid.SetRow(Icon, row);
-        //    Grid.SetColumn(Icon, column);
-
-        //    return Icon;
-        //}
-
-        //private TextBlock GenerateTextBlock(string text, int row, int column)
-        //{
-        //    TextBlock TextBlockName = new TextBlock();
-        //    TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-        //    TextBlockName.FontFamily = new FontFamily("Arial Black");
-        //    TextBlockName.FontWeight = FontWeights.Bold;
-        //    TextBlockName.Text = text;
-        //    TextBlockName.Margin = new Thickness(0, 2, 0, 2);
-        //    TextBlockName.VerticalAlignment = VerticalAlignment.Center;
-        //    Grid.SetRow(TextBlockName, row);
-        //    Grid.SetColumn(TextBlockName, column);
-
-        //    return TextBlockName;
-        //}
     }
 }

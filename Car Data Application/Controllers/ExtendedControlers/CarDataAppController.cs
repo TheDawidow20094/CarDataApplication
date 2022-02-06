@@ -1,7 +1,8 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,6 +12,10 @@ namespace Car_Data_Application.Controllers
 {
     class CarDataAppController
     {
+        public string TextBoxBackgroundColor = "#FFD6CFD3";
+        public string LightTextColor = "#FF9C9397";
+        public string DarkTextColor = "#FF2A2729"; // change to set in config
+
         public MainWindow mainWindow;
         public User PUser;
         public BrushConverter Converter = new BrushConverter();
@@ -18,7 +23,6 @@ namespace Car_Data_Application.Controllers
 
         public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
-            //Grid SmallButtonsGrid = (Grid)SidePanel.Children;
             foreach (Grid Button in SidePanel.Children)
             {
                 Border ButtonBorder = (Border)Button.Children[2];
@@ -82,6 +86,31 @@ namespace Car_Data_Application.Controllers
             return TextBlockName;
         }
 
+        public TextBox GenerateTextBox(string textboxname, int row, int column, bool biggersize = false, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, string value = "")
+        {
+            TextBox TextBoxName = new TextBox();
+            TextBoxName.Width = biggersize ? 250 : 120;
+            TextBoxName.Height = 30;
+            if (biggersize) { TextBoxName.Height = 130; TextBoxName.Margin = new Thickness(0,0,0,15); }
+
+            TextBoxName.Text = value;
+            TextBoxName.Margin = new Thickness(2, 2, 6, 2);
+            TextBoxName.HorizontalAlignment = horizontalAlignment;
+            TextBoxName.BorderThickness = new Thickness(0);
+            TextBoxName.FontWeight = FontWeights.Bold;
+            TextBoxName.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            TextBoxName.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+            TextBoxName.FontFamily = new FontFamily("Global User Interface");
+
+            string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
+
+            TextBoxName.SetValue(FrameworkElement.NameProperty, TrimmedText + "_Textbox");
+            Grid.SetRow(TextBoxName, row);
+            Grid.SetColumn(TextBoxName, column);
+
+            return TextBoxName;
+        }
+
         public Image GenerateIcon(string path, int row, int column)
         {
             Image Icon = new Image();
@@ -97,6 +126,31 @@ namespace Car_Data_Application.Controllers
             Grid.SetRowSpan(Icon, 3);
 
             return Icon;
+        }
+
+        public DatePicker GenerateDatePicker(string textboxname, int row, int column, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
+        {
+            DatePicker datePicker = new();
+
+            datePicker.SelectedDate = DateTime.Now;
+            datePicker.Width = 120;
+            datePicker.Height = 30;
+            datePicker.Margin = new Thickness(2, 2, 6, 2);
+            datePicker.HorizontalAlignment = horizontalAlignment;
+            datePicker.BorderThickness = new Thickness(0);
+            datePicker.FontWeight = FontWeights.Bold;
+            //datePicker.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            datePicker.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+            datePicker.FontFamily = new FontFamily("Global User Interface");
+
+            string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
+
+            datePicker.SetValue(FrameworkElement.NameProperty, TrimmedText + "_DatePicker");
+            Grid.SetRow(datePicker, row);
+            Grid.SetColumn(datePicker, column);
+
+
+            return datePicker;
         }
     }
 }
