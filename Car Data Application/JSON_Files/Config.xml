@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Config>
   <SidePanel>
-    <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="true" Icon="user.png"/>
-    <XMLButton PL="Zarejestruj" ENG="Register" Name="RegisterPage" IsEnabled="false" Icon="user.png"/>
-    <XMLButton PL="Wyloguj" ENG="Logout" Name="LogoutPage" IsEnabled="false" Icon="user.png"/>
+    <XMLButton PL="Zaloguj" ENG="Login" Name="LoginPage" IsEnabled="true" Icon="user.png"/>
+    <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="false" Icon="user.png"/>
     <XMLButton PL="Strona Główna" ENG="Home" Name="HomePage" IsEnabled="true" Icon="home.png"/>
     <XMLButton PL="Pojazdy" ENG="Vehicles" Name="VehiclesPage" IsEnabled="true" Icon="car.png"/>
     <XMLButton PL="Historia Tankowań" ENG="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true" Icon="gas-station.png"/>
@@ -21,17 +20,19 @@
     </AddButonList>
 
     <LoginPanel>
-      <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
-      <PasswordText PL="Hasło" ENG="Password"/>
+      <LoginTitle PL="Logowanie" ENG="Login"/>
+      <UserName PL="Nazwa Użytkownika" ENG="Username"/>
+      <Password PL="Hasło" ENG="Password"/>
       <LogInButton PL="Zaloguj" ENG="Login"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </LoginPanel>
 
     <RegisterPanel>
-      <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
-      <PasswordText PL="Hasło" ENG="Password"/>
-      <RePasswordText PL="Powtórz Hasło" ENG="Confirm Password"/>
-      <EmailText PL="E-Mail" ENG="E-Mail"/>
+      <RegisterTitle PL="Rejestracja" ENG="Registration"/>
+      <UserName PL="Nazwa Użytkownika" ENG="Username"/>
+      <Password PL="Hasło" ENG="Password"/>
+      <RePassword PL="Powtórz Hasło" ENG="Confirm Password"/>
+      <Email PL="E-Mail" ENG="E-Mail"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </RegisterPanel>
 

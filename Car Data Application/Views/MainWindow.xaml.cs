@@ -116,14 +116,18 @@ namespace Car_Data_Application.Views
             this.MainGrid.Children.Add(SidePanel);
         }
 
-        private void HandleSidePanelButtonClick(object sender, RoutedEventArgs e)
+        public void OpenPage(string pageName)
         {
-            Grid button = (Grid)sender;
 
             AddButonList.Visibility = Visibility.Hidden;
 
-            switch (button.Name)
+            switch (pageName)
             {
+                case "LoginPage":
+                    AddButon.Visibility = Visibility.Hidden;
+                    new LoginWindowGenerator().PageGenerator(this, User, config.MainPanel.LoginPanel);
+                    break;
+
                 case "MyAccountPage":
                     AddButon.Visibility = Visibility.Hidden;
                     new LoginWindow(this, User, config).ShowDialog();
@@ -171,6 +175,11 @@ namespace Car_Data_Application.Views
                     new SettingsContentGenerator().GenerateSetingContent(this, User, config);
                     break;
             }
+        }
+
+        private void HandleSidePanelButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenPage(((Grid)sender).Name);
         }
 
         private void HandleSidePanelButtonLeave(object sender, MouseEventArgs e)

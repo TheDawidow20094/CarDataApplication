@@ -63,8 +63,8 @@ namespace Car_Data_Application.Views
                 case "PL":
                     this.Title = translation.LogInButton.PL;
 
-                    UserNameTextBlock.Text = translation.UserNameText.PL;
-                    PasswordTextBlock.Text = translation.PasswordText.PL;
+                    UserNameTextBlock.Text = translation.UserName.PL;
+                    PasswordTextBlock.Text = translation.Password.PL;
                     LoginButton.Content = translation.LogInButton.PL;
                     RegisterButton.Content = translation.RegisterButton.PL;
                     break;
@@ -72,8 +72,8 @@ namespace Car_Data_Application.Views
                 case "ENG":
                     this.Title = translation.LogInButton.ENG;
 
-                    UserNameTextBlock.Text = translation.UserNameText.ENG;
-                    PasswordTextBlock.Text = translation.PasswordText.ENG;
+                    UserNameTextBlock.Text = translation.UserName.ENG;
+                    PasswordTextBlock.Text = translation.Password.ENG;
                     LoginButton.Content = translation.LogInButton.ENG;
                     RegisterButton.Content = translation.RegisterButton.ENG;
                     break;

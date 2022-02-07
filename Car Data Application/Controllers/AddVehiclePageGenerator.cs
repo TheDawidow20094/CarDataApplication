@@ -175,19 +175,11 @@ namespace Car_Data_Application.Controllers
             FuelInfoGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80)});
             FuelInfoGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(35) });
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    FuelInfoGrid.Children.Add(GenerateToggleButton(translation.GasolineTank, "PL", 0, 0));
-                    FuelInfoGrid.Children.Add(GenerateToggleButton(translation.LPGTank, "PL", 0, 1));
-                    FuelInfoGrid.Children.Add(GenerateToggleButton(translation.DieselTank, "PL", 0, 2));
-                    break;
-                case "ENG":
-                    FuelInfoGrid.Children.Add(GenerateToggleButton(translation.GasolineTank, "ENG", 0, 0));
-                    FuelInfoGrid.Children.Add(GenerateToggleButton(translation.LPGTank, "ENG", 0, 1));
-                    FuelInfoGrid.Children.Add(GenerateToggleButton(translation.DieselTank, "ENG", 0, 2));
-                    break;
-            }
+
+            FuelInfoGrid.Children.Add(GenerateToggleButton(translation.GasolineTank, PUser.UserLanguage, 0, 0));
+            FuelInfoGrid.Children.Add(GenerateToggleButton(translation.LPGTank, PUser.UserLanguage, 0, 1));
+            FuelInfoGrid.Children.Add(GenerateToggleButton(translation.DieselTank, PUser.UserLanguage, 0, 2));
+
 
             FuelInfoGrid.Children.Add(GenerateTextBox("GasolineTank", 1, 0, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
             FuelInfoGrid.Children.Add(GenerateTextBox("LPGTank", 1, 1, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));

@@ -308,11 +308,14 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "LoginPanel")]
 	public class LoginPanel
 	{
-		[XmlElement(ElementName = "UserNameText")]
-		public Translation UserNameText { get; set; }
+		[XmlElement(ElementName = "LoginTitle")]
+		public Translation LoginTitle { get; set; }
 
-		[XmlElement(ElementName = "PasswordText")]
-		public Translation PasswordText { get; set; }
+		[XmlElement(ElementName = "UserName")]
+		public Translation UserName { get; set; }
+
+		[XmlElement(ElementName = "Password")]
+		public Translation Password { get; set; }
 
 		[XmlElement(ElementName = "LogInButton")]
 		public Translation LogInButton { get; set; }
@@ -324,17 +327,20 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "RegisterPanel")]
 	public class RegisterPanel
 	{
-		[XmlElement(ElementName = "UserNameText")]
-		public Translation UserNameText { get; set; }
+		[XmlElement(ElementName = "RegisterTitle")]
+		public Translation RegisterTitle { get; set; }
 
-		[XmlElement(ElementName = "PasswordText")]
-		public Translation PasswordText { get; set; }
+		[XmlElement(ElementName = "UserName")]
+		public Translation UserName { get; set; }
 
-		[XmlElement(ElementName = "RePasswordText")]
-		public Translation RePasswordText { get; set; }
+		[XmlElement(ElementName = "Password")]
+		public Translation Password { get; set; }
 
-		[XmlElement(ElementName = "EmailText")]
-		public Translation EmailText { get; set; }
+		[XmlElement(ElementName = "RePassword")]
+		public Translation RePassword { get; set; }
+
+		[XmlElement(ElementName = "Email")]
+		public Translation Email { get; set; }
 
 		[XmlElement(ElementName = "RegisterButton")]
 		public Translation RegisterButton { get; set; }

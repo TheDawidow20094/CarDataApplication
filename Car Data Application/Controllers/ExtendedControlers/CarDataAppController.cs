@@ -44,7 +44,7 @@ namespace Car_Data_Application.Controllers
             OpenHomePage.GeneratorHomeContent(mainWindow, user, paramConfig.MainPanel.HomePage);
         }
 
-        public void SetGridProps(ref Grid grid, int row)
+        public void SetGridProps(ref Grid grid, int row = 0)
         {
             grid.Background = Brushes.WhiteSmoke;
 
@@ -62,7 +62,7 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Center, bool isTitle = false)
+        public TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Center, bool isTitle = false, int isTitleFontSize = 18)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor);
@@ -76,7 +76,7 @@ namespace Car_Data_Application.Controllers
             if (isTitle)
             {
                 Grid.SetColumnSpan(TextBlockName, 2);
-                TextBlockName.FontSize = 18;
+                TextBlockName.FontSize = isTitleFontSize;
                 TextBlockName.FontWeight = FontWeights.Bold;
                 TextBlockName.Margin = new Thickness(3, 3, 3, 3);
             }
@@ -166,6 +166,55 @@ namespace Car_Data_Application.Controllers
 
 
             return datePicker;
+        }
+        
+        public Button GenerateButton(Translation text, string language, int row, int column)
+        {
+            Button button = new();
+
+            switch (language)
+            {
+                case "PL":
+                    button.Content = text.PL;
+                    break;
+
+                case "ENG":
+                    button.Content = text.ENG;
+                    break;
+            }
+            button.FontFamily = new FontFamily("Global User Interface");
+            button.FontSize = 18;
+            button.FontWeight = FontWeights.Bold;
+
+            button.Height = 45;
+            button.Width = 140;
+            button.HorizontalAlignment = HorizontalAlignment.Center;
+            button.VerticalAlignment = VerticalAlignment.Center;
+            button.Margin = new Thickness(10);
+            button.BorderThickness = new Thickness(0);
+
+            button.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
+            button.Background = Brushes.WhiteSmoke;
+
+            DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
+            myDropShadowEffect.Color = Colors.Black;
+            myDropShadowEffect.Direction = 320;
+            myDropShadowEffect.ShadowDepth = 5;
+            myDropShadowEffect.Softness = 1;
+            myDropShadowEffect.Opacity = 0.25;
+            button.BitmapEffect = myDropShadowEffect;
+
+            button.SetValue(FrameworkElement.NameProperty, text.ENG + "_Button");
+            if (null != mainWindow.FindName(text.ENG + "_Button"))
+            {
+                mainWindow.UnregisterName(text.ENG + "_Button");
+            }
+            mainWindow.RegisterName(text.ENG + "_Button", button);
+
+            Grid.SetRow(button, row);
+            Grid.SetColumn(button, column);
+
+            return button;
         }
     }
 }

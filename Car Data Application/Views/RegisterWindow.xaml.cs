@@ -52,20 +52,20 @@ namespace Car_Data_Application.Views
                 case "PL":
                     this.Title = translation.RegisterButton.PL;
 
-                    UserNameTextBlock.Text = translation.UserNameText.PL;
-                    PasswordTextBlock.Text = translation.PasswordText.PL;
-                    RePasswordTextBlock.Text = translation.RePasswordText.PL;
-                    EmailTextBlock.Text = translation.EmailText.PL;
+                    UserNameTextBlock.Text = translation.UserName.PL;
+                    PasswordTextBlock.Text = translation.Password.PL;
+                    RePasswordTextBlock.Text = translation.RePassword.PL;
+                    EmailTextBlock.Text = translation.Email.PL;
                     RegisterButton.Content = translation.RegisterButton.PL;
                     break;
 
                 case "ENG":
                     this.Title = translation.RegisterButton.ENG;
 
-                    UserNameTextBlock.Text = translation.UserNameText.ENG;
-                    PasswordTextBlock.Text = translation.PasswordText.ENG;
-                    RePasswordTextBlock.Text = translation.RePasswordText.ENG;
-                    EmailTextBlock.Text = translation.EmailText.ENG;
+                    UserNameTextBlock.Text = translation.UserName.ENG;
+                    PasswordTextBlock.Text = translation.Password.ENG;
+                    RePasswordTextBlock.Text = translation.RePassword.ENG;
+                    EmailTextBlock.Text = translation.Email.ENG;
                     RegisterButton.Content = translation.RegisterButton.ENG;
                     break;
             }
