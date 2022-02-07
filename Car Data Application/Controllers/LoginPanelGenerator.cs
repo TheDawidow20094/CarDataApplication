@@ -14,29 +14,34 @@ using System.Windows.Media.Animation;
 
 namespace Car_Data_Application.Controllers
 {
-    class LoginPageGenerator : CarDataAppController
+    class LoginPanelGenerator : CarDataAppController
     {
         private string LastOpenedPage;
+        private LoginPanel translation;
+        private Grid GrayedGrid;
 
         private Storyboard EntryAnimationStoryboard = new Storyboard();
         private Storyboard ExitAnimationStoryboard = new Storyboard();
+        private Storyboard GotoOtherPageAnimationStoryboard = new Storyboard();
 
         public Storyboard myWidthAnimatedButtonStoryboard = new Storyboard();
 
-        public void PageGenerator(MainWindow mw, User user, LoginPanel translation)
+        public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
-            InitialAssignValue(mw, user);
+            InitialAssignValue(mw, user, paramConfig);
 
-            Grid GrayedGrid = new();
-            GrayedGrid.MouseLeftButtonDown += LoginWindowClose;
+            GrayedGrid = new();
             mainWindow.RegisterName("GrayedGrid", GrayedGrid);
             Grid.SetColumnSpan(GrayedGrid, 2);
 
             Grid BlackOpacityGrid = new();
+            mainWindow.RegisterName("BlackOpacityGrid", BlackOpacityGrid);
             BlackOpacityGrid.Background = Brushes.Black;
-            BlackOpacityGrid.Opacity = 0.4;
+            BlackOpacityGrid.Opacity = 0.6;
+            BlackOpacityGrid.MouseLeftButtonDown += PageClose;
 
             Grid LoginWindowGrid = new();
+            mainWindow.RegisterName("LoginWindowGrid", LoginWindowGrid);
             SetGridProps(ref LoginWindowGrid);
 
             LoginWindowGrid.Width = 350;
@@ -52,8 +57,9 @@ namespace Car_Data_Application.Controllers
             mainWindow.RegisterName("Transform", translateTransform);
             LoginWindowGrid.RenderTransform = translateTransform;
 
-            GenerateAnimation(ref LoginWindowGrid,ref EntryAnimationStoryboard, 700, 0);
-            GenerateAnimation(ref LoginWindowGrid, ref ExitAnimationStoryboard, 0, -700);
+            GenerateAnimation(ref LoginWindowGrid, "Entry");
+            GenerateAnimation(ref LoginWindowGrid, "Exit");
+            GenerateAnimation(ref LoginWindowGrid, "OtherPage");
 
             for (int i = 0; i < 2; i++)
             {
@@ -104,17 +110,24 @@ namespace Car_Data_Application.Controllers
             mainWindow.BeginStoryboard(EntryAnimationStoryboard);
         }
 
-        private void InitialAssignValue(MainWindow mw, User user)
+        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
         {
             LastOpenedPage = mw.WhereAreYou;
             mw.WhereAreYou = "LoginPage";
             mainWindow = mw;
             PUser = user;
+            config = paramConfig;
+            translation = config.MainPanel.LoginPanel;
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
         }
 
-        private void RegisterButtonClick(object sender, RoutedEventArgs e)
+        private async void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
+            mainWindow.BeginStoryboard(GotoOtherPageAnimationStoryboard);
+            await Task.Delay(500);
+
+            GrayedGrid.Children.Remove((Grid)mainWindow.FindName("LoginWindowGrid"));
+            new RegisterPanelGenerator().PageGenerator(mainWindow, PUser, config.MainPanel.RegisterPanel, LastOpenedPage, GrayedGrid);
         }
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
@@ -122,30 +135,79 @@ namespace Car_Data_Application.Controllers
             MessageBox.Show("Logowanie");
         }
 
-        private async void LoginWindowClose(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private async void PageClose(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             mainWindow.BeginStoryboard(ExitAnimationStoryboard);
-            
             await Task.Delay(500);
 
             mainWindow.MainGrid.Children.Remove((Grid)mainWindow.FindName("GrayedGrid"));
-            mainWindow.UnregisterName("GrayedGrid");
+            mainWindow.UnregisterName("GrayedGrid"); 
+            mainWindow.UnregisterName("BlackOpacityGrid");
+            mainWindow.UnregisterName("LoginWindowGrid");
             mainWindow.OpenPage(LastOpenedPage);
         }
 
-        private void GenerateAnimation(ref Grid LoginWindowGrid, ref Storyboard storyboard, double from, double to)
+        private void GenerateAnimation(ref Grid LoginWindowGrid, string animationType)
         {
-            DoubleAnimation doubleAnimation = new DoubleAnimation();
-            doubleAnimation.From = from;
-            doubleAnimation.To = to;
-            doubleAnimation.BeginTime = new TimeSpan(0, 0, 0);
-            doubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(430));
+            double MoveForm = 0, MoveTo = 0, OpacityFrom = 0, OpacityTo = 0;
+            Storyboard storyboard = new Storyboard();
 
-            Storyboard.SetTargetName(doubleAnimation, "Transform");
-            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(TranslateTransform.XProperty));
+            switch (animationType)
+            {
+                case "Entry":
+                    storyboard = EntryAnimationStoryboard;
+                    MoveForm = 700;
+                    MoveTo = 0;
+                    OpacityFrom = 0.0;
+                    OpacityTo = 0.6;
+
+                    break;
+
+                case "Exit":
+                    storyboard = ExitAnimationStoryboard;
+                    MoveForm = 0;
+                    MoveTo = -700;
+                    OpacityFrom = 0.6;
+                    OpacityTo = 0.0;
+
+                    break;
+
+                case "OtherPage":
+                    storyboard = GotoOtherPageAnimationStoryboard;
+                    MoveForm = 0;
+                    MoveTo = -700;
+                    OpacityFrom = 0.6;
+                    OpacityTo = 0.0;
+
+                    break;
+            }
+
+            DoubleAnimation MoveAnimation = new DoubleAnimation();
+            MoveAnimation.From = MoveForm;
+            MoveAnimation.To = MoveTo;
+            MoveAnimation.BeginTime = new TimeSpan(0, 0, 0);
+            MoveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(250));
+
+            Storyboard.SetTargetName(MoveAnimation, "Transform");
+            Storyboard.SetTargetProperty(MoveAnimation, new PropertyPath(TranslateTransform.XProperty));
 
             storyboard.Children.Clear();
-            storyboard.Children.Add(doubleAnimation);
+            storyboard.Children.Add(MoveAnimation);
+
+            if (animationType != "OtherPage")
+            {
+                DoubleAnimation OpacityAnimation = new DoubleAnimation();
+                OpacityAnimation.From = OpacityFrom;
+                OpacityAnimation.To = OpacityTo;
+                OpacityAnimation.BeginTime = new TimeSpan(0, 0, 0);
+                OpacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(500));
+
+
+                Storyboard.SetTargetName(OpacityAnimation, "BlackOpacityGrid");
+                Storyboard.SetTargetProperty(OpacityAnimation, new PropertyPath(Grid.OpacityProperty));
+
+                storyboard.Children.Add(OpacityAnimation);
+            }
         }
     }
 }
