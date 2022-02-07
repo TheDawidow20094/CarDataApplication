@@ -14,7 +14,7 @@ using System.Windows.Media.Animation;
 
 namespace Car_Data_Application.Controllers
 {
-    class LoginWindowGenerator : CarDataAppController
+    class LoginPageGenerator : CarDataAppController
     {
         private string LastOpenedPage;
 
@@ -52,8 +52,8 @@ namespace Car_Data_Application.Controllers
             mainWindow.RegisterName("Transform", translateTransform);
             LoginWindowGrid.RenderTransform = translateTransform;
 
-            GenerateEntryAnimation(ref LoginWindowGrid);
-            GenerateExitAnimation(ref LoginWindowGrid);
+            GenerateAnimation(ref LoginWindowGrid,ref EntryAnimationStoryboard, 700, 0);
+            GenerateAnimation(ref LoginWindowGrid, ref ExitAnimationStoryboard, 0, -700);
 
             for (int i = 0; i < 2; i++)
             {
@@ -104,6 +104,15 @@ namespace Car_Data_Application.Controllers
             mainWindow.BeginStoryboard(EntryAnimationStoryboard);
         }
 
+        private void InitialAssignValue(MainWindow mw, User user)
+        {
+            LastOpenedPage = mw.WhereAreYou;
+            mw.WhereAreYou = "LoginPage";
+            mainWindow = mw;
+            PUser = user;
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+        }
+
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
         }
@@ -124,43 +133,19 @@ namespace Car_Data_Application.Controllers
             mainWindow.OpenPage(LastOpenedPage);
         }
 
-        private void InitialAssignValue(MainWindow mw, User user)
-        {
-            LastOpenedPage = mw.WhereAreYou;
-            mw.WhereAreYou = "LoginPage";
-            mainWindow = mw;
-            PUser = user;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
-        }
-
-        private void GenerateEntryAnimation(ref Grid LoginWindowGrid)
+        private void GenerateAnimation(ref Grid LoginWindowGrid, ref Storyboard storyboard, double from, double to)
         {
             DoubleAnimation doubleAnimation = new DoubleAnimation();
-            doubleAnimation.From = 700;
-            doubleAnimation.To = 0;
+            doubleAnimation.From = from;
+            doubleAnimation.To = to;
             doubleAnimation.BeginTime = new TimeSpan(0, 0, 0);
             doubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(430));
 
             Storyboard.SetTargetName(doubleAnimation, "Transform");
             Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(TranslateTransform.XProperty));
 
-            EntryAnimationStoryboard.Children.Clear();
-            EntryAnimationStoryboard.Children.Add(doubleAnimation);
-        }
-
-        private void GenerateExitAnimation(ref Grid LoginWindowGrid)
-        {
-            DoubleAnimation doubleAnimation = new DoubleAnimation();
-            doubleAnimation.From = 0;
-            doubleAnimation.To = -700;
-            doubleAnimation.BeginTime = new TimeSpan(0, 0, 0);
-            doubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(430));
-
-            Storyboard.SetTargetName(doubleAnimation, "Transform");
-            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(TranslateTransform.XProperty));
-
-            ExitAnimationStoryboard.Children.Clear();
-            ExitAnimationStoryboard.Children.Add(doubleAnimation);
+            storyboard.Children.Clear();
+            storyboard.Children.Add(doubleAnimation);
         }
     }
 }

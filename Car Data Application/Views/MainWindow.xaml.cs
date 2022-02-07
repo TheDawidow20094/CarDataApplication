@@ -125,7 +125,7 @@ namespace Car_Data_Application.Views
             {
                 case "LoginPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new LoginWindowGenerator().PageGenerator(this, User, config.MainPanel.LoginPanel);
+                    new LoginPageGenerator().PageGenerator(this, User, config.MainPanel.LoginPanel);
                     break;
 
                 case "MyAccountPage":
