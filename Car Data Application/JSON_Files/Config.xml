@@ -139,8 +139,15 @@
 
     <SettingsPage>
       <Language PL="Język:" ENG="Language:"/>
-      <MetricUnit PL="Jednostki Metryczne:" ENG="Metric Unit:"/>
+      <LanguagePL PL="Polski" ENG="Polish"/>
+      <LanguageENG PL="Angielski" ENG="English"/>
+      <UnitsOfMeasure PL="Jednostki Miary:" ENG="Units Of Measure:"/>
+      <UnitsMetric PL="Metryczne" ENG="Metric"/>
+      <UnitsImperial PL="Imperialne" ENG="Imperial"/>
       <Currency PL="Waluta:" ENG="Currency:"/>
+      <CurrencyPLN PL="PLN" ENG="PLN"/>
+      <CurrencyUSD PL="USD" ENG="USD"/>
+      <CurrencyEUR PL="EUR" ENG="EUR"/>
       <ApplyButton PL="Zatwierdź" ENG="Confirm"/>
     </SettingsPage>
 

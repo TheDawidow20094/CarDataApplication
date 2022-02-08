@@ -3,183 +3,290 @@ using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace Car_Data_Application.Controllers
 {
     class SettingsContentGenerator : CarDataAppController
     {
-        private ComboBox LanguageComboBox = new ComboBox();
-        private ComboBox MetricUnitComboBox = new ComboBox();
-        private ComboBox CurrencyComboBox = new ComboBox();
+        private ToggleButton LanguagePLToggleButton;
+        private ToggleButton LanguageENGToggleButton;
 
-        public void GenerateSetingContent(MainWindow mw, User user, Config paramConfig)
+        private ToggleButton UnitsMetricToggleButton;
+        private ToggleButton UnitsImperialToggleButton;
+
+        private ToggleButton CurrencyPLNToggleButton;
+        private ToggleButton CurrencyEURToggleButton;
+        private ToggleButton CurrencyUSDToggleButton;
+
+        private string SelectedLanguage;
+        private string SelectedUnits;
+        private string SelectedCurrency;
+
+        public void GenerateSetingContent(MainWindow mw, User user, SettingsPage translation)
         {
-            InitialAssignValue(mw, user, paramConfig);
+            InitialAssignValue(mw, user);
             
-            Grid Grid = new Grid();
-            Grid.Children.Add(GenerateSettingContentBorder(PUser, config.MainPanel.SettingsPage));
+            Grid MainGrid = new Grid();
 
-            mainWindow.ScrollViewerContent.Content = Grid;
+            for (int i = 0; i < 4; i++) // 4 is number of rows
+            {
+                MainGrid.RowDefinitions.Add(new RowDefinition());
+            }
+
+            MainGrid.Children.Add(GenerateChangeLanguageContentBorder(PUser, translation));
+            MainGrid.Children.Add(GenerateChangeUnitsContentBorder(PUser, translation));
+            MainGrid.Children.Add(GenerateChangeCurrencyContentBorder(PUser, translation));
+            MainGrid.Children.Add(GenerateSettingsButton(translation));
+
+            CheckUserSettings();
+
+            mainWindow.ScrollViewerContent.Content = MainGrid;
         }
 
-        private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
+        private void InitialAssignValue(MainWindow mw, User user)
         {
-            config = paramConfig;
             PUser = user;
             mainWindow = mw;
             mainWindow.WhereAreYou = "SettingsPage";
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
-        private Border GenerateSettingContentBorder(User user, SettingsPage translation)
+        private void CheckUserSettings()
         {
-            Border SetingContentBorder = new Border();
-            SetBorderProps(ref SetingContentBorder, 0);
-
-            Grid VehicleNameGrid = new Grid();
-            SetingContentBorder.Padding = new Thickness(20);
-            SetingContentBorder.Child = VehicleNameGrid;
-            for (int i = 0; i < 7; i++) // 7 is number of rows
+            switch (PUser.UserLanguage)
             {
-                RowDefinition VehicleNameGridRow = new RowDefinition();
-                VehicleNameGrid.RowDefinitions.Add(VehicleNameGridRow);
-                VehicleNameGrid.HorizontalAlignment = HorizontalAlignment.Center;
-                VehicleNameGrid.VerticalAlignment = VerticalAlignment.Center;
+                case "PL":
+                    LanguagePLToggleButton.IsChecked = true;
+                    break;
+
+                case "ENG":
+                    LanguageENGToggleButton.IsChecked = true;
+                    break;
             }
+
+            switch (PUser.UnitsType)
+            {
+                case "Metric":
+                    UnitsMetricToggleButton.IsChecked = true;
+                    break;
+
+                case "Imperial":
+                    UnitsImperialToggleButton.IsChecked = true;
+                    break;
+            }
+
+            switch (PUser.Currency)
+            {
+                case "PLN":
+                    CurrencyPLNToggleButton.IsChecked = true;
+                    break;
+
+                case "EUR":
+                    CurrencyEURToggleButton.IsChecked = true;
+                    break;
+
+                case "USD":
+                    CurrencyUSDToggleButton.IsChecked = true;
+                    break;
+            }
+        }
+
+        private Grid GenerateChangeLanguageContentBorder(User user, SettingsPage translation)
+        {
+            Grid ChangeLanguageGrid = new Grid();
+            SetGridProps(ref ChangeLanguageGrid, 0);
+
+            for (int i = 0; i < 2; i++)
+            {
+                ChangeLanguageGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            ChangeLanguageGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            ChangeLanguageGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
 
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Language.PL, 0));
-                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.MetricUnit.PL, 2));
-                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Currency.PL, 4));
+                    ChangeLanguageGrid.Children.Add(GenerateTextBlock(translation.Language.PL, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
                     break;
 
                 case "ENG":
-                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Language.ENG, 0));
-                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.MetricUnit.ENG, 2));
-                    VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Currency.ENG, 4));
+                    ChangeLanguageGrid.Children.Add(GenerateTextBlock(translation.Language.ENG, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
                     break;
             }
+            LanguagePLToggleButton = GenerateToggleButtonWithHandlers(translation.LanguagePL, PUser.UserLanguage, 1, 0);
+            LanguageENGToggleButton = GenerateToggleButtonWithHandlers(translation.LanguageENG, PUser.UserLanguage, 1, 1);
 
-            LanguageComboBox.Height = 35;
-            LanguageComboBox.Width = 100;
-            LanguageComboBox.Items.Add("Polski");
-            LanguageComboBox.Items.Add("English");
+            ChangeLanguageGrid.Children.Add(LanguagePLToggleButton);
+            ChangeLanguageGrid.Children.Add(LanguageENGToggleButton);
 
-            switch (user.UserLanguage)
+            return ChangeLanguageGrid;
+        }
+
+        private Grid GenerateChangeUnitsContentBorder(User user, SettingsPage translation)
+        {
+            Grid ChangeUnitGrid = new Grid();
+            SetGridProps(ref ChangeUnitGrid, 1);
+
+            for (int i = 0; i < 2; i++)
             {
-                case "PL":
-                    LanguageComboBox.SelectedItem = "Polski";
-                    break;
-
-                case "ENG":
-                    LanguageComboBox.SelectedItem = "English";
-                    break;
+                ChangeUnitGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
+            ChangeUnitGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            ChangeUnitGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
 
-            Grid.SetRow(LanguageComboBox, 1);
-            VehicleNameGrid.Children.Add(LanguageComboBox);
-
-            MetricUnitComboBox.Height = 35;
-            MetricUnitComboBox.Width = 100;
-            MetricUnitComboBox.SelectedItem = user.MetricUnit;
-            MetricUnitComboBox.Items.Add("Litrów/100km");
-            MetricUnitComboBox.Items.Add("Mil/Galon");
-            Grid.SetRow(MetricUnitComboBox, 3);
-            VehicleNameGrid.Children.Add(MetricUnitComboBox);
-
-            CurrencyComboBox.Height = 35;
-            CurrencyComboBox.Width = 100;
-            CurrencyComboBox.SelectedItem = user.Currency;
-            CurrencyComboBox.Items.Add("PLN");
-            CurrencyComboBox.Items.Add("EUR");
-            CurrencyComboBox.Items.Add("USD");
-            CurrencyComboBox.SelectionChanged += HandleChangeCurrency;
-            Grid.SetRow(CurrencyComboBox, 5);
-            VehicleNameGrid.Children.Add(CurrencyComboBox);
-
-            VehicleNameGrid.Children.Add(ApplySettingsButton(translation));
-
-            return SetingContentBorder;
-        }
-
-        private void HandleChangeCurrency(object sender, SelectionChangedEventArgs e)
-        {
-            PUser.Currency = CurrencyComboBox.SelectedItem.ToString();
-            PUser.SerializeData();
-        }
-
-        public void SetBorderProps(ref Border border, int row)
-        {
-            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
-            border.Background = BackgroundBrushh;
-
-            border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
-            border.CornerRadius = new CornerRadius(30);
-
-            border.Margin = new Thickness(15, 5, 15, 5);
-            border.Padding = new Thickness(0, 5, 35, 0);
-            Grid.SetRow(border, row);
-        }
-
-        private TextBlock GenerateTextBlock(string text, int row)
-        {
-            TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            TextBlockName.FontFamily = new FontFamily("Arial Black");
-            TextBlockName.FontWeight = FontWeights.Bold;
-            TextBlockName.Text = text;
-            TextBlockName.HorizontalAlignment = HorizontalAlignment.Center;
-            TextBlockName.VerticalAlignment = VerticalAlignment.Center;
-            TextBlockName.Margin = new Thickness(0, 15, 0, 15);
-            Grid.SetRow(TextBlockName, row);
-
-            return TextBlockName;
-        }
-
-        private Button ApplySettingsButton(SettingsPage translation)
-        {
-            Button ApplySettingsButton = new Button();
             switch (PUser.UserLanguage)
             {
                 case "PL":
-                    ApplySettingsButton.Content = translation.ApplyButton.PL;
+                    ChangeUnitGrid.Children.Add(GenerateTextBlock(translation.UnitsOfMeasure.PL, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
                     break;
 
                 case "ENG":
-                    ApplySettingsButton.Content = translation.ApplyButton.ENG;
+                    ChangeUnitGrid.Children.Add(GenerateTextBlock(translation.UnitsOfMeasure.ENG, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
                     break;
             }
-            ApplySettingsButton.Height = 60;
-            ApplySettingsButton.Width = 100;
-            ApplySettingsButton.BorderThickness = new Thickness(2);
-            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            ApplySettingsButton.Foreground = Brushes.White;
-            ApplySettingsButton.FontFamily = new FontFamily("Arial Black");
-            ApplySettingsButton.FontWeight = FontWeights.Bold;
+
+            UnitsMetricToggleButton = GenerateToggleButtonWithHandlers(translation.UnitsMetric, PUser.UserLanguage, 1, 0);
+            UnitsImperialToggleButton = GenerateToggleButtonWithHandlers(translation.UnitsImperial, PUser.UserLanguage, 1, 1);
+
+            ChangeUnitGrid.Children.Add(UnitsMetricToggleButton);
+            ChangeUnitGrid.Children.Add(UnitsImperialToggleButton);
+
+            return ChangeUnitGrid;
+        }
+
+        private Grid GenerateChangeCurrencyContentBorder(User user, SettingsPage translation)
+        {
+            Grid ChangeCurrencyGrid = new Grid();
+            SetGridProps(ref ChangeCurrencyGrid, 2);
+
+            for (int i = 0; i < 3; i++)
+            {
+                ChangeCurrencyGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            ChangeCurrencyGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            ChangeCurrencyGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
+            TextBlock textBlock;
+
+            switch (PUser.UserLanguage)
+            {
+                case "PL":
+                    textBlock = GenerateTextBlock(translation.Currency.PL, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center);
+                    Grid.SetColumnSpan(textBlock, 3);
+                    ChangeCurrencyGrid.Children.Add(textBlock);
+                    break;
+
+                case "ENG":
+                    textBlock = GenerateTextBlock(translation.Currency.ENG, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center);
+                    Grid.SetColumnSpan(textBlock, 3);
+                    ChangeCurrencyGrid.Children.Add(textBlock);
+                    break;
+            }
+
+            CurrencyPLNToggleButton = GenerateToggleButtonWithHandlers(translation.CurrencyPLN, PUser.UserLanguage, 1, 0);
+            CurrencyEURToggleButton = GenerateToggleButtonWithHandlers(translation.CurrencyEUR, PUser.UserLanguage, 1, 1);
+            CurrencyUSDToggleButton = GenerateToggleButtonWithHandlers(translation.CurrencyUSD, PUser.UserLanguage, 1, 2);
+
+            ChangeCurrencyGrid.Children.Add(CurrencyPLNToggleButton);
+            ChangeCurrencyGrid.Children.Add(CurrencyEURToggleButton);
+            ChangeCurrencyGrid.Children.Add(CurrencyUSDToggleButton);
+
+            return ChangeCurrencyGrid;
+        }
+
+        private Button GenerateSettingsButton(SettingsPage translation)
+        {
+            Button ApplySettingsButton = GenerateButton(translation.ApplyButton, PUser.UserLanguage, 3, 0, DarkTextColor);
+            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FFC2EEBC");
             ApplySettingsButton.Click += HandleApplySettingsButtonClick;
-            ApplySettingsButton.Margin = new Thickness(0, 15, 0, 5);
-            Grid.SetRow(ApplySettingsButton, 6);
 
             return ApplySettingsButton;
         }
 
-        private void HandleApplySettingsButtonClick(object sender, RoutedEventArgs e)
+        private ToggleButton GenerateToggleButtonWithHandlers(Translation text, string language, int row, int column)
         {
-            PUser.MetricUnit = MetricUnitComboBox.SelectedItem.ToString();
-            switch (LanguageComboBox.SelectedItem.ToString())
+            ToggleButton toggleButton = GenerateToggleButton(text, language, row, column);
+
+            toggleButton.Unchecked += SettingsToggleButtonUnchecked;
+            toggleButton.Checked += SettingsToggleButtonChecked;
+
+            return toggleButton;
+        }
+
+        private void SettingsToggleButtonChecked(object sender, RoutedEventArgs e)
+        {
+            ToggleButton toggleButton = (ToggleButton)sender;
+            toggleButton.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+
+            switch (toggleButton.Name)
             {
-                case "Polski":
-                    PUser.UserLanguage = "PL";
+                case "Polish_ToggleButton":
+                    LanguageENGToggleButton.IsChecked = false;
+                    SelectedLanguage = "PL";
                     break;
 
-                case "English":
-                    PUser.UserLanguage = "ENG";
+                case "English_ToggleButton":
+                    LanguagePLToggleButton.IsChecked = false;
+                    SelectedLanguage = "ENG";
                     break;
+
+                    //--------------------------------------------------------------------------
+
+                case "Metric_ToggleButton":
+                    UnitsImperialToggleButton.IsChecked = false;
+                    SelectedUnits = "Metric";
+                    break;
+
+                case "Imperial_ToggleButton":
+                    UnitsMetricToggleButton.IsChecked = false;
+                    SelectedUnits = "Imperial";
+                    break;
+
+                    //--------------------------------------------------------------------------
+
+                case "PLN_ToggleButton":
+                    CurrencyEURToggleButton.IsChecked = false;
+                    CurrencyUSDToggleButton.IsChecked = false;
+                    SelectedCurrency = CurrencyPLNToggleButton.Content.ToString();
+                    break;
+
+                case "EUR_ToggleButton":
+                    CurrencyPLNToggleButton.IsChecked = false;
+                    CurrencyUSDToggleButton.IsChecked = false;
+                    SelectedCurrency = CurrencyEURToggleButton.Content.ToString();
+                    break;
+
+                case "USD_ToggleButton":
+                    CurrencyPLNToggleButton.IsChecked = false;
+                    CurrencyEURToggleButton.IsChecked = false;
+                    SelectedCurrency = CurrencyUSDToggleButton.Content.ToString();
+                    break;
+
             }
+        }
+
+        private void SettingsToggleButtonUnchecked(object sender, RoutedEventArgs e)
+        {
+            ToggleButton toggleButton = (ToggleButton)sender;
+            toggleButton.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
+        }
+
+        private void HandleApplySettingsButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (SelectedLanguage != null)
+            {
+                PUser.UserLanguage = SelectedLanguage;
+            }
+            if (SelectedUnits != null)
+            {
+                PUser.UnitsType = SelectedUnits;
+            }
+            if (SelectedCurrency != null)
+            {
+                PUser.Currency = SelectedCurrency;
+            }
+
             PUser.SerializeData();
 
             MainWindow RefreshApp = new MainWindow();

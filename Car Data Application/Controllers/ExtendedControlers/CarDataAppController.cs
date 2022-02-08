@@ -174,7 +174,7 @@ namespace Car_Data_Application.Controllers
             return datePicker;
         }
         
-        public Button GenerateButton(Translation text, string language, int row, int column)
+        public Button GenerateButton(Translation text, string language, int row, int column, string foregroundcolor = "#FF9C9397")
         {
             Button button = new();
 
@@ -199,7 +199,7 @@ namespace Car_Data_Application.Controllers
             button.Margin = new Thickness(10);
             button.BorderThickness = new Thickness(0);
 
-            button.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
+            button.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor);
             button.Background = Brushes.WhiteSmoke;
 
             DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
@@ -221,6 +221,54 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(button, column);
 
             return button;
+        }
+
+        public ToggleButton GenerateToggleButton(Translation text, string language, int row, int column)
+        {
+            ToggleButton toggleButton = new ToggleButton();
+            switch (language)
+            {
+                case "PL":
+                    toggleButton.Content = text.PL;
+                    break;
+
+                case "ENG":
+                    toggleButton.Content = text.ENG;
+                    break;
+            }
+            toggleButton.FontFamily = new FontFamily("Global User Interface");
+            toggleButton.FontSize = 18;
+            toggleButton.FontWeight = FontWeights.Bold;
+
+            toggleButton.Height = 45;
+            toggleButton.Width = 140;
+            toggleButton.HorizontalAlignment = HorizontalAlignment.Center;
+            toggleButton.VerticalAlignment = VerticalAlignment.Center;
+            toggleButton.Margin = new Thickness(10);
+            toggleButton.BorderThickness = new Thickness(0);
+
+            toggleButton.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
+            toggleButton.Background = Brushes.WhiteSmoke;
+
+            DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
+            myDropShadowEffect.Color = Colors.Black;
+            myDropShadowEffect.Direction = 320;
+            myDropShadowEffect.ShadowDepth = 5;
+            myDropShadowEffect.Softness = 1;
+            myDropShadowEffect.Opacity = 0.25;
+            toggleButton.BitmapEffect = myDropShadowEffect;
+
+            toggleButton.SetValue(FrameworkElement.NameProperty, text.ENG + "_ToggleButton");
+            if (null != mainWindow.FindName(text.ENG + "_ToggleButton"))
+            {
+                mainWindow.UnregisterName(text.ENG + "_ToggleButton");
+            }
+            mainWindow.RegisterName(text.ENG + "_ToggleButton", toggleButton);
+
+            Grid.SetRow(toggleButton, row);
+            Grid.SetColumn(toggleButton, column);
+
+            return toggleButton;
         }
     }
 }

@@ -352,11 +352,32 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "Language")]
 		public Translation Language { get; set; }
 
-		[XmlElement(ElementName = "MetricUnit")]
-		public Translation MetricUnit { get; set; }
+		[XmlElement(ElementName = "LanguagePL")]
+		public Translation LanguagePL { get; set; }
+
+		[XmlElement(ElementName = "LanguageENG")]
+		public Translation LanguageENG { get; set; }
+
+		[XmlElement(ElementName = "UnitsOfMeasure")]
+		public Translation UnitsOfMeasure { get; set; }
+
+		[XmlElement(ElementName = "UnitsMetric")]
+		public Translation UnitsMetric { get; set; }
+
+		[XmlElement(ElementName = "UnitsImperial")]
+		public Translation UnitsImperial { get; set; }
 
 		[XmlElement(ElementName = "Currency")]
 		public Translation Currency { get; set; }
+
+		[XmlElement(ElementName = "CurrencyPLN")]
+		public Translation CurrencyPLN { get; set; }
+
+		[XmlElement(ElementName = "CurrencyUSD")]
+		public Translation CurrencyUSD { get; set; }
+
+		[XmlElement(ElementName = "CurrencyEUR")]
+		public Translation CurrencyEUR { get; set; }
 
 		[XmlElement(ElementName = "ApplyButton")]
 		public Translation ApplyButton { get; set; }

@@ -168,7 +168,7 @@ namespace Car_Data_Application.Views
 
                 case "SettingsPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new SettingsContentGenerator().GenerateSetingContent(this, User, config);
+                    new SettingsContentGenerator().GenerateSetingContent(this, User, config.MainPanel.SettingsPage);
                     break;
             }
         }

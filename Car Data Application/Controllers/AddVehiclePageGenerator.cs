@@ -176,9 +176,9 @@ namespace Car_Data_Application.Controllers
             FuelInfoGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(35) });
 
 
-            FuelInfoGrid.Children.Add(GenerateToggleButton(translation.GasolineTank, PUser.UserLanguage, 0, 0));
-            FuelInfoGrid.Children.Add(GenerateToggleButton(translation.LPGTank, PUser.UserLanguage, 0, 1));
-            FuelInfoGrid.Children.Add(GenerateToggleButton(translation.DieselTank, PUser.UserLanguage, 0, 2));
+            FuelInfoGrid.Children.Add(GenerateToggleButtonWithHandlers(translation.GasolineTank, PUser.UserLanguage, 0, 0));
+            FuelInfoGrid.Children.Add(GenerateToggleButtonWithHandlers(translation.LPGTank, PUser.UserLanguage, 0, 1));
+            FuelInfoGrid.Children.Add(GenerateToggleButtonWithHandlers(translation.DieselTank, PUser.UserLanguage, 0, 2));
 
 
             FuelInfoGrid.Children.Add(GenerateTextBox("GasolineTank", 1, 0, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
@@ -263,52 +263,12 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public ToggleButton GenerateToggleButton(Translation text, string language, int row, int column)
+        private ToggleButton GenerateToggleButtonWithHandlers(Translation text, string language, int row, int column)
         {
-            ToggleButton toggleButton = new ToggleButton();
-            switch (language)
-            {
-                case "PL":
-                    toggleButton.Content = text.PL;
-                    break;
-
-                case "ENG":
-                    toggleButton.Content = text.ENG;
-                    break;
-            }
-            toggleButton.FontFamily = new FontFamily("Global User Interface");
-            toggleButton.FontSize = 18;
-            toggleButton.FontWeight = FontWeights.Bold;
-
-            toggleButton.Height = 45;
-            toggleButton.Width = 140;
-            toggleButton.HorizontalAlignment = HorizontalAlignment.Center;
-            toggleButton.VerticalAlignment = VerticalAlignment.Center;
-            toggleButton.Margin = new Thickness(10);
-            toggleButton.BorderThickness = new Thickness(0);
-
-            toggleButton.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
-            toggleButton.Background = Brushes.WhiteSmoke;
-
-            DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
-            myDropShadowEffect.Color = Colors.Black;
-            myDropShadowEffect.Direction = 320;
-            myDropShadowEffect.ShadowDepth = 5;
-            myDropShadowEffect.Softness = 1;
-            myDropShadowEffect.Opacity = 0.25;
-            toggleButton.BitmapEffect = myDropShadowEffect;
-
-            toggleButton.SetValue(FrameworkElement.NameProperty, text.ENG + "_ToggleButton");
-            if (null != mainWindow.FindName(text.ENG + "_ToggleButton"))
-            {
-                mainWindow.UnregisterName(text.ENG + "_ToggleButton");
-            }
-            mainWindow.RegisterName(text.ENG + "_ToggleButton", toggleButton);
-            toggleButton.Checked += TankToggleButtonChecked;
+            ToggleButton toggleButton = GenerateToggleButton(text, language, row, column);
+            
             toggleButton.Unchecked += TankToggleButtonUnchecked;
-
-            Grid.SetRow(toggleButton, row);
-            Grid.SetColumn(toggleButton, column);
+            toggleButton.Checked += TankToggleButtonChecked;
 
             return toggleButton;
         }

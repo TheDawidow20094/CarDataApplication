@@ -13,7 +13,7 @@ namespace Car_Data_Application.Models
         public int Id { get; set; }
         public string Login { get; set; }
         public string UserLanguage { get; set; }
-        public string MetricUnit { get; set; }
+        public string UnitsType { get; set; }
         public string Currency { get; set; }
         public int ActiveCarIndex { get; set; }
         public List<Vehicle> Vehicles { get; set; }
@@ -23,7 +23,7 @@ namespace Car_Data_Application.Models
             this.Id = id;
             this.Login = login;
             this.UserLanguage = userlanguage;
-            this.MetricUnit = metricunit;
+            this.UnitsType = metricunit;
             this.Currency = currency;
             this.ActiveCarIndex = activecarindex;
             this.Vehicles = vehicles;
