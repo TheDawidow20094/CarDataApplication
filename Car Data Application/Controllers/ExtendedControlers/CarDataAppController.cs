@@ -93,7 +93,11 @@ namespace Car_Data_Application.Controllers
             textBox.Width = 120;
             textBox.Height = 30;
             textBox.Margin = new Thickness(2, 2, 6, 2);
-            if (biggersize) {
+            textBox.VerticalContentAlignment = VerticalAlignment.Center;
+            if (biggersize)
+            {
+                textBox.VerticalContentAlignment = VerticalAlignment.Top;
+                textBox.TextWrapping = TextWrapping.Wrap;
                 textBox.Width = 250;
                 textBox.Height = 140;
                 textBox.Margin = new Thickness(2,2,2,15);
@@ -104,6 +108,8 @@ namespace Car_Data_Application.Controllers
             }
 
             textBox.Text = value;
+            textBox.FontSize = 16;
+            textBox.TextAlignment = TextAlignment.Center;
             textBox.HorizontalAlignment = horizontalAlignment;
             textBox.BorderThickness = new Thickness(0);
             textBox.FontWeight = FontWeights.Bold;
