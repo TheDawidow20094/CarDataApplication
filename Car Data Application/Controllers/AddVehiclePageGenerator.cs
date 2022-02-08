@@ -46,7 +46,7 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
-            SetButtonColor("VehiclesPage", ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor("VehiclesPage", ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private Grid AddingTitle(AddVehiclePage translation)

@@ -52,7 +52,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow.WhereAreYou = "CalculatorPage";
 
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private void HandleChangeCalculatorType(object sender, SelectionChangedEventArgs e)

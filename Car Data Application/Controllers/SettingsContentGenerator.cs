@@ -29,7 +29,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow = mw;
             mainWindow.WhereAreYou = "SettingsPage";
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private Border GenerateSettingContentBorder(User user, SettingsPage translation)

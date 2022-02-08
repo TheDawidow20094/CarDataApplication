@@ -26,7 +26,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
             mainWindow.WhereAreYou = "AddCostPage";
-            SetButtonColor("CostsPage", ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor("CostsPage", ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private Grid ContentGenerator ()

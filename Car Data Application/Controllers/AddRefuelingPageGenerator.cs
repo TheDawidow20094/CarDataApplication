@@ -43,7 +43,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
             mainWindow.WhereAreYou = "AddRefuelingPage";
-            SetButtonColor("RefuelingHistoryPage", ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor("RefuelingHistoryPage", ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private Border AddingTitle(AddRefuelingPage translation)

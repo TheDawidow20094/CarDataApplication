@@ -103,7 +103,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             LastOpenedPage = lastOpenedPage;
             GrayedGrid = grayedGrid;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)

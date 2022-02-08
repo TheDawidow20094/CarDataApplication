@@ -37,6 +37,7 @@ namespace Car_Data_Application.Views
             InitializeComponent();
             GenerateSidePanel();
             SetFooterData();
+
             new CarDataAppController().GoToHomePage(this, User, config);
         }
 
@@ -45,7 +46,7 @@ namespace Car_Data_Application.Views
             config = ReadXML();
 
             Grid SidePanel = new Grid();
-            SidePanel.SetValue(FrameworkElement.NameProperty, "SidePanel");
+            this.RegisterName("SidePanel", SidePanel);
             SidePanel.Background = (Brush)Converter.ConvertFromString("#FF2A2729");
             Grid.SetRow(SidePanel, 0);
             Grid.SetColumn(SidePanel, 0);
@@ -207,13 +208,32 @@ namespace Car_Data_Application.Views
 
         private void SetFooterData()
         {
-            CarNameButton.Content = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
+            ((TextBlock)VehicleName.Children[0]).Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
             UserName.Text = User.Login;
         }
 
-        private void ChangeActiveCarClick(object sender, RoutedEventArgs e)
+        private async void ChangeActiveVehicleClick(object sender, RoutedEventArgs e)
         {
-            new GenerateSelectedCar().GeneratorCarSelectList(this, User, config);
+            Grid VehiclesNameList = (Grid)this.FindName("VehiclesNameList");
+            if (VehiclesNameList == null)
+            {
+                new GenerateSelectedCar().GeneratorCarSelectList(this, User, config);
+            }
+            else
+            {
+                this.BeginStoryboard((Storyboard)this.FindName("VehiclesNameListExitAnimation"));
+                await Task.Delay(500);
+
+                this.MainPanel.Children.Remove((UIElement)this.FindName("VehiclesNameList"));
+                if (this.FindName("VehiclesNameList") != null)
+                {
+                    this.UnregisterName("VehiclesNameList");
+                }
+                if (this.FindName("VehiclesNameListExitAnimation") != null)
+                {
+                    this.UnregisterName("VehiclesNameListExitAnimation");
+                }
+            }
         }
 
         private void HandleAddButonMouseEnter(object sender, MouseEventArgs e)
@@ -304,6 +324,12 @@ namespace Car_Data_Application.Views
 
         private void HandleWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Grid VehiclesNameList = (Grid)this.FindName("VehiclesNameList");
+            if (VehiclesNameList != null)
+            {
+                VehiclesNameList.Width = this.Footer.ActualWidth / 2;
+            }
+
             if ((this.Width <= 650) && (SidePanelColumn.ActualWidth == 210))
             {
                 foreach (Grid Button in ((Grid)MainGrid.Children[3]).Children)
@@ -320,6 +346,16 @@ namespace Car_Data_Application.Views
                 }
                 SidePanelColumn.Width = new GridLength(210);
             }
+        }
+
+        private void HandleActiveVehicleMouseEnter(object sender, MouseEventArgs e)
+        {
+            ((Grid)sender).Background = (Brush)Converter.ConvertFromString("#FF82797E");
+        }
+
+        private void HandleActiveVehicleMouseLeave(object sender, MouseEventArgs e)
+        {
+            ((Grid)sender).Background = Brushes.Transparent;
         }
     }
 }

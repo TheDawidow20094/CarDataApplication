@@ -118,7 +118,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             config = paramConfig;
             translation = config.MainPanel.LoginPanel;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private async void RegisterButtonClick(object sender, RoutedEventArgs e)

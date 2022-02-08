@@ -94,7 +94,7 @@ namespace Car_Data_Application.Controllers
             mw.WhereAreYou = "RefuelingHistoryPage";
             mainWindow = mw;
             PUser = user;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
     }
 }

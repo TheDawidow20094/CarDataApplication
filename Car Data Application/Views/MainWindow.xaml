@@ -14,25 +14,24 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="1" >
+        <Grid Grid.Column="1" x:Name="MainPanel">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.9*"></RowDefinition>
-                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <ScrollViewer x:Name="ScrollViewerContent" Grid.Row="0" Background = "#EDEDED">
+            <ScrollViewer x:Name="ScrollViewerContent" Grid.Row="0" Background = "#EDEDED"/>
 
-            </ScrollViewer>
-
-            <Grid x:Name="Footer" Grid.Row="1"  Background="#FF716A6E">
+            
+            <Grid x:Name="Footer" Grid.Row="1" Background="#FF716A6E">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Grid x:Name="CarName" Grid.Column="1">
-                    <Button x:Name="CarNameButton" Click="ChangeActiveCarClick"  Content="CAR" Background="Transparent" Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
+                <TextBlock x:Name="UserName" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
+                <Grid x:Name="VehicleName" Grid.Column="1" MouseLeftButtonDown="ChangeActiveVehicleClick" MouseEnter="HandleActiveVehicleMouseEnter" MouseLeave="HandleActiveVehicleMouseLeave"  Background="Transparent">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
                 </Grid>
-                <TextBlock x:Name="UserName" VerticalAlignment="Center" HorizontalAlignment="Center" Text="USER" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
             </Grid>
         </Grid>
         <Border x:Name="AddButonList" Grid.Row="0" Grid.Column="1" Width="150" Height="190" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,18,40" BorderThickness="4" CornerRadius="5" Background="#FF94ACC5" BorderBrush="#FF407BB6" Visibility="Hidden">
