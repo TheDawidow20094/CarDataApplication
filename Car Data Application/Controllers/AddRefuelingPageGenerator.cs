@@ -224,29 +224,13 @@ namespace Car_Data_Application.Controllers
 
         private Button AddRefuelingButton(AddRefuelingPage translation)
         {
-            Button AddRefuelingButton = new Button();
+            Button ApplySettingsButton = GenerateButton(translation.ButtonText, PUser.UserLanguage, 4, 0, DarkTextColor);
+            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FF93D68A");
+            ApplySettingsButton.Height = 60;
+            ApplySettingsButton.Width = 200;
+            ApplySettingsButton.Click += HandleAddRefuelingButtonClick;
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    AddRefuelingButton.Content = translation.ButtonText.PL;
-                    break;
-
-                case "ENG":
-                    AddRefuelingButton.Content = translation.ButtonText.ENG;
-                    break;
-            } 
-            AddRefuelingButton.Height = 60;
-            AddRefuelingButton.Width = 140;
-            AddRefuelingButton.Click += HandleAddRefuelingButtonClick;
-            AddRefuelingButton.Background = (Brush)Converter.ConvertFromString("#07A802");
-            AddRefuelingButton.Foreground = Brushes.White;
-            AddRefuelingButton.FontFamily = new FontFamily("Arial Black");
-            AddRefuelingButton.FontWeight = FontWeights.Bold;
-            AddRefuelingButton.Margin = new Thickness(0,0,0,8);
-            Grid.SetRow(AddRefuelingButton, 4);
-
-            return AddRefuelingButton;
+            return ApplySettingsButton;
         }
 
         private void HandleAddRefuelingButtonClick(object sender, RoutedEventArgs e)

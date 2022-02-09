@@ -2,6 +2,7 @@
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +22,7 @@ namespace Car_Data_Application.Controllers
         public User PUser;
         public BrushConverter Converter = new BrushConverter();
         public Config config;
-
+        
         public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
             foreach (Grid Button in SidePanel.Children)
@@ -174,7 +175,7 @@ namespace Car_Data_Application.Controllers
             return datePicker;
         }
         
-        public Button GenerateButton(Translation text, string language, int row, int column, string foregroundcolor = "#FF9C9397")
+        public Button GenerateButton(Translation text, string language, int row, int column, string foregroundcolor = "#FF9C9397", int fontSize = 18, bool RegisterName = true)
         {
             Button button = new();
 
@@ -189,7 +190,7 @@ namespace Car_Data_Application.Controllers
                     break;
             }
             button.FontFamily = new FontFamily("Global User Interface");
-            button.FontSize = 18;
+            button.FontSize = fontSize;
             button.FontWeight = FontWeights.Bold;
 
             button.Height = 45;
@@ -210,12 +211,15 @@ namespace Car_Data_Application.Controllers
             myDropShadowEffect.Opacity = 0.25;
             button.BitmapEffect = myDropShadowEffect;
 
-            button.SetValue(FrameworkElement.NameProperty, text.ENG + "_Button");
-            if (null != mainWindow.FindName(text.ENG + "_Button"))
+            string ButtonName = String.Concat(text.ENG.Where(c => !Char.IsWhiteSpace(c))) + "_Button";
+
+            button.SetValue(FrameworkElement.NameProperty, ButtonName);
+            if (null != mainWindow.FindName(ButtonName))
             {
-                mainWindow.UnregisterName(text.ENG + "_Button");
+                mainWindow.UnregisterName(ButtonName);
             }
-            mainWindow.RegisterName(text.ENG + "_Button", button);
+            mainWindow.RegisterName(ButtonName, button);
+
 
             Grid.SetRow(button, row);
             Grid.SetColumn(button, column);
@@ -269,6 +273,17 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(toggleButton, column);
 
             return toggleButton;
+        }
+
+        private string RemoveSpecialCharacters(string str)
+        {
+            List<char> charsToRemove = new List<char>() {'_', '-', '+', '*', '/', '>', '<', ';', ':', '|', '=', '!', '@', '#'};
+            str = "";
+            foreach (char c in charsToRemove)
+            {
+                str = str.Replace(c.ToString(), string.Empty); 
+            }
+            return str;
         }
     }
 }

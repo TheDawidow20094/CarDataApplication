@@ -28,12 +28,14 @@ namespace Car_Data_Application.Controllers
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(160) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(150) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(170) });
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
 
             MainGrid.Children.Add(AddingTitle(config.MainPanel.AddVehiclePage));
             MainGrid.Children.Add(AddingVehiclePrimaryDataContent(config.MainPanel.AddVehiclePage));
             MainGrid.Children.Add(AddingPrimaryInfoContent(config.MainPanel.AddVehiclePage));
             MainGrid.Children.Add(AddingFuelTankInfoContent(config.MainPanel.AddVehiclePage));
             MainGrid.Children.Add(AddingCyclicalCostContent(config.MainPanel.AddVehiclePage));
+            MainGrid.Children.Add(AddRefuelingButton(config.MainPanel.AddVehiclePage));
 
 
             mainWindow.ScrollViewerContent.Content = MainGrid;
@@ -241,6 +243,22 @@ namespace Car_Data_Application.Controllers
             CyclicalCostGrid.Children.Add(GenerateTextBox("InspectionPrice", 3, 3, horizontalAlignment: HorizontalAlignment.Left));
 
             return CyclicalCostGrid;
+        }
+
+        private Button AddRefuelingButton(AddVehiclePage translation)
+        {
+            Button ApplySettingsButton = GenerateButton(translation.AddButton, PUser.UserLanguage, 5, 0, DarkTextColor);
+            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FF93D68A");
+            ApplySettingsButton.Height = 60;
+            ApplySettingsButton.Width = 200;
+            ApplySettingsButton.Click += HandleAddVehicleButtonClick;
+
+            return ApplySettingsButton;
+        }
+
+        private void HandleAddVehicleButtonClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void add_photo_button_Click()

@@ -198,7 +198,7 @@ namespace Car_Data_Application.Controllers
         private Button GenerateSettingsButton(SettingsPage translation)
         {
             Button ApplySettingsButton = GenerateButton(translation.ApplyButton, PUser.UserLanguage, 3, 0, DarkTextColor);
-            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FFC2EEBC");
+            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FF93D68A");
             ApplySettingsButton.Click += HandleApplySettingsButtonClick;
 
             return ApplySettingsButton;
