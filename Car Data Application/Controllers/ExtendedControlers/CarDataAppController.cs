@@ -2,6 +2,7 @@
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +22,7 @@ namespace Car_Data_Application.Controllers
         public User PUser;
         public BrushConverter Converter = new BrushConverter();
         public Config config;
-
+        
         public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
             foreach (Grid Button in SidePanel.Children)
@@ -44,7 +45,7 @@ namespace Car_Data_Application.Controllers
             OpenHomePage.GeneratorHomeContent(mainWindow, user, paramConfig.MainPanel.HomePage);
         }
 
-        public void SetGridProps(ref Grid grid, int row)
+        public void SetGridProps(ref Grid grid, int row = 0)
         {
             grid.Background = Brushes.WhiteSmoke;
 
@@ -62,7 +63,7 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Center, bool isTitle = false)
+        public TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Center, bool isTitle = false, int isTitleFontSize = 18)
         {
             TextBlock TextBlockName = new TextBlock();
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor);
@@ -76,7 +77,7 @@ namespace Car_Data_Application.Controllers
             if (isTitle)
             {
                 Grid.SetColumnSpan(TextBlockName, 2);
-                TextBlockName.FontSize = 18;
+                TextBlockName.FontSize = isTitleFontSize;
                 TextBlockName.FontWeight = FontWeights.Bold;
                 TextBlockName.Margin = new Thickness(3, 3, 3, 3);
             }
@@ -93,7 +94,11 @@ namespace Car_Data_Application.Controllers
             textBox.Width = 120;
             textBox.Height = 30;
             textBox.Margin = new Thickness(2, 2, 6, 2);
-            if (biggersize) {
+            textBox.VerticalContentAlignment = VerticalAlignment.Center;
+            if (biggersize)
+            {
+                textBox.VerticalContentAlignment = VerticalAlignment.Top;
+                textBox.TextWrapping = TextWrapping.Wrap;
                 textBox.Width = 250;
                 textBox.Height = 140;
                 textBox.Margin = new Thickness(2,2,2,15);
@@ -104,6 +109,8 @@ namespace Car_Data_Application.Controllers
             }
 
             textBox.Text = value;
+            textBox.FontSize = 16;
+            textBox.TextAlignment = TextAlignment.Center;
             textBox.HorizontalAlignment = horizontalAlignment;
             textBox.BorderThickness = new Thickness(0);
             textBox.FontWeight = FontWeights.Bold;
@@ -166,6 +173,117 @@ namespace Car_Data_Application.Controllers
 
 
             return datePicker;
+        }
+        
+        public Button GenerateButton(Translation text, string language, int row, int column, string foregroundcolor = "#FF9C9397", int fontSize = 18, bool RegisterName = true)
+        {
+            Button button = new();
+
+            switch (language)
+            {
+                case "PL":
+                    button.Content = text.PL;
+                    break;
+
+                case "ENG":
+                    button.Content = text.ENG;
+                    break;
+            }
+            button.FontFamily = new FontFamily("Global User Interface");
+            button.FontSize = fontSize;
+            button.FontWeight = FontWeights.Bold;
+
+            button.Height = 45;
+            button.Width = 140;
+            button.HorizontalAlignment = HorizontalAlignment.Center;
+            button.VerticalAlignment = VerticalAlignment.Center;
+            button.Margin = new Thickness(10);
+            button.BorderThickness = new Thickness(0);
+
+            button.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor);
+            button.Background = Brushes.WhiteSmoke;
+
+            DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
+            myDropShadowEffect.Color = Colors.Black;
+            myDropShadowEffect.Direction = 320;
+            myDropShadowEffect.ShadowDepth = 5;
+            myDropShadowEffect.Softness = 1;
+            myDropShadowEffect.Opacity = 0.25;
+            button.BitmapEffect = myDropShadowEffect;
+
+            string ButtonName = String.Concat(text.ENG.Where(c => !Char.IsWhiteSpace(c))) + "_Button";
+
+            button.SetValue(FrameworkElement.NameProperty, ButtonName);
+            if (null != mainWindow.FindName(ButtonName))
+            {
+                mainWindow.UnregisterName(ButtonName);
+            }
+            mainWindow.RegisterName(ButtonName, button);
+
+
+            Grid.SetRow(button, row);
+            Grid.SetColumn(button, column);
+
+            return button;
+        }
+
+        public ToggleButton GenerateToggleButton(Translation text, string language, int row, int column)
+        {
+            ToggleButton toggleButton = new ToggleButton();
+            switch (language)
+            {
+                case "PL":
+                    toggleButton.Content = text.PL;
+                    break;
+
+                case "ENG":
+                    toggleButton.Content = text.ENG;
+                    break;
+            }
+            toggleButton.FontFamily = new FontFamily("Global User Interface");
+            toggleButton.FontSize = 18;
+            toggleButton.FontWeight = FontWeights.Bold;
+
+            toggleButton.Height = 45;
+            toggleButton.Width = 140;
+            toggleButton.HorizontalAlignment = HorizontalAlignment.Center;
+            toggleButton.VerticalAlignment = VerticalAlignment.Center;
+            toggleButton.Margin = new Thickness(10);
+            toggleButton.BorderThickness = new Thickness(0);
+
+            toggleButton.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
+            toggleButton.Background = Brushes.WhiteSmoke;
+
+            DropShadowBitmapEffect myDropShadowEffect = new DropShadowBitmapEffect();
+            myDropShadowEffect.Color = Colors.Black;
+            myDropShadowEffect.Direction = 320;
+            myDropShadowEffect.ShadowDepth = 5;
+            myDropShadowEffect.Softness = 1;
+            myDropShadowEffect.Opacity = 0.25;
+            toggleButton.BitmapEffect = myDropShadowEffect;
+
+            toggleButton.SetValue(FrameworkElement.NameProperty, text.ENG + "_ToggleButton");
+            if (null != mainWindow.FindName(text.ENG + "_ToggleButton"))
+            {
+                mainWindow.UnregisterName(text.ENG + "_ToggleButton");
+            }
+            mainWindow.RegisterName(text.ENG + "_ToggleButton", toggleButton);
+
+            Grid.SetRow(toggleButton, row);
+            Grid.SetColumn(toggleButton, column);
+
+            return toggleButton;
+        }
+
+        private string RemoveSpecialCharacters(string str)
+        {
+            List<char> charsToRemove = new List<char>() {'_', '-', '+', '*', '/', '>', '<', ';', ':', '|', '=', '!', '@', '#'};
+            str = "";
+            foreach (char c in charsToRemove)
+            {
+                str = str.Replace(c.ToString(), string.Empty); 
+            }
+            return str;
         }
     }
 }

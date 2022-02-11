@@ -308,11 +308,14 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "LoginPanel")]
 	public class LoginPanel
 	{
-		[XmlElement(ElementName = "UserNameText")]
-		public Translation UserNameText { get; set; }
+		[XmlElement(ElementName = "LoginTitle")]
+		public Translation LoginTitle { get; set; }
 
-		[XmlElement(ElementName = "PasswordText")]
-		public Translation PasswordText { get; set; }
+		[XmlElement(ElementName = "UserName")]
+		public Translation UserName { get; set; }
+
+		[XmlElement(ElementName = "Password")]
+		public Translation Password { get; set; }
 
 		[XmlElement(ElementName = "LogInButton")]
 		public Translation LogInButton { get; set; }
@@ -324,17 +327,20 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "RegisterPanel")]
 	public class RegisterPanel
 	{
-		[XmlElement(ElementName = "UserNameText")]
-		public Translation UserNameText { get; set; }
+		[XmlElement(ElementName = "RegisterTitle")]
+		public Translation RegisterTitle { get; set; }
 
-		[XmlElement(ElementName = "PasswordText")]
-		public Translation PasswordText { get; set; }
+		[XmlElement(ElementName = "UserName")]
+		public Translation UserName { get; set; }
 
-		[XmlElement(ElementName = "RePasswordText")]
-		public Translation RePasswordText { get; set; }
+		[XmlElement(ElementName = "Password")]
+		public Translation Password { get; set; }
 
-		[XmlElement(ElementName = "EmailText")]
-		public Translation EmailText { get; set; }
+		[XmlElement(ElementName = "RePassword")]
+		public Translation RePassword { get; set; }
+
+		[XmlElement(ElementName = "Email")]
+		public Translation Email { get; set; }
 
 		[XmlElement(ElementName = "RegisterButton")]
 		public Translation RegisterButton { get; set; }
@@ -346,11 +352,32 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "Language")]
 		public Translation Language { get; set; }
 
-		[XmlElement(ElementName = "MetricUnit")]
-		public Translation MetricUnit { get; set; }
+		[XmlElement(ElementName = "LanguagePL")]
+		public Translation LanguagePL { get; set; }
+
+		[XmlElement(ElementName = "LanguageENG")]
+		public Translation LanguageENG { get; set; }
+
+		[XmlElement(ElementName = "UnitsOfMeasure")]
+		public Translation UnitsOfMeasure { get; set; }
+
+		[XmlElement(ElementName = "UnitsMetric")]
+		public Translation UnitsMetric { get; set; }
+
+		[XmlElement(ElementName = "UnitsImperial")]
+		public Translation UnitsImperial { get; set; }
 
 		[XmlElement(ElementName = "Currency")]
 		public Translation Currency { get; set; }
+
+		[XmlElement(ElementName = "CurrencyPLN")]
+		public Translation CurrencyPLN { get; set; }
+
+		[XmlElement(ElementName = "CurrencyUSD")]
+		public Translation CurrencyUSD { get; set; }
+
+		[XmlElement(ElementName = "CurrencyEUR")]
+		public Translation CurrencyEUR { get; set; }
 
 		[XmlElement(ElementName = "ApplyButton")]
 		public Translation ApplyButton { get; set; }

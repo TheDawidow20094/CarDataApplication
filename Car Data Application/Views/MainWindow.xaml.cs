@@ -26,9 +26,10 @@ namespace Car_Data_Application.Views
     public partial class MainWindow : Window
     {
         private BrushConverter Converter = new BrushConverter();
-        User User = new User();
         public string WhereAreYou = string.Empty;
-        Config config;
+        private User User = new User();
+        private Config config;
+        private CarDataAppController carDataAppController;
 
 
         public MainWindow()
@@ -37,7 +38,15 @@ namespace Car_Data_Application.Views
             InitializeComponent();
             GenerateSidePanel();
             SetFooterData();
-            new CarDataAppController().GoToHomePage(this, User, config);
+
+            carDataAppController.GoToHomePage(this, User, config);
+        }
+
+        private void InitializeData()
+        {
+            carDataAppController = new CarDataAppController() { PUser = User, mainWindow = this, config = config };
+            string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json", Encoding.UTF8);
+            User = JsonConvert.DeserializeObject<User>(JsonResultUser);
         }
 
         private void GenerateSidePanel()
@@ -45,7 +54,7 @@ namespace Car_Data_Application.Views
             config = ReadXML();
 
             Grid SidePanel = new Grid();
-            SidePanel.SetValue(FrameworkElement.NameProperty, "SidePanel");
+            this.RegisterName("SidePanel", SidePanel);
             SidePanel.Background = (Brush)Converter.ConvertFromString("#FF2A2729");
             Grid.SetRow(SidePanel, 0);
             Grid.SetColumn(SidePanel, 0);
@@ -116,17 +125,16 @@ namespace Car_Data_Application.Views
             this.MainGrid.Children.Add(SidePanel);
         }
 
-        private void HandleSidePanelButtonClick(object sender, RoutedEventArgs e)
+        public void OpenPage(string pageName)
         {
-            Grid button = (Grid)sender;
 
-            AddButonList.Visibility = Visibility.Hidden;
+            this.AddButtonList.Visibility = Visibility.Hidden;
 
-            switch (button.Name)
+            switch (pageName)
             {
-                case "MyAccountPage":
+                case "LoginPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new LoginWindow(this, User, config).ShowDialog();
+                    new LoginPanelGenerator().PageGenerator(this, User, config);
                     break;
 
                 case "LogoutPage":
@@ -168,9 +176,14 @@ namespace Car_Data_Application.Views
 
                 case "SettingsPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new SettingsContentGenerator().GenerateSetingContent(this, User, config);
+                    new SettingsContentGenerator().GenerateSetingContent(this, User, config.MainPanel.SettingsPage);
                     break;
             }
+        }
+
+        private void HandleSidePanelButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenPage(((Grid)sender).Name);
         }
 
         private void HandleSidePanelButtonLeave(object sender, MouseEventArgs e)
@@ -195,21 +208,34 @@ namespace Car_Data_Application.Views
             return config;
         }
 
-        private void InitializeData()
-        {
-            string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json", Encoding.UTF8);
-            User = JsonConvert.DeserializeObject<User>(JsonResultUser);
-        }
-
         private void SetFooterData()
         {
-            CarNameButton.Content = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
+            ((TextBlock)VehicleName.Children[0]).Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
             UserName.Text = User.Login;
         }
 
-        private void ChangeActiveCarClick(object sender, RoutedEventArgs e)
+        private async void ChangeActiveVehicleClick(object sender, RoutedEventArgs e)
         {
-            new GenerateSelectedCar().GeneratorCarSelectList(this, User, config);
+            Grid VehiclesNameList = (Grid)this.FindName("VehiclesNameList");
+            if (VehiclesNameList == null)
+            {
+                new GenerateSelectedCar().GeneratorCarSelectList(this, User, config);
+            }
+            else
+            {
+                this.BeginStoryboard((Storyboard)this.FindName("VehiclesNameListExitAnimation"));
+                await Task.Delay(500);
+
+                this.MainPanel.Children.Remove((UIElement)this.FindName("VehiclesNameList"));
+                if (this.FindName("VehiclesNameList") != null)
+                {
+                    this.UnregisterName("VehiclesNameList");
+                }
+                if (this.FindName("VehiclesNameListExitAnimation") != null)
+                {
+                    this.UnregisterName("VehiclesNameListExitAnimation");
+                }
+            }
         }
 
         private void HandleAddButonMouseEnter(object sender, MouseEventArgs e)
@@ -231,9 +257,9 @@ namespace Car_Data_Application.Views
                 break;
 
                 case "HomePage":
-                    TranslateControlersValue(config.MainPanel.AddButonList);
-                    if (AddButonList.Visibility == Visibility.Hidden) { AddButonList.Visibility = Visibility.Visible; }
-                    else { AddButonList.Visibility = Visibility.Hidden; }
+                    GenerateAddButtonListItems(config.MainPanel.AddButonList);
+                    if (this.AddButtonList.Visibility == Visibility.Hidden) { this.AddButtonList.Visibility = Visibility.Visible; }
+                    else { this.AddButtonList.Visibility = Visibility.Hidden; }
                 break;
 
                 case "RefuelingHistoryPage":
@@ -246,63 +272,69 @@ namespace Car_Data_Application.Views
             }
         }
 
-        private void HandleAddButtonListMouseEnter(object sender, MouseEventArgs e)
+        //private void HandleAddButtonListMouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    Border border = (Border)sender;
+        //    border.Background = (Brush)Converter.ConvertFromString("#FF5BA05B");
+        //}
+
+        //private void HandleAddButtonListMouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Border border = (Border)sender;
+        //    border.Background = (Brush)Converter.ConvertFromString("#FF5C7B9B");
+        //}
+
+        private void GenerateAddButtonListItems(AddButonList translation)
         {
-            Border border = (Border)sender;
-            border.Background = (Brush)Converter.ConvertFromString("#FF5BA05B");
+            this.AddButtonList.Children.Clear();
+
+            Button AddRefuelingButton = carDataAppController.GenerateButton(translation.AddRefueling, User.UserLanguage, 0, 0, fontSize: 13);
+            AddRefuelingButton.Click += AddButtonListItemClick;
+            this.AddButtonList.Children.Add(AddRefuelingButton);
+
+            Button AddCostButton = carDataAppController.GenerateButton(translation.AddCost, User.UserLanguage, 1, 0, fontSize: 13);
+            AddCostButton.Click += AddButtonListItemClick;
+            this.AddButtonList.Children.Add(AddCostButton);
+
+            Button AddVehicleButton = carDataAppController.GenerateButton(translation.AddVehicle, User.UserLanguage, 2, 0, fontSize: 13);
+            AddVehicleButton.Click += AddButtonListItemClick;
+            this.AddButtonList.Children.Add(AddVehicleButton);
+
         }
 
-        private void HandleAddButtonListMouseLeave(object sender, MouseEventArgs e)
+        private void AddButtonListItemClick(object sender, RoutedEventArgs e)
         {
-            Border border = (Border)sender;
-            border.Background = (Brush)Converter.ConvertFromString("#FF5C7B9B");
-        }
-
-        private void HandleAddButtonControllerClick(object sender, MouseButtonEventArgs e)
-        {
-            Border border = (Border)sender;
+            Button border = (Button)sender;
             switch (border.Name)
             {
-                case "AddRefueling":
+                case "AddRefueling_Button":
                     new AddRefuelingPageGenerator().PageGenerator(this, User, config);
-                    AddButonList.Visibility = Visibility.Hidden;
+                    this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
 
-                case "AddService":
+                case "AddService_Button":
                     new AddCostPageGenerator().PageGenerator(this, User, config);
-                    AddButonList.Visibility = Visibility.Hidden;
+                    this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
 
-                case "AddVehicle":
+                case "AddVehicle_Button":
                     new AddVehiclePageGenerator().PageGenerator(this, User, config);
-                    AddButonList.Visibility = Visibility.Hidden;
-                    break;
-            }
-        }
-
-        private void TranslateControlersValue(AddButonList translation)
-        {
-            switch (User.UserLanguage)
-            {
-                case "PL":
-                    AddRefuelingTextBlock.Text = translation.AddRefueling.PL;
-                    AddServiceTextBlock.Text = translation.AddCost.PL;
-                    AddVehicleTextBlock.Text = translation.AddVehicle.PL;
-                    break;
-
-                case "ENG":
-                    AddRefuelingTextBlock.Text = translation.AddRefueling.ENG;
-                    AddServiceTextBlock.Text = translation.AddCost.ENG;
-                    AddVehicleTextBlock.Text = translation.AddVehicle.ENG;
+                    this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
             }
         }
 
         private void HandleWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Grid VehiclesNameList = (Grid)this.FindName("VehiclesNameList");
+            if (VehiclesNameList != null)
+            {
+                VehiclesNameList.Width = this.Footer.ActualWidth / 2;
+            }
+
             if ((this.Width <= 650) && (SidePanelColumn.ActualWidth == 210))
             {
-                foreach (Grid Button in ((Grid)MainGrid.Children[3]).Children)
+                foreach (Grid Button in ((Grid)this.FindName("SidePanel")).Children)
                 {
                     Button.Children[0].Visibility = Visibility.Hidden;
                 }
@@ -310,12 +342,22 @@ namespace Car_Data_Application.Views
             }
             else if ((this.Width > 650) && (SidePanelColumn.ActualWidth == 55))
             {
-                foreach (Grid Button in ((Grid)MainGrid.Children[3]).Children)
+                foreach (Grid Button in ((Grid)this.FindName("SidePanel")).Children)
                 {
                     Button.Children[0].Visibility = Visibility.Visible;
                 }
                 SidePanelColumn.Width = new GridLength(210);
             }
+        }
+
+        private void HandleActiveVehicleMouseEnter(object sender, MouseEventArgs e)
+        {
+            ((Grid)sender).Background = (Brush)Converter.ConvertFromString("#FF82797E");
+        }
+
+        private void HandleActiveVehicleMouseLeave(object sender, MouseEventArgs e)
+        {
+            ((Grid)sender).Background = Brushes.Transparent;
         }
     }
 }

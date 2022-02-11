@@ -56,7 +56,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             config = paramConfig;
             mainWindow.WhereAreYou = "VehiclesPage";
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         public Image GenerateVehicePicture(string path, int column)
