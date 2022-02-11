@@ -36,7 +36,7 @@ namespace Car_Data_Application.Controllers
 
                 VehicleGrid.Children.Add(GenerateVehicePicture(vehicle.PictureFileName, 0));
 
-                VehicleGrid.Children.Add(GenerateTextBlock(vehicle.Brand + " " + vehicle.Model, 0, 1, "#FF2A2729", HorizontalAlignment.Center, VerticalAlignment.Center, true));
+                VehicleGrid.Children.Add(GenerateTextBlock(null, vehicle.Brand + " " + vehicle.Model, 0, 1, "#FF2A2729", HorizontalAlignment.Center, VerticalAlignment.Center, true));
 
                 VehicleGrid.MouseEnter += HandleContentBorderMouseEnter;
                 VehicleGrid.MouseLeave += HandleContentBorderMouseLeave;

@@ -58,26 +58,11 @@ namespace Car_Data_Application.Controllers
             RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
             RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RegisterTitle.PL, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.UserName.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.Password.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RePassword.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.Email.PL, 4, 0, LightTextColor, HorizontalAlignment.Right));
-
-                    break;
-
-                case "ENG":
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RegisterTitle.ENG, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.UserName.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.Password.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RePassword.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                    RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.Email.ENG, 4, 0, LightTextColor, HorizontalAlignment.Right));
-
-                    break;
-            }
+            RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RegisterTitle, PUser.UserLanguage, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
+            RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.UserName, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+            RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.Password, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+            RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RePassword, PUser.UserLanguage, 3, 0, LightTextColor, HorizontalAlignment.Right));
+            RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.Email, PUser.UserLanguage, 4, 0, LightTextColor, HorizontalAlignment.Right));
 
             RegisterWindowGrid.Children.Add(GenerateTextBox("UserName", 1, 1));
             RegisterWindowGrid.Children.Add(GenerateTextBox("Password", 2, 1));

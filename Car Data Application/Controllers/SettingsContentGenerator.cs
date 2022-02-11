@@ -105,16 +105,8 @@ namespace Car_Data_Application.Controllers
             ChangeLanguageGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
             ChangeLanguageGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    ChangeLanguageGrid.Children.Add(GenerateTextBlock(translation.Language.PL, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
-                    break;
+            ChangeLanguageGrid.Children.Add(GenerateTextBlock(translation.Language, PUser.UserLanguage, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
 
-                case "ENG":
-                    ChangeLanguageGrid.Children.Add(GenerateTextBlock(translation.Language.ENG, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
-                    break;
-            }
             LanguagePLToggleButton = GenerateToggleButtonWithHandlers(translation.LanguagePL, PUser.UserLanguage, 1, 0);
             LanguageENGToggleButton = GenerateToggleButtonWithHandlers(translation.LanguageENG, PUser.UserLanguage, 1, 1);
 
@@ -136,16 +128,7 @@ namespace Car_Data_Application.Controllers
             ChangeUnitGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
             ChangeUnitGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    ChangeUnitGrid.Children.Add(GenerateTextBlock(translation.UnitsOfMeasure.PL, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
-                    break;
-
-                case "ENG":
-                    ChangeUnitGrid.Children.Add(GenerateTextBlock(translation.UnitsOfMeasure.ENG, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
-                    break;
-            }
+            ChangeUnitGrid.Children.Add(GenerateTextBlock(translation.UnitsOfMeasure, PUser.UserLanguage, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center));
 
             UnitsMetricToggleButton = GenerateToggleButtonWithHandlers(translation.UnitsMetric, PUser.UserLanguage, 1, 0);
             UnitsImperialToggleButton = GenerateToggleButtonWithHandlers(translation.UnitsImperial, PUser.UserLanguage, 1, 1);
@@ -169,20 +152,9 @@ namespace Car_Data_Application.Controllers
             ChangeCurrencyGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
             TextBlock textBlock;
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    textBlock = GenerateTextBlock(translation.Currency.PL, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center);
-                    Grid.SetColumnSpan(textBlock, 3);
-                    ChangeCurrencyGrid.Children.Add(textBlock);
-                    break;
-
-                case "ENG":
-                    textBlock = GenerateTextBlock(translation.Currency.ENG, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center);
-                    Grid.SetColumnSpan(textBlock, 3);
-                    ChangeCurrencyGrid.Children.Add(textBlock);
-                    break;
-            }
+            textBlock = GenerateTextBlock(translation.Currency, PUser.UserLanguage, 0, 0, isTitle: true, horizontalAlignment: HorizontalAlignment.Center);
+            Grid.SetColumnSpan(textBlock, 3);
+            ChangeCurrencyGrid.Children.Add(textBlock);
 
             CurrencyPLNToggleButton = GenerateToggleButtonWithHandlers(translation.CurrencyPLN, PUser.UserLanguage, 1, 0);
             CurrencyEURToggleButton = GenerateToggleButtonWithHandlers(translation.CurrencyEUR, PUser.UserLanguage, 1, 1);

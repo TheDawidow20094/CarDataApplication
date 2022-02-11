@@ -71,22 +71,9 @@ namespace Car_Data_Application.Controllers
             LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
             LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    LoginWindowGrid.Children.Add(GenerateTextBlock(translation.LoginTitle.PL, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
-                    LoginWindowGrid.Children.Add(GenerateTextBlock(translation.UserName.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    LoginWindowGrid.Children.Add(GenerateTextBlock(translation.Password.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-
-                    break;
-
-                case "ENG":
-                    LoginWindowGrid.Children.Add(GenerateTextBlock(translation.LoginTitle.ENG, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
-                    LoginWindowGrid.Children.Add(GenerateTextBlock(translation.UserName.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    LoginWindowGrid.Children.Add(GenerateTextBlock(translation.Password.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-
-                    break;
-            }
+            LoginWindowGrid.Children.Add(GenerateTextBlock(translation.LoginTitle, PUser.UserLanguage, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
+            LoginWindowGrid.Children.Add(GenerateTextBlock(translation.UserName, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+            LoginWindowGrid.Children.Add(GenerateTextBlock(translation.Password, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
 
             LoginWindowGrid.Children.Add(GenerateTextBox("UserName", 1, 1));
             LoginWindowGrid.Children.Add(GenerateTextBox("Password", 2, 1));

@@ -48,31 +48,19 @@ namespace Car_Data_Application.Controllers
 
         private Border AddingTitle(AddRefuelingPage translation)
         {
-            string TitleText = string.Empty;
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    TitleText = translation.PageTitle.PL;
-                    break;
-
-                case "ENG":
-                    TitleText = translation.PageTitle.ENG;
-                    break;
-            }
-
             Border TitleBorder = new Border();
 
             Grid TitleGrid = new Grid();
             TitleBorder.Padding = new Thickness(20);
             TitleBorder.Child = TitleGrid;
-            TitleGrid.Children.Add(GenerateTextBlock(TitleText, 0,0, DarkTextColor, HorizontalAlignment.Center));
+            TitleGrid.Children.Add(GenerateTextBlock(translation.PageTitle, PUser.UserLanguage, 0,0, DarkTextColor, HorizontalAlignment.Center));
 
             return TitleBorder;
         }
 
         private TextBlock AddingVehicleName()
         {
-            TextBlock EntriesListText = GenerateTextBlock(PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand, 0, 0, "#FF2A2729", HorizontalAlignment.Center);
+            TextBlock EntriesListText = GenerateTextBlock(null, PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand, 0, 0, "#FF2A2729", HorizontalAlignment.Center);
             EntriesListText.FontSize = 34;
             EntriesListText.Margin = new Thickness(0, 15, 0, 10);
 
@@ -93,37 +81,18 @@ namespace Car_Data_Application.Controllers
                 MainContentGrid.RowDefinitions.Add(new RowDefinition());
             }
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.PL, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.PL, 1, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.PL, 2, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
-
-                case "ENG":
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.ENG, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.ENG, 1, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.ENG, 2, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;    
-            }
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage, PUser.UserLanguage, 0, 2, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType, PUser.UserLanguage, 1, 2, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull, PUser.UserLanguage, 2, 2, LightTextColor, HorizontalAlignment.Right));
 
             MainContentGrid.Children.Add(GenerateTextBox(translation.Liters.ENG.TrimEnd(':'), 0, 1));
-
             MainContentGrid.Children.Add(GenerateTextBox(translation.PriceForLiter.ENG.TrimEnd(':'), 1, 1));
-
             MainContentGrid.Children.Add(GenerateTextBox(translation.TotalPrice.ENG.TrimEnd(':'), 2, 1));
-
             MainContentGrid.Children.Add(GenerateTextBox(translation.CarMillage.ENG.TrimEnd(':'), 0, 3));
-
             MainContentGrid.Children.Add(GenerateTextBox(translation.FuelType.ENG.TrimEnd(':'), 1, 3));
-
             MainContentGrid.Children.Add(GenerateTextBox(translation.IsFull.ENG.TrimEnd(':'), 2, 3));
 
             return MainContentGrid;
@@ -141,18 +110,8 @@ namespace Car_Data_Application.Controllers
                 DataContentGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.PL, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
-
-                case "ENG":
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.ENG, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
-            }
+            DataContentGrid.Children.Add(GenerateTextBlock(translation.Date, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+            DataContentGrid.Children.Add(GenerateTextBlock(translation.Time, PUser.UserLanguage, 0, 2, LightTextColor, HorizontalAlignment.Right));
 
             DataContentGrid.Children.Add(GenerateDatePicker(translation.Date.ENG.TrimEnd(':'), 0, 1));
 
@@ -206,16 +165,7 @@ namespace Car_Data_Application.Controllers
             CommentContentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40)});
             CommentContentGrid.RowDefinitions.Add(new RowDefinition());
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.PL , 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
-                    break;
-
-                case "ENG":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.ENG, 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
-                    break;
-            }
+            CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
 
             CommentContentGrid.Children.Add(GenerateTextBox(translation.Comment.ENG.TrimEnd(':'), 1, 0, true,  HorizontalAlignment.Center));
 

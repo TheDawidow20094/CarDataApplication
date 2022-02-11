@@ -63,13 +63,31 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public TextBlock GenerateTextBlock(string text, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Center, bool isTitle = false, int isTitleFontSize = 18)
+        public TextBlock GenerateTextBlock(Translation text, string language, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Center, bool isTitle = false, int isTitleFontSize = 18)
         {
             TextBlock TextBlockName = new TextBlock();
+
+            if (text != null)
+            {
+                switch (language)
+                {
+                    case "PL":
+                        TextBlockName.Text = text.PL;
+                        break;
+
+                    case "ENG":
+                        TextBlockName.Text = text.ENG;
+                        break;
+                }
+            }
+            else
+            {
+                TextBlockName.Text = language;
+            }
+
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor);
             TextBlockName.FontFamily = new FontFamily("Arial Black");
             TextBlockName.FontWeight = FontWeights.Bold;
-            TextBlockName.Text = text;
             TextBlockName.Margin = new Thickness(3);
             TextBlockName.VerticalAlignment = VerticalAlignment.Center;
             TextBlockName.HorizontalAlignment = horizontalAlignment;
@@ -189,6 +207,7 @@ namespace Car_Data_Application.Controllers
                     button.Content = text.ENG;
                     break;
             }
+
             button.FontFamily = new FontFamily("Global User Interface");
             button.FontSize = fontSize;
             button.FontWeight = FontWeights.Bold;

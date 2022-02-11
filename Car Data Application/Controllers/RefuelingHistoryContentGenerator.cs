@@ -44,44 +44,21 @@ namespace Car_Data_Application.Controllers
                     RefuelingGridContent.ColumnDefinitions.Add(new ColumnDefinition());
                 }
 
-                string LightTextColor = "#FF9C9397";
-                string DarkTextColor = "#FF2A2729"; // change to set in config
+                RefuelingGridContent.Children.Add(GenerateTextBlock(translation.RefuelingCost, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(translation.AmountOfFuel, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(translation.PricePerLiter, PUser.UserLanguage, 3, 0, LightTextColor, HorizontalAlignment.Right));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(translation.Consumption, PUser.UserLanguage, 4, 0, LightTextColor, HorizontalAlignment.Right));
 
-                switch (PUser.UserLanguage)
-                {
-                    case "PL":
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.RefuelingCost.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.AmountOfFuel.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.PricePerLiter.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.Consumption.PL, 4, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-
-                    case "ENG":
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.RefuelingCost.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.AmountOfFuel.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.PricePerLiter.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                        RefuelingGridContent.Children.Add(GenerateTextBlock(translation.Consumption.ENG, 4, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                }
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Date.ToString(), 0, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.CarMillage.ToString() + " km", 1, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Bottom));
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock("+ " + refueling.DistanceFromTheLastRefueling.ToString() + " km", 2, 2, LightTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.TotalPrice.ToString() + " zł", 1, 1));
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.PriceForLiter.ToString() + " zł", 2, 1));
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Liters.ToString() + " L", 3, 1));
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.Consumption.ToString() + " L/100km", 4, 1));
-
-                RefuelingGridContent.Children.Add(GenerateTextBlock(refueling.FuelType.ToString(), 3, 2, LightTextColor, HorizontalAlignment.Right));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, refueling.Date.ToString(), 0, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, refueling.CarMillage.ToString() + " km", 1, 2, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Bottom));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, "+ " + refueling.DistanceFromTheLastRefueling.ToString() + " km", 2, 2, LightTextColor, HorizontalAlignment.Right, VerticalAlignment.Top));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, refueling.TotalPrice.ToString() + " zł", 1, 1));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, refueling.PriceForLiter.ToString() + " zł", 2, 1));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, refueling.Liters.ToString() + " L", 3, 1));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, refueling.Consumption.ToString() + " L/100km", 4, 1));
+                RefuelingGridContent.Children.Add(GenerateTextBlock(null, refueling.FuelType.ToString(), 3, 2, LightTextColor, HorizontalAlignment.Right));
 
                 RefuelingGrid.Children.Add(RefuelingGridContent);
-
                 MainGrid.Children.Add(RefuelingGrid);
 
                 index++;
