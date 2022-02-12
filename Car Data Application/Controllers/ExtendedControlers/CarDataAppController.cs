@@ -66,7 +66,18 @@ namespace Car_Data_Application.Controllers
 
         }
 
-        public TextBlock GenerateTextBlock(Translation text, string language, int row, int column, string foregroundcolor = "#FF2A2729", HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Center, bool isTitle = false, int isTitleFontSize = 18)
+        public TextBlock GenerateTextBlock(
+            Translation text,
+            string language,
+            int row,
+            int column,
+            string foregroundcolor = "#FF2A2729",
+            HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment verticalAlignment = VerticalAlignment.Center,
+            bool isTitle = false,
+            int isTitleFontSize = 18,
+            string textBlockName = null,
+            Visibility visibility = Visibility.Visible)
         {
             TextBlock TextBlockName = new TextBlock();
 
@@ -87,6 +98,15 @@ namespace Car_Data_Application.Controllers
             {
                 TextBlockName.Text = language;
             }
+            if (textBlockName != null)
+            {
+                textBlockName += "_TextBlock";
+                if (null != mainWindow.FindName(textBlockName))
+                {
+                    mainWindow.UnregisterName(textBlockName);
+                }
+                mainWindow.RegisterName(textBlockName, TextBlockName);
+            }
 
             TextBlockName.Foreground = (Brush)Converter.ConvertFromString(foregroundcolor);
             TextBlockName.FontFamily = new FontFamily("Arial Black");
@@ -94,6 +114,7 @@ namespace Car_Data_Application.Controllers
             TextBlockName.Margin = new Thickness(3);
             TextBlockName.VerticalAlignment = VerticalAlignment.Center;
             TextBlockName.HorizontalAlignment = horizontalAlignment;
+            TextBlockName.Visibility = visibility;
 
             if (isTitle)
             {
@@ -140,7 +161,7 @@ namespace Car_Data_Application.Controllers
             textBox.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
             textBox.FontFamily = new FontFamily("Global User Interface");
 
-            string TextBoxName = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c))) + "_Textbox";
+            string TextBoxName = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c))) + "_TextBox";
 
             
             if (null != mainWindow.FindName(TextBoxName))
@@ -203,7 +224,7 @@ namespace Car_Data_Application.Controllers
             return datePicker;
         }
         
-        public Button GenerateButton(Translation text, string language, int row, int column, string foregroundcolor = "#FF9C9397", int fontSize = 18, bool RegisterName = true)
+        public Button GenerateButton(Translation text, string language, int row, int column, string foregroundcolor = "#FF9C9397", int fontSize = 18, bool RegisterName = true, string buttonName = null)
         {
             Button button = new();
 
@@ -240,16 +261,21 @@ namespace Car_Data_Application.Controllers
             myDropShadowEffect.Opacity = 0.25;
             button.BitmapEffect = myDropShadowEffect;
 
-            string ButtonName = String.Concat(text.ENG.Where(c => !Char.IsWhiteSpace(c))) + "_Button";
-
-            button.SetValue(FrameworkElement.NameProperty, ButtonName);
-            if (null != mainWindow.FindName(ButtonName))
+            if (buttonName == null)
             {
-                mainWindow.UnregisterName(ButtonName);
+                string ButtonName = String.Concat(text.ENG.Where(c => !Char.IsWhiteSpace(c))) + "_Button";
+                button.SetValue(FrameworkElement.NameProperty, ButtonName);
+                if (null != mainWindow.FindName(ButtonName))
+                {
+                    mainWindow.UnregisterName(ButtonName);
+                }
+                mainWindow.RegisterName(ButtonName, button);
             }
-            mainWindow.RegisterName(ButtonName, button);
-
-
+            else 
+            {
+                button.SetValue(FrameworkElement.NameProperty, buttonName);
+            }
+            
             Grid.SetRow(button, row);
             Grid.SetColumn(button, column);
 
@@ -344,19 +370,33 @@ namespace Car_Data_Application.Controllers
             return toggleSwitch;
         }
 
-        public ComboBox GenerateComboBox(string comboBoxName, int row, int column, List<string> ComboBoxItems, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
+        public ComboBox GenerateComboBox(string comboBoxName, int row, int column, List<ComboBoxItem> ComboBoxItems, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, int width = 120)
         {
             ComboBox comboBox = new ComboBox();
             comboBox.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
             comboBox.FontWeight = FontWeights.Bold;
             comboBox.Margin = new Thickness(2, 2, 6, 2);
-            comboBox.HorizontalAlignment = HorizontalAlignment.Left;
+            comboBox.HorizontalAlignment = horizontalAlignment;
             comboBox.FontSize = 16;
             comboBox.Height = 30;
-            comboBox.Width = 120;
+            comboBox.Width = width;
 
-            foreach (string itemValue in ComboBoxItems)
+            foreach (ComboBoxItem itemValue in ComboBoxItems)
             {
+                if (itemValue.Tag != null)
+                {
+                    switch (itemValue.Content)
+                    {
+                        case"PL":
+                            itemValue.Content = ((Translation)itemValue.Tag).PL;
+                            break;
+
+                        case "ENG":
+                            itemValue.Content = ((Translation)itemValue.Tag).ENG;
+                            break;
+                    }
+                }
+
                 comboBox.Items.Add(itemValue);
             }
             comboBox.SelectedIndex = 0;
@@ -381,19 +421,19 @@ namespace Car_Data_Application.Controllers
             Rectangle rectangle = ((Rectangle)grid.Children[0]);
             Ellipse ellipse = ((Ellipse)grid.Children[1]);
 
-            if (grid.Tag == "Disabled")
-            {
-                rectangle.Fill = (Brush)Converter.ConvertFromString("#FF93D68A");
-                ellipse.Fill = Brushes.WhiteSmoke;
-                ellipse.HorizontalAlignment = HorizontalAlignment.Right;
-                grid.Tag = "Enabled";
-            }
-            else
+            if ((bool)grid.Tag)
             {
                 rectangle.Fill = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
                 ellipse.Fill = Brushes.Gray;
                 ellipse.HorizontalAlignment = HorizontalAlignment.Left;
-                grid.Tag = "Disabled";
+                grid.Tag = false;
+            }
+            else
+            {
+                rectangle.Fill = (Brush)Converter.ConvertFromString("#FF93D68A");
+                ellipse.Fill = Brushes.WhiteSmoke;
+                ellipse.HorizontalAlignment = HorizontalAlignment.Right;
+                grid.Tag = true;
             }
         }
 

@@ -1,48 +1,40 @@
 ﻿using Car_Data_Application.Models;
+using Car_Data_Application.Models.Vehicle_Classes;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Car_Data_Application.Controllers
 {
     class CalculatorContentGenerator : CarDataAppController
     {
-        #region SetPrivateVariable
+        private Grid PTravelCostCalculatorGrid = new();
+        private Grid PAverageFuelConsumptionGrid = new();
 
-        private ComboBox CalculatorTypeSelector = new ComboBox();
-        private Grid Grid = new Grid();
-        private Grid CalculatorGrid = new Grid();
-        private TextBlock ResoultPriceValue = new TextBlock();
-        private TextBox DistanceValue = new TextBox();
-        private TextBox PriceForOneFuelUnitValue = new TextBox();
-        private TextBox PriceForOneFuelUnitValueOptional = new TextBox();
-        private TextBox FuelConsumptionValue = new TextBox();
-        private TextBlock ResoultUsedFuel = new TextBlock();
-        private TextBlock ResoultUsedFuelAverageFuelCOnsumption = new TextBlock();
-        private TextBox ConsumedFuelValue = new TextBox();
-        private TextBox NumberOfKilometersTraveledValue = new TextBox();
-
-        #endregion
+        private Storyboard PTravelCostAnimationStoryboard = new();
+        private Storyboard PAverageConsumptionAnimationStoryboard = new();
 
         public void CalculatorGenerator(MainWindow mw, User user, Config paramConfig)
         {
             InitialAssignValue(mw, user, paramConfig);
 
-            for (int i = 0; i < 3; i++) // 3 is number of displays blocks with data
-            {
-                RowDefinition GridRow = new RowDefinition();
-                Grid.RowDefinitions.Add(GridRow);
-            }
-            Grid.Children.Add(MainContentGenerator(config.MainPanel.CalculatorPage));
+            Grid MainGrid = new();
 
-            CalculatorGrid.Children.Add(TravelCostCalculatorGenerator(config.MainPanel.CalculatorPage.TravelCostCalculatorBorder));
-            Grid.SetRow(CalculatorGrid, 1);
-            Grid.Children.Add(CalculatorGrid);
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80)});
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(300) });
 
-            mainWindow.ScrollViewerContent.Content = Grid;
+            MainGrid.Children.Add(GenerateSelectorPanel(paramConfig.MainPanel.CalculatorPage));
+            MainGrid.Children.Add(GenerateTravelCostCalculatorPanel(paramConfig.MainPanel.CalculatorPage.TravelCostCalculatorBorder));
+            MainGrid.Children.Add(GenerateAverageFuelConsumptionCalculatorPanel(paramConfig.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder));
+
+            mainWindow.ScrollViewerContent.Content = MainGrid; 
+
         }
 
         private void InitialAssignValue(MainWindow mw, User user, Config paramConfig)
@@ -55,422 +47,324 @@ namespace Car_Data_Application.Controllers
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
-        private void HandleChangeCalculatorType(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox combobox = (ComboBox)sender;
-            switch (combobox.SelectedIndex)
-            {
-                case 0:
-                    CalculatorGrid.Children.Clear();
-                    CalculatorGrid.Children.Add(TravelCostCalculatorGenerator(config.MainPanel.CalculatorPage.TravelCostCalculatorBorder));
-                break;
 
-                case 1:
-                    CalculatorGrid.Children.Clear();
-                    CalculatorGrid.Children.Add(AverageFuelConsumptionCalculatorGenerator(config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder));
-                break;
+        private Grid GenerateSelectorPanel(CalculatorPage translation)
+        {
+            Grid SelectorPanelGrid = new();
+            SetGridProps(ref SelectorPanelGrid, 0);
+            for (int i = 0; i < 2; i++)
+            {
+                SelectorPanelGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            List<ComboBoxItem> CalculatorTypesList = new();
+            CalculatorTypesList.Add(new ComboBoxItem() { Content = PUser.UserLanguage, Tag = translation.TravelCostCalculator });
+            CalculatorTypesList.Add(new ComboBoxItem() { Content = PUser.UserLanguage, Tag = translation.AverageFuelConsumptionCalculator });
+            
+            ComboBox CalculatorType = GenerateComboBox("SelectCalculatorType", 0, 0, CalculatorTypesList, HorizontalAlignment.Center, 250);
+            CalculatorType.SelectionChanged += CalculatorTypeSelectionChanged;
+            SelectorPanelGrid.Children.Add(CalculatorType);
+
+
+            List<ComboBoxItem> FuelTypeList = new();
+            if (PUser.Vehicles[PUser.ActiveCarIndex].Tanks.Gasoline != 0)
+            {
+                FuelTypeList.Add(new ComboBoxItem() { Tag = translation.Gasoline, Content = PUser.UserLanguage, Name = translation.Gasoline.ENG });
+            }
+            if (PUser.Vehicles[PUser.ActiveCarIndex].Tanks.Diesel != 0)
+            {
+                FuelTypeList.Add(new ComboBoxItem() { Tag = translation.Diesel, Content = PUser.UserLanguage, Name = translation.Diesel.ENG });
+            }
+            if (PUser.Vehicles[PUser.ActiveCarIndex].Tanks.LPG != 0)
+            {
+                FuelTypeList.Add(new ComboBoxItem() { Tag = translation.LPG, Content = PUser.UserLanguage, Name = translation.LPG.ENG });
+            }
+
+            ComboBox FuelType = GenerateComboBox("SelectFuelType", 0, 1, FuelTypeList, HorizontalAlignment.Center, 250);
+            FuelType.SelectionChanged += FuelTypeSelectionChanged;
+            SelectorPanelGrid.Children.Add(FuelType);
+
+            return SelectorPanelGrid;
+        }
+
+        private Grid GenerateTravelCostCalculatorPanel(TravelCostCalculatorBorder translation)
+        {
+            SetGridProps(ref PTravelCostCalculatorGrid, 1);
+
+            TranslateTransform translateTransform = new();
+            if (null != mainWindow.FindName("TravelCostCalculatorTransform"))
+            {
+                mainWindow.UnregisterName("TravelCostCalculatorTransform");
+            }
+            mainWindow.RegisterName("TravelCostCalculatorTransform", translateTransform);
+            PTravelCostCalculatorGrid.RenderTransform = translateTransform;
+
+            GenerateAnimation("TravelCostCalculatorTransform");
+
+            for (int i = 0; i < 2; i++)
+            {
+                PTravelCostCalculatorGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            PTravelCostCalculatorGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PTravelCostCalculatorGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PTravelCostCalculatorGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PTravelCostCalculatorGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PTravelCostCalculatorGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PTravelCostCalculatorGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
+
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Distance, PUser.UserLanguage, 0, 0, horizontalAlignment: HorizontalAlignment.Right));
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter, PUser.UserLanguage, 1, 0, horizontalAlignment: HorizontalAlignment.Right));
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Consumption, PUser.UserLanguage, 2, 0, horizontalAlignment: HorizontalAlignment.Right));
+
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBoxWithHandler("Distance", 0, 1));
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBoxWithHandler("PriceForLiter", 1, 1));
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBoxWithHandler("Consumption", 2, 1));
+
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.ResultTravelCost, PUser.UserLanguage, 3, 0, LightTextColor, horizontalAlignment: HorizontalAlignment.Right, textBlockName: "TravelCostResult", visibility: Visibility.Hidden));
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBlock(null, "", 3, 1, textBlockName: "TravelCostResultValue", visibility: Visibility.Hidden));
+
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.ResultUsedFuel, PUser.UserLanguage, 4, 0, LightTextColor, horizontalAlignment: HorizontalAlignment.Right, textBlockName: "UsedFuelResult", visibility: Visibility.Hidden));
+            PTravelCostCalculatorGrid.Children.Add(GenerateTextBlock(null, "", 4, 1, textBlockName: "UsedFuelResultValue", visibility: Visibility.Hidden));
+
+            Button TravelCostCalculatorButton = GenerateButton(translation.CalculateButton, PUser.UserLanguage, 5, 0, buttonName: "TravelCostCalculatorButton");
+            Grid.SetColumnSpan(TravelCostCalculatorButton, 2);
+            TravelCostCalculatorButton.Click += CalculatorButtonClick;
+            PTravelCostCalculatorGrid.Children.Add(TravelCostCalculatorButton);
+
+
+            return PTravelCostCalculatorGrid;
+        }
+
+        private Grid GenerateAverageFuelConsumptionCalculatorPanel(AverageFuelConsumptionCalculatorBorder translation)
+        {
+            SetGridProps(ref PAverageFuelConsumptionGrid, 1);
+            PAverageFuelConsumptionGrid.Visibility = Visibility.Hidden;
+
+            TranslateTransform translateTransform = new();
+            if (null != mainWindow.FindName("AverageFuelConsumptionTransform"))
+            {
+                mainWindow.UnregisterName("AverageFuelConsumptionTransform");
+            }
+            mainWindow.RegisterName("AverageFuelConsumptionTransform", translateTransform);
+            PAverageFuelConsumptionGrid.RenderTransform = translateTransform;
+
+            GenerateAnimation("AverageFuelConsumptionTransform");
+
+            for (int i = 0; i < 2; i++)
+            {
+                PAverageFuelConsumptionGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            PAverageFuelConsumptionGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PAverageFuelConsumptionGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PAverageFuelConsumptionGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PAverageFuelConsumptionGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PAverageFuelConsumptionGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40) });
+            PAverageFuelConsumptionGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
+
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBlock(translation.ConsumedFuel, PUser.UserLanguage, 0, 0, horizontalAlignment: HorizontalAlignment.Right));
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBlock(translation.NumberOfKilometersTraveled, PUser.UserLanguage, 1, 0, horizontalAlignment: HorizontalAlignment.Right));
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBlock(translation.PriceForLiterOptional, PUser.UserLanguage, 2, 0, horizontalAlignment: HorizontalAlignment.Right));
+
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBoxWithHandler("ConsumedFuel", 0, 1));
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBoxWithHandler("NumberOfKilometersTraveled", 1, 1));
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBoxWithHandler("PriceForLiterOptional", 2, 1));
+
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBlock(translation.ResultAverageConsumption, PUser.UserLanguage, 3, 0, LightTextColor, horizontalAlignment: HorizontalAlignment.Right, textBlockName: "AverageConsumptionResult", visibility: Visibility.Hidden));
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBlock(null, "", 3, 1, textBlockName: "AverageConsumptionResultValue", visibility: Visibility.Hidden));
+
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBlock(translation.ResultPrice, PUser.UserLanguage, 4, 0, LightTextColor, horizontalAlignment: HorizontalAlignment.Right, textBlockName: "ResultPrice", visibility: Visibility.Hidden));
+            PAverageFuelConsumptionGrid.Children.Add(GenerateTextBlock(null, "", 4, 1, textBlockName: "ResultPriceValue", visibility: Visibility.Hidden));
+
+            Button AverageFuelConsumptionButton = GenerateButton(translation.CalculateButton, PUser.UserLanguage, 5, 0, buttonName: "AverageFuelConsumptionButton");
+            Grid.SetColumnSpan(AverageFuelConsumptionButton, 2);
+            AverageFuelConsumptionButton.Click += CalculatorButtonClick;
+            PAverageFuelConsumptionGrid.Children.Add(AverageFuelConsumptionButton);
+
+
+            return PAverageFuelConsumptionGrid;
+        }
+
+        
+        private TextBox GenerateTextBoxWithHandler(string textboxname, int row, int column)
+        {
+            TextBox textBox = GenerateTextBox(textboxname, row, column);
+            textBox.LostFocus += TextBoxLostFocus;
+            return textBox;
+        }
+
+        private void CalculatorButtonClick(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+
+            switch (button.Name)
+            {
+                case "TravelCostCalculatorButton":
+                    TextBox DistanceTextBox = (TextBox)mainWindow.FindName("Distance_TextBox");
+                    TextBox PriceForLiterTextBox = (TextBox)mainWindow.FindName("PriceForLiter_TextBox");
+                    TextBox ConsumptionTextBox = (TextBox)mainWindow.FindName("Consumption_TextBox");
+
+                    double DistanceResult;
+                    double PriceForLiterResult;
+                    double ConsumptionResult;
+
+                    if ((Double.TryParse(DistanceTextBox.Text, out DistanceResult)) && (Double.TryParse(PriceForLiterTextBox.Text, out PriceForLiterResult)) && (Double.TryParse(ConsumptionTextBox.Text, out ConsumptionResult)))
+                    {
+                        TextBlock TravelCostResultValue_TextBlock = (TextBlock)mainWindow.FindName("TravelCostResultValue_TextBlock");
+                        TextBlock UsedFuelResultValue_TextBlock = (TextBlock)mainWindow.FindName("UsedFuelResultValue_TextBlock");
+                        TextBlock TravelCostResult_TextBlock = (TextBlock)mainWindow.FindName("TravelCostResult_TextBlock");
+                        TextBlock UsedFuelResult_TextBlock = (TextBlock)mainWindow.FindName("UsedFuelResult_TextBlock");
+
+                        TravelCostResultValue_TextBlock.Visibility = Visibility.Visible;
+                        UsedFuelResultValue_TextBlock.Visibility = Visibility.Visible;
+                        TravelCostResult_TextBlock.Visibility = Visibility.Visible;
+                        UsedFuelResult_TextBlock.Visibility = Visibility.Visible;
+
+                        double TravelCost = (DistanceResult * ConsumptionResult / 100) * PriceForLiterResult;
+                        double UsedFuel = (DistanceResult / ConsumptionResult);
+                        TravelCostResultValue_TextBlock.Text = TravelCost + " zł".ToString();
+                        UsedFuelResultValue_TextBlock.Text = UsedFuel + " litrów";
+                    }
+                    break;
+
+                case "AverageFuelConsumptionButton":
+                    TextBox ConsumedFuel = (TextBox)mainWindow.FindName("ConsumedFuel_TextBox");
+                    TextBox NumberOfKilometersTraveled = (TextBox)mainWindow.FindName("NumberOfKilometersTraveled_TextBox");
+                    TextBox PriceForLiterOptional = (TextBox)mainWindow.FindName("PriceForLiterOptional_TextBox");
+
+                    double ConsumedFuelResult;
+                    double NumberOfKilometersTraveledResult;
+                    double PriceForLiterOptionalResult;
+
+                    if ((Double.TryParse(ConsumedFuel.Text, out ConsumedFuelResult)) && (Double.TryParse(NumberOfKilometersTraveled.Text, out NumberOfKilometersTraveledResult)))
+                    {
+                        TextBlock AverageConsumptionResultValue_TextBlock = (TextBlock)mainWindow.FindName("AverageConsumptionResultValue_TextBlock");
+                        TextBlock ResultPriceValue_TextBlock = (TextBlock)mainWindow.FindName("ResultPriceValue_TextBlock");
+                        TextBlock AverageConsumptionResult_TextBlock = (TextBlock)mainWindow.FindName("AverageConsumptionResult_TextBlock");
+                        TextBlock ResultPrice_TextBlock = (TextBlock)mainWindow.FindName("ResultPrice_TextBlock");
+
+                        AverageConsumptionResultValue_TextBlock.Visibility = Visibility.Visible;
+                        AverageConsumptionResult_TextBlock.Visibility = Visibility.Visible;
+
+                        double AverageConsumption = (ConsumedFuelResult / NumberOfKilometersTraveledResult) * 100;
+                        AverageConsumptionResultValue_TextBlock.Text = AverageConsumption + " l/100km";
+
+                        if (Double.TryParse(PriceForLiterOptional.Text, out PriceForLiterOptionalResult))
+                        {
+                            ResultPriceValue_TextBlock.Visibility = Visibility.Visible;
+                            ResultPrice_TextBlock.Visibility = Visibility.Visible;
+
+                            double AverageConsumptionCost = AverageConsumption * PriceForLiterOptionalResult;
+                            ResultPriceValue_TextBlock.Text = AverageConsumptionCost + " zł";
+                        }
+                        else
+                        {
+                            ResultPriceValue_TextBlock.Visibility = Visibility.Hidden;
+                            ResultPrice_TextBlock.Visibility = Visibility.Hidden;
+                        }
+                    }
+                    break;
             }
         }
 
-        private Border MainContentGenerator(CalculatorPage translation)
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            Border MainContentBorder = new Border();
-            SetBorderProps(ref MainContentBorder, 0);
+            TextBox textBox = (TextBox)sender;
+            double ParseResult;
 
-            Grid MainContentGrid = new Grid();
-            MainContentBorder.Padding = new Thickness(20);
-            MainContentBorder.Child = MainContentGrid;
-            for (int i = 0; i < 2; i++) // 2 is number of rows
+            if (double.TryParse(textBox.Text, out ParseResult))
             {
-                RowDefinition MainContentGridRow = new RowDefinition();
-                MainContentGridRow.Height = new GridLength(45);
-                MainContentGrid.RowDefinitions.Add(MainContentGridRow);
-            }
-            for (int y = 0; y < 2; y++) // 2 is number of column
-            {
-                ColumnDefinition MainContentColumnDefinition = new ColumnDefinition();
-                MainContentGrid.ColumnDefinitions.Add(MainContentColumnDefinition);
-            }
-
-
-            CalculatorTypeSelector.Height = 35;
-            CalculatorTypeSelector.Width = 200;
-            CalculatorTypeSelector.HorizontalContentAlignment = HorizontalAlignment.Center;
-            CalculatorTypeSelector.VerticalContentAlignment = VerticalAlignment.Center;
-            CalculatorTypeSelector.Items.Add(PUser.UserLanguage == "PL" ? translation.TravelCostCalculator.PL : translation.TravelCostCalculator.ENG);
-            CalculatorTypeSelector.Items.Add(PUser.UserLanguage == "PL" ? translation.AverageFuelConsumptionCalculator.PL : translation.AverageFuelConsumptionCalculator.ENG);
-            CalculatorTypeSelector.SelectedItem = (PUser.UserLanguage == "PL" ? translation.TravelCostCalculator.PL : translation.TravelCostCalculator.ENG);
-            CalculatorTypeSelector.SelectionChanged += HandleChangeCalculatorType;
-            Grid.SetRow(CalculatorTypeSelector, 0);
-            Grid.SetColumn(CalculatorTypeSelector, 0);
-            MainContentGrid.Children.Add(CalculatorTypeSelector);
-
-            ComboBox FuelTypeSelector = new ComboBox();
-            FuelTypeSelector.Height = 35;
-            FuelTypeSelector.Width = 200;
-            FuelTypeSelector.HorizontalContentAlignment = HorizontalAlignment.Center;
-            FuelTypeSelector.VerticalContentAlignment = VerticalAlignment.Center;
-            if (PUser.Vehicles.Count > 0)
-            {
-                if (PUser.Vehicles[PUser.ActiveCarIndex].FuelType.Diesel == true)
-                {
-                    FuelTypeSelector.Items.Add(PUser.UserLanguage == "PL" ? translation.Diesel.PL : translation.Diesel.ENG);
-                    FuelTypeSelector.SelectedItem = (PUser.UserLanguage == "PL" ? translation.Diesel.PL : translation.Diesel.ENG);
-                }
-                if (PUser.Vehicles[PUser.ActiveCarIndex].FuelType.Gasoline == true)
-                {
-                    FuelTypeSelector.Items.Add(PUser.UserLanguage == "PL" ? translation.Gasoline.PL : translation.Gasoline.ENG);
-                    FuelTypeSelector.SelectedItem = ((PUser.UserLanguage == "PL" ? translation.Gasoline.PL : translation.Gasoline.ENG));
-                }
-                if (PUser.Vehicles[PUser.ActiveCarIndex].FuelType.LPG == true)
-                {
-                    FuelTypeSelector.Items.Add(PUser.UserLanguage == "PL" ? translation.LPG.PL : translation.LPG.ENG);
-                }
+                textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
             }
             else
             {
-                FuelTypeSelector.Items.Add(PUser.UserLanguage == "PL" ? translation.NoVehicleException.PL : translation.NoVehicleException.ENG);
-                FuelTypeSelector.SelectedItem = (PUser.UserLanguage == "PL" ? translation.NoVehicleException.PL : translation.NoVehicleException.ENG);
-                FuelTypeSelector.IsEnabled = false;
+                textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
             }
-            Grid.SetRow(FuelTypeSelector, 0);
-            Grid.SetColumn(FuelTypeSelector, 1);
-            MainContentGrid.Children.Add(FuelTypeSelector);
-
-            return MainContentBorder;
         }
 
-        private Border TravelCostCalculatorGenerator(TravelCostCalculatorBorder translation)
+        private void FuelTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Border TravelCostCalculatorBorder = new Border();
-            SetBorderProps(ref TravelCostCalculatorBorder, 0);
-
-            Grid TravelCostCalculatorGrid = new Grid();
-            TravelCostCalculatorBorder.Padding = new Thickness(20);
-            TravelCostCalculatorBorder.Child = TravelCostCalculatorGrid;
-            for (int i = 0; i < 3; i++) // 3 columns in this grid
+            ComboBox comboBox = (ComboBox)sender;
+            switch (comboBox.Name)
             {
-                ColumnDefinition TravelCostCalculatorGridColumn = new ColumnDefinition();
-                TravelCostCalculatorGrid.ColumnDefinitions.Add(TravelCostCalculatorGridColumn);
-            }
-            for (int y = 0; y < 6; y++) // 6 rows in this grid
-            {
-                RowDefinition TravelCostCalculatorGridRow = new RowDefinition();
-                TravelCostCalculatorGrid.RowDefinitions.Add(TravelCostCalculatorGridRow);
-            }
-
-            Button CalculateButton = new Button();
-            CalculateButton.Height = 60;
-            CalculateButton.Width = 100;
-            CalculateButton.Click += TravelCostCalculateButton_Click;
-            CalculateButton.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            CalculateButton.Foreground = Brushes.White;
-            CalculateButton.FontFamily = new FontFamily("Arial Black");
-            CalculateButton.FontWeight = FontWeights.Bold;
-            CalculateButton.Margin = new Thickness(0, 0, 0, 8);
-            Grid.SetRow(CalculateButton, 5);
-            Grid.SetColumn(CalculateButton, 1);
-            TravelCostCalculatorGrid.Children.Add(CalculateButton);
-
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Distance.PL, 0, 0));
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.PL, 1, 0));
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Consumption.PL, 2, 0));
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Resoult.PL, 3, 0));
-                    CalculateButton.Content = translation.CalculateButton.PL;
+                case "Gasoline":
+                    List<Refueling> refulings = PUser.Vehicles[PUser.ActiveCarIndex].Refulings;
+                    ((TextBox)mainWindow.FindName("PriceForLiter")).Text = refulings[refulings.Count - 1].PriceForLiter.ToString();
                     break;
-                case "ENG":
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Distance.ENG, 0, 0));
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.ENG, 1, 0));
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Consumption.ENG, 2, 0));
-                    TravelCostCalculatorGrid.Children.Add(GenerateTextBlock(translation.Resoult.ENG, 3, 0));
-                    CalculateButton.Content = translation.CalculateButton.ENG;
+
+                case "Diesel":
+                    break;
+
+                case "LPG":
                     break;
             }
-
-            DistanceValue = new TextBox();
-            DistanceValue.Height = 35;
-            DistanceValue.Width = 250;
-            Grid.SetRow(DistanceValue, 0);
-            Grid.SetColumn(DistanceValue, 2);
-            DistanceValue.MouseLeave += DistanceValueTryConvert;
-            DistanceValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            DistanceValue.Foreground = Brushes.White;
-            DistanceValue.FontFamily = new FontFamily("Arial Black");
-            DistanceValue.FontSize = 14;
-            DistanceValue.FontWeight = FontWeights.Bold;
-            TravelCostCalculatorGrid.Children.Add(DistanceValue);
-
-            PriceForOneFuelUnitValue = new TextBox();
-            PriceForOneFuelUnitValue.Height = 35;
-            PriceForOneFuelUnitValue.Width = 250;
-            try { PriceForOneFuelUnitValue.Text = PUser.Vehicles[PUser.ActiveCarIndex].Refulings[PUser.ActiveCarIndex].LatestFuelPrice.ToString(); } catch { }
-            Grid.SetRow(PriceForOneFuelUnitValue, 1);
-            Grid.SetColumn(PriceForOneFuelUnitValue, 2);
-            PriceForOneFuelUnitValue.MouseLeave += PriceForOneFuelUnitValueTryConvert;
-            PriceForOneFuelUnitValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            PriceForOneFuelUnitValue.Foreground = Brushes.White;
-            PriceForOneFuelUnitValue.FontFamily = new FontFamily("Arial Black");
-            PriceForOneFuelUnitValue.FontSize = 14;
-            PriceForOneFuelUnitValue.FontWeight = FontWeights.Bold;
-            TravelCostCalculatorGrid.Children.Add(PriceForOneFuelUnitValue);
-
-            FuelConsumptionValue = new TextBox();
-            FuelConsumptionValue.Height = 35;
-            FuelConsumptionValue.Width = 250;
-            try { FuelConsumptionValue.Text = PUser.Vehicles[PUser.ActiveCarIndex].AverageFuelConsumption.ToString(); } catch { }
-            Grid.SetRow(FuelConsumptionValue, 2);
-            Grid.SetColumn(FuelConsumptionValue, 2);
-            FuelConsumptionValue.MouseLeave += FuelConsumptionValueTryConvert;
-            FuelConsumptionValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            FuelConsumptionValue.Foreground = Brushes.White;
-            FuelConsumptionValue.FontFamily = new FontFamily("Arial Black");
-            FuelConsumptionValue.FontSize = 14;
-            FuelConsumptionValue.FontWeight = FontWeights.Bold;
-            TravelCostCalculatorGrid.Children.Add(FuelConsumptionValue);
-
-            ResoultPriceValue = new TextBlock();
-            ResoultPriceValue.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            ResoultPriceValue.FontFamily = new FontFamily("Arial Black");
-            ResoultPriceValue.FontWeight = FontWeights.Bold;
-            Grid.SetRow(ResoultPriceValue, 3);
-            Grid.SetColumn(ResoultPriceValue, 2);
-            TravelCostCalculatorGrid.Children.Add(ResoultPriceValue);
-
-            ResoultUsedFuel = new TextBlock();
-            ResoultUsedFuel.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            ResoultUsedFuel.FontFamily = new FontFamily("Arial Black");
-            ResoultUsedFuel.FontWeight = FontWeights.Bold;
-            Grid.SetRow(ResoultUsedFuel, 4);
-            Grid.SetColumn(ResoultUsedFuel, 2);
-            TravelCostCalculatorGrid.Children.Add(ResoultUsedFuel);
-
-            return TravelCostCalculatorBorder;
         }
 
-        private void FuelConsumptionValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
+        private async void CalculatorTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Consumption.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Consumption.ENG);
-        }
-        private void PriceForOneFuelUnitValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.PriceForLiter.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.PriceForLiter.ENG);
-        }
-        private void DistanceValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Distance.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.Distance.ENG);
-        }
-
-        private void TravelCostCalculateButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
+            ComboBox comboBox = (ComboBox)sender;
+            switch (comboBox.SelectedIndex)
             {
-                double Distance = Convert.ToDouble(DistanceValue.Text);
-                double PriceForOneUnit = Convert.ToDouble(PriceForOneFuelUnitValue.Text);
-                double FuelConsumption = Convert.ToDouble(FuelConsumptionValue.Text);
-                double Resoult = (Distance * FuelConsumption / 100) * PriceForOneUnit;
-                double UsedFuel = (Distance / FuelConsumption);
-                ResoultPriceValue.Text = Resoult + " zł".ToString();
-                ResoultUsedFuel.Text = UsedFuel + " litrów";
-            }
-            catch (Exception) { MessageBox.Show((PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.PL : config.MainPanel.CalculatorPage.TravelCostCalculatorBorder.ErrorException.ENG)); }
-        }
-
-        private Border AverageFuelConsumptionCalculatorGenerator(AverageFuelConsumptionCalculatorBorder translation)
-        {
-            Border AverageFuelConsumptionCalculatorBorder = new Border();
-            SetBorderProps(ref AverageFuelConsumptionCalculatorBorder,0);
-
-            Grid AverageFuelConsumptionCalculatorGrid = new Grid();
-            AverageFuelConsumptionCalculatorBorder.Padding = new Thickness(20);
-            AverageFuelConsumptionCalculatorBorder.Child = AverageFuelConsumptionCalculatorGrid;
-            for (int i = 0; i < 3; i++) // 3 columns in this grid
-            {
-                ColumnDefinition AverageFuelConsumptionCalculatorGridColumn = new ColumnDefinition();
-                AverageFuelConsumptionCalculatorGrid.ColumnDefinitions.Add(AverageFuelConsumptionCalculatorGridColumn);
-            }
-            for (int y = 0; y < 4; y++) // 4 rows in this grid
-            {
-                RowDefinition AverageFuelConsumptionCalculatorGridRow = new RowDefinition();
-                AverageFuelConsumptionCalculatorGrid.RowDefinitions.Add(AverageFuelConsumptionCalculatorGridRow);
-            }
-
-            Button CalculateButton = new Button();
-            CalculateButton.Height = 60;
-            CalculateButton.Width = 100;
-            CalculateButton.BorderThickness = new Thickness(2);
-            CalculateButton.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            CalculateButton.Foreground = Brushes.White;
-            CalculateButton.FontFamily = new FontFamily("Arial Black");
-            CalculateButton.FontWeight = FontWeights.Bold;
-            CalculateButton.Click += AverageFuelConsumptionCalculatorButton_Click;
-            CalculateButton.Margin = new Thickness(0, 0, 0, 8);
-            Grid.SetRow(CalculateButton, 4);
-            Grid.SetColumn(CalculateButton, 1);
-            AverageFuelConsumptionCalculatorGrid.Children.Add(CalculateButton);
-
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.ConsumedFuel.PL, 0, 0));
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.NumberOfKilometersTraveled.PL, 1, 0));
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.PriceForLiterOptional.PL, 2, 0));
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.Resoult.PL, 3, 0));
-                    CalculateButton.Content = translation.CalculateButton.PL;
+                case 0:
+                    PTravelCostCalculatorGrid.Visibility = Visibility.Visible;
+                    mainWindow.BeginStoryboard(PTravelCostAnimationStoryboard);
+                    await Task.Delay(500);
+                    PAverageFuelConsumptionGrid.Visibility = Visibility.Hidden;
                     break;
-                case "ENG":
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.ConsumedFuel.ENG, 0, 0));
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.NumberOfKilometersTraveled.ENG, 1, 0));
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.PriceForLiterOptional.ENG, 2, 0));
-                    AverageFuelConsumptionCalculatorGrid.Children.Add(GenerateTextBlock(translation.Resoult.ENG, 3, 0));
-                    CalculateButton.Content = translation.CalculateButton.ENG;
+
+                case 1:
+                    PAverageFuelConsumptionGrid.Visibility = Visibility.Visible;
+                    mainWindow.BeginStoryboard(PAverageConsumptionAnimationStoryboard);
+                    await Task.Delay(500);
+                    PTravelCostCalculatorGrid.Visibility = Visibility.Hidden;
+                    break;
+            }
+        }
+
+        private void GenerateAnimation(string transformName)
+        {
+            Storyboard storyboard = new();
+            string EntryPanelTransformName = string.Empty;
+            string ExitPanelTransformName = string.Empty;
+
+            switch (transformName)
+            {
+                case "TravelCostCalculatorTransform":
+                    storyboard = PTravelCostAnimationStoryboard;
+                    EntryPanelTransformName = transformName;
+                    ExitPanelTransformName = "AverageFuelConsumptionTransform";
+                    break;
+
+                case "AverageFuelConsumptionTransform":
+                    storyboard = PAverageConsumptionAnimationStoryboard;
+                    EntryPanelTransformName = transformName;
+                    ExitPanelTransformName = "TravelCostCalculatorTransform";
                     break;
             }
 
-            ConsumedFuelValue = new TextBox();
-            ConsumedFuelValue = new TextBox();
-            ConsumedFuelValue.Height = 35;
-            ConsumedFuelValue.Width = 250;
-            Grid.SetRow(ConsumedFuelValue, 0);
-            Grid.SetColumn(ConsumedFuelValue, 2);
-            ConsumedFuelValue.MouseLeave += ConsumedFuelValueTryConvert;
-            ConsumedFuelValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            ConsumedFuelValue.Foreground = Brushes.White;
-            ConsumedFuelValue.FontFamily = new FontFamily("Arial Black");
-            ConsumedFuelValue.FontSize = 14;
-            ConsumedFuelValue.FontWeight = FontWeights.Bold;
-            AverageFuelConsumptionCalculatorGrid.Children.Add(ConsumedFuelValue);
+            DoubleAnimation EntryAnimation = new DoubleAnimation();
+            EntryAnimation.From = 1400;
+            EntryAnimation.To = 0;
+            EntryAnimation.BeginTime = new TimeSpan(0, 0, 0);
+            EntryAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(500));
 
-            NumberOfKilometersTraveledValue = new TextBox();
-            NumberOfKilometersTraveledValue.Height = 35;
-            NumberOfKilometersTraveledValue.Width = 250;
-            Grid.SetRow(NumberOfKilometersTraveledValue, 1);
-            Grid.SetColumn(NumberOfKilometersTraveledValue, 2);
-            NumberOfKilometersTraveledValue.MouseLeave += NumberOfKilometersTraveledValueTryConvert;
-            NumberOfKilometersTraveledValue.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            NumberOfKilometersTraveledValue.Foreground = Brushes.White;
-            NumberOfKilometersTraveledValue.FontFamily = new FontFamily("Arial Black");
-            NumberOfKilometersTraveledValue.FontSize = 14;
-            NumberOfKilometersTraveledValue.FontWeight = FontWeights.Bold;
-            AverageFuelConsumptionCalculatorGrid.Children.Add(NumberOfKilometersTraveledValue);
+            Storyboard.SetTargetName(EntryAnimation, EntryPanelTransformName);
+            Storyboard.SetTargetProperty(EntryAnimation, new PropertyPath(TranslateTransform.XProperty));
 
-            PriceForOneFuelUnitValueOptional = new TextBox();
-            PriceForOneFuelUnitValueOptional.Height = 35;
-            PriceForOneFuelUnitValueOptional.Width = 250;
-            Grid.SetRow(PriceForOneFuelUnitValueOptional, 2);
-            Grid.SetColumn(PriceForOneFuelUnitValueOptional, 2);
-            PriceForOneFuelUnitValueOptional.MouseLeave += PriceForOneFuelUnitValueOptionalTryConvert;
-            PriceForOneFuelUnitValueOptional.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            PriceForOneFuelUnitValueOptional.Foreground = Brushes.White;
-            PriceForOneFuelUnitValueOptional.FontFamily = new FontFamily("Arial Black");
-            PriceForOneFuelUnitValueOptional.FontSize = 14;
-            PriceForOneFuelUnitValueOptional.FontWeight = FontWeights.Bold;
-            AverageFuelConsumptionCalculatorGrid.Children.Add(PriceForOneFuelUnitValueOptional);
 
-            ResoultUsedFuelAverageFuelCOnsumption = new TextBlock();
-            ResoultUsedFuelAverageFuelCOnsumption.Height = 35;
-            ResoultUsedFuelAverageFuelCOnsumption.Width = 250;
-            ResoultUsedFuelAverageFuelCOnsumption.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            ResoultUsedFuelAverageFuelCOnsumption.FontFamily = new FontFamily("Arial Black");
-            ResoultUsedFuelAverageFuelCOnsumption.FontWeight = FontWeights.Bold;
-            Grid.SetRow(ResoultUsedFuelAverageFuelCOnsumption, 3);
-            Grid.SetColumn(ResoultUsedFuelAverageFuelCOnsumption, 2);
-            AverageFuelConsumptionCalculatorGrid.Children.Add(ResoultUsedFuelAverageFuelCOnsumption);
+            DoubleAnimation ExitAnimation = new DoubleAnimation();
+            ExitAnimation.From = 0;
+            ExitAnimation.To = -1400;
+            ExitAnimation.BeginTime = new TimeSpan(0, 0, 0);
+            ExitAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(500));
 
-            return AverageFuelConsumptionCalculatorBorder;
+            Storyboard.SetTargetName(ExitAnimation, ExitPanelTransformName);
+            Storyboard.SetTargetProperty(ExitAnimation, new PropertyPath(TranslateTransform.XProperty));
+
+            storyboard.Children.Clear();
+            storyboard.Children.Add(EntryAnimation);
+            storyboard.Children.Add(ExitAnimation);
         }
-
-        private void PriceForOneFuelUnitValueOptionalTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.PriceForLiterOptional.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.PriceForLiterOptional.ENG);
-        }
-        private void NumberOfKilometersTraveledValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.NumberOfKilometersTraveled.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.NumberOfKilometersTraveled.ENG);
-        }
-        private void ConsumedFuelValueTryConvert(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            TextBox textbox = (TextBox)sender;
-            HandleTryConvertValue(ref textbox, PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ConsumedFuel.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ConsumedFuel.ENG);
-        }
-
-        private void AverageFuelConsumptionCalculatorButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (PriceForOneFuelUnitValueOptional.Text != "")
-                {
-                    double ConsumedFuel = Convert.ToDouble(ConsumedFuelValue.Text);
-                    double NumberOfKilometersTraveled = Convert.ToDouble(NumberOfKilometersTraveledValue.Text);
-                    double PriceForOneFuelUnitOptional = Convert.ToDouble(PriceForOneFuelUnitValueOptional.Text);
-                    double FuelResult = ((ConsumedFuel / NumberOfKilometersTraveled) * 100);
-                    double CostResult = FuelResult * PriceForOneFuelUnitOptional;
-
-                    ResoultUsedFuelAverageFuelCOnsumption.Text = "Spalanie wynosi " + FuelResult.ToString() + " litrów/100km" + " Koszt: " + CostResult.ToString();
-                }
-                else
-                {
-                    double ConsumedFuel = Convert.ToDouble(ConsumedFuelValue.Text);
-                    double NumberOfKilometersTraveled = Convert.ToDouble(NumberOfKilometersTraveledValue.Text);
-                    double Result = ((ConsumedFuel / NumberOfKilometersTraveled) * 100);
-
-                    ResoultUsedFuelAverageFuelCOnsumption.Text = "Spalanie wyniosło " + Result.ToString() + " litrów na 100/km";
-                }
-            }
-            catch (Exception) { MessageBox.Show(PUser.UserLanguage == "PL" ? config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ErrorException.PL : config.MainPanel.CalculatorPage.AverageFuelConsumptionCalculatorBorder.ErrorException.ENG); }
-        }
-
-        private void SetBorderProps(ref Border border, int row)
-        {
-            Brush BackgroundBrushh = (Brush)Converter.ConvertFromString("#FF001A34");
-            border.Background = BackgroundBrushh;
-
-            border.BorderThickness = new Thickness(5);
-            border.BorderBrush = (Brush)Converter.ConvertFrom("#FF407BB6");
-            border.CornerRadius = new CornerRadius(30);
-
-            border.Margin = new Thickness(15, 5, 15, 5);
-            border.Padding = new Thickness(0, 0, 35, 0);
-            Grid.SetRow(border, row);
-        }
-
-        private TextBlock GenerateTextBlock(string text, int row, int column)
-        {
-            TextBlock TextBlockName = new TextBlock();
-            TextBlockName.Foreground = (Brush)Converter.ConvertFromString("#FFEDF5FD");
-            TextBlockName.FontFamily = new FontFamily("Arial Black");
-            TextBlockName.FontWeight = FontWeights.Bold;
-            TextBlockName.Text = text;
-            TextBlockName.Margin = new Thickness(0, 2, 0, 2);
-            Grid.SetRow(TextBlockName, row);
-            Grid.SetColumn(TextBlockName, column);
-
-            return TextBlockName;
-        }
-
-        private TextBox HandleTryConvertValue(ref TextBox textbox, string text)
-        {
-            try
-            {
-                Convert.ToDouble(textbox.Text);
-                textbox.Background = (Brush)Converter.ConvertFromString("#FF1065B9");
-            }
-            catch (Exception)
-            {
-                textbox.Text = "0";
-                textbox.Background = Brushes.Red;
-                MessageBox.Show("Błąd danych! Proszę wprowadzić poprawną wartość pola " +text);
-            }
-
-            return textbox;
-        }
-
     }
 }

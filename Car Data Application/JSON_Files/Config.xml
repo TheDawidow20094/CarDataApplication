@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Config>
+  <FuelTypes>
+    <Gasoline PL="Benzyna" ENG="Gasoline"/>
+    <Diesel PL="Diesel" ENG="Diesel"/>
+    <LPG PL="LPG" ENG="LPG"/>
+  </FuelTypes>
+  
   <SidePanel>
     <XMLButton PL="Zaloguj" ENG="Login" Name="LoginPage" IsEnabled="true" Icon="user.png"/>
     <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="false" Icon="user.png"/>
@@ -156,7 +162,8 @@
         <Distance PL="Planowana Odległość:" ENG="Distance:"/>
         <PriceForLiter PL="Cena za Litr:" ENG="Price For Liter:"/>
         <Consumption PL="Spalanie:" ENG="Consumption:"/>
-        <Resoult PL="Wynik:" ENG="Resoult:"/>
+        <ResultTravelCost PL="Koszt Podróży:" ENG="Travel Cost:"/>
+        <ResultUsedFuel PL="Zużyte paliwo:" ENG="Used Fuel:"/>
         <CalculateButton PL="Oblicz" ENG="Calculate"/>
         <ErrorException PL="Nie można wykonać obliczeń, podane wartości są poprawne?:" ENG="Calculations cannot be performed, are the given values are correct?:"/>
       </TravelCostCalculatorBorder>
@@ -164,18 +171,18 @@
         <ConsumedFuel PL="Spalone Paliwo:" ENG="Consumed Fuel:"/>
         <NumberOfKilometersTraveled PL="Ilość Przejechanych Kilometrów:" ENG="Number of Traveled Kilometers:"/>
         <PriceForLiterOptional PL="Cena za Litr (Opcjonalnie):" ENG="Price for Liter (Optional):"/>
-        <Resoult PL="Wynik:" ENG="Resoult:"/>
+        <ResultAverageConsumption PL="Średnie Spalanie:" ENG="Average Consumption:"/>
+        <ResultPrice PL="Koszt:" ENG="Cost:"/>
         <CalculateButton PL="Oblicz" ENG="Calculate"/>
         <ErrorException PL="Nie można wykonać obliczeń, podane wartości są poprawne?:" ENG="Calculations cannot be performed, are the given values are correct?:"/>
       </AverageFuelConsumptionCalculatorBorder>
-      <TravelCostCalculator PL="Kalkulator Kosztu Podróży" ENG="Travel Cost Calculator"/>
-      <AverageFuelConsumptionCalculator PL="Kalkulator Średniego Spalania" ENG="Average Fuel Consumption Calculator"/>
+      <TravelCostCalculator PL="Koszt Podróży" ENG="Travel Cost"/>
+      <AverageFuelConsumptionCalculator PL="Średnie Spalanie" ENG="Average Fuel Consumption"/>
       <Gasoline PL="Benzyna" ENG="Gasoline"/>
       <Diesel PL="Diesel" ENG="Diesel"/>
       <LPG PL="LPG" ENG="LPG"/>
       <NoVehicleException PL="Brak Pojazdów w Bazie" ENG="No Vehicles Found"/>
       <CalculateButton PL="Oblicz" ENG="Calculate"/>
     </CalculatorPage>
-
   </MainPanel>
 </Config>

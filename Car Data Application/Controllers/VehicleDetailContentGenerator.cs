@@ -19,7 +19,7 @@ namespace Car_Data_Application.Controllers
 
             Grid MainGrid = new Grid();
 
-            for (int i = 0; i < 5; i++) // 6 is number of rows
+            for (int i = 0; i < 5; i++) // 5 is number of rows
             {
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGrid.RowDefinitions.Add(MainGridRow);

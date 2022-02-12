@@ -150,8 +150,11 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "Consumption")]
 		public Translation Consumption { get; set; }
 
-		[XmlElement(ElementName = "Resoult")]
-		public Translation Resoult { get; set; }
+		[XmlElement(ElementName = "ResultTravelCost")]
+		public Translation ResultTravelCost { get; set; }
+
+		[XmlElement(ElementName = "ResultUsedFuel")]
+		public Translation ResultUsedFuel { get; set; }
 
 		[XmlElement(ElementName = "CalculateButton")]
 		public Translation CalculateButton { get; set; }
@@ -172,8 +175,11 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "PriceForLiterOptional")]
 		public Translation PriceForLiterOptional { get; set; }
 
-		[XmlElement(ElementName = "Resoult")]
-		public Translation Resoult { get; set; }
+		[XmlElement(ElementName = "ResultAverageConsumption")]
+		public Translation ResultAverageConsumption { get; set; }
+
+		[XmlElement(ElementName = "ResultPrice")]
+		public Translation ResultPrice { get; set; }
 
 		[XmlElement(ElementName = "CalculateButton")]
 		public Translation CalculateButton { get; set; }
@@ -394,5 +400,18 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "AddVehicle")]
 		public Translation AddVehicle { get; set; }
+	}
+
+	[XmlRoot(ElementName = "FuelTypes")]
+	public class FuelTypes
+	{
+		[XmlElement(ElementName = "Gasoline")]
+		public Translation Gasoline { get; set; }
+
+		[XmlElement(ElementName = "Diesel")]
+		public Translation Diesel { get; set; }
+
+		[XmlElement(ElementName = "LPG")]
+		public Translation LPG { get; set; }
 	}
 }

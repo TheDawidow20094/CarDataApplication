@@ -25,6 +25,18 @@ namespace Car_Data_Application.Views
 {
     public partial class MainWindow : Window
     {
+        private LoginPanelGenerator LoginPanelGenerator = new();
+        private HomeContentGenerator HomeContentGenerator = new();
+        private VehiclesContentGenerator VehiclesContentGenerator = new();
+        private RefuelingHistoryContentGenerator RefuelingHistoryContentGenerator = new();
+        private CostContentGenerator CostContentGenerator = new();
+        private CalculatorContentGenerator CalculatorContentGenerator = new();
+        private SettingsContentGenerator SettingsContentGenerator = new();
+        private GenerateSelectedCar GenerateSelectedCar = new();
+        private AddRefuelingPageGenerator AddRefuelingPageGenerator = new();
+        private AddCostPageGenerator AddCostPageGenerator = new();
+        private AddVehiclePageGenerator AddVehiclePageGenerator = new();
+
         private BrushConverter Converter = new BrushConverter();
         public string WhereAreYou = string.Empty;
         private User User = new User();
@@ -134,7 +146,7 @@ namespace Car_Data_Application.Views
             {
                 case "LoginPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new LoginPanelGenerator().PageGenerator(this, User, config);
+                    LoginPanelGenerator.PageGenerator(this, User, config);
                     break;
 
                 case "LogoutPage":
@@ -143,17 +155,17 @@ namespace Car_Data_Application.Views
 
                 case "HomePage":
                     AddButon.Visibility = Visibility.Visible;
-                    new HomeContentGenerator().GeneratorHomeContent(this, User, config.MainPanel.HomePage);
+                    HomeContentGenerator.GeneratorHomeContent(this, User, config.MainPanel.HomePage);
                     break;
 
                 case "VehiclesPage":
                     AddButon.Visibility = Visibility.Visible;
-                    new VehiclesContentGenerator().GeneratorVechicleList(this, User, config);
+                    VehiclesContentGenerator.GeneratorVechicleList(this, User, config);
                     break;
 
                 case "RefuelingHistoryPage":
                     AddButon.Visibility = Visibility.Visible;
-                    new RefuelingHistoryContentGenerator().GeneratorRefulingHistory(this, User, config.MainPanel.RefuelingHistoryPage);
+                    RefuelingHistoryContentGenerator.GeneratorRefulingHistory(this, User, config.MainPanel.RefuelingHistoryPage);
                     break;
 
                 case "StatsPage":
@@ -162,7 +174,7 @@ namespace Car_Data_Application.Views
 
                 case "CostsPage":
                     AddButon.Visibility = Visibility.Visible;
-                    new CostContentGenerator().CostGenerator(this, User, config.MainPanel.CostPage);
+                    CostContentGenerator.CostGenerator(this, User, config.MainPanel.CostPage);
                     break;
 
                 case "BackupPage":
@@ -171,12 +183,12 @@ namespace Car_Data_Application.Views
 
                 case "CalculatorPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new CalculatorContentGenerator().CalculatorGenerator(this, User, config);
+                    CalculatorContentGenerator.CalculatorGenerator(this, User, config);
                     break;
 
                 case "SettingsPage":
                     AddButon.Visibility = Visibility.Hidden;
-                    new SettingsContentGenerator().GenerateSetingContent(this, User, config.MainPanel.SettingsPage);
+                    SettingsContentGenerator.GenerateSetingContent(this, User, config.MainPanel.SettingsPage);
                     break;
             }
         }
@@ -189,7 +201,6 @@ namespace Car_Data_Application.Views
         private void HandleSidePanelButtonLeave(object sender, MouseEventArgs e)
         {
             Grid button = (Grid)sender;
-
             button.Background = Brushes.Transparent;
         }
 
@@ -219,7 +230,7 @@ namespace Car_Data_Application.Views
             Grid VehiclesNameList = (Grid)this.FindName("VehiclesNameList");
             if (VehiclesNameList == null)
             {
-                new GenerateSelectedCar().GeneratorCarSelectList(this, User, config);
+                GenerateSelectedCar.GeneratorCarSelectList(this, User, config);
             }
             else
             {
@@ -253,7 +264,7 @@ namespace Car_Data_Application.Views
             switch (WhereAreYou)
             {
                 case "VehiclesPage":
-                    new AddVehiclePageGenerator().PageGenerator(this, User, config);
+                    AddVehiclePageGenerator.PageGenerator(this, User, config);
                 break;
 
                 case "HomePage":
@@ -263,26 +274,14 @@ namespace Car_Data_Application.Views
                 break;
 
                 case "RefuelingHistoryPage":
-                    new AddRefuelingPageGenerator().PageGenerator(this, User, config);
+                    AddRefuelingPageGenerator.PageGenerator(this, User, config);
                 break;
 
                 case "CostsPage":
-                    new AddCostPageGenerator().PageGenerator(this, User, config);
+                    AddCostPageGenerator.PageGenerator(this, User, config);
                     break;
             }
         }
-
-        //private void HandleAddButtonListMouseEnter(object sender, MouseEventArgs e)
-        //{
-        //    Border border = (Border)sender;
-        //    border.Background = (Brush)Converter.ConvertFromString("#FF5BA05B");
-        //}
-
-        //private void HandleAddButtonListMouseLeave(object sender, MouseEventArgs e)
-        //{
-        //    Border border = (Border)sender;
-        //    border.Background = (Brush)Converter.ConvertFromString("#FF5C7B9B");
-        //}
 
         private void GenerateAddButtonListItems(AddButonList translation)
         {
@@ -308,17 +307,17 @@ namespace Car_Data_Application.Views
             switch (border.Name)
             {
                 case "AddRefueling_Button":
-                    new AddRefuelingPageGenerator().PageGenerator(this, User, config);
+                    AddRefuelingPageGenerator.PageGenerator(this, User, config);
                     this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
 
                 case "AddService_Button":
-                    new AddCostPageGenerator().PageGenerator(this, User, config);
+                    AddCostPageGenerator.PageGenerator(this, User, config);
                     this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
 
                 case "AddVehicle_Button":
-                    new AddVehiclePageGenerator().PageGenerator(this, User, config);
+                    AddVehiclePageGenerator.PageGenerator(this, User, config);
                     this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
             }
