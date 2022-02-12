@@ -22,6 +22,23 @@ namespace Car_Data_Application.Models.Vehicle_Classes
         public double DistanceFromTheLastRefueling { get; set; }
         public double Consumption { get; set; }
 
+        public Refueling()
+        {
+            this.Liters = 0;
+            this.PriceForLiter = 0;
+            this.TotalPrice = 0;
+            this.IsFull = true;
+            this.CarMillage = 0;
+            this.LatestConsumption = 0;
+            this.LatestFuelPrice = 0;
+            this.Date = "";
+            this.Time = "";
+            this.Comment = "";
+            this.FuelType = "";
+            this.DistanceFromTheLastRefueling = 0;
+            this.Consumption = 0;
+        }
+
         public Refueling(double liters, double priceforliter, double totalprice, bool isfull, int carmillage, double latestconsumption, double latestfuelprice, string date, string time, string comment, string fueltype, double distancefromthelastrefueling, double consumption)
         {
             this.Liters = liters;

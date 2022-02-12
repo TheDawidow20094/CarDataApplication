@@ -8,13 +8,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using System.Windows.Shapes;
 
 namespace Car_Data_Application.Controllers
 {
     class CarDataAppController
     {
         public string TextBoxBackgroundColor = "#FFD6CFD3";
+        public string TextBoxBackgroundRedColor = "#FFD68A8A";
         public string LightTextColor = "#FF9C9397";
         public string DarkTextColor = "#FF2A2729"; // change to set in config
 
@@ -22,7 +25,7 @@ namespace Car_Data_Application.Controllers
         public User PUser;
         public BrushConverter Converter = new BrushConverter();
         public Config config;
-        
+
         public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
             foreach (Grid Button in SidePanel.Children)
@@ -137,13 +140,15 @@ namespace Car_Data_Application.Controllers
             textBox.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
             textBox.FontFamily = new FontFamily("Global User Interface");
 
-            string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
+            string TextBoxName = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c))) + "_Textbox";
 
-            if (null != mainWindow.FindName(TrimmedText + "_Textbox"))
+            
+            if (null != mainWindow.FindName(TextBoxName))
             {
-                mainWindow.UnregisterName(TrimmedText + "_Textbox");
+                mainWindow.UnregisterName(TextBoxName);
             }
-            mainWindow.RegisterName(TrimmedText + "_Textbox", textBox);
+            mainWindow.RegisterName(TextBoxName, textBox);
+            textBox.SetValue(FrameworkElement.NameProperty, TextBoxName);
 
             Grid.SetRow(textBox, row);
             Grid.SetColumn(textBox, column);
@@ -184,8 +189,13 @@ namespace Car_Data_Application.Controllers
             datePicker.FontFamily = new FontFamily("Global User Interface");
 
             string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
+            string DatePickerName = TrimmedText + "_DatePicker";
 
-            datePicker.SetValue(FrameworkElement.NameProperty, TrimmedText + "_DatePicker");
+            if (null != mainWindow.FindName(DatePickerName))
+            {
+                mainWindow.UnregisterName(DatePickerName);
+            }
+            mainWindow.RegisterName(DatePickerName, datePicker);
             Grid.SetRow(datePicker, row);
             Grid.SetColumn(datePicker, column);
 
@@ -292,6 +302,99 @@ namespace Car_Data_Application.Controllers
             Grid.SetColumn(toggleButton, column);
 
             return toggleButton;
+        }
+
+        public Grid GenerateToggleSwitch(string toggleSwitchName, int row, int column, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
+        {
+            Grid toggleSwitch = new Grid();
+            toggleSwitch.VerticalAlignment = VerticalAlignment.Center;
+            toggleSwitch.HorizontalAlignment = horizontalAlignment;
+            toggleSwitch.Margin = new Thickness(3);
+
+            Rectangle rectangle = new Rectangle();
+            rectangle.Height = 28;
+            rectangle.Width = 56;
+            rectangle.RadiusX = 14;
+            rectangle.RadiusY = 14;
+            rectangle.Fill = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            toggleSwitch.Children.Add(rectangle);
+
+            Ellipse ellipse = new Ellipse();
+            ellipse.Fill = Brushes.Gray;
+            ellipse.Width = 19;
+            ellipse.Height = 19;
+            ellipse.Margin = new Thickness(5, 0, 5, 0);
+            ellipse.HorizontalAlignment = HorizontalAlignment.Left;
+            ellipse.VerticalAlignment = VerticalAlignment.Center;
+
+            toggleSwitch.Children.Add(ellipse);
+            toggleSwitch.MouseLeftButtonDown += ToggleSwitchClick;
+            toggleSwitch.Tag = false;
+
+            string TrimmedText = String.Concat(toggleSwitchName.Where(c => !Char.IsWhiteSpace(c)));
+            if (null != mainWindow.FindName(TrimmedText + "_ToggleSwitch"))
+            {
+                mainWindow.UnregisterName(TrimmedText + "_ToggleSwitch");
+            }
+            mainWindow.RegisterName(TrimmedText + "_ToggleSwitch", toggleSwitch);
+
+            Grid.SetRow(toggleSwitch, row);
+            Grid.SetColumn(toggleSwitch, column);
+
+            return toggleSwitch;
+        }
+
+        public ComboBox GenerateComboBox(string comboBoxName, int row, int column, List<string> ComboBoxItems, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
+        {
+            ComboBox comboBox = new ComboBox();
+            comboBox.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+            comboBox.FontWeight = FontWeights.Bold;
+            comboBox.Margin = new Thickness(2, 2, 6, 2);
+            comboBox.HorizontalAlignment = HorizontalAlignment.Left;
+            comboBox.FontSize = 16;
+            comboBox.Height = 30;
+            comboBox.Width = 120;
+
+            foreach (string itemValue in ComboBoxItems)
+            {
+                comboBox.Items.Add(itemValue);
+            }
+            comboBox.SelectedIndex = 0;
+
+            string TrimmedText = String.Concat(comboBoxName.Where(c => !Char.IsWhiteSpace(c)));
+            if (null != mainWindow.FindName(TrimmedText + "_ComboBox"))
+            {
+                mainWindow.UnregisterName(TrimmedText + "_ComboBox");
+            }
+            mainWindow.RegisterName(TrimmedText + "_ComboBox", comboBox);
+
+            Grid.SetRow(comboBox, row);
+            Grid.SetColumn(comboBox, column);
+
+
+            return comboBox;
+        }
+
+        private void ToggleSwitchClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Grid grid = (Grid)sender;
+            Rectangle rectangle = ((Rectangle)grid.Children[0]);
+            Ellipse ellipse = ((Ellipse)grid.Children[1]);
+
+            if (grid.Tag == "Disabled")
+            {
+                rectangle.Fill = (Brush)Converter.ConvertFromString("#FF93D68A");
+                ellipse.Fill = Brushes.WhiteSmoke;
+                ellipse.HorizontalAlignment = HorizontalAlignment.Right;
+                grid.Tag = "Enabled";
+            }
+            else
+            {
+                rectangle.Fill = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+                ellipse.Fill = Brushes.Gray;
+                ellipse.HorizontalAlignment = HorizontalAlignment.Left;
+                grid.Tag = "Disabled";
+            }
         }
 
         private string RemoveSpecialCharacters(string str)
