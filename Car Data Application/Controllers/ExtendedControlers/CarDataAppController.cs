@@ -440,7 +440,7 @@ namespace Car_Data_Application.Controllers
         private string RemoveSpecialCharacters(string str)
         {
             List<char> charsToRemove = new List<char>() {'_', '-', '+', '*', '/', '>', '<', ';', ':', '|', '=', '!', '@', '#'};
-            str = "";
+            //str = "";
             foreach (char c in charsToRemove)
             {
                 str = str.Replace(c.ToString(), string.Empty); 

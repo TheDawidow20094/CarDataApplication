@@ -27,7 +27,7 @@ namespace Car_Data_Application.Controllers
 
             Grid MainGrid = new Grid();
 
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50) });
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(140) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(210) });
@@ -51,18 +51,6 @@ namespace Car_Data_Application.Controllers
             mainWindow.AddButon.Visibility = Visibility.Hidden;
             mainWindow.WhereAreYou = "AddRefuelingPage";
             SetButtonColor("RefuelingHistoryPage", ((Grid)mainWindow.FindName("SidePanel")));
-        }
-
-        private Border AddingTitle(AddRefuelingPage translation)
-        {
-            Border TitleBorder = new Border();
-
-            Grid TitleGrid = new Grid();
-            TitleBorder.Padding = new Thickness(20);
-            TitleBorder.Child = TitleGrid;
-            TitleGrid.Children.Add(GenerateTextBlock(translation.PageTitle, PUser.UserLanguage, 0,0, DarkTextColor, HorizontalAlignment.Center));
-
-            return TitleBorder;
         }
 
         private TextBlock AddingVehicleName()
@@ -146,47 +134,14 @@ namespace Car_Data_Application.Controllers
             {
                 case "Liters_TextBox":
                     newRefueling.Liters = ParseResult;
-
-                    //if (newRefueling.PriceForLiter != 0)
-                    //{
-                    //    newRefueling.TotalPrice = newRefueling.Liters * newRefueling.PriceForLiter;
-                    //    TotalPrice_TextBox.Text = newRefueling.TotalPrice.ToString();
-                    //}
-                    //else if (newRefueling.TotalPrice != 0)
-                    //{
-                    //    newRefueling.PriceForLiter = newRefueling.TotalPrice / newRefueling.Liters;
-                    //    Liters_TextBox.Text = newRefueling.PriceForLiter.ToString();
-                    //}
                     break;
 
                 case "PriceForLiter_TextBox":
                     newRefueling.PriceForLiter = ParseResult;
-
-                    //if (newRefueling.Liters != 0)
-                    //{
-                    //    newRefueling.TotalPrice = newRefueling.Liters * newRefueling.PriceForLiter;
-                    //    TotalPrice_TextBox.Text = newRefueling.TotalPrice.ToString();
-                    //}
-                    //else if (newRefueling.TotalPrice != 0)
-                    //{
-                    //    newRefueling.Liters = newRefueling.TotalPrice / newRefueling.PriceForLiter;
-                    //    Liters_TextBox.Text = newRefueling.Liters.ToString();
-                    //}
                     break;
 
                 case "TotalPrice_TextBox":
                     newRefueling.TotalPrice = ParseResult;
-
-                    //if (newRefueling.Liters != 0)
-                    //{
-                    //    newRefueling.PriceForLiter = newRefueling.TotalPrice / newRefueling.Liters;
-                    //    Liters_TextBox.Text = newRefueling.PriceForLiter.ToString();
-                    //}
-                    //else if (newRefueling.PriceForLiter != 0)
-                    //{
-                    //    newRefueling.TotalPrice = newRefueling.Liters * newRefueling.PriceForLiter;
-                    //    TotalPrice_TextBox.Text = newRefueling.TotalPrice.ToString();
-                    //}
                     break;
 
                 case "CarMillage_TextBox":
@@ -195,7 +150,7 @@ namespace Car_Data_Application.Controllers
             }
         }
 
-        private void TextBoxOnChange(object sender, DependencyPropertyChangedEventArgs e)
+        private void TextBoxOnChange(object sender, TextChangedEventArgs e)
         {
 
             TextBox textBox = (TextBox)sender;
@@ -204,18 +159,73 @@ namespace Car_Data_Application.Controllers
             {
                 case "Liters_TextBox":
 
-                    if ((newRefueling.PriceForLiter != 0) && (newRefueling.TotalPrice == 0) )
+                    double LitersParseResult;
+                    if (Double.TryParse(Liters_TextBox.Text, out LitersParseResult))
                     {
-                        //TotalPrice_TextBox.Text = (newRefueling.PriceForLiter * (Double)Liters_TextBox.Text).ToString();
+                        if ((newRefueling.PriceForLiter != 0))
+                        {
+                            string result = (Math.Round(newRefueling.PriceForLiter * LitersParseResult, 2)).ToString();
+                            if (TotalPrice_TextBox.Text != result)
+                            {
+                                TotalPrice_TextBox.Text = result;
+                                newRefueling.TotalPrice = double.Parse(result);
+                            }
+                        }
+                        if ((newRefueling.TotalPrice != 0) && (newRefueling.PriceForLiter == 0))
+                        {
+                            string result = (Math.Round(newRefueling.TotalPrice / LitersParseResult, 2)).ToString();
+                            if (PriceForLiter_TextBox.Text != result)
+                            {
+                                PriceForLiter_TextBox.Text = result;
+                                newRefueling.PriceForLiter = double.Parse(result);
+                            }
+                        }
                     }
 
                     break;
 
                 case "PriceForLiter_TextBox":
 
+                    double PriceForLiterParseResult;
+                    if (Double.TryParse(PriceForLiter_TextBox.Text, out PriceForLiterParseResult))
+                    {
+                        if ((newRefueling.Liters != 0))
+                        {
+                            string result = (Math.Round(newRefueling.Liters * PriceForLiterParseResult, 2)).ToString();
+                            if (TotalPrice_TextBox.Text != result)
+                            {
+                                TotalPrice_TextBox.Text = result;
+                                newRefueling.TotalPrice = double.Parse(result);
+                            }
+                        }
+                        if ((newRefueling.TotalPrice != 0) && (newRefueling.Liters == 0))
+                        {
+                            string result = (Math.Round(newRefueling.TotalPrice / PriceForLiterParseResult, 2)).ToString();
+                            if (Liters_TextBox.Text != result)
+                            {
+                                Liters_TextBox.Text = result;
+                                newRefueling.Liters = double.Parse(result);
+                            }
+                        }
+                    }
+
                     break;
 
                 case "TotalPrice_TextBox":
+
+                    double TotalPriceParseResult;
+                    if (Double.TryParse(TotalPrice_TextBox.Text, out TotalPriceParseResult))
+                    {
+                        if ((Liters_TextBox.Text != ""))
+                        {
+                            string result = (Math.Round(TotalPriceParseResult / newRefueling.Liters, 2)).ToString();
+                            if (PriceForLiter_TextBox.Text != result)
+                            {
+                                PriceForLiter_TextBox.Text = result;
+                                newRefueling.PriceForLiter = double.Parse(result);
+                            }
+                        }
+                    }
 
                     break;
             }
@@ -308,7 +318,7 @@ namespace Car_Data_Application.Controllers
         {
             TextBox textBox = GenerateTextBox(textboxname, row, column);
             textBox.LostFocus += TextBoxLostFocus;
-            textBox.DataContextChanged += TextBoxOnChange;
+            textBox.TextChanged += TextBoxOnChange;
             return textBox;
         }
 

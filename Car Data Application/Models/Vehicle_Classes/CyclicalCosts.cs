@@ -12,6 +12,7 @@ namespace Car_Data_Application.Models.Vehicle_Classes
         public string EndDate { get; set; }
         public int Price { get; set; }
 
+
         public CyclicalCosts(string startdate, string enddate, int price)
         {
             this.StartDate = startdate;
