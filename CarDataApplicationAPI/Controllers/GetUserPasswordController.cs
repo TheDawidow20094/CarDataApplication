@@ -4,14 +4,13 @@ using System.Data;
 
 namespace CarDataApplicationAPI.Controllers
 {
-    [Route("api/deleteuser")]
+    [Route("api/getuserpassword")]
     [ApiController]
 
-
-    public class DeleteUserControler : Controller
+    public class GetUserPasswordController : Controller
     {
-        [HttpDelete("{id}")]
-        public IActionResult DeleteUser(string dbpassword, int id)
+        [HttpGet]
+        public IActionResult GetPassword(string dbpassword, int id)
         {
             if (dbpassword != "dUmv9Fq/8D6y9Rwh")
             {
@@ -19,7 +18,6 @@ namespace CarDataApplicationAPI.Controllers
             }
 
             return ExecuteDatabaseOperation(dbpassword, id);
-
         }
 
         private IActionResult ExecuteDatabaseOperation(string dbpassword, int id)
@@ -28,12 +26,18 @@ namespace CarDataApplicationAPI.Controllers
             MySqlConnection cn = new MySqlConnection(Connection);
             cn.Open();
 
-            string sql = "DELETE FROM users WHERE Id=" + id.ToString();
+            string sql = "SELECT `Password` FROM `users` WHERE `Id` =" + id;
             MySqlCommand cmd = new MySqlCommand(sql, cn);
             cmd.CommandType = CommandType.Text;
 
-            cmd.ExecuteReader();
-            return Ok("Done");
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return Ok(reader[0]);
+                cn.Close();
+            }
+            return BadRequest("No data!");
             cn.Close();
         }
     }
