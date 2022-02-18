@@ -197,13 +197,19 @@ namespace Car_Data_Application.Controllers
             CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate, PUser.UserLanguage, 2, 2, LightTextColor, HorizontalAlignment.Right));
             CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate, PUser.UserLanguage, 3, 2, LightTextColor, HorizontalAlignment.Right));
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.StartDate.ToString(), 1, 1));
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.EndDate.ToString(), 2, 1));
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.Price.ToString() + " zł", 3, 1));
+            if (vehicle.Insurance != null)
+            {
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.StartDate.ToString(), 1, 1));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.EndDate.ToString(), 2, 1));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.Price.ToString() + " zł", 3, 1));
+            }
 
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.StartDate.ToString(), 1, 3));
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.EndDate.ToString(), 2, 3));
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.Price.ToString() + " zł", 3, 3));
+            if (vehicle.Inspection != null)
+            {
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.StartDate.ToString(), 1, 3));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.EndDate.ToString(), 2, 3));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.Price.ToString() + " zł", 3, 3));
+            }
 
             return CyclicalCostGrid;
         }

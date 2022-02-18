@@ -39,7 +39,8 @@ namespace Car_Data_Application.Controllers
                 grid.Background = (Brush)Converter.ConvertFromString("#FF716A6E");
                 grid.Margin = new Thickness(5);
                 Grid.SetRow(grid, index);
-                grid.Name = "Vehicle_" + vehicle.Id.ToString();
+                grid.Name = "Vehicle_" + index.ToString();
+                //grid.Name = "Vehicle_" + vehicle.Id.ToString();
                 grid.MouseLeave += VehicleListItemMouseLeave;
                 grid.MouseEnter += VehicleListItemMouseEnter;
                 grid.MouseLeftButtonDown += VehicleListItemClick;
@@ -79,12 +80,14 @@ namespace Car_Data_Application.Controllers
 
         private async void VehicleListItemClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ((TextBlock)mainWindow.VehicleName.Children[0]).Text = ((TextBlock)((Grid)sender).Children[0]).Text;
+            string SenderName = ((Grid)sender).Name;
+            PUser.ActiveCarIndex = Int32.Parse(SenderName.Substring(8));
+
+            mainWindow.Footer_VehicleName.Text = ((TextBlock)((Grid)sender).Children[0]).Text;
+            mainWindow.Footer_VehicleMillage.Text = PUser.Vehicles[PUser.ActiveCarIndex].CarMillage.ToString() + " km";
 
             mainWindow.BeginStoryboard(ExitHeightAnimationStoryboard);
 
-            string SenderName = ((Grid)sender).Name;
-            PUser.ActiveCarIndex = Int32.Parse(SenderName.Substring(8));
             PUser.SerializeData();
             RefreshPage(config);
 

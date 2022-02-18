@@ -221,7 +221,8 @@ namespace Car_Data_Application.Views
 
         private void SetFooterData()
         {
-            ((TextBlock)VehicleName.Children[0]).Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
+            Footer_VehicleName.Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
+            Footer_VehicleMillage.Text = User.Vehicles[User.ActiveCarIndex].CarMillage + " km";
             UserName.Text = User.Login;
         }
 
@@ -247,6 +248,16 @@ namespace Car_Data_Application.Views
                     this.UnregisterName("VehiclesNameListExitAnimation");
                 }
             }
+        }
+
+        private void HandleActiveVehicleMouseEnter(object sender, MouseEventArgs e)
+        {
+            ((Grid)sender).Background = (Brush)Converter.ConvertFromString("#FF82797E");
+        }
+
+        private void HandleActiveVehicleMouseLeave(object sender, MouseEventArgs e)
+        {
+            ((Grid)sender).Background = Brushes.Transparent;
         }
 
         private void HandleAddButonMouseEnter(object sender, MouseEventArgs e)
@@ -347,16 +358,6 @@ namespace Car_Data_Application.Views
                 }
                 SidePanelColumn.Width = new GridLength(210);
             }
-        }
-
-        private void HandleActiveVehicleMouseEnter(object sender, MouseEventArgs e)
-        {
-            ((Grid)sender).Background = (Brush)Converter.ConvertFromString("#FF82797E");
-        }
-
-        private void HandleActiveVehicleMouseLeave(object sender, MouseEventArgs e)
-        {
-            ((Grid)sender).Background = Brushes.Transparent;
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Car_Data_Application.Controllers
 
         private TextBlock AddingVehicleName()
         {
-            TextBlock EntriesListText = GenerateTextBlock(null, PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand, 0, 0, "#FF2A2729", HorizontalAlignment.Center);
+            TextBlock EntriesListText = GenerateTextBlock(null, PUser.Vehicles[PUser.ActiveCarIndex].Brand + " " + PUser.Vehicles[PUser.ActiveCarIndex].Model, 0, 0, "#FF2A2729", HorizontalAlignment.Center);
             EntriesListText.FontSize = 34;
             EntriesListText.Margin = new Thickness(0, 15, 0, 10);
 
@@ -145,14 +145,21 @@ namespace Car_Data_Application.Controllers
                     break;
 
                 case "CarMillage_TextBox":
-                    newRefueling.CarMillage = (int)ParseResult;
+                    if (ParseResult >= PUser.Vehicles[PUser.ActiveCarIndex].CarMillage)
+                    {
+                        newRefueling.CarMillage = (int)ParseResult;
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+                    }
+                    else
+                    {
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                    }
                     break;
             }
         }
 
         private void TextBoxOnChange(object sender, TextChangedEventArgs e)
         {
-
             TextBox textBox = (TextBox)sender;
 
             switch (textBox.Name)
@@ -225,6 +232,21 @@ namespace Car_Data_Application.Controllers
                                 newRefueling.PriceForLiter = double.Parse(result);
                             }
                         }
+                    }
+
+                    break;
+
+                case "CarMillage_TextBox":
+
+
+                    int MillageParseResult;
+                    if (int.TryParse(textBox.Text, out MillageParseResult))
+                    {
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+                    }
+                    else
+                    {
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
                     }
 
                     break;
@@ -365,35 +387,72 @@ namespace Car_Data_Application.Controllers
 
             if (canConvertToJSON)
             {
+                PUser.Vehicles[PUser.ActiveCarIndex].CarMillage = newRefueling.CarMillage; 
                 PUser.Vehicles[PUser.ActiveCarIndex].Refulings.Add(newRefueling);
+                if (newRefueling.IsFull)
+                {
+                    CalculateAverageFuelConsumption();
+                }
+
                 PUser.SerializeData();
 
                 mainWindow.OpenPage("RefuelingHistoryPage");
             }
         }
 
+        private void CalculateAverageFuelConsumption()
+        {
+            int FirstIsFullRefuelingMillage = 0;
+            bool StartAddnigLiters = false;
+            double UsedLiters = 0;
+
+            foreach (Refueling refueling in PUser.Vehicles[PUser.ActiveCarIndex].Refulings)
+            {
+                if (refueling.IsFull)
+                {
+                    FirstIsFullRefuelingMillage = refueling.CarMillage;
+                    StartAddnigLiters = true;
+                }
+
+                if (StartAddnigLiters)
+                {
+                    UsedLiters += refueling.Liters;
+                }
+            }
+
+            if (StartAddnigLiters)
+            {
+                double AverageFuelConsumption = UsedLiters / (newRefueling.CarMillage - FirstIsFullRefuelingMillage);
+            }
+
+        }
+
         private double CalculateDistance(double vehicleMillage, string fuelType)
         {
             double result = 0;
-            List<Refueling> refuelings = PUser.Vehicles[PUser.ActiveCarIndex].Refulings;
 
-            for (int i = (refuelings.Count - 1); i >= 0; i--)
+            List<Refueling> refuelings = PUser.Vehicles[PUser.ActiveCarIndex].Refulings;
+            if (refuelings != null)
             {
-                if (refuelings[i].FuelType == fuelType)
+                for (int i = (refuelings.Count - 1); i >= 0; i--)
                 {
-                    result = vehicleMillage - refuelings[i].CarMillage;
+                    if (refuelings[i].FuelType == fuelType)
+                    {
+                        result = vehicleMillage - refuelings[i].CarMillage;
+                    }
+
                 }
-                
             }
+
             return result;
         }
 
         private double CalculateConsumption()
         {
             double result = 0;
-            if (newRefueling.IsFull)
+            if (newRefueling.IsFull && (newRefueling.Distance != 0))
             {
-                result = (newRefueling.Liters / newRefueling.Distance) * 100;
+                result = (newRefueling.Liters / newRefueling.Distance) * 100; // Last IsFull
             }
             return result;
         }

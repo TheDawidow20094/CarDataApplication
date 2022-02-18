@@ -257,6 +257,43 @@ namespace Car_Data_Application.Models.XML_Models
 		public Translation Comment { get; set; }
 	}
 
+	[XmlRoot(ElementName = "AddCostPage")]
+	public class AddCostPage
+	{
+		[XmlElement(ElementName = "PageTitle")]
+		public Translation PageTitle { get; set; }
+
+		[XmlElement(ElementName = "Name")]
+		public Translation Name { get; set; }
+
+		[XmlElement(ElementName = "Category")]
+		public Translation Category { get; set; }
+
+		[XmlElement(ElementName = "Price")]
+		public Translation Price { get; set; }
+
+		[XmlElement(ElementName = "IsNegative")]
+		public Translation IsNegative { get; set; }
+
+		[XmlElement(ElementName = "Millage")]
+		public Translation Millage { get; set; }
+
+		[XmlElement(ElementName = "Date")]
+		public Translation Date { get; set; }
+
+		[XmlElement(ElementName = "Time")]
+		public Translation Time { get; set; }
+
+		[XmlElement(ElementName = "Comment")]
+		public Translation Comment { get; set; }
+
+		[XmlElement(ElementName = "Reminder")]
+		public Translation Reminder { get; set; }
+
+		[XmlElement(ElementName = "ButtonText")]
+		public Translation ButtonText { get; set; }
+	}
+
 	[XmlRoot(ElementName = "FuelData")]
 	public class FuelData
 	{
@@ -413,5 +450,33 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "LPG")]
 		public Translation LPG { get; set; }
+	}
+
+	[XmlRoot(ElementName = "CostsTypes")]
+	public class CostsTypes
+	{
+		[XmlElement(ElementName = "Service")]
+		public Translation Service { get; set; }
+
+		[XmlElement(ElementName = "Exploitation")]
+		public Translation Exploitation { get; set; }
+
+		[XmlElement(ElementName = "Tuning")]
+		public Translation Tuning { get; set; }
+
+		[XmlElement(ElementName = "Parking")]
+		public Translation Parking { get; set; }
+
+		[XmlElement(ElementName = "Detailing")]
+		public Translation Detailing { get; set; }
+
+		[XmlElement(ElementName = "Fines")]
+		public Translation Fines { get; set; }
+
+		[XmlElement(ElementName = "Insurance")]
+		public Translation Insurance { get; set; }
+
+		[XmlElement(ElementName = "Inspection")]
+		public Translation Inspection { get; set; }
 	}
 }

@@ -158,8 +158,13 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="UserName" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
-                <Grid x:Name="VehicleName" Grid.Column="1" MouseLeftButtonDown="ChangeActiveVehicleClick" MouseEnter="HandleActiveVehicleMouseEnter" MouseLeave="HandleActiveVehicleMouseLeave"  Background="Transparent">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
+                <Grid Grid.Column="1" MouseLeftButtonDown="ChangeActiveVehicleClick" MouseEnter="HandleActiveVehicleMouseEnter" MouseLeave="HandleActiveVehicleMouseLeave"  Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="4*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="Footer_VehicleName" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16" Margin="1"/>
+                    <TextBlock x:Name="Footer_VehicleMillage" Grid.Row="1" VerticalAlignment="top" HorizontalAlignment="Center" Background="Transparent"  Foreground="#FF9C9397" FontFamily="Global User Interface" FontWeight="Bold" FontSize="12" Margin="1"/>
                 </Grid>
             </Grid>
         </Grid>

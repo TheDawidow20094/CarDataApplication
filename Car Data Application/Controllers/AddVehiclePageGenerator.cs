@@ -17,14 +17,14 @@ namespace Car_Data_Application.Controllers
 {
     class AddVehiclePageGenerator : CarDataAppController
     {
-        private Vehicle newVehicle = new Vehicle();
+        private Vehicle newVehicle;
         private Grid FuelInfoGrid;
         private Grid AddImageGrid;
 
         public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
             InitialAssignValue(mw, user, paramConfig);
-
+            newVehicle = new Vehicle();
             Grid MainGrid = new Grid();
 
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50)});
@@ -42,6 +42,7 @@ namespace Car_Data_Application.Controllers
             MainGrid.Children.Add(AddRefuelingButton(config.MainPanel.AddVehiclePage));
 
 
+            newVehicle.Id = AutoincrementVehicleID();
             mainWindow.ScrollViewerContent.Content = MainGrid;
 
         }
@@ -216,66 +217,6 @@ namespace Car_Data_Application.Controllers
             return ApplySettingsButton;
         }
 
-        private void HandleAddVehicleButtonClick(object sender, RoutedEventArgs e)
-        {
-            bool CanConvertToJson = true;
-            newVehicle.Id = AutoincrementVehicleID();
-
-
-            TextBox Brand_TextBox = (TextBox)mainWindow.FindName("Brand_TextBox");
-            TextBox Model_TextBox = (TextBox)mainWindow.FindName("Model_TextBox");
-            TextBox VIN_TextBox = (TextBox)mainWindow.FindName("VIN_TextBox");
-            TextBox Plates_TextBox = (TextBox)mainWindow.FindName("Plates_TextBox");
-
-            newVehicle.Brand = Brand_TextBox.Text;
-            newVehicle.Model = Model_TextBox.Text;
-            newVehicle.Vin = VIN_TextBox.Text;
-            newVehicle.Plates = Plates_TextBox.Text;
-
-            if (Brand_TextBox.Text == "")
-            {
-                CanConvertToJson = false;
-                Brand_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            }
-            if (Model_TextBox.Text == "")
-            {
-                CanConvertToJson = false;
-                Model_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            }
-            if (newVehicle.YearOfManufacture == 0)
-            {
-                CanConvertToJson = false;
-                ((TextBox)mainWindow.FindName("YearOfManufacture_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            }
-            if (newVehicle.CarMillage == 0)
-            {
-                CanConvertToJson = false;
-                ((TextBox)mainWindow.FindName("VehicleMillage_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            }
-            if ((newVehicle.Tanks.Gasoline == 0) && (newVehicle.Tanks.LPG == 0) && (newVehicle.Tanks.Diesel == 0))
-            {
-                CanConvertToJson = false;
-                FuelInfoGrid.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            }
-
-
-            TextBox InsuranceStartDate = (TextBox)mainWindow.FindName("InsuranceStartDate_TextBox");
-            TextBox InsuranceEndDate = (TextBox)mainWindow.FindName("InsuranceEndDate_TextBox");
-            TextBox InsurancePrice = (TextBox)mainWindow.FindName("InsurancePrice_TextBox");
-            newVehicle.Insurance = GenerateCyclicalCost(ref CanConvertToJson, InsuranceStartDate, InsuranceEndDate, InsurancePrice);
-
-            TextBox InspectionStartDate = (TextBox)mainWindow.FindName("InspectionStartDate_TextBox");
-            TextBox InspectionEndDate = (TextBox)mainWindow.FindName("InspectionEndDate_TextBox");
-            TextBox InspectionPrice = (TextBox)mainWindow.FindName("InspectionPrice_TextBox");
-            newVehicle.Inspection = GenerateCyclicalCost(ref CanConvertToJson, InspectionStartDate, InspectionEndDate, InspectionPrice);
-
-            if (CanConvertToJson)
-            {
-                //PUser.Vehicles.Add(newVehicle);
-                //PUser.SerializeData();
-                mainWindow.OpenPage("VehiclesPage");
-            }
-        }
         private CyclicalCosts GenerateCyclicalCost(ref bool CanConvertToJson, TextBox StartDate, TextBox EndDate, TextBox Price)
         {
             int ParseResult;
@@ -503,8 +444,8 @@ namespace Car_Data_Application.Controllers
         private void AddImageClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
 
-            Vehicle vehicle = PUser.Vehicles[PUser.ActiveCarIndex];
-            string newPictureName = vehicle.Brand + "_ID_" + vehicle.Id + "_VehiclePicture.PNG";
+            //Vehicle vehicle = PUser.Vehicles[PUser.ActiveCarIndex];
+            string newPictureName = "Vehicle_ID_" + newVehicle.Id + "_VehiclePicture.PNG";
             string PicturePath = @"..\..\..\Images\UserPictures\" + newPictureName;
 
             BitmapImage photo;
@@ -550,5 +491,66 @@ namespace Car_Data_Application.Controllers
 
             return id;
         }
+
+        private void HandleAddVehicleButtonClick(object sender, RoutedEventArgs e)
+        {
+            bool CanConvertToJson = true;
+
+
+            TextBox Brand_TextBox = (TextBox)mainWindow.FindName("Brand_TextBox");
+            TextBox Model_TextBox = (TextBox)mainWindow.FindName("Model_TextBox");
+            TextBox VIN_TextBox = (TextBox)mainWindow.FindName("VIN_TextBox");
+            TextBox Plates_TextBox = (TextBox)mainWindow.FindName("Plates_TextBox");
+
+            newVehicle.Brand = Brand_TextBox.Text;
+            newVehicle.Model = Model_TextBox.Text;
+            newVehicle.Vin = VIN_TextBox.Text;
+            newVehicle.Plates = Plates_TextBox.Text;
+
+            if (Brand_TextBox.Text == "")
+            {
+                CanConvertToJson = false;
+                Brand_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if (Model_TextBox.Text == "")
+            {
+                CanConvertToJson = false;
+                Model_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if (newVehicle.YearOfManufacture == 0)
+            {
+                CanConvertToJson = false;
+                ((TextBox)mainWindow.FindName("YearOfManufacture_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if (newVehicle.CarMillage == 0)
+            {
+                CanConvertToJson = false;
+                ((TextBox)mainWindow.FindName("VehicleMillage_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if ((newVehicle.Tanks.Gasoline == 0) && (newVehicle.Tanks.LPG == 0) && (newVehicle.Tanks.Diesel == 0))
+            {
+                CanConvertToJson = false;
+                FuelInfoGrid.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+
+
+            TextBox InsuranceStartDate = (TextBox)mainWindow.FindName("InsuranceStartDate_TextBox");
+            TextBox InsuranceEndDate = (TextBox)mainWindow.FindName("InsuranceEndDate_TextBox");
+            TextBox InsurancePrice = (TextBox)mainWindow.FindName("InsurancePrice_TextBox");
+            newVehicle.Insurance = GenerateCyclicalCost(ref CanConvertToJson, InsuranceStartDate, InsuranceEndDate, InsurancePrice);
+
+            TextBox InspectionStartDate = (TextBox)mainWindow.FindName("InspectionStartDate_TextBox");
+            TextBox InspectionEndDate = (TextBox)mainWindow.FindName("InspectionEndDate_TextBox");
+            TextBox InspectionPrice = (TextBox)mainWindow.FindName("InspectionPrice_TextBox");
+            newVehicle.Inspection = GenerateCyclicalCost(ref CanConvertToJson, InspectionStartDate, InspectionEndDate, InspectionPrice);
+
+            if (CanConvertToJson)
+            {
+                PUser.Vehicles.Add(newVehicle);
+                PUser.SerializeData();
+                mainWindow.OpenPage("VehiclesPage");
+            }
+        }
+
     }
 }

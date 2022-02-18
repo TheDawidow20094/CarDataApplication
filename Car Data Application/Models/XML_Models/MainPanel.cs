@@ -35,6 +35,9 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "CostPage")]
 		public CostPage CostPage { get; set; }
 
+		[XmlElement(ElementName = "AddCostPage")]
+		public AddCostPage AddCostPage { get; set; }
+
 		[XmlElement(ElementName = "SettingsPage")]
 		public SettingsPage SettingsPage { get; set; }
 

@@ -35,6 +35,9 @@ namespace Car_Data_Application.Models
         public Vehicle()
         {
             this.Tanks = new Tanks();
+            this.Refulings = new List<Refueling>();
+            this.Services = new List<Service>();
+            this.EntriesList = new List<EntriesList>();
         }
 
         public Vehicle(int id, string picturefilename, string brand, string model, int yearofmanufacture, int carmillage, double averagefuelconsumption, double thismounthfuelcost, double thismounthothercost, double previousmounthfuelcost, double previousmounthothercost, string plates, string vin, Tanks tanks, double consumptions, List<Refueling> refuelings, List<string> imagessrc, List<Service> services, FuelType fueltype, CyclicalCosts insurance, CyclicalCosts inspection, List<EntriesList> entries)

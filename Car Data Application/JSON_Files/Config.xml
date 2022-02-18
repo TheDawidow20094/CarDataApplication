@@ -5,6 +5,17 @@
     <Diesel PL="Diesel" ENG="Diesel"/>
     <LPG PL="LPG" ENG="LPG"/>
   </FuelTypes>
+
+  <CostsTypes>
+    <Service PL="Serwis" ENG="Service"/>
+    <Exploitation PL="Eksploatacja" ENG="Exploitation"/>
+    <Tuning PL="Tuning" ENG="Tuning"/>
+    <Parking PL="Parking" ENG="Parking"/>
+    <Detailing PL="Detailing" ENG="Detailing"/>
+    <Fines PL="Mandaty" ENG="Fines"/>
+    <Insurance PL="Ubezpieczenie" ENG="Insurance"/>
+    <Inspection PL="Przegląd" ENG="Inspection"/>
+  </CostsTypes>
   
   <SidePanel>
     <XMLButton PL="Zaloguj" ENG="Login" Name="LoginPage" IsEnabled="true" Icon="user.png"/>
@@ -142,6 +153,20 @@
       <Date PL="Data:" ENG="Date:"/>
       <Comment PL="Komentarz:" ENG="Comment:"/>
     </CostPage>
+
+    <AddCostPage>
+      <PageTitle PL="Dodaj Serwis:" ENG="Add Serwis:"/>
+      <Name PL="Nazwa:" ENG="Name:"/>
+      <Category PL="Kategoria:" ENG="Category:"/>
+      <Price PL="Cena:" ENG="Price:"/>
+      <IsNegative PL="Koszt Negatywny:" ENG="Negative Cost:"/>
+      <Millage PL="Przebieg:" ENG="Millage:"/>
+      <Date PL="Data:" ENG="Date:"/>
+      <Time PL="Czas:" ENG="Time:"/>
+      <Comment PL="Komentarz:" ENG="Comment:"/>
+      <Reminder PL="Przypomnij mi" ENG="Remind me"/>
+      <ButtonText PL="Dodaj Serwis" ENG="Add Serwis"/>
+    </AddCostPage>
 
     <SettingsPage>
       <Language PL="Język:" ENG="Language:"/>
