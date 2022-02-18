@@ -12,6 +12,13 @@ namespace Car_Data_Application.Models.Vehicle_Classes
         public int Gasoline { get; set; }
         public int Diesel { get; set; }
 
+        public Tanks()
+        {
+            this.Gasoline = 0;
+            this.Diesel = 0;
+            this.LPG = 0;
+        }
+
         public Tanks(int lpg, int gasoline, int diesel)
         {
             this.Diesel = diesel;

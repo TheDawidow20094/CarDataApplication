@@ -19,7 +19,7 @@ namespace Car_Data_Application.Controllers
 
             Grid MainGrid = new Grid();
 
-            for (int i = 0; i < 5; i++) // 6 is number of rows
+            for (int i = 0; i < 5; i++) // 5 is number of rows
             {
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGrid.RowDefinitions.Add(MainGridRow);
@@ -83,21 +83,12 @@ namespace Car_Data_Application.Controllers
                 vehicleNameGrid.RowDefinitions.Add(vehiclenamerow);
                 vehicleNameGrid.ColumnDefinitions.Add(vehiclenamecolumn);
             }
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    break;
-                case "ENG":
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    break;
-            }
 
-            vehicleNameGrid.Children.Add(GenerateTextBlock(vehicle.Brand, 0, 1));
+            vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+            vehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
 
-            vehicleNameGrid.Children.Add(GenerateTextBlock(vehicle.Model, 1, 1));
+            vehicleNameGrid.Children.Add(GenerateTextBlock(null, vehicle.Brand, 0, 1));
+            vehicleNameGrid.Children.Add(GenerateTextBlock(null, vehicle.Model, 1, 1));
 
             return vehicleNameGrid;
         }
@@ -120,30 +111,15 @@ namespace Car_Data_Application.Controllers
                 PrimarmaryInfoGrid.RowDefinitions.Add(PrimarmaryInfoGridRow);
             }
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Vin.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Millage.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                    break;
-                case "ENG":
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Vin.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Millage.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                    break;
-            }
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.YearOfManufacture, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Vin, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Millage, PUser.UserLanguage, 3, 0, LightTextColor, HorizontalAlignment.Right));
 
-
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.YearOfManufacture.ToString(), 0, 1));
-
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.Vin.ToString(), 1, 1));
-
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.Plates.ToString(), 2, 1));
-
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(vehicle.CarMillage.ToString(), 3, 1));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(null, vehicle.YearOfManufacture.ToString(), 0, 1));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(null, vehicle.Vin.ToString(), 1, 1));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(null, vehicle.Plates.ToString(), 2, 1));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(null, vehicle.CarMillage.ToString(), 3, 1));
 
             return PrimarmaryInfoGrid;
         }
@@ -163,31 +139,16 @@ namespace Car_Data_Application.Controllers
             FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
             int RowIndex = 0;
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.FuelTankInfoTitle.PL, RowIndex, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
-                    break;
-                case "ENG":
-                    FuelInfoGrid.Children.Add(GenerateTextBlock(translation.FuelTankInfoTitle.ENG, RowIndex, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
-                    break;
-            }
+            FuelInfoGrid.Children.Add(GenerateTextBlock(translation.FuelTankInfoTitle, PUser.UserLanguage, RowIndex, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
 
             if (vehicle.Tanks.Gasoline != 0)
             {
                 FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
                 RowIndex++;
 
-                switch (PUser.UserLanguage)
-                {
-                    case "PL":
-                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.PL, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                    case "ENG":
-                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline.ENG, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                }
-                FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Gasoline.ToString(), RowIndex, 1));
+                FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Gasoline, PUser.UserLanguage, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+
+                FuelInfoGrid.Children.Add(GenerateTextBlock(null, vehicle.Tanks.Gasoline.ToString(), RowIndex, 1));
             }
 
             if (vehicle.Tanks.LPG != 0)
@@ -195,16 +156,9 @@ namespace Car_Data_Application.Controllers
                 FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
                 RowIndex++;
 
-                switch (PUser.UserLanguage)
-                {
-                    case "PL":
-                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.PL, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                    case "ENG":
-                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG.ENG, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                }
-                FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.LPG.ToString(), RowIndex, 1));
+                FuelInfoGrid.Children.Add(GenerateTextBlock(translation.LPG, PUser.UserLanguage, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+
+                FuelInfoGrid.Children.Add(GenerateTextBlock(null, vehicle.Tanks.LPG.ToString(), RowIndex, 1));
             }
 
             if (vehicle.Tanks.Diesel != 0)
@@ -212,16 +166,9 @@ namespace Car_Data_Application.Controllers
                 FuelInfoGrid.RowDefinitions.Add(new RowDefinition());
                 RowIndex++;
 
-                switch (PUser.UserLanguage)
-                {
-                    case "PL":
-                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.PL, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                    case "ENG":
-                        FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel.ENG, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                }
-                FuelInfoGrid.Children.Add(GenerateTextBlock(vehicle.Tanks.Diesel.ToString(), RowIndex, 1));
+                FuelInfoGrid.Children.Add(GenerateTextBlock(translation.Diesel, PUser.UserLanguage, RowIndex, 0, LightTextColor, HorizontalAlignment.Right));
+
+                FuelInfoGrid.Children.Add(GenerateTextBlock(null, vehicle.Tanks.Diesel.ToString(), RowIndex, 1));
             }
 
 
@@ -241,44 +188,28 @@ namespace Car_Data_Application.Controllers
                 CyclicalCostGrid.RowDefinitions.Add(new RowDefinition());
             }
 
-            switch (PUser.UserLanguage)
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceTitle, PUser.UserLanguage, 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice, PUser.UserLanguage, 3, 0, LightTextColor, HorizontalAlignment.Right));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionTitle, PUser.UserLanguage, 0, 2, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate, PUser.UserLanguage, 1, 2, LightTextColor, HorizontalAlignment.Right));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate, PUser.UserLanguage, 2, 2, LightTextColor, HorizontalAlignment.Right));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate, PUser.UserLanguage, 3, 2, LightTextColor, HorizontalAlignment.Right));
+
+            if (vehicle.Insurance != null)
             {
-                case "PL":
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceTitle.PL, 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionTitle.PL, 0, 2, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.PL, 1, 2, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.PL, 2, 2, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.PL, 3, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
-                case "ENG":
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceTitle.ENG, 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceStartDate.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsuranceEndDate.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InsurancePrice.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionTitle.ENG, 0, 2, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate.ENG, 1, 2, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.ENG, 2, 2, LightTextColor, HorizontalAlignment.Right));
-                    CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate.ENG, 3, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.StartDate.ToString(), 1, 1));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.EndDate.ToString(), 2, 1));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Insurance.Price.ToString() + " zł", 3, 1));
             }
 
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.StartDate.ToString(), 1, 1));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.EndDate.ToString(), 2, 1));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Insurance.Price.ToString() + " zł", 3, 1));
-
-            
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.StartDate.ToString(), 1, 3));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.EndDate.ToString(), 2, 3));
-
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(vehicle.Inspection.Price.ToString() + " zł", 3, 3));
+            if (vehicle.Inspection != null)
+            {
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.StartDate.ToString(), 1, 3));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.EndDate.ToString(), 2, 3));
+                CyclicalCostGrid.Children.Add(GenerateTextBlock(null, vehicle.Inspection.Price.ToString() + " zł", 3, 3));
+            }
 
             return CyclicalCostGrid;
         }

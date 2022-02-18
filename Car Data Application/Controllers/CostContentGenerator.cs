@@ -47,32 +47,16 @@ namespace Car_Data_Application.Controllers
                 string LightTextColor = "#FF9C9397";
                 string DarkTextColor = "#FF2A2729"; // change to set in config
 
-                switch (PUser.UserLanguage)
-                {
-                    case "PL":
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Type.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Date.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Cost.PL, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Comment.PL, 4, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
+                CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Type, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Date, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Cost, PUser.UserLanguage, 3, 0, LightTextColor, HorizontalAlignment.Right));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Comment, PUser.UserLanguage, 4, 0, LightTextColor, HorizontalAlignment.Right));
 
-                    case "ENG":
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Type.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Date.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Cost.ENG, 3, 0, LightTextColor, HorizontalAlignment.Right));
-                        CostInfoGridContent.Children.Add(GenerateTextBlock(translation.Comment.ENG, 4, 0, LightTextColor, HorizontalAlignment.Right));
-                        break;
-                }
-
-                CostInfoGridContent.Children.Add(GenerateTextBlock(servis.Name.ToString(), 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
-
-                CostInfoGridContent.Children.Add(GenerateTextBlock(servis.Category.ToString(), 1, 1));
-
-                CostInfoGridContent.Children.Add(GenerateTextBlock(servis.Date.ToString(), 2, 1));
-
-                CostInfoGridContent.Children.Add(GenerateTextBlock(servis.Price.ToString() + " zł", 3, 1));
-
-                CostInfoGridContent.Children.Add(GenerateTextBlock(servis.Comment.ToString(), 4, 1));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(null, servis.Name.ToString(), 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(null, servis.Category.ToString(), 1, 1));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(null, servis.Date.ToString(), 2, 1));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(null, servis.Price.ToString() + " zł", 3, 1));
+                CostInfoGridContent.Children.Add(GenerateTextBlock(null, servis.Comment.ToString(), 4, 1));
 
                 CostInfoGrid.Children.Add(CostInfoGridContent);
 
@@ -87,7 +71,7 @@ namespace Car_Data_Application.Controllers
             mw.WhereAreYou = "CostsPage";
             mainWindow = mw;
             PUser = user;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.MainGrid.Children[3]));
+            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
     }
 }

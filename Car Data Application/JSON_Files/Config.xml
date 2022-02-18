@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Config>
+  <FuelTypes>
+    <Gasoline PL="Benzyna" ENG="Gasoline"/>
+    <Diesel PL="Diesel" ENG="Diesel"/>
+    <LPG PL="LPG" ENG="LPG"/>
+  </FuelTypes>
+
+  <CostsTypes>
+    <Service PL="Serwis" ENG="Service"/>
+    <Exploitation PL="Eksploatacja" ENG="Exploitation"/>
+    <Tuning PL="Tuning" ENG="Tuning"/>
+    <Parking PL="Parking" ENG="Parking"/>
+    <Detailing PL="Detailing" ENG="Detailing"/>
+    <Fines PL="Mandaty" ENG="Fines"/>
+    <Insurance PL="Ubezpieczenie" ENG="Insurance"/>
+    <Inspection PL="Przegląd" ENG="Inspection"/>
+  </CostsTypes>
+  
   <SidePanel>
-    <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="true" Icon="user.png"/>
-    <XMLButton PL="Zarejestruj" ENG="Register" Name="RegisterPage" IsEnabled="false" Icon="user.png"/>
-    <XMLButton PL="Wyloguj" ENG="Logout" Name="LogoutPage" IsEnabled="false" Icon="user.png"/>
+    <XMLButton PL="Zaloguj" ENG="Login" Name="LoginPage" IsEnabled="true" Icon="user.png"/>
+    <XMLButton PL="Moje Konto" ENG="My Account" Name="MyAccountPage" IsEnabled="false" Icon="user.png"/>
     <XMLButton PL="Strona Główna" ENG="Home" Name="HomePage" IsEnabled="true" Icon="home.png"/>
     <XMLButton PL="Pojazdy" ENG="Vehicles" Name="VehiclesPage" IsEnabled="true" Icon="car.png"/>
     <XMLButton PL="Historia Tankowań" ENG="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true" Icon="gas-station.png"/>
@@ -21,17 +37,19 @@
     </AddButonList>
 
     <LoginPanel>
-      <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
-      <PasswordText PL="Hasło" ENG="Password"/>
+      <LoginTitle PL="Logowanie" ENG="Login"/>
+      <UserName PL="Nazwa Użytkownika" ENG="Username"/>
+      <Password PL="Hasło" ENG="Password"/>
       <LogInButton PL="Zaloguj" ENG="Login"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </LoginPanel>
 
     <RegisterPanel>
-      <UserNameText PL="Nazwa Użytkownika" ENG="Username"/>
-      <PasswordText PL="Hasło" ENG="Password"/>
-      <RePasswordText PL="Powtórz Hasło" ENG="Confirm Password"/>
-      <EmailText PL="E-Mail" ENG="E-Mail"/>
+      <RegisterTitle PL="Rejestracja" ENG="Registration"/>
+      <UserName PL="Nazwa Użytkownika" ENG="Username"/>
+      <Password PL="Hasło" ENG="Password"/>
+      <RePassword PL="Powtórz Hasło" ENG="Confirm Password"/>
+      <Email PL="E-Mail" ENG="E-Mail"/>
       <RegisterButton PL="Zarejestruj" ENG="Register"/>
     </RegisterPanel>
 
@@ -136,10 +154,31 @@
       <Comment PL="Komentarz:" ENG="Comment:"/>
     </CostPage>
 
+    <AddCostPage>
+      <PageTitle PL="Dodaj Serwis:" ENG="Add Serwis:"/>
+      <Name PL="Nazwa:" ENG="Name:"/>
+      <Category PL="Kategoria:" ENG="Category:"/>
+      <Price PL="Cena:" ENG="Price:"/>
+      <IsNegative PL="Koszt Negatywny:" ENG="Negative Cost:"/>
+      <Millage PL="Przebieg:" ENG="Millage:"/>
+      <Date PL="Data:" ENG="Date:"/>
+      <Time PL="Czas:" ENG="Time:"/>
+      <Comment PL="Komentarz:" ENG="Comment:"/>
+      <Reminder PL="Przypomnij mi" ENG="Remind me"/>
+      <ButtonText PL="Dodaj Serwis" ENG="Add Serwis"/>
+    </AddCostPage>
+
     <SettingsPage>
       <Language PL="Język:" ENG="Language:"/>
-      <MetricUnit PL="Jednostki Metryczne:" ENG="Metric Unit:"/>
+      <LanguagePL PL="Polski" ENG="Polish"/>
+      <LanguageENG PL="Angielski" ENG="English"/>
+      <UnitsOfMeasure PL="Jednostki Miary:" ENG="Units Of Measure:"/>
+      <UnitsMetric PL="Metryczne" ENG="Metric"/>
+      <UnitsImperial PL="Imperialne" ENG="Imperial"/>
       <Currency PL="Waluta:" ENG="Currency:"/>
+      <CurrencyPLN PL="PLN" ENG="PLN"/>
+      <CurrencyUSD PL="USD" ENG="USD"/>
+      <CurrencyEUR PL="EUR" ENG="EUR"/>
       <ApplyButton PL="Zatwierdź" ENG="Confirm"/>
     </SettingsPage>
 
@@ -148,7 +187,8 @@
         <Distance PL="Planowana Odległość:" ENG="Distance:"/>
         <PriceForLiter PL="Cena za Litr:" ENG="Price For Liter:"/>
         <Consumption PL="Spalanie:" ENG="Consumption:"/>
-        <Resoult PL="Wynik:" ENG="Resoult:"/>
+        <ResultTravelCost PL="Koszt Podróży:" ENG="Travel Cost:"/>
+        <ResultUsedFuel PL="Zużyte paliwo:" ENG="Used Fuel:"/>
         <CalculateButton PL="Oblicz" ENG="Calculate"/>
         <ErrorException PL="Nie można wykonać obliczeń, podane wartości są poprawne?:" ENG="Calculations cannot be performed, are the given values are correct?:"/>
       </TravelCostCalculatorBorder>
@@ -156,18 +196,18 @@
         <ConsumedFuel PL="Spalone Paliwo:" ENG="Consumed Fuel:"/>
         <NumberOfKilometersTraveled PL="Ilość Przejechanych Kilometrów:" ENG="Number of Traveled Kilometers:"/>
         <PriceForLiterOptional PL="Cena za Litr (Opcjonalnie):" ENG="Price for Liter (Optional):"/>
-        <Resoult PL="Wynik:" ENG="Resoult:"/>
+        <ResultAverageConsumption PL="Średnie Spalanie:" ENG="Average Consumption:"/>
+        <ResultPrice PL="Koszt:" ENG="Cost:"/>
         <CalculateButton PL="Oblicz" ENG="Calculate"/>
         <ErrorException PL="Nie można wykonać obliczeń, podane wartości są poprawne?:" ENG="Calculations cannot be performed, are the given values are correct?:"/>
       </AverageFuelConsumptionCalculatorBorder>
-      <TravelCostCalculator PL="Kalkulator Kosztu Podróży" ENG="Travel Cost Calculator"/>
-      <AverageFuelConsumptionCalculator PL="Kalkulator Średniego Spalania" ENG="Average Fuel Consumption Calculator"/>
+      <TravelCostCalculator PL="Koszt Podróży" ENG="Travel Cost"/>
+      <AverageFuelConsumptionCalculator PL="Średnie Spalanie" ENG="Average Fuel Consumption"/>
       <Gasoline PL="Benzyna" ENG="Gasoline"/>
       <Diesel PL="Diesel" ENG="Diesel"/>
       <LPG PL="LPG" ENG="LPG"/>
       <NoVehicleException PL="Brak Pojazdów w Bazie" ENG="No Vehicles Found"/>
       <CalculateButton PL="Oblicz" ENG="Calculate"/>
     </CalculatorPage>
-
   </MainPanel>
 </Config>

@@ -150,8 +150,11 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "Consumption")]
 		public Translation Consumption { get; set; }
 
-		[XmlElement(ElementName = "Resoult")]
-		public Translation Resoult { get; set; }
+		[XmlElement(ElementName = "ResultTravelCost")]
+		public Translation ResultTravelCost { get; set; }
+
+		[XmlElement(ElementName = "ResultUsedFuel")]
+		public Translation ResultUsedFuel { get; set; }
 
 		[XmlElement(ElementName = "CalculateButton")]
 		public Translation CalculateButton { get; set; }
@@ -172,8 +175,11 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "PriceForLiterOptional")]
 		public Translation PriceForLiterOptional { get; set; }
 
-		[XmlElement(ElementName = "Resoult")]
-		public Translation Resoult { get; set; }
+		[XmlElement(ElementName = "ResultAverageConsumption")]
+		public Translation ResultAverageConsumption { get; set; }
+
+		[XmlElement(ElementName = "ResultPrice")]
+		public Translation ResultPrice { get; set; }
 
 		[XmlElement(ElementName = "CalculateButton")]
 		public Translation CalculateButton { get; set; }
@@ -251,6 +257,43 @@ namespace Car_Data_Application.Models.XML_Models
 		public Translation Comment { get; set; }
 	}
 
+	[XmlRoot(ElementName = "AddCostPage")]
+	public class AddCostPage
+	{
+		[XmlElement(ElementName = "PageTitle")]
+		public Translation PageTitle { get; set; }
+
+		[XmlElement(ElementName = "Name")]
+		public Translation Name { get; set; }
+
+		[XmlElement(ElementName = "Category")]
+		public Translation Category { get; set; }
+
+		[XmlElement(ElementName = "Price")]
+		public Translation Price { get; set; }
+
+		[XmlElement(ElementName = "IsNegative")]
+		public Translation IsNegative { get; set; }
+
+		[XmlElement(ElementName = "Millage")]
+		public Translation Millage { get; set; }
+
+		[XmlElement(ElementName = "Date")]
+		public Translation Date { get; set; }
+
+		[XmlElement(ElementName = "Time")]
+		public Translation Time { get; set; }
+
+		[XmlElement(ElementName = "Comment")]
+		public Translation Comment { get; set; }
+
+		[XmlElement(ElementName = "Reminder")]
+		public Translation Reminder { get; set; }
+
+		[XmlElement(ElementName = "ButtonText")]
+		public Translation ButtonText { get; set; }
+	}
+
 	[XmlRoot(ElementName = "FuelData")]
 	public class FuelData
 	{
@@ -308,11 +351,14 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "LoginPanel")]
 	public class LoginPanel
 	{
-		[XmlElement(ElementName = "UserNameText")]
-		public Translation UserNameText { get; set; }
+		[XmlElement(ElementName = "LoginTitle")]
+		public Translation LoginTitle { get; set; }
 
-		[XmlElement(ElementName = "PasswordText")]
-		public Translation PasswordText { get; set; }
+		[XmlElement(ElementName = "UserName")]
+		public Translation UserName { get; set; }
+
+		[XmlElement(ElementName = "Password")]
+		public Translation Password { get; set; }
 
 		[XmlElement(ElementName = "LogInButton")]
 		public Translation LogInButton { get; set; }
@@ -324,17 +370,20 @@ namespace Car_Data_Application.Models.XML_Models
 	[XmlRoot(ElementName = "RegisterPanel")]
 	public class RegisterPanel
 	{
-		[XmlElement(ElementName = "UserNameText")]
-		public Translation UserNameText { get; set; }
+		[XmlElement(ElementName = "RegisterTitle")]
+		public Translation RegisterTitle { get; set; }
 
-		[XmlElement(ElementName = "PasswordText")]
-		public Translation PasswordText { get; set; }
+		[XmlElement(ElementName = "UserName")]
+		public Translation UserName { get; set; }
 
-		[XmlElement(ElementName = "RePasswordText")]
-		public Translation RePasswordText { get; set; }
+		[XmlElement(ElementName = "Password")]
+		public Translation Password { get; set; }
 
-		[XmlElement(ElementName = "EmailText")]
-		public Translation EmailText { get; set; }
+		[XmlElement(ElementName = "RePassword")]
+		public Translation RePassword { get; set; }
+
+		[XmlElement(ElementName = "Email")]
+		public Translation Email { get; set; }
 
 		[XmlElement(ElementName = "RegisterButton")]
 		public Translation RegisterButton { get; set; }
@@ -346,11 +395,32 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "Language")]
 		public Translation Language { get; set; }
 
-		[XmlElement(ElementName = "MetricUnit")]
-		public Translation MetricUnit { get; set; }
+		[XmlElement(ElementName = "LanguagePL")]
+		public Translation LanguagePL { get; set; }
+
+		[XmlElement(ElementName = "LanguageENG")]
+		public Translation LanguageENG { get; set; }
+
+		[XmlElement(ElementName = "UnitsOfMeasure")]
+		public Translation UnitsOfMeasure { get; set; }
+
+		[XmlElement(ElementName = "UnitsMetric")]
+		public Translation UnitsMetric { get; set; }
+
+		[XmlElement(ElementName = "UnitsImperial")]
+		public Translation UnitsImperial { get; set; }
 
 		[XmlElement(ElementName = "Currency")]
 		public Translation Currency { get; set; }
+
+		[XmlElement(ElementName = "CurrencyPLN")]
+		public Translation CurrencyPLN { get; set; }
+
+		[XmlElement(ElementName = "CurrencyUSD")]
+		public Translation CurrencyUSD { get; set; }
+
+		[XmlElement(ElementName = "CurrencyEUR")]
+		public Translation CurrencyEUR { get; set; }
 
 		[XmlElement(ElementName = "ApplyButton")]
 		public Translation ApplyButton { get; set; }
@@ -367,5 +437,46 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "AddVehicle")]
 		public Translation AddVehicle { get; set; }
+	}
+
+	[XmlRoot(ElementName = "FuelTypes")]
+	public class FuelTypes
+	{
+		[XmlElement(ElementName = "Gasoline")]
+		public Translation Gasoline { get; set; }
+
+		[XmlElement(ElementName = "Diesel")]
+		public Translation Diesel { get; set; }
+
+		[XmlElement(ElementName = "LPG")]
+		public Translation LPG { get; set; }
+	}
+
+	[XmlRoot(ElementName = "CostsTypes")]
+	public class CostsTypes
+	{
+		[XmlElement(ElementName = "Service")]
+		public Translation Service { get; set; }
+
+		[XmlElement(ElementName = "Exploitation")]
+		public Translation Exploitation { get; set; }
+
+		[XmlElement(ElementName = "Tuning")]
+		public Translation Tuning { get; set; }
+
+		[XmlElement(ElementName = "Parking")]
+		public Translation Parking { get; set; }
+
+		[XmlElement(ElementName = "Detailing")]
+		public Translation Detailing { get; set; }
+
+		[XmlElement(ElementName = "Fines")]
+		public Translation Fines { get; set; }
+
+		[XmlElement(ElementName = "Insurance")]
+		public Translation Insurance { get; set; }
+
+		[XmlElement(ElementName = "Inspection")]
+		public Translation Inspection { get; set; }
 	}
 }
