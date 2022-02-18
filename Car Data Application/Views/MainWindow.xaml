@@ -8,6 +8,104 @@
         mc:Ignorable="d"
         SizeChanged="HandleWindowSizeChanged"
         Title="Car Data Application" MinWidth="400" MinHeight="380" Height="600" Width="900">
+    <Window.Resources>
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border
+                      x:Name="Border" 
+                      Grid.ColumnSpan="2"
+                      Background="#FFD6CFD3"/>
+                <Polygon
+                    x:Name="Arrow"
+                    Grid.Column="1" 
+                    Fill="#FF2A2729"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Points="0,0 9,9 18,0 14,0 9,5 4,0"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="#bee6fd" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <ToggleButton 
+                                Name="ToggleButton" 
+                                Template="{StaticResource ComboBoxToggleButton}" 
+                                Grid.Column="2" 
+                                Focusable="false"
+                                IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter
+                                Name="ContentSite"
+                                IsHitTestVisible="False" 
+                                Content="{TemplateBinding SelectionBoxItem}"
+                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                Margin="3,3,23,3"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left" />
+                            <Popup 
+                                Name="Popup"
+                                Placement="Bottom"
+                                IsOpen="{TemplateBinding IsDropDownOpen}"
+                                AllowsTransparency="True" 
+                                Focusable="False"
+                                PopupAnimation="Slide">
+                                <Grid 
+                                      Name="DropDown"
+                                      SnapsToDevicePixels="True"                
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                      Background="#FFD6CFD3">
+                                    <ScrollViewer Margin="0" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- SimpleStyles: ComboBoxItem -->
+        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border 
+                          Name="Border"
+                          Padding="2">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#bee6fd"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="SidePanelColumn" Width="210"/>
@@ -60,8 +158,13 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="UserName" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
-                <Grid x:Name="VehicleName" Grid.Column="1" MouseLeftButtonDown="ChangeActiveVehicleClick" MouseEnter="HandleActiveVehicleMouseEnter" MouseLeave="HandleActiveVehicleMouseLeave"  Background="Transparent">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16"/>
+                <Grid Grid.Column="1" MouseLeftButtonDown="ChangeActiveVehicleClick" MouseEnter="HandleActiveVehicleMouseEnter" MouseLeave="HandleActiveVehicleMouseLeave"  Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="4*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="Footer_VehicleName" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Transparent"  Foreground="#EDEDED" FontFamily="Global User Interface" FontWeight="Bold" FontSize="16" Margin="1"/>
+                    <TextBlock x:Name="Footer_VehicleMillage" Grid.Row="1" VerticalAlignment="top" HorizontalAlignment="Center" Background="Transparent"  Foreground="#FF9C9397" FontFamily="Global User Interface" FontWeight="Bold" FontSize="12" Margin="1"/>
                 </Grid>
             </Grid>
         </Grid>

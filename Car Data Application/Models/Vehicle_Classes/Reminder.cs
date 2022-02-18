@@ -11,6 +11,12 @@ namespace Car_Data_Application.Models.Vehicle_Classes
         public string Date { get; set; }
         public int Millage { get; set; }
 
+        public Reminder()
+        {
+            this.Date = "";
+            this.Millage = 0;
+        }
+
         public Reminder(string date, int millage)
         {
             this.Date = date;

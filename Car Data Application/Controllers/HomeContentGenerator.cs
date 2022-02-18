@@ -72,8 +72,15 @@ namespace Car_Data_Application.Controllers
             FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastFuelPrice, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
 
             FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption.ToString() + " L/100km", 0, 1));
-            FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestConsumption.ToString() + " L/100km", 1, 1));
-            FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].LatestFuelPrice.ToString() + " zł", 2, 1));
+            if (LastRefuelingElement > 0)
+            {
+                FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].Consumption.ToString() + " L/100km", 1, 1));
+                FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].TotalPrice.ToString() + " zł", 2, 1));
+            }
+            else
+            {
+
+            }
 
             FuelDataGrid.Children.Add(FuelDataGridContent);
 

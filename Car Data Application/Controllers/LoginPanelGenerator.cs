@@ -49,7 +49,7 @@ namespace Car_Data_Application.Controllers
             LoginWindowGrid.HorizontalAlignment = HorizontalAlignment.Center;
             LoginWindowGrid.VerticalAlignment = VerticalAlignment.Center;
 
-            TranslateTransform translateTransform = new TranslateTransform();
+            TranslateTransform translateTransform = new();
             if (null != mainWindow.FindName("Transform"))
             {
                 mainWindow.UnregisterName("Transform");

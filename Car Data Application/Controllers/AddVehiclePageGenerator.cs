@@ -1,4 +1,5 @@
 ﻿using Car_Data_Application.Models;
+using Car_Data_Application.Models.Vehicle_Classes;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using Microsoft.Win32;
@@ -9,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -17,10 +17,14 @@ namespace Car_Data_Application.Controllers
 {
     class AddVehiclePageGenerator : CarDataAppController
     {
+        private Vehicle newVehicle;
+        private Grid FuelInfoGrid;
+        private Grid AddImageGrid;
+
         public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
             InitialAssignValue(mw, user, paramConfig);
-
+            newVehicle = new Vehicle();
             Grid MainGrid = new Grid();
 
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50)});
@@ -38,6 +42,7 @@ namespace Car_Data_Application.Controllers
             MainGrid.Children.Add(AddRefuelingButton(config.MainPanel.AddVehiclePage));
 
 
+            newVehicle.Id = AutoincrementVehicleID();
             mainWindow.ScrollViewerContent.Content = MainGrid;
 
         }
@@ -70,7 +75,8 @@ namespace Car_Data_Application.Controllers
                 VehiclePrimaryDataGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-            Grid AddImageGrid = new Grid();
+            AddImageGrid = new();
+            AddImageGrid.MouseLeftButtonDown += AddImageClick;
 
             Rectangle AddImageRectangle = new();
             AddImageRectangle.Margin = new Thickness(0, 0, 15, 0);
@@ -106,9 +112,8 @@ namespace Car_Data_Application.Controllers
             VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Brand, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
             VehicleNameGrid.Children.Add(GenerateTextBlock(translation.Model, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
 
-            VehicleNameGrid.Children.Add(GenerateTextBox(translation.Brand.ENG.TrimEnd(':'), 0, 1, smallersize: true, horizontalAlignment: HorizontalAlignment.Left));
-
-            VehicleNameGrid.Children.Add(GenerateTextBox(translation.Model.ENG.TrimEnd(':'), 1, 1, smallersize: true, horizontalAlignment: HorizontalAlignment.Left));
+            VehicleNameGrid.Children.Add(GenerateTextBox("Brand" , 0, 1, smallersize: true, horizontalAlignment: HorizontalAlignment.Left));
+            VehicleNameGrid.Children.Add(GenerateTextBox("Model" , 1, 1, smallersize: true, horizontalAlignment: HorizontalAlignment.Left));
 
             VehiclePrimaryDataGrid.Children.Add(VehicleNameGrid);
             VehiclePrimaryDataGrid.Children.Add(AddImageGrid);
@@ -135,17 +140,17 @@ namespace Car_Data_Application.Controllers
             PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.Plates, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right, VerticalAlignment.Center));
             PrimarmaryInfoGrid.Children.Add(GenerateTextBlock(translation.VehicleMillage, PUser.UserLanguage, 3, 0, LightTextColor, HorizontalAlignment.Right, VerticalAlignment.Center));
 
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.YearOfManufacture.ENG.TrimEnd(':'), 0, 1, horizontalAlignment: HorizontalAlignment.Left));
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.VIN.ENG.TrimEnd(':'), 1, 1, horizontalAlignment: HorizontalAlignment.Left));
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.Plates.ENG.TrimEnd(':'), 2, 1, horizontalAlignment: HorizontalAlignment.Left));
-            PrimarmaryInfoGrid.Children.Add(GenerateTextBox(translation.VehicleMillage.ENG.TrimEnd(':'), 3, 1, horizontalAlignment: HorizontalAlignment.Left));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBoxWithHandler("YearOfManufacture", 0, 1, horizontalAlignment: HorizontalAlignment.Left));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBox("VIN", 1, 1, horizontalAlignment: HorizontalAlignment.Left));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBox("Plates", 2, 1, horizontalAlignment: HorizontalAlignment.Left));
+            PrimarmaryInfoGrid.Children.Add(GenerateTextBoxWithHandler("VehicleMillage", 3, 1, horizontalAlignment: HorizontalAlignment.Left));
 
             return PrimarmaryInfoGrid;
         }
 
         private Grid AddingFuelTankInfoContent(AddVehiclePage translation)
         {
-            Grid FuelInfoGrid = new Grid();
+            FuelInfoGrid = new Grid();
             SetGridProps(ref FuelInfoGrid, 3);
 
             for (int i = 0; i < 3; i++) // 3 number of columns
@@ -161,9 +166,9 @@ namespace Car_Data_Application.Controllers
             FuelInfoGrid.Children.Add(GenerateToggleButtonWithHandlers(translation.DieselTank, PUser.UserLanguage, 0, 2));
 
 
-            FuelInfoGrid.Children.Add(GenerateTextBox("GasolineTank", 1, 0, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
-            FuelInfoGrid.Children.Add(GenerateTextBox("LPGTank", 1, 1, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
-            FuelInfoGrid.Children.Add(GenerateTextBox("DieselTank", 1, 2, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
+            FuelInfoGrid.Children.Add(GenerateTextBoxWithHandler("GasolineTank", 1, 0, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
+            FuelInfoGrid.Children.Add(GenerateTextBoxWithHandler("LPGTank", 1, 1, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
+            FuelInfoGrid.Children.Add(GenerateTextBoxWithHandler("DieselTank", 1, 2, horizontalAlignment: HorizontalAlignment.Center, visibility: Visibility.Hidden));
 
 
             return FuelInfoGrid;
@@ -188,7 +193,7 @@ namespace Car_Data_Application.Controllers
             CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionTitle, PUser.UserLanguage, 0, 2, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
             CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionStartDate, PUser.UserLanguage, 1, 2, LightTextColor, HorizontalAlignment.Right));
             CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate, PUser.UserLanguage, 2, 2, LightTextColor, HorizontalAlignment.Right));
-            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionEndDate, PUser.UserLanguage, 3, 2, LightTextColor, HorizontalAlignment.Right));
+            CyclicalCostGrid.Children.Add(GenerateTextBlock(translation.InspectionPrice, PUser.UserLanguage, 3, 2, LightTextColor, HorizontalAlignment.Right));
 
             CyclicalCostGrid.Children.Add(GenerateTextBox("InsuranceStartDate", 1, 1, horizontalAlignment: HorizontalAlignment.Left));
             CyclicalCostGrid.Children.Add(GenerateTextBox("InsuranceEndDate", 2, 1, horizontalAlignment: HorizontalAlignment.Left));
@@ -212,29 +217,59 @@ namespace Car_Data_Application.Controllers
             return ApplySettingsButton;
         }
 
-        private void HandleAddVehicleButtonClick(object sender, RoutedEventArgs e)
+        private CyclicalCosts GenerateCyclicalCost(ref bool CanConvertToJson, TextBox StartDate, TextBox EndDate, TextBox Price)
         {
-            throw new NotImplementedException();
-        }
+            int ParseResult;
 
-        private void add_photo_button_Click()
-        {
-            var photo = new BitmapImage();
-
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.ShowDialog();
-
-            Uri fileUri = new Uri(openFileDialog.FileName);
-            photo = new BitmapImage(fileUri);
-
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(photo));
-            using (FileStream filestream = new FileStream(@"..\..\..\Images\", FileMode.Create))
+            CyclicalCosts newCyclicalCost = null;
+            int InsurancePrice = 0;
+            if (int.TryParse(Price.Text, out ParseResult))
             {
-                encoder.Save(filestream);
-                filestream.Close();
+                InsurancePrice = ParseResult;
+                Price.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+                if (StartDate.Text == "")
+                {
+                    CanConvertToJson = false;
+                    StartDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                }
+                else { StartDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor); }
+                if (EndDate.Text == "")
+                {
+                    CanConvertToJson = false;
+                    EndDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                }
+                else { EndDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor); }
+                if ((StartDate.Text != "") && (EndDate.Text != ""))
+                {
+                    newCyclicalCost = new CyclicalCosts(StartDate.Text, EndDate.Text, InsurancePrice);
+                }
             }
-
+            else
+            {
+                if (Price.Text != "")
+                {
+                    CanConvertToJson = false;
+                    Price.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                    if (StartDate.Text == "") { StartDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor); }
+                    if (EndDate.Text == "") { EndDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor); }
+                }
+                if ((Price.Text == "") && ((StartDate.Text != "") || (EndDate.Text != "")))
+                {
+                    CanConvertToJson = false;
+                    Price.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                    if (StartDate.Text == "")
+                    {
+                        StartDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                    }
+                    else { StartDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor); }
+                    if (EndDate.Text == "")
+                    {
+                        EndDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                    }
+                    else { EndDate.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor); }
+                }
+            }
+            return newCyclicalCost;
         }
 
         private ToggleButton GenerateToggleButtonWithHandlers(Translation text, string language, int row, int column)
@@ -247,6 +282,62 @@ namespace Car_Data_Application.Controllers
             return toggleButton;
         }
 
+        private TextBox GenerateTextBoxWithHandler(string textboxname, int row, int column, HorizontalAlignment horizontalAlignment, Visibility visibility = Visibility.Visible)
+        {
+            TextBox textBox = GenerateTextBox(textboxname, row, column, horizontalAlignment: horizontalAlignment, visibility: visibility);
+            textBox.TextChanged += TextBoxTextChange;
+
+            return textBox;
+        }
+
+        private void TextBoxTextChange(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            int ParseResult;
+
+            if (int.TryParse(textBox.Text, out ParseResult))
+            {
+                textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+
+                if ((textBox.Name == "GasolineTank_TextBox") || (textBox.Name == "LPGTank_TextBox") || (textBox.Name == "DieselTank_TextBox"))
+                {
+                    FuelInfoGrid.Background = Brushes.WhiteSmoke;
+
+                    switch (textBox.Name)
+                    {
+                        case "GasolineTank_TextBox":
+                            newVehicle.Tanks.Gasoline = ParseResult;
+                            break;
+
+                        case "LPGTank_TextBox":
+                            newVehicle.Tanks.LPG = ParseResult;
+                            break;
+
+                        case "DieselTank_TextBox":
+                            newVehicle.Tanks.Diesel = ParseResult;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (textBox.Name)
+                    {
+                        case "YearOfManufacture_TextBox":
+                            newVehicle.YearOfManufacture = ParseResult;
+                            break;
+
+                        case "VehicleMillage_TextBox":
+                            newVehicle.CarMillage = ParseResult;
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+        }
+
         private void TankToggleButtonUnchecked(object sender, RoutedEventArgs e)
         {
             ToggleButton toggleButton = (ToggleButton)sender;
@@ -255,24 +346,27 @@ namespace Car_Data_Application.Controllers
             switch (toggleButton.Name)
             {
                 case "Gasoline_ToggleButton":
-                    TextBox GasolineTankTextBox = (TextBox)mainWindow.FindName("GasolineTank_Textbox");
+                    TextBox GasolineTankTextBox = (TextBox)mainWindow.FindName("GasolineTank_TextBox");
                     toggleButton.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
                     GasolineTankTextBox.Visibility = Visibility.Hidden;
 
+                    newVehicle.Tanks.Gasoline = 0;
                     break;
 
                 case "Diesel_ToggleButton":
-                    TextBox DieselTankTextBox = (TextBox)mainWindow.FindName("DieselTank_Textbox");
+                    TextBox DieselTankTextBox = (TextBox)mainWindow.FindName("DieselTank_TextBox");
                     toggleButton.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
                     DieselTankTextBox.Visibility = Visibility.Hidden;
 
+                    newVehicle.Tanks.Diesel = 0;
                     break;
 
                 case "LPG_ToggleButton":
-                    TextBox LPGTankTextBox = (TextBox)mainWindow.FindName("LPGTank_Textbox");
+                    TextBox LPGTankTextBox = (TextBox)mainWindow.FindName("LPGTank_TextBox");
                     toggleButton.Foreground = (Brush)Converter.ConvertFromString(LightTextColor);
                     LPGTankTextBox.Visibility = Visibility.Hidden;
 
+                    newVehicle.Tanks.LPG = 0;
                     break;
             }
         }
@@ -281,14 +375,15 @@ namespace Car_Data_Application.Controllers
         {
             ToggleButton toggleButton = (ToggleButton)sender;
 
-            TextBox GasolineTankTextBox = (TextBox)mainWindow.FindName("GasolineTank_Textbox");
-            TextBox LPGTankTextBox = (TextBox)mainWindow.FindName("LPGTank_Textbox");
-            TextBox DieselTankTextBox = (TextBox)mainWindow.FindName("DieselTank_Textbox");
+            TextBox GasolineTankTextBox = (TextBox)mainWindow.FindName("GasolineTank_TextBox");
+            TextBox LPGTankTextBox = (TextBox)mainWindow.FindName("LPGTank_TextBox");
+            TextBox DieselTankTextBox = (TextBox)mainWindow.FindName("DieselTank_TextBox");
 
             ToggleButton GasolineToggleButton = (ToggleButton)mainWindow.FindName("Gasoline_ToggleButton");
             ToggleButton DieselToggleButton = (ToggleButton)mainWindow.FindName("Diesel_ToggleButton");
             ToggleButton LPGToggleButton = (ToggleButton)mainWindow.FindName("LPG_ToggleButton");
 
+            int ParseResult;
             switch (toggleButton.Name)
             {
                 case "Gasoline_ToggleButton":
@@ -299,6 +394,12 @@ namespace Car_Data_Application.Controllers
                     DieselTankTextBox.Visibility = Visibility.Hidden;
                     DieselToggleButton.IsChecked = false;
 
+                    if (int.TryParse(GasolineTankTextBox.Text, out ParseResult))
+                    {
+                        newVehicle.Tanks.Gasoline = ParseResult;
+                        FuelInfoGrid.Background = Brushes.WhiteSmoke;
+                    }
+                    newVehicle.Tanks.Diesel = 0;
                     break;
 
                 case "Diesel_ToggleButton":
@@ -312,6 +413,13 @@ namespace Car_Data_Application.Controllers
                     LPGTankTextBox.Visibility = Visibility.Hidden;
                     LPGToggleButton.IsChecked = false;
 
+                    if (int.TryParse(DieselTankTextBox.Text, out ParseResult))
+                    {
+                        newVehicle.Tanks.Diesel = ParseResult;
+                        FuelInfoGrid.Background = Brushes.WhiteSmoke;
+                    }
+                    newVehicle.Tanks.Gasoline = 0;
+                    newVehicle.Tanks.LPG = 0;
                     break;
 
                 case "LPG_ToggleButton":
@@ -322,8 +430,127 @@ namespace Car_Data_Application.Controllers
                     DieselTankTextBox.Visibility = Visibility.Hidden;
                     DieselToggleButton.IsChecked = false;
 
+                    if (int.TryParse(LPGTankTextBox.Text, out ParseResult))
+                    {
+                        newVehicle.Tanks.LPG = ParseResult;
+                        FuelInfoGrid.Background = Brushes.WhiteSmoke;
+                    }
+
+                    newVehicle.Tanks.Diesel = 0;
                     break;
             }
         }
+
+        private void AddImageClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+            //Vehicle vehicle = PUser.Vehicles[PUser.ActiveCarIndex];
+            string newPictureName = "Vehicle_ID_" + newVehicle.Id + "_VehiclePicture.PNG";
+            string PicturePath = @"..\..\..\Images\UserPictures\" + newPictureName;
+
+            BitmapImage photo;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPEG Files (*.JPEG;*.JPG;*.JPE;*.JFIF)|*.JPEG;*.JPG;*.JPE;*.JFIF| PNG Files (*.PNG)|*.PNG";
+            openFileDialog.ShowDialog();
+
+            if (openFileDialog.FileName != "")
+            {
+                Uri fileUri = new Uri(openFileDialog.FileName);
+                photo = new BitmapImage(fileUri);
+
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(photo));
+
+
+                using (FileStream stream = new FileStream(PicturePath, FileMode.Create))
+                {
+                    encoder.Save(stream);
+                    stream.Close();
+                    newVehicle.PictureFileName = newPictureName;
+                }
+
+                Rectangle rectangle = (Rectangle)AddImageGrid.Children[0];
+                rectangle.Stroke = (Brush)Converter.ConvertFromString(DarkTextColor);
+                ((TextBlock)AddImageGrid.Children[1]).Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+
+                ImageBrush imageBrush = new ImageBrush(photo);
+                imageBrush.Stretch = Stretch.UniformToFill;
+                imageBrush.AlignmentY = AlignmentY.Center;
+                rectangle.Fill = imageBrush;
+            }
+        }
+
+        private int AutoincrementVehicleID()
+        {
+            int id = 0;
+            if(PUser.Vehicles.Count != 0)
+            {
+                id = PUser.Vehicles[PUser.Vehicles.Count - 1].Id + 1;
+            }
+
+            return id;
+        }
+
+        private void HandleAddVehicleButtonClick(object sender, RoutedEventArgs e)
+        {
+            bool CanConvertToJson = true;
+
+
+            TextBox Brand_TextBox = (TextBox)mainWindow.FindName("Brand_TextBox");
+            TextBox Model_TextBox = (TextBox)mainWindow.FindName("Model_TextBox");
+            TextBox VIN_TextBox = (TextBox)mainWindow.FindName("VIN_TextBox");
+            TextBox Plates_TextBox = (TextBox)mainWindow.FindName("Plates_TextBox");
+
+            newVehicle.Brand = Brand_TextBox.Text;
+            newVehicle.Model = Model_TextBox.Text;
+            newVehicle.Vin = VIN_TextBox.Text;
+            newVehicle.Plates = Plates_TextBox.Text;
+
+            if (Brand_TextBox.Text == "")
+            {
+                CanConvertToJson = false;
+                Brand_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if (Model_TextBox.Text == "")
+            {
+                CanConvertToJson = false;
+                Model_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if (newVehicle.YearOfManufacture == 0)
+            {
+                CanConvertToJson = false;
+                ((TextBox)mainWindow.FindName("YearOfManufacture_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if (newVehicle.CarMillage == 0)
+            {
+                CanConvertToJson = false;
+                ((TextBox)mainWindow.FindName("VehicleMillage_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+            if ((newVehicle.Tanks.Gasoline == 0) && (newVehicle.Tanks.LPG == 0) && (newVehicle.Tanks.Diesel == 0))
+            {
+                CanConvertToJson = false;
+                FuelInfoGrid.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            }
+
+
+            TextBox InsuranceStartDate = (TextBox)mainWindow.FindName("InsuranceStartDate_TextBox");
+            TextBox InsuranceEndDate = (TextBox)mainWindow.FindName("InsuranceEndDate_TextBox");
+            TextBox InsurancePrice = (TextBox)mainWindow.FindName("InsurancePrice_TextBox");
+            newVehicle.Insurance = GenerateCyclicalCost(ref CanConvertToJson, InsuranceStartDate, InsuranceEndDate, InsurancePrice);
+
+            TextBox InspectionStartDate = (TextBox)mainWindow.FindName("InspectionStartDate_TextBox");
+            TextBox InspectionEndDate = (TextBox)mainWindow.FindName("InspectionEndDate_TextBox");
+            TextBox InspectionPrice = (TextBox)mainWindow.FindName("InspectionPrice_TextBox");
+            newVehicle.Inspection = GenerateCyclicalCost(ref CanConvertToJson, InspectionStartDate, InspectionEndDate, InspectionPrice);
+
+            if (CanConvertToJson)
+            {
+                PUser.Vehicles.Add(newVehicle);
+                PUser.SerializeData();
+                mainWindow.OpenPage("VehiclesPage");
+            }
+        }
+
     }
 }

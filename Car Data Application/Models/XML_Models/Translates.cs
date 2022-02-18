@@ -150,8 +150,11 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "Consumption")]
 		public Translation Consumption { get; set; }
 
-		[XmlElement(ElementName = "Resoult")]
-		public Translation Resoult { get; set; }
+		[XmlElement(ElementName = "ResultTravelCost")]
+		public Translation ResultTravelCost { get; set; }
+
+		[XmlElement(ElementName = "ResultUsedFuel")]
+		public Translation ResultUsedFuel { get; set; }
 
 		[XmlElement(ElementName = "CalculateButton")]
 		public Translation CalculateButton { get; set; }
@@ -172,8 +175,11 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "PriceForLiterOptional")]
 		public Translation PriceForLiterOptional { get; set; }
 
-		[XmlElement(ElementName = "Resoult")]
-		public Translation Resoult { get; set; }
+		[XmlElement(ElementName = "ResultAverageConsumption")]
+		public Translation ResultAverageConsumption { get; set; }
+
+		[XmlElement(ElementName = "ResultPrice")]
+		public Translation ResultPrice { get; set; }
 
 		[XmlElement(ElementName = "CalculateButton")]
 		public Translation CalculateButton { get; set; }
@@ -249,6 +255,43 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "Comment")]
 		public Translation Comment { get; set; }
+	}
+
+	[XmlRoot(ElementName = "AddCostPage")]
+	public class AddCostPage
+	{
+		[XmlElement(ElementName = "PageTitle")]
+		public Translation PageTitle { get; set; }
+
+		[XmlElement(ElementName = "Name")]
+		public Translation Name { get; set; }
+
+		[XmlElement(ElementName = "Category")]
+		public Translation Category { get; set; }
+
+		[XmlElement(ElementName = "Price")]
+		public Translation Price { get; set; }
+
+		[XmlElement(ElementName = "IsNegative")]
+		public Translation IsNegative { get; set; }
+
+		[XmlElement(ElementName = "Millage")]
+		public Translation Millage { get; set; }
+
+		[XmlElement(ElementName = "Date")]
+		public Translation Date { get; set; }
+
+		[XmlElement(ElementName = "Time")]
+		public Translation Time { get; set; }
+
+		[XmlElement(ElementName = "Comment")]
+		public Translation Comment { get; set; }
+
+		[XmlElement(ElementName = "Reminder")]
+		public Translation Reminder { get; set; }
+
+		[XmlElement(ElementName = "ButtonText")]
+		public Translation ButtonText { get; set; }
 	}
 
 	[XmlRoot(ElementName = "FuelData")]
@@ -394,5 +437,46 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "AddVehicle")]
 		public Translation AddVehicle { get; set; }
+	}
+
+	[XmlRoot(ElementName = "FuelTypes")]
+	public class FuelTypes
+	{
+		[XmlElement(ElementName = "Gasoline")]
+		public Translation Gasoline { get; set; }
+
+		[XmlElement(ElementName = "Diesel")]
+		public Translation Diesel { get; set; }
+
+		[XmlElement(ElementName = "LPG")]
+		public Translation LPG { get; set; }
+	}
+
+	[XmlRoot(ElementName = "CostsTypes")]
+	public class CostsTypes
+	{
+		[XmlElement(ElementName = "Service")]
+		public Translation Service { get; set; }
+
+		[XmlElement(ElementName = "Exploitation")]
+		public Translation Exploitation { get; set; }
+
+		[XmlElement(ElementName = "Tuning")]
+		public Translation Tuning { get; set; }
+
+		[XmlElement(ElementName = "Parking")]
+		public Translation Parking { get; set; }
+
+		[XmlElement(ElementName = "Detailing")]
+		public Translation Detailing { get; set; }
+
+		[XmlElement(ElementName = "Fines")]
+		public Translation Fines { get; set; }
+
+		[XmlElement(ElementName = "Insurance")]
+		public Translation Insurance { get; set; }
+
+		[XmlElement(ElementName = "Inspection")]
+		public Translation Inspection { get; set; }
 	}
 }
