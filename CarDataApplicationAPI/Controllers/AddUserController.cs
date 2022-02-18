@@ -11,14 +11,24 @@ namespace CarDataApplicationAPI.Controllers
     public class AddUserController : Controller
     {
         [HttpPost]
-        public IActionResult AddUser([FromBody] JsonElement data)
+        public IActionResult AddUser(string dbpassword, [FromBody] JsonElement data)
         {
+            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
+            {
+                return BadRequest("Wrong Password!");
+            }
 
-            var login = data.GetProperty("Login").GetString();
-            var password = data.GetProperty("Password").GetString();
-            var json = data.GetProperty("JSON").GetString();
+            return ExecuteDatabaseOperation(dbpassword, data);
+     
+        }
 
-            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=root; Password=''";
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, JsonElement data)
+        {
+            string login = data.GetProperty("Login").GetString();
+            string password = data.GetProperty("Password").GetString();
+            string json = data.GetProperty("JSON").GetString();
+
+            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=dUmv9Fq/8D6y9Rwh";
             MySqlConnection cn = new MySqlConnection(Connection);
             cn.Open();
 
@@ -31,6 +41,7 @@ namespace CarDataApplicationAPI.Controllers
             if (reader.Read())
             {
                 return BadRequest("False");
+                cn.Close();
             }
             return Ok("Done");
             cn.Close();

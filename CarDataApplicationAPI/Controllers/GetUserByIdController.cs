@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarDataApplicationAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace CarDataApplicationAPI.Controllers
@@ -9,10 +11,21 @@ namespace CarDataApplicationAPI.Controllers
 
     public class GetUserByIdController : Controller
     {
-        [HttpGet("{id}")]
-        public IActionResult GetUserById(int id)
+        [HttpGet()]
+        public IActionResult GetUserById(string dbpassword, int id)
         {
-            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=root; Password=''";
+            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
+            {
+                return BadRequest("Wrong Password!");
+            }
+
+            return ExecuteDatabaseOperation(dbpassword, id);
+
+        }
+
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, int id)
+        {
+            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword;
             MySqlConnection cn = new MySqlConnection(Connection);
             cn.Open();
 
@@ -20,18 +33,21 @@ namespace CarDataApplicationAPI.Controllers
             MySqlCommand cmd = new MySqlCommand(sql, cn);
             cmd.CommandType = CommandType.Text;
 
-            string temp = string.Empty;
             MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
             {
-                temp += reader["Id"].ToString();
-                temp += reader["Login"].ToString();
-                temp += reader["Password"].ToString();
-                temp += reader["JSON"].ToString();
+                UserModel newUser = new();
+                string Json = reader["JSON"].ToString();
+                newUser = JsonConvert.DeserializeObject<UserModel>(Json);
+                newUser.Id = int.Parse(reader["Id"].ToString());
+                newUser.Login = reader["Login"].ToString();
 
-                return Ok(temp);
+                string Data = JsonConvert.SerializeObject(newUser);
+
+                return Ok(Data);
+                cn.Close();
             }
-            return Ok("False");
+            return BadRequest("No user found");
 
             cn.Close();
         }

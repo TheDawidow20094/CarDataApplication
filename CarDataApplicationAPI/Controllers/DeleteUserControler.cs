@@ -11,9 +11,20 @@ namespace CarDataApplicationAPI.Controllers
     public class DeleteUserControler : Controller
     {
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(string dbpassword, int id)
         {
-            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=root; Password=''";
+            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
+            {
+                return BadRequest("Wrong Password!");
+            }
+
+            return ExecuteDatabaseOperation(dbpassword, id);
+
+        }
+
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, int id)
+        {
+            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword;
             MySqlConnection cn = new MySqlConnection(Connection);
             cn.Open();
 

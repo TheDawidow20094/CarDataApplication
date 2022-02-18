@@ -1,4 +1,5 @@
 ﻿using Car_Data_Application.Models;
+using Car_Data_Application.Models.Vehicle_Classes;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System;
@@ -14,13 +15,19 @@ namespace Car_Data_Application.Controllers
 {
     class AddRefuelingPageGenerator : CarDataAppController
     {
+        private Refueling newRefueling = new Refueling();
+        private TextBox Liters_TextBox;
+        private TextBox PriceForLiter_TextBox;
+        private TextBox TotalPrice_TextBox;
+
+
         public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
             InitialAssignValue(mw, user, paramConfig);
 
             Grid MainGrid = new Grid();
 
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50) });
+            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(140) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
             MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(210) });
@@ -43,36 +50,12 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
             mainWindow.WhereAreYou = "AddRefuelingPage";
-            SetButtonColor("RefuelingHistoryPage", ((Grid)mainWindow.MainGrid.Children[3]));
-        }
-
-        private Border AddingTitle(AddRefuelingPage translation)
-        {
-            string TitleText = string.Empty;
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    TitleText = translation.PageTitle.PL;
-                    break;
-
-                case "ENG":
-                    TitleText = translation.PageTitle.ENG;
-                    break;
-            }
-
-            Border TitleBorder = new Border();
-
-            Grid TitleGrid = new Grid();
-            TitleBorder.Padding = new Thickness(20);
-            TitleBorder.Child = TitleGrid;
-            TitleGrid.Children.Add(GenerateTextBlock(TitleText, 0,0, DarkTextColor, HorizontalAlignment.Center));
-
-            return TitleBorder;
+            SetButtonColor("RefuelingHistoryPage", ((Grid)mainWindow.FindName("SidePanel")));
         }
 
         private TextBlock AddingVehicleName()
         {
-            TextBlock EntriesListText = GenerateTextBlock(PUser.Vehicles[PUser.ActiveCarIndex].Model + " " + PUser.Vehicles[PUser.ActiveCarIndex].Brand, 0, 0, "#FF2A2729", HorizontalAlignment.Center);
+            TextBlock EntriesListText = GenerateTextBlock(null, PUser.Vehicles[PUser.ActiveCarIndex].Brand + " " + PUser.Vehicles[PUser.ActiveCarIndex].Model, 0, 0, "#FF2A2729", HorizontalAlignment.Center);
             EntriesListText.FontSize = 34;
             EntriesListText.Margin = new Thickness(0, 15, 0, 10);
 
@@ -93,40 +76,181 @@ namespace Car_Data_Application.Controllers
                 MainContentGrid.RowDefinitions.Add(new RowDefinition());
             }
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.PL, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.PL, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.PL, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.PL, 1, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.PL, 2, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage, PUser.UserLanguage, 0, 2, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType, PUser.UserLanguage, 1, 2, LightTextColor, HorizontalAlignment.Right));
+            MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull, PUser.UserLanguage, 2, 2, LightTextColor, HorizontalAlignment.Right));
 
-                case "ENG":
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.Liters.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.PriceForLiter.ENG, 1, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.TotalPrice.ENG, 2, 0, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.CarMillage.ENG, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.FuelType.ENG, 1, 2, LightTextColor, HorizontalAlignment.Right));
-                    MainContentGrid.Children.Add(GenerateTextBlock(translation.IsFull.ENG, 2, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;    
+            List<ComboBoxItem> comboboxItems = new();
+            if (PUser.Vehicles[PUser.ActiveCarIndex].Tanks.Gasoline != 0)
+            {
+                comboboxItems.Add(new ComboBoxItem() { Tag = config.FuelTypes.Gasoline, Content = PUser.UserLanguage });
+            }
+            if (PUser.Vehicles[PUser.ActiveCarIndex].Tanks.Diesel != 0)
+            {
+                comboboxItems.Add(new ComboBoxItem() { Tag = config.FuelTypes.Diesel, Content = PUser.UserLanguage });
+            }
+            if (PUser.Vehicles[PUser.ActiveCarIndex].Tanks.LPG != 0)
+            {
+                comboboxItems.Add(new ComboBoxItem() { Tag = config.FuelTypes.LPG, Content = PUser.UserLanguage });
             }
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.Liters.ENG.TrimEnd(':'), 0, 1));
+            Liters_TextBox = GenerateTextBoxWithHandler("Liters", 0, 1);
+            PriceForLiter_TextBox = GenerateTextBoxWithHandler("PriceForLiter", 1, 1);
+            TotalPrice_TextBox = GenerateTextBoxWithHandler("TotalPrice", 2, 1);
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.PriceForLiter.ENG.TrimEnd(':'), 1, 1));
+            MainContentGrid.Children.Add(Liters_TextBox);
+            MainContentGrid.Children.Add(PriceForLiter_TextBox);
+            MainContentGrid.Children.Add(TotalPrice_TextBox);
 
-            MainContentGrid.Children.Add(GenerateTextBox(translation.TotalPrice.ENG.TrimEnd(':'), 2, 1));
-
-            MainContentGrid.Children.Add(GenerateTextBox(translation.CarMillage.ENG.TrimEnd(':'), 0, 3));
-
-            MainContentGrid.Children.Add(GenerateTextBox(translation.FuelType.ENG.TrimEnd(':'), 1, 3));
-
-            MainContentGrid.Children.Add(GenerateTextBox(translation.IsFull.ENG.TrimEnd(':'), 2, 3));
-
+            MainContentGrid.Children.Add(GenerateTextBoxWithHandler("CarMillage", 0, 3));
+            MainContentGrid.Children.Add(GenerateComboBox("FuelType", 1, 3, comboboxItems));
+            MainContentGrid.Children.Add(GenerateToggleSwitch("IsFull", 2, 3));
+            
             return MainContentGrid;
+        }
+
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox Liters_TextBox = (TextBox)mainWindow.FindName("Liters_TextBox");
+            TextBox PriceForLiter_TextBox = (TextBox)mainWindow.FindName("PriceForLiter_TextBox");
+            TextBox TotalPrice_TextBox = (TextBox)mainWindow.FindName("TotalPrice_TextBox");
+
+            TextBox textBox = (TextBox)sender;
+            double ParseResult;
+
+            if (double.TryParse(textBox.Text, out ParseResult))
+            {
+                textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            }
+            else
+            {
+                textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                ParseResult = 0;
+            }
+            switch (textBox.Name)
+            {
+                case "Liters_TextBox":
+                    newRefueling.Liters = ParseResult;
+                    break;
+
+                case "PriceForLiter_TextBox":
+                    newRefueling.PriceForLiter = ParseResult;
+                    break;
+
+                case "TotalPrice_TextBox":
+                    newRefueling.TotalPrice = ParseResult;
+                    break;
+
+                case "CarMillage_TextBox":
+                    if (ParseResult >= PUser.Vehicles[PUser.ActiveCarIndex].CarMillage)
+                    {
+                        newRefueling.CarMillage = (int)ParseResult;
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+                    }
+                    else
+                    {
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                    }
+                    break;
+            }
+        }
+
+        private void TextBoxOnChange(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+
+            switch (textBox.Name)
+            {
+                case "Liters_TextBox":
+
+                    double LitersParseResult;
+                    if (Double.TryParse(Liters_TextBox.Text, out LitersParseResult))
+                    {
+                        if ((newRefueling.PriceForLiter != 0))
+                        {
+                            string result = (Math.Round(newRefueling.PriceForLiter * LitersParseResult, 2)).ToString();
+                            if (TotalPrice_TextBox.Text != result)
+                            {
+                                TotalPrice_TextBox.Text = result;
+                                newRefueling.TotalPrice = double.Parse(result);
+                            }
+                        }
+                        if ((newRefueling.TotalPrice != 0) && (newRefueling.PriceForLiter == 0))
+                        {
+                            string result = (Math.Round(newRefueling.TotalPrice / LitersParseResult, 2)).ToString();
+                            if (PriceForLiter_TextBox.Text != result)
+                            {
+                                PriceForLiter_TextBox.Text = result;
+                                newRefueling.PriceForLiter = double.Parse(result);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case "PriceForLiter_TextBox":
+
+                    double PriceForLiterParseResult;
+                    if (Double.TryParse(PriceForLiter_TextBox.Text, out PriceForLiterParseResult))
+                    {
+                        if ((newRefueling.Liters != 0))
+                        {
+                            string result = (Math.Round(newRefueling.Liters * PriceForLiterParseResult, 2)).ToString();
+                            if (TotalPrice_TextBox.Text != result)
+                            {
+                                TotalPrice_TextBox.Text = result;
+                                newRefueling.TotalPrice = double.Parse(result);
+                            }
+                        }
+                        if ((newRefueling.TotalPrice != 0) && (newRefueling.Liters == 0))
+                        {
+                            string result = (Math.Round(newRefueling.TotalPrice / PriceForLiterParseResult, 2)).ToString();
+                            if (Liters_TextBox.Text != result)
+                            {
+                                Liters_TextBox.Text = result;
+                                newRefueling.Liters = double.Parse(result);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case "TotalPrice_TextBox":
+
+                    double TotalPriceParseResult;
+                    if (Double.TryParse(TotalPrice_TextBox.Text, out TotalPriceParseResult))
+                    {
+                        if ((Liters_TextBox.Text != ""))
+                        {
+                            string result = (Math.Round(TotalPriceParseResult / newRefueling.Liters, 2)).ToString();
+                            if (PriceForLiter_TextBox.Text != result)
+                            {
+                                PriceForLiter_TextBox.Text = result;
+                                newRefueling.PriceForLiter = double.Parse(result);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case "CarMillage_TextBox":
+
+
+                    int MillageParseResult;
+                    if (int.TryParse(textBox.Text, out MillageParseResult))
+                    {
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+                    }
+                    else
+                    {
+                        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                    }
+
+                    break;
+            }
         }
 
         private Grid DataContent(AddRefuelingPage translation)
@@ -141,18 +265,8 @@ namespace Car_Data_Application.Controllers
                 DataContentGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.PL, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.PL, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
-
-                case "ENG":
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Date.ENG, 0, 0, LightTextColor, HorizontalAlignment.Right));
-                    DataContentGrid.Children.Add(GenerateTextBlock(translation.Time.ENG, 0, 2, LightTextColor, HorizontalAlignment.Right));
-                    break;
-            }
+            DataContentGrid.Children.Add(GenerateTextBlock(translation.Date, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+            DataContentGrid.Children.Add(GenerateTextBlock(translation.Time, PUser.UserLanguage, 0, 2, LightTextColor, HorizontalAlignment.Right));
 
             DataContentGrid.Children.Add(GenerateDatePicker(translation.Date.ENG.TrimEnd(':'), 0, 1));
 
@@ -172,7 +286,6 @@ namespace Car_Data_Application.Controllers
             if (textBox.Text.Length != 5)
             {
                 textBox.Text = DateTime.Now.TimeOfDay.ToString().Substring(0, 5);
-                //textBox.Background = Brushes.IndianRed;
             }
             else if((Int32.TryParse(textBox.Text.Substring(0, 2), out hour)) && (Int32.TryParse(textBox.Text.Substring(3, 2), out minutes)))
             {
@@ -183,8 +296,8 @@ namespace Car_Data_Application.Controllers
                 
                 if ((hour < 24) &&  (minutes < 59) && (minutes >= 0) && (hour >= 0))
                 {
-                    textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
-                    //textBox.Background = Brushes.IndianRed;
+                    newRefueling.Time = textBox.Text;
+                    //textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
                 }
                 else
                 {
@@ -194,7 +307,6 @@ namespace Car_Data_Application.Controllers
             else
             {
                 textBox.Text = DateTime.Now.TimeOfDay.ToString().Substring(0, 5);
-                //textBox.Background = Brushes.IndianRed;
             }
         }
 
@@ -206,16 +318,7 @@ namespace Car_Data_Application.Controllers
             CommentContentGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(40)});
             CommentContentGrid.RowDefinitions.Add(new RowDefinition());
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.PL , 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
-                    break;
-
-                case "ENG":
-                    CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment.ENG, 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
-                    break;
-            }
+            CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
 
             CommentContentGrid.Children.Add(GenerateTextBox(translation.Comment.ENG.TrimEnd(':'), 1, 0, true,  HorizontalAlignment.Center));
 
@@ -224,34 +327,135 @@ namespace Car_Data_Application.Controllers
 
         private Button AddRefuelingButton(AddRefuelingPage translation)
         {
-            Button AddRefuelingButton = new Button();
+            Button ApplySettingsButton = GenerateButton(translation.ButtonText, PUser.UserLanguage, 4, 0, DarkTextColor);
+            ApplySettingsButton.Background = (Brush)Converter.ConvertFromString("#FF93D68A");
+            ApplySettingsButton.Height = 60;
+            ApplySettingsButton.Width = 200;
+            ApplySettingsButton.Click += HandleAddRefuelingButtonClick;
 
-            switch (PUser.UserLanguage)
-            {
-                case "PL":
-                    AddRefuelingButton.Content = translation.ButtonText.PL;
-                    break;
+            return ApplySettingsButton;
+        }
 
-                case "ENG":
-                    AddRefuelingButton.Content = translation.ButtonText.ENG;
-                    break;
-            } 
-            AddRefuelingButton.Height = 60;
-            AddRefuelingButton.Width = 140;
-            AddRefuelingButton.Click += HandleAddRefuelingButtonClick;
-            AddRefuelingButton.Background = (Brush)Converter.ConvertFromString("#07A802");
-            AddRefuelingButton.Foreground = Brushes.White;
-            AddRefuelingButton.FontFamily = new FontFamily("Arial Black");
-            AddRefuelingButton.FontWeight = FontWeights.Bold;
-            AddRefuelingButton.Margin = new Thickness(0,0,0,8);
-            Grid.SetRow(AddRefuelingButton, 4);
-
-            return AddRefuelingButton;
+        private TextBox GenerateTextBoxWithHandler(string textboxname, int row, int column)
+        {
+            TextBox textBox = GenerateTextBox(textboxname, row, column);
+            textBox.LostFocus += TextBoxLostFocus;
+            textBox.TextChanged += TextBoxOnChange;
+            return textBox;
         }
 
         private void HandleAddRefuelingButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("DZIAŁAM");
+            bool canConvertToJSON = true;
+
+            if (newRefueling.Liters == 0)
+            {
+                ((TextBox)mainWindow.FindName("Liters_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                canConvertToJSON = false;
+            }
+            if (newRefueling.PriceForLiter == 0)
+            {
+                ((TextBox)mainWindow.FindName("PriceForLiter_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                canConvertToJSON = false;
+            }
+            if (newRefueling.TotalPrice == 0)
+            {
+                ((TextBox)mainWindow.FindName("TotalPrice_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                canConvertToJSON = false;
+            }
+            if (newRefueling.CarMillage == 0)
+            {
+                ((TextBox)mainWindow.FindName("CarMillage_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                canConvertToJSON = false;
+                //sprawdź czy wiekszy niż przy poprzednim tankowaniu
+            }
+
+            ComboBox comboBox = (ComboBox)mainWindow.FindName("FuelType_ComboBox");
+            ComboBoxItem comboBoxItem = (ComboBoxItem)comboBox.SelectedItem;
+            Translation translation = (Translation)comboBoxItem.Tag;
+            newRefueling.FuelType = translation.ENG;
+
+            Grid toggleSwitch = (Grid)mainWindow.FindName("IsFull_ToggleSwitch");
+            newRefueling.IsFull = (bool)((Grid)mainWindow.FindName("IsFull_ToggleSwitch")).Tag;
+            newRefueling.Date = ((DatePicker)mainWindow.FindName("Date_DatePicker")).SelectedDate.ToString().Substring(0, 10);
+            newRefueling.Time = ((TextBox)mainWindow.FindName("Time_TextBox")).Text;
+            newRefueling.Comment = ((TextBox)mainWindow.FindName("Comment_TextBox")).Text;
+
+            newRefueling.Distance = CalculateDistance(newRefueling.CarMillage, newRefueling.FuelType);
+            newRefueling.Consumption = CalculateConsumption();
+
+
+            if (canConvertToJSON)
+            {
+                PUser.Vehicles[PUser.ActiveCarIndex].CarMillage = newRefueling.CarMillage; 
+                PUser.Vehicles[PUser.ActiveCarIndex].Refulings.Add(newRefueling);
+                if (newRefueling.IsFull)
+                {
+                    CalculateAverageFuelConsumption();
+                }
+
+                PUser.SerializeData();
+
+                mainWindow.OpenPage("RefuelingHistoryPage");
+            }
         }
+
+        private void CalculateAverageFuelConsumption()
+        {
+            int FirstIsFullRefuelingMillage = 0;
+            bool StartAddnigLiters = false;
+            double UsedLiters = 0;
+
+            foreach (Refueling refueling in PUser.Vehicles[PUser.ActiveCarIndex].Refulings)
+            {
+                if (refueling.IsFull)
+                {
+                    FirstIsFullRefuelingMillage = refueling.CarMillage;
+                    StartAddnigLiters = true;
+                }
+
+                if (StartAddnigLiters)
+                {
+                    UsedLiters += refueling.Liters;
+                }
+            }
+
+            if (StartAddnigLiters)
+            {
+                double AverageFuelConsumption = UsedLiters / (newRefueling.CarMillage - FirstIsFullRefuelingMillage);
+            }
+
+        }
+
+        private double CalculateDistance(double vehicleMillage, string fuelType)
+        {
+            double result = 0;
+
+            List<Refueling> refuelings = PUser.Vehicles[PUser.ActiveCarIndex].Refulings;
+            if (refuelings != null)
+            {
+                for (int i = (refuelings.Count - 1); i >= 0; i--)
+                {
+                    if (refuelings[i].FuelType == fuelType)
+                    {
+                        result = vehicleMillage - refuelings[i].CarMillage;
+                    }
+
+                }
+            }
+
+            return result;
+        }
+
+        private double CalculateConsumption()
+        {
+            double result = 0;
+            if (newRefueling.IsFull && (newRefueling.Distance != 0))
+            {
+                result = (newRefueling.Liters / newRefueling.Distance) * 100; // Last IsFull
+            }
+            return result;
+        }
+
     }
 }
