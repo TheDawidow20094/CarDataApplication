@@ -12,14 +12,15 @@ namespace Car_Data_Application.Controllers
     {
 
         private int ActualMainGridRow = new int();
+        private Vehicle PSelectedVehicle;
 
         public void GeneratorVehicleDetail(MainWindow mainwindow, Vehicle vehicle, User user, VehiclesPage vehiclesPage)
         {
-            InitialAssignValue(mainwindow, user);
+            InitialAssignValue(mainwindow, user, vehicle);
 
             Grid MainGrid = new Grid();
 
-            for (int i = 0; i < 5; i++) // 5 is number of rows
+            for (int i = 0; i < 6; i++) // 5 is number of rows
             {
                 RowDefinition MainGridRow = new RowDefinition();
                 MainGrid.RowDefinitions.Add(MainGridRow);
@@ -28,16 +29,19 @@ namespace Car_Data_Application.Controllers
             MainGrid.Children.Add(DisplayVehicleImage(vehicle));
             MainGrid.Children.Add(GenarateVehicleNameGrid(vehicle, vehiclesPage.VehicleNameGrid));
             MainGrid.Children.Add(GeneratePrimaryInfoGrid(vehicle, vehiclesPage.PrimaryInfoGrid));
-            MainGrid.Children.Add(GenarateFuelTankInfoGrid(vehicle, vehiclesPage.FuelTankInfoGrid));
+            MainGrid.Children.Add(GenarateFuelTankInfoGrid(vehicle, vehiclesPage.FuelTankInfoGrid)); 
             MainGrid.Children.Add(GenerateCyclicalCostGrid(vehicle, vehiclesPage.CyclicalCostGrid));
+            MainGrid.Children.Add(RemoveVehicleButton(vehiclesPage));
 
 
             mainwindow.ScrollViewerContent.Content = MainGrid;
         }
 
-        private void InitialAssignValue(MainWindow mainwindow, User user)
+        private void InitialAssignValue(MainWindow mainwindow, User user, Vehicle vehicle)
         {
+            mainWindow = mainwindow;
             PUser = user;
+            PSelectedVehicle = vehicle;
         }
 
         private Grid DisplayVehicleImage(Vehicle vehicle)
@@ -212,6 +216,24 @@ namespace Car_Data_Application.Controllers
             }
 
             return CyclicalCostGrid;
+        }
+
+        private Button RemoveVehicleButton(VehiclesPage translation)
+        {
+            Button RemoveVehicleButton = GenerateButton(translation.RemoveButton, PUser.UserLanguage, 5, 0, DarkTextColor);
+            RemoveVehicleButton.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+            RemoveVehicleButton.Height = 60;
+            RemoveVehicleButton.Width = 200;
+            RemoveVehicleButton.Click += RemoveVehicleClick; 
+
+            return RemoveVehicleButton;
+        }
+
+        private void RemoveVehicleClick(object sender, RoutedEventArgs e)
+        {
+            PUser.Vehicles.Remove(PSelectedVehicle);
+            PUser.SerializeData();
+            mainWindow.OpenPage("VehiclesPage");
         }
     }
 }

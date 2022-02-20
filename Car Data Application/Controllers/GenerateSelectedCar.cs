@@ -176,6 +176,10 @@ namespace Car_Data_Application.Controllers
                 case "AddRefuelingPage":
                     new AddRefuelingPageGenerator().PageGenerator(mainWindow, PUser, config);
                 break;
+
+                case "DataStatsPage":
+                    new Stats_DataContent().PageGenerator(mainWindow, PUser, config.MainPanel.StatsPage.StatsDataPage);
+                break;
             }
         }
     }

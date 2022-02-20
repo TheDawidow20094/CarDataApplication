@@ -14,8 +14,8 @@ namespace Car_Data_Application.Controllers
 {
     class CalculatorContentGenerator : CarDataAppController
     {
-        private Grid PTravelCostCalculatorGrid = new();
-        private Grid PAverageFuelConsumptionGrid = new();
+        private Grid PTravelCostCalculatorGrid;
+        private Grid PAverageFuelConsumptionGrid;
 
         private Storyboard PTravelCostAnimationStoryboard = new();
         private Storyboard PAverageConsumptionAnimationStoryboard = new();
@@ -43,7 +43,6 @@ namespace Car_Data_Application.Controllers
             mainWindow = mw;
             PUser = user;
             mainWindow.WhereAreYou = "CalculatorPage";
-
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
@@ -89,6 +88,7 @@ namespace Car_Data_Application.Controllers
 
         private Grid GenerateTravelCostCalculatorPanel(TravelCostCalculatorBorder translation)
         {
+            PTravelCostCalculatorGrid = new();
             SetGridProps(ref PTravelCostCalculatorGrid, 1);
 
             TranslateTransform translateTransform = new();
@@ -138,6 +138,7 @@ namespace Car_Data_Application.Controllers
 
         private Grid GenerateAverageFuelConsumptionCalculatorPanel(AverageFuelConsumptionCalculatorBorder translation)
         {
+            PAverageFuelConsumptionGrid = new();
             SetGridProps(ref PAverageFuelConsumptionGrid, 1);
             PAverageFuelConsumptionGrid.Visibility = Visibility.Hidden;
 

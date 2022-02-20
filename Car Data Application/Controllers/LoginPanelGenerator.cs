@@ -65,11 +65,11 @@ namespace Car_Data_Application.Controllers
             {
                 LoginWindowGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
-            LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(60) });
-            LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(60) });
-            LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
-            LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
+            List<int> RowsHeights = new List<int>() { 70, 60, 60, 70, 70 };
+            foreach (int RowHeigh in RowsHeights)
+            {
+                LoginWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(RowHeigh) });
+            }
 
             LoginWindowGrid.Children.Add(GenerateTextBlock(translation.LoginTitle, PUser.UserLanguage, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
             LoginWindowGrid.Children.Add(GenerateTextBlock(translation.UserName, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));

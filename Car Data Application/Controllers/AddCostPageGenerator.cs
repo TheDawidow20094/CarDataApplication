@@ -16,23 +16,22 @@ namespace Car_Data_Application.Controllers
 {
     class AddCostPageGenerator : CarDataAppController
     {
-        private Service newService = new Service();
+        private Service newService;
         private Grid Reminder;
-        private Grid ReminderHiddenContent;
         private Grid MainGrid;
 
         public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
             InitialAssignValue(mw, user, paramConfig);
 
+            newService = new Service();
             MainGrid = new Grid();
-
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(150) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(210) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
+            
+            List<int> RowsHeights = new List<int>() { 70, 150, 70, 70, 210, 80 };
+            foreach (int RowHeight in RowsHeights)
+            {
+                MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(RowHeight) });
+            }
 
             MainGrid.Children.Add(AddingVehicleName()); 
             MainGrid.Children.Add(PrimaryDataContent(config.MainPanel.AddCostPage));
@@ -51,7 +50,7 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             mainWindow.AddButon.Visibility = Visibility.Hidden;
             mainWindow.WhereAreYou = "AddCostPage";
-            SetButtonColor("CostsPage", ((Grid)mainWindow.FindName("SidePanel")));
+            SetButtonColor("CostsPage", (Grid)mainWindow.FindName("SidePanel"));
         }
 
         private TextBlock AddingVehicleName()
@@ -118,9 +117,10 @@ namespace Car_Data_Application.Controllers
             DataContentGrid.Children.Add(GenerateTextBlock(translation.Date, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
             DataContentGrid.Children.Add(GenerateTextBlock(translation.Time, PUser.UserLanguage, 0, 2, LightTextColor, HorizontalAlignment.Right));
 
-            DataContentGrid.Children.Add(GenerateDatePicker(translation.Date.ENG.TrimEnd(':'), 0, 1));
+            DateTime Tomorow = (DateTime.Now).AddDays(1);
+            DataContentGrid.Children.Add(GenerateDatePicker("Date", 0, 1, DateTime.Now, calendarDateRange: new CalendarDateRange(Tomorow, DateTime.MaxValue)));
 
-            TextBox textBox = GenerateTextBox(translation.Time.ENG.TrimEnd(':'), 0, 3, false, HorizontalAlignment.Left, DateTime.Now.TimeOfDay.ToString().Substring(0, 5));
+            TextBox textBox = GenerateTextBox("Time", 0, 3, false, HorizontalAlignment.Left, DateTime.Now.TimeOfDay.ToString().Substring(0, 5));
             textBox.LostFocus += CheckTimeFormat;
             DataContentGrid.Children.Add(textBox);
 
@@ -182,7 +182,10 @@ namespace Car_Data_Application.Controllers
             Reminder.Children.Add(GenerateTextBlock(translation.Date, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
             Reminder.Children.Add(GenerateTextBlock(translation.Millage, PUser.UserLanguage, 1, 2, LightTextColor, HorizontalAlignment.Right));
 
-            Reminder.Children.Add(GenerateDatePicker("ReminderDate", 1, 1));
+            DateTime Tomorow = (DateTime.Now).AddDays(1);
+            DatePicker datePicker = GenerateDatePicker("ReminderDate", 1, 1, Tomorow, calendarDateRange: new CalendarDateRange(DateTime.MinValue, DateTime.Now));
+            Reminder.Children.Add(datePicker);
+
             Reminder.Children.Add(GenerateTextBoxWithHandler("ReminderMillage", 1, 3));
 
             return Reminder;
@@ -198,7 +201,7 @@ namespace Car_Data_Application.Controllers
 
             CommentContentGrid.Children.Add(GenerateTextBlock(translation.Comment, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Center, VerticalAlignment.Center));
 
-            CommentContentGrid.Children.Add(GenerateTextBox(translation.Comment.ENG.TrimEnd(':'), 1, 0, true, HorizontalAlignment.Center));
+            CommentContentGrid.Children.Add(GenerateTextBox("Comment", 1, 0, true, HorizontalAlignment.Center));
 
             return CommentContentGrid;
         }
@@ -248,56 +251,51 @@ namespace Car_Data_Application.Controllers
         {
             bool canConvertToJSON = true;
 
-            //if (newRefueling.Liters == 0)
-            //{
-            //    ((TextBox)mainWindow.FindName("Liters_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            //    canConvertToJSON = false;
-            //}
-            //if (newRefueling.PriceForLiter == 0)
-            //{
-            //    ((TextBox)mainWindow.FindName("PriceForLiter_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            //    canConvertToJSON = false;
-            //}
-            //if (newRefueling.TotalPrice == 0)
-            //{
-            //    ((TextBox)mainWindow.FindName("TotalPrice_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            //    canConvertToJSON = false;
-            //}
-            //if (newRefueling.CarMillage == 0)
-            //{
-            //    ((TextBox)mainWindow.FindName("CarMillage_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-            //    canConvertToJSON = false;
-            //    //sprawdź czy wiekszy niż przy poprzednim tankowaniu
-            //}
+            TextBox nameTextBox = (TextBox)mainWindow.FindName("Name_TextBox");
+            TextBox priceTextBox = (TextBox)mainWindow.FindName("Price_TextBox");
+            ComboBox categoryComboBox = (ComboBox)mainWindow.FindName("Category_ComboBox");
+            Grid negativeCost = (Grid)mainWindow.FindName("IsNegative_ToggleSwitch");
+            DatePicker datePicker = (DatePicker)mainWindow.FindName("Date_DatePicker");
+            TextBox timeTextBox = (TextBox)mainWindow.FindName("Time_TextBox");
+            Grid remindME = (Grid)mainWindow.FindName("ReminderTitle_ToggleSwitch");
+            DatePicker datePickerReminder = (DatePicker)mainWindow.FindName("ReminderDate_DatePicker");
+            TextBox millageReminderTextBox = (TextBox)mainWindow.FindName("ReminderMillage_TextBox");
+            TextBox commentTextBlock = (TextBox)mainWindow.FindName("Comment_TextBox");
 
-            //ComboBox comboBox = (ComboBox)mainWindow.FindName("FuelType_ComboBox");
-            //ComboBoxItem comboBoxItem = (ComboBoxItem)comboBox.SelectedItem;
-            //Translation translation = (Translation)comboBoxItem.Tag;
-            //newRefueling.FuelType = translation.ENG;
+            if (nameTextBox.Text == "")
+            {
+                ((TextBox)mainWindow.FindName("Name_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                canConvertToJSON = false;
+            }
+            if (priceTextBox.Text == "")
+            {
+                ((TextBox)mainWindow.FindName("Price_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                canConvertToJSON = false;
+            }
 
-            //Grid toggleSwitch = (Grid)mainWindow.FindName("IsFull_ToggleSwitch");
-            //newRefueling.IsFull = (bool)((Grid)mainWindow.FindName("IsFull_ToggleSwitch")).Tag;
-            //newRefueling.Date = ((DatePicker)mainWindow.FindName("Date_DatePicker")).SelectedDate.ToString().Substring(0, 10);
-            //newRefueling.Time = ((TextBox)mainWindow.FindName("Time_TextBox")).Text;
-            //newRefueling.Comment = ((TextBox)mainWindow.FindName("Comment_TextBox")).Text;
+            newService.Name = nameTextBox.Text;
+            newService.Category = ((ComboBoxItem)categoryComboBox.SelectedItem).Content.ToString();
+            newService.IsNegative = (bool)negativeCost.Tag;
+            newService.Date = datePicker.SelectedDate.ToString().Substring(0, 10);
+            newService.Time = timeTextBox.Text;
+            if ((bool)remindME.Tag)
+            {
+                //CHCECK FORMAT
+                Reminder reminder = new();
+                reminder.Millage = int.Parse(millageReminderTextBox.Text);
+                reminder.Date = datePickerReminder.SelectedDate.ToString().Substring(0, 10);
+                newService.Reminder = reminder;
+            }
+            newService.Comment = commentTextBlock.Text;
 
-            //newRefueling.Distance = CalculateDistance(newRefueling.CarMillage, newRefueling.FuelType);
-            //newRefueling.Consumption = CalculateConsumption();
 
-
-            //if (canConvertToJSON)
-            //{
-            //    PUser.Vehicles[PUser.ActiveCarIndex].CarMillage = newRefueling.CarMillage;
-            //    PUser.Vehicles[PUser.ActiveCarIndex].Refulings.Add(newRefueling);
-            //    if (newRefueling.IsFull)
-            //    {
-            //        CalculateAverageFuelConsumption();
-            //    }
-
-            //    PUser.SerializeData();
-
-            //    mainWindow.OpenPage("RefuelingHistoryPage");
-            //}
+            if (canConvertToJSON)
+            {
+                PUser.Vehicles[PUser.ActiveCarIndex].Services.Add(newService);
+                PUser.Vehicles[PUser.ActiveCarIndex].CarMillage = newService.CarMillage;
+                PUser.SerializeData();
+                mainWindow.OpenPage("CostsPage");
+            }
         }
 
         private void TextBoxOnChange(object sender, TextChangedEventArgs e)

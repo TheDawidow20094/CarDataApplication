@@ -4,6 +4,7 @@ using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -27,12 +28,11 @@ namespace Car_Data_Application.Controllers
             newVehicle = new Vehicle();
             Grid MainGrid = new Grid();
 
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50)});
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(100) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(160) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(150) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(170) });
-            MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(80) });
+            List<int> RowsHeights = new List<int>() { 50, 100, 160, 150, 170, 80 };
+            foreach (int RowHeight in RowsHeights)
+            {
+                MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(RowHeight) });
+            }
 
             MainGrid.Children.Add(AddingTitle(config.MainPanel.AddVehiclePage));
             MainGrid.Children.Add(AddingVehiclePrimaryDataContent(config.MainPanel.AddVehiclePage));

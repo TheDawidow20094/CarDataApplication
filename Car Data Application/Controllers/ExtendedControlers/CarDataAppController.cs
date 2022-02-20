@@ -1,4 +1,5 @@
-﻿using Car_Data_Application.Models;
+﻿
+using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
 using System;
@@ -20,6 +21,7 @@ namespace Car_Data_Application.Controllers
         public string TextBoxBackgroundRedColor = "#FFD68A8A";
         public string LightTextColor = "#FF9C9397";
         public string DarkTextColor = "#FF2A2729"; // change to set in config
+
 
         public MainWindow mainWindow;
         public User PUser;
@@ -194,11 +196,13 @@ namespace Car_Data_Application.Controllers
             return Icon;
         }
 
-        public DatePicker GenerateDatePicker(string textboxname, int row, int column, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
+        public DatePicker GenerateDatePicker(string textboxname, int row, int column, DateTime selectedDate, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, CalendarDateRange calendarDateRange = null)
         {
             DatePicker datePicker = new();
 
-            datePicker.SelectedDate = DateTime.Now;
+            datePicker.SelectedDate = selectedDate;
+            datePicker.BlackoutDates.Add(calendarDateRange);
+
             datePicker.Width = 120;
             datePicker.Height = 30;
             datePicker.Margin = new Thickness(2, 2, 6, 2);
@@ -212,7 +216,7 @@ namespace Car_Data_Application.Controllers
             string TrimmedText = String.Concat(textboxname.Where(c => !Char.IsWhiteSpace(c)));
             string DatePickerName = TrimmedText + "_DatePicker";
 
-            if (null != mainWindow.FindName(DatePickerName))
+            if (mainWindow.FindName(DatePickerName) != null)
             {
                 mainWindow.UnregisterName(DatePickerName);
             }

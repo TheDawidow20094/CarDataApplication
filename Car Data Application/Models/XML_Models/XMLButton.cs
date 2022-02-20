@@ -25,5 +25,8 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlAttribute(AttributeName = "Icon")]
 		public string Icon { get; set; }
+
+		[XmlAttribute(AttributeName = "IsSmallButton")]
+		public bool IsSmallButton { get; set; }
 	}
 }
