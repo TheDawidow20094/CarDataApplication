@@ -24,11 +24,14 @@
     <XMLButton PL="Pojazdy" ENG="Vehicles" Name="VehiclesPage" IsEnabled="true" Icon="car.png"/>
     <XMLButton PL="Historia Tankowań" ENG="Refueling History" Name="RefuelingHistoryPage" IsEnabled="true" Icon="gas-station.png"/>
     <XMLButton PL="Statystyki" ENG="Stats" Name="StatsPage" IsEnabled="true" Icon="stats.png"/>
+    <XMLButton PL="Dane" ENG="Data" Name="DataStatsPage" IsEnabled="true" Icon="stats.png" IsSmallButton = "true"/>
+    <XMLButton PL="Wykresy" ENG="Charts" Name="ChartsStatsPage" IsEnabled="true" Icon="stats.png" IsSmallButton = "true"/>
     <XMLButton PL="Koszta" ENG="Costs" Name="CostsPage" IsEnabled="true" Icon="dollar.png"/>
     <XMLButton PL="Kopia Zapasowa" ENG="Backup" Name="BackupPage" IsEnabled="true" Icon="cloud-upload.png"/>
     <XMLButton PL="Kalkulator" ENG="Calculator" Name="CalculatorPage" IsEnabled="true" Icon="calculator.png"/>
     <XMLButton PL="Ustawienia" ENG="Settings" Name="SettingsPage" IsEnabled="true" Icon="settings.png"/>
   </SidePanel>
+
   <MainPanel>
     <AddButonList>
       <AddRefueling PL="Dodaj Tankowanie" ENG="Add Refueling"/>
@@ -80,6 +83,7 @@
         <InspectionEndDate PL="Koniec Ważności:" ENG="Next:"/>
         <InspectionPrice PL="Koszt:" ENG="Price:"/>
       </CyclicalCostGrid>
+      <RemoveButton  PL="Usuń" ENG="Delete"/>
     </VehiclesPage>
 
     <AddVehiclePage>
@@ -147,6 +151,34 @@
       <Consumption PL="Spalanie:" ENG="Consumption:"/>
     </RefuelingHistoryPage>
 
+    <StatsPage>
+      <StatsDataPage>
+        <RefuelingStatsTitle PL="Tankowania" ENG="Refuelings"/> 
+        <RefuelingsCount PL="Ilość Tankowań" ENG="Refuelings Count"/>
+        <RefuelingsCost PL="Koszt Wszystkich Tankowań" ENG="Refuelings Cost"/>
+        <GasolineCost PL="Koszt Tankowań - Benzyna" ENG="Gasoline Cost"/>
+        <DieselCost PL="Koszt Tankowań - Diesel" ENG="Diesel Cost"/>
+        <LPGCost PL="Koszt Tankowań - LPG" ENG="LPG Cost"/>
+        <LitersCount PL="Ilość Litrów" ENG="Liters Count"/>
+        <AverageConsumption PL="Średnie Spalanie" ENG="Average Consumption"/>
+
+        <ServicesStatsTitle PL="Serwisy" ENG="Services"/>       
+        <ServicesCount PL="Ilość Serwisów" ENG="Services Count"/> 
+        <ServicesCost PL="Koszt Wszystkich Serwisów" ENG="Services Cost"/> 
+
+        <UserStatsTitle PL="Statystyki Użytkownika" ENG="User Stats"/>
+        <VehiclesCount PL="Ilość Pojazdów" ENG="Vehicles Count"/>
+        <MonthlyMillage PL="Miesięczny Przebieg" ENG="Monthly Millage"/>
+        <YearlyMillage PL="Roczny Przebieg" ENG="Yearly Millage"/>
+        <FuelCostAllVehicles PL="Koszt Paliwa" ENG="Fuel Cost"/>
+        <ServicesCostAllVehicles PL="Koszt Serwisów" ENG="Services Cost"/>
+        <AllCostCount PL="Suma Wszystkich Kosztów" ENG="All Cost Count"/>
+      </StatsDataPage>
+      
+      <StatsChartsPage>
+      </StatsChartsPage>
+    </StatsPage>
+
     <CostPage>
       <Cost PL="Koszt:" ENG="Cost:"/>
       <Type PL="Typ:" ENG="Type:"/>
@@ -167,6 +199,13 @@
       <Reminder PL="Przypomnij mi" ENG="Remind me"/>
       <ButtonText PL="Dodaj Serwis" ENG="Add Serwis"/>
     </AddCostPage>
+
+    <BackupPanel>
+      <ApiBackupTitle PL="Serwer" ENG="Server"/>
+      <GoogleBackupTitle PL="Google" ENG="Google"/>
+      <ImportButton PL="Importuj" ENG="Import"/>
+      <ExportButton PL="Eksportuj" ENG="Export"/>
+    </BackupPanel>
 
     <SettingsPage>
       <Language PL="Język:" ENG="Language:"/>

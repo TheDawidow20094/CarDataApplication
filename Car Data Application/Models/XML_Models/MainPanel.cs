@@ -38,6 +38,9 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "AddCostPage")]
 		public AddCostPage AddCostPage { get; set; }
 
+		[XmlElement(ElementName = "BackupPanel")]
+		public BackupPanel BackupPanel { get; set; }
+
 		[XmlElement(ElementName = "SettingsPage")]
 		public SettingsPage SettingsPage { get; set; }
 
@@ -46,5 +49,8 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "AddVehiclePage")]
 		public AddVehiclePage AddVehiclePage { get; set; }
+
+		[XmlElement(ElementName = "StatsPage")]
+		public StatsPage StatsPage { get; set; }
 	}
 }

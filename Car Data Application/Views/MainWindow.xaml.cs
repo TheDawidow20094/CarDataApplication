@@ -36,19 +36,21 @@ namespace Car_Data_Application.Views
         private AddRefuelingPageGenerator AddRefuelingPageGenerator = new();
         private AddCostPageGenerator AddCostPageGenerator = new();
         private AddVehiclePageGenerator AddVehiclePageGenerator = new();
+        private BackupPanelGenerator BackupPanelGenerator = new();
+        private Stats_DataContent Stats_DataContent = new();
 
         private BrushConverter Converter = new BrushConverter();
         public string WhereAreYou = string.Empty;
         private User User = new User();
         private Config config;
         private CarDataAppController carDataAppController;
+        private Grid SidePanel;
 
 
         public MainWindow()
         {
-            InitializeData();
             InitializeComponent();
-            GenerateSidePanel();
+            InitializeData();
             SetFooterData();
 
             carDataAppController.GoToHomePage(this, User, config);
@@ -59,24 +61,32 @@ namespace Car_Data_Application.Views
             carDataAppController = new CarDataAppController() { PUser = User, mainWindow = this, config = config };
             string JsonResultUser = File.ReadAllText(@"../../../JSON_Files/VehiclesTestJson.json", Encoding.UTF8);
             User = JsonConvert.DeserializeObject<User>(JsonResultUser);
+            config = ReadXML();
+            GenerateSidePanel();
         }
 
         private void GenerateSidePanel()
         {
-            config = ReadXML();
+            ScrollViewer SidePanelScrollViewer = new();
+            SidePanelScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            Grid.SetRow(SidePanelScrollViewer, 0);
+            Grid.SetColumn(SidePanelScrollViewer, 0);
 
-            Grid SidePanel = new Grid();
+            SidePanel = new Grid();
+            if (this.FindName("SidePanel") != null)
+            {
+                this.UnregisterName("SidePanel");
+            }
             this.RegisterName("SidePanel", SidePanel);
             SidePanel.Background = (Brush)Converter.ConvertFromString("#FF2A2729");
-            Grid.SetRow(SidePanel, 0);
-            Grid.SetColumn(SidePanel, 0);
+
+            SidePanelScrollViewer.Content = SidePanel;
 
             int index = 0;
             foreach (XMLButton XmlButton in config.SidePanel.XMLButton)
             {
                 if (XmlButton.IsEnabled)
                 {
-                    SidePanel.RowDefinitions.Add(new RowDefinition());
 
                     Grid SidePanelButton = new Grid();
                     SidePanelButton.Name = XmlButton.Name;
@@ -90,11 +100,24 @@ namespace Car_Data_Application.Views
                     SidePanelButtonContent.Foreground = (Brush)Converter.ConvertFromString("#EDEDED");
                     SidePanelButtonContent.FontWeight = FontWeights.Bold;
                     SidePanelButtonContent.FontFamily = new FontFamily("Global User Interface");
-                    SidePanelButtonContent.FontSize = 16;
-
                     SidePanelButtonContent.VerticalAlignment = VerticalAlignment.Center;
                     SidePanelButtonContent.HorizontalAlignment = HorizontalAlignment.Left;
-                    SidePanelButtonContent.Margin = new Thickness(50, 0, 0, 0);
+
+                    RowDefinition rowDefinition = new RowDefinition();
+                    if (XmlButton.IsSmallButton)
+                    {
+                        SidePanelButtonContent.Margin = new Thickness(70, 0, 0, 0);
+                        SidePanelButtonContent.FontSize = 14;
+                        rowDefinition.Height = new GridLength(0);
+                        rowDefinition.Tag = "Statistics";
+                    }
+                    else
+                    {
+                        SidePanelButtonContent.Margin = new Thickness(50, 0, 0, 0);
+                        SidePanelButtonContent.FontSize = 16;
+                    }
+                    SidePanel.RowDefinitions.Add(rowDefinition);
+
 
                     switch (User.UserLanguage)
                     {
@@ -116,7 +139,14 @@ namespace Car_Data_Application.Views
                     SidePanelButtonIcon.Height = 22;
                     SidePanelButtonIcon.HorizontalAlignment = HorizontalAlignment.Left;
                     SidePanelButtonIcon.VerticalAlignment = VerticalAlignment.Center;
-                    SidePanelButtonIcon.Margin = new Thickness(18, 0, 0, 0);
+                    if (XmlButton.IsSmallButton)
+                    {
+                        SidePanelButtonIcon.Margin = new Thickness(38, 0, 0, 0);
+                    }
+                    else
+                    {
+                        SidePanelButtonIcon.Margin = new Thickness(18, 0, 0, 0);
+                    }
 
                     SidePanelButton.Children.Add(SidePanelButtonIcon);
 
@@ -134,7 +164,7 @@ namespace Car_Data_Application.Views
                     index++;
                 }
             }
-            this.MainGrid.Children.Add(SidePanel);
+            this.MainGrid.Children.Add(SidePanelScrollViewer);
         }
 
         public void OpenPage(string pageName)
@@ -170,6 +200,35 @@ namespace Car_Data_Application.Views
 
                 case "StatsPage":
                     AddButon.Visibility = Visibility.Hidden;
+                    
+                    foreach (RowDefinition rowDefinition in SidePanel.RowDefinitions)
+                    {
+                        if ((rowDefinition.Tag == "Statistics") && (rowDefinition.ActualHeight == 0))
+                        {
+                            rowDefinition.Height = new GridLength(40);
+                            SidePanel.Height = SidePanel.ActualHeight + 80;
+                        }
+                        else if ((rowDefinition.Tag == "Statistics") && (rowDefinition.ActualHeight == 40))
+                        {
+                            rowDefinition.Height = new GridLength(0);
+                            SidePanel.Height = SidePanel.ActualHeight - 80;
+                        }
+
+                    }
+
+                    this.WhereAreYou = "StatsPage";
+                    carDataAppController.SetButtonColor(this.WhereAreYou, SidePanel);
+                    break;
+
+                case "DataStatsPage":
+                    AddButon.Visibility = Visibility.Hidden;
+                    Stats_DataContent.PageGenerator(this, User, config.MainPanel.StatsPage.StatsDataPage);
+                    break;
+
+                case "ChartsStatsPage":
+                    AddButon.Visibility = Visibility.Hidden;
+                    this.WhereAreYou = "ChartsStatsPage";
+                    carDataAppController.SetButtonColor(this.WhereAreYou, SidePanel);
                     break;
 
                 case "CostsPage":
@@ -179,6 +238,7 @@ namespace Car_Data_Application.Views
 
                 case "BackupPage":
                     AddButon.Visibility = Visibility.Hidden;
+                    BackupPanelGenerator.PanelGenerator(this, User, config.MainPanel.BackupPanel);
                     break;
 
                 case "CalculatorPage":
@@ -322,7 +382,7 @@ namespace Car_Data_Application.Views
                     this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
 
-                case "AddService_Button":
+                case "AddCost_Button":
                     AddCostPageGenerator.PageGenerator(this, User, config);
                     this.AddButtonList.Visibility = Visibility.Hidden;
                     break;
