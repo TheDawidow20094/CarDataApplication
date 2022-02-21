@@ -22,5 +22,8 @@ namespace Car_Data_Application.Models.XML_Models
 
 		[XmlElement(ElementName = "CyclicalCostGrid")]
 		public CyclicalCostGrid CyclicalCostGrid { get; set; }
+
+		[XmlElement(ElementName = "RemoveButton")]
+		public Translation RemoveButton { get; set; }
 	}
 }

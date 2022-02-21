@@ -268,7 +268,8 @@ namespace Car_Data_Application.Controllers
             DataContentGrid.Children.Add(GenerateTextBlock(translation.Date, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
             DataContentGrid.Children.Add(GenerateTextBlock(translation.Time, PUser.UserLanguage, 0, 2, LightTextColor, HorizontalAlignment.Right));
 
-            DataContentGrid.Children.Add(GenerateDatePicker(translation.Date.ENG.TrimEnd(':'), 0, 1));
+            DateTime Tomorow = (DateTime.Now).AddDays(1);
+            DataContentGrid.Children.Add(GenerateDatePicker("Date", 0, 1, DateTime.Now, calendarDateRange: new CalendarDateRange(Tomorow, DateTime.MaxValue)));
 
             TextBox textBox = GenerateTextBox(translation.Time.ENG.TrimEnd(':'), 0, 3, false, HorizontalAlignment.Left, DateTime.Now.TimeOfDay.ToString().Substring(0, 5));
             textBox.LostFocus += CheckTimeFormat;
@@ -423,6 +424,7 @@ namespace Car_Data_Application.Controllers
             if (StartAddnigLiters)
             {
                 double AverageFuelConsumption = UsedLiters / (newRefueling.CarMillage - FirstIsFullRefuelingMillage);
+                PUser.Vehicles[PUser.ActiveCarIndex].AverageFuelConsumption = AverageFuelConsumption;
             }
 
         }

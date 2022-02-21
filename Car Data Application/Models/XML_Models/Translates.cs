@@ -479,4 +479,87 @@ namespace Car_Data_Application.Models.XML_Models
 		[XmlElement(ElementName = "Inspection")]
 		public Translation Inspection { get; set; }
 	}
+
+	[XmlRoot(ElementName = "BackupPanel")]
+	public class BackupPanel
+	{
+		[XmlElement(ElementName = "ApiBackupTitle")]
+		public Translation ApiBackupTitle { get; set; }
+
+		[XmlElement(ElementName = "GoogleBackupTitle")]
+		public Translation GoogleBackupTitle { get; set; }
+
+		[XmlElement(ElementName = "ImportButton")]
+		public Translation ImportButton { get; set; }
+
+		[XmlElement(ElementName = "ExportButton")]
+		public Translation ExportButton { get; set; }
+
+	}
+
+	[XmlRoot(ElementName = "StatsDataPage")]
+	public class StatsDataPage
+	{
+		[XmlElement(ElementName = "RefuelingStatsTitle")]
+		public Translation RefuelingStatsTitle { get; set; }
+
+		[XmlElement(ElementName = "RefuelingsCount")]
+		public Translation RefuelingsCount { get; set; }
+
+		[XmlElement(ElementName = "RefuelingsCost")]
+		public Translation RefuelingsCost { get; set; }
+
+		[XmlElement(ElementName = "GasolineCost")]
+		public Translation GasolineCost { get; set; }
+
+		[XmlElement(ElementName = "DieselCost")]
+		public Translation DieselCost { get; set; }
+
+		[XmlElement(ElementName = "LPGCost")]
+		public Translation LPGCost { get; set; }
+
+		[XmlElement(ElementName = "LitersCount")]
+		public Translation LitersCount { get; set; }
+
+		[XmlElement(ElementName = "AverageConsumption")]
+		public Translation AverageConsumption { get; set; }
+
+		[XmlElement(ElementName = "ServicesStatsTitle")]
+		public Translation ServicesStatsTitle { get; set; }
+
+		[XmlElement(ElementName = "ServicesCount")]
+		public Translation ServicesCount { get; set; }
+
+		[XmlElement(ElementName = "ServicesCost")]
+		public Translation ServicesCost { get; set; }
+
+		[XmlElement(ElementName = "UserStatsTitle")]
+		public Translation UserStatsTitle { get; set; }
+
+		[XmlElement(ElementName = "VehiclesCount")]
+		public Translation VehiclesCount { get; set; }
+
+		[XmlElement(ElementName = "MonthlyMillage")]
+		public Translation MonthlyMillage { get; set; }
+
+		[XmlElement(ElementName = "YearlyMillage")]
+		public Translation YearlyMillage { get; set; }
+
+		[XmlElement(ElementName = "FuelCostAllVehicles")]
+		public Translation FuelCostAllVehicles { get; set; }
+
+		[XmlElement(ElementName = "ServicesCostAllVehicles")]
+		public Translation ServicesCostAllVehicles { get; set; }
+
+		[XmlElement(ElementName = "AllCostCount")]
+		public Translation AllCostCount { get; set; }
+
+
+	}
+
+	[XmlRoot(ElementName = "StatsChartsPage")]
+	public class StatsChartsPage
+	{
+
+	}
 }
