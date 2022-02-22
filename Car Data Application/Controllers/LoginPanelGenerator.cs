@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace Car_Data_Application.Controllers
 {
@@ -23,8 +25,9 @@ namespace Car_Data_Application.Controllers
         private Storyboard EntryAnimationStoryboard = new Storyboard();
         private Storyboard ExitAnimationStoryboard = new Storyboard();
         private Storyboard GotoOtherPageAnimationStoryboard = new Storyboard();
+        private Storyboard myWidthAnimatedButtonStoryboard = new Storyboard();
 
-        public Storyboard myWidthAnimatedButtonStoryboard = new Storyboard();
+        private bool PSendToApi = true;
 
         public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
@@ -78,7 +81,7 @@ namespace Car_Data_Application.Controllers
             LoginWindowGrid.Children.Add(GenerateTextBox("UserName", 1, 1));
             LoginWindowGrid.Children.Add(GenerateTextBox("Password", 2, 1));
 
-            Button LoginButton = GenerateButton(translation.LogInButton, PUser.UserLanguage, 3 ,0);
+            Button LoginButton = GenerateButton(translation.LogInButton, PUser.UserLanguage, 3, 0);
             Grid.SetColumnSpan(LoginButton, 2);
             LoginButton.Click += LoginButtonClick;
             LoginWindowGrid.Children.Add(LoginButton);
@@ -119,7 +122,40 @@ namespace Car_Data_Application.Controllers
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Logowanie");
+            TextBox UserName_TextBox = (TextBox)mainWindow.FindName("UserName_TextBox");
+            TextBox Password_TextBox = (TextBox)mainWindow.FindName("Password_TextBox");
+
+
+            UserName_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            Password_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+
+            if (UserName_TextBox.Text == "")
+            {
+                ((TextBox)mainWindow.FindName("UserName_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                PSendToApi = false;
+            }
+            if (Password_TextBox.Text == "")
+            {
+                ((TextBox)mainWindow.FindName("Password_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                PSendToApi = false;
+            }
+            if(PSendToApi)
+            {
+                string ApiResponse = HttpGet("https://localhost:7074/api/getuser?dbpassword=" + PDbPassword + "&login=" + UserName_TextBox.Text + "&password=" + Password_TextBox.Text);
+
+                if (ApiResponse == "No user found" || ApiResponse == "")
+                {
+                    MessageBox.Show("Nie udało się zalogować!");
+                    
+                }
+                else
+                {
+                    PUser = JsonConvert.DeserializeObject<User>(ApiResponse);
+                    PUser.SerializeData();
+                    RefreshApp();
+                }
+
+            }
         }
 
         private async void PageClose(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -196,5 +232,24 @@ namespace Car_Data_Application.Controllers
                 storyboard.Children.Add(OpacityAnimation);
             }
         }
+
+        //private TextBox GenerateTextBoxWithHandler(string textboxname, int row, int column)
+        //{
+        //    TextBox textBox = GenerateTextBox(textboxname, row, column);
+        //    textBox.LostFocus += TextBoxLostFocus;
+        //    return textBox;
+        //}
+
+        //private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    TextBox textBox = (TextBox)sender;
+        //    textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+
+        //    if (HttpGet("https://localhost:7074/api/checksernameexist?dbpassword=" + PDbPassword + "&login=" + textBox.Text) != "Username is available")
+        //    {
+        //        PSendToApi = false;
+        //        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+        //    }
+        //}
     }
 }

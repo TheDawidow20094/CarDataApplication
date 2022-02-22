@@ -4,7 +4,9 @@ using Car_Data_Application.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +25,8 @@ namespace Car_Data_Application.Controllers
         private Storyboard ExitAnimationStoryboard = new();
 
         public Storyboard myWidthAnimatedButtonStoryboard = new Storyboard();
+
+        private static readonly HttpClient client = new HttpClient();
 
         public void PageGenerator(MainWindow mw, User user, RegisterPanel translation, string lastOpenedPage, Grid grayedGrid)
         {
@@ -91,9 +95,22 @@ namespace Car_Data_Application.Controllers
             SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
         }
 
-        private void RegisterButtonClick(object sender, RoutedEventArgs e)
+        private async void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Rejestrowanie");
+            TextBox UserName_TextBox = (TextBox)mainWindow.FindName("UserName_TextBox");
+            TextBox Password_TextBox = (TextBox)mainWindow.FindName("Password_TextBox");
+            TextBox Email_TextBox = (TextBox)mainWindow.FindName("Email_TextBox");
+
+            PUser.Login = UserName_TextBox.Text;
+            PUser.Password = Password_TextBox.Text;
+            PUser.Email = Email_TextBox.Text;
+
+
+
+            string json = JsonSerializer.Serialize<User>(PUser);
+
+            MessageBox.Show(HttpPost("https://localhost:7074/api/adduser?dbpassword=" + PDbPassword, json));
+
         }
 
         private void GenerateAnimation(ref Grid LoginWindowGrid, string animationType)

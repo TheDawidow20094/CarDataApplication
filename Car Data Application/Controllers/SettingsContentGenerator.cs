@@ -261,9 +261,10 @@ namespace Car_Data_Application.Controllers
 
             PUser.SerializeData();
 
-            MainWindow RefreshApp = new MainWindow();
-            RefreshApp.Show();
-            mainWindow.Close();
+            //MainWindow RefreshApp = new MainWindow();
+            //RefreshApp.Show();
+            //mainWindow.Close();
+            RefreshApp();
         }
     }
 }

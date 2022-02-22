@@ -9,7 +9,7 @@ namespace CarDataApplicationAPI.Controllers
 
     public class CheckUserNameExistController : Controller
     {
-        [HttpPost]
+        [HttpGet]
         public IActionResult ChceckUserExist(string dbpassword, string login)
         {
             if (dbpassword != "dUmv9Fq/8D6y9Rwh")
@@ -33,7 +33,7 @@ namespace CarDataApplicationAPI.Controllers
             MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
             {
-                return BadRequest("Username already taken!");
+                return Ok("Username already taken!");
                 cn.Close();
             }
                 return Ok("Username is available");

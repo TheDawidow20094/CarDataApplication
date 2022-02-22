@@ -37,7 +37,7 @@ namespace CarDataApplicationAPI.Controllers
                 return Ok(reader[0]);
                 cn.Close();
             }
-            return BadRequest("No data!");
+            return Ok("No data!");
             cn.Close();
         }
     }

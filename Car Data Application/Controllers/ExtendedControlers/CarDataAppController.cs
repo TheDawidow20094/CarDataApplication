@@ -1,4 +1,5 @@
 ﻿
+using Car_Data_Application.Controllers.ExtendedControlers;
 using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
@@ -15,7 +16,7 @@ using System.Windows.Shapes;
 
 namespace Car_Data_Application.Controllers
 {
-    class CarDataAppController
+    class CarDataAppController : HttpController
     {
         public string TextBoxBackgroundColor = "#FFD6CFD3";
         public string TextBoxBackgroundRedColor = "#FFD68A8A";
@@ -450,6 +451,13 @@ namespace Car_Data_Application.Controllers
                 str = str.Replace(c.ToString(), string.Empty); 
             }
             return str;
+        }
+
+        public void RefreshApp()
+        {
+            MainWindow RefreshApp = new MainWindow();
+            RefreshApp.Show();
+            mainWindow.Close();
         }
     }
 }
