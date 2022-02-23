@@ -29,6 +29,8 @@ namespace Car_Data_Application.Controllers
         public BrushConverter Converter = new BrushConverter();
         public Config config;
 
+
+
         public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
             foreach (Grid Button in SidePanel.Children)
@@ -68,6 +70,9 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(grid, row);
 
         }
+
+
+
 
         public TextBlock GenerateTextBlock(
             Translation text,
@@ -419,6 +424,41 @@ namespace Car_Data_Application.Controllers
 
             return comboBox;
         }
+
+        public PasswordBox GeneratePasswordBox(string passwordboxname, int row, int column,  HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, Visibility visibility = Visibility.Visible)
+        {
+            PasswordBox passwordBox = new PasswordBox();
+            passwordBox.Width = 120;
+            passwordBox.Height = 30;
+            passwordBox.Margin = new Thickness(2, 2, 6, 2);
+            passwordBox.VerticalContentAlignment = VerticalAlignment.Center;
+
+            passwordBox.FontSize = 16;
+            passwordBox.HorizontalAlignment = horizontalAlignment;
+            passwordBox.BorderThickness = new Thickness(0);
+            passwordBox.FontWeight = FontWeights.Bold;
+            passwordBox.Visibility = visibility;
+            passwordBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            passwordBox.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+            passwordBox.FontFamily = new FontFamily("Global User Interface");
+
+            string PasswordBoxName = String.Concat(passwordboxname.Where(c => !Char.IsWhiteSpace(c))) + "_PasswordBox";
+
+
+            if (null != mainWindow.FindName(PasswordBoxName))
+            {
+                mainWindow.UnregisterName(PasswordBoxName);
+            }
+            mainWindow.RegisterName(PasswordBoxName, passwordBox);
+            passwordBox.SetValue(FrameworkElement.NameProperty, PasswordBoxName);
+
+            Grid.SetRow(passwordBox, row);
+            Grid.SetColumn(passwordBox, column);
+
+            return passwordBox;
+        }
+
+
 
         private void ToggleSwitchClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

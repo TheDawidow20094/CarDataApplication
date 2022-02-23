@@ -65,24 +65,32 @@ namespace Car_Data_Application.Controllers
                 FuelDataGridContent.RowDefinitions.Add(new RowDefinition());
             }
 
-            int LastRefuelingElement = user.Vehicles[user.ActiveCarIndex].Refulings.Count();
-
-            FuelDataGridContent.Children.Add(GenerateTextBlock(translation.AverageConsumption, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
-            FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastConsumption, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
-            FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastFuelPrice, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
-
-            FuelDataGridContent.Children.Add(GenerateTextBlock(null, Math.Round(user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption, 2).ToString() + " L/100km", 0, 1));
-            if (LastRefuelingElement > 0)
+            try
             {
-                FuelDataGridContent.Children.Add(GenerateTextBlock(null, Math.Round(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].Consumption, 2).ToString() + " L/100km", 1, 1));
-                FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].TotalPrice.ToString() + " zł", 2, 1));
+                int LastRefuelingElement = user.Vehicles[user.ActiveCarIndex].Refulings.Count();
+
+                FuelDataGridContent.Children.Add(GenerateTextBlock(translation.AverageConsumption, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastConsumption, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastFuelPrice, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+
+                FuelDataGridContent.Children.Add(GenerateTextBlock(null, Math.Round(user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption, 2).ToString() + " L/100km", 0, 1));
+                if (LastRefuelingElement > 0)
+                {
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(null, Math.Round(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].Consumption, 2).ToString() + " L/100km", 1, 1));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].TotalPrice.ToString() + " zł", 2, 1));
+                }
+                else
+                {
+
+                }
+
+                FuelDataGrid.Children.Add(FuelDataGridContent);
             }
-            else
+            catch (Exception)
             {
 
             }
-
-            FuelDataGrid.Children.Add(FuelDataGridContent);
+            
 
 
             return FuelDataGrid;

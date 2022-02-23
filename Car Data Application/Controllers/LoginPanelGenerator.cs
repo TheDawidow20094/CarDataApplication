@@ -27,7 +27,7 @@ namespace Car_Data_Application.Controllers
         private Storyboard GotoOtherPageAnimationStoryboard = new Storyboard();
         private Storyboard myWidthAnimatedButtonStoryboard = new Storyboard();
 
-        private bool PSendToApi = true;
+        private bool PSendToApi;
 
         public void PageGenerator(MainWindow mw, User user, Config paramConfig)
         {
@@ -79,7 +79,8 @@ namespace Car_Data_Application.Controllers
             LoginWindowGrid.Children.Add(GenerateTextBlock(translation.Password, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
 
             LoginWindowGrid.Children.Add(GenerateTextBox("UserName", 1, 1));
-            LoginWindowGrid.Children.Add(GenerateTextBox("Password", 2, 1));
+            //LoginWindowGrid.Children.Add(GenerateTextBox("Password", 2, 1));
+            LoginWindowGrid.Children.Add(GeneratePasswordBox("Password", 2, 1));
 
             Button LoginButton = GenerateButton(translation.LogInButton, PUser.UserLanguage, 3, 0);
             Grid.SetColumnSpan(LoginButton, 2);
@@ -122,8 +123,10 @@ namespace Car_Data_Application.Controllers
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
+            PSendToApi = true;
+
             TextBox UserName_TextBox = (TextBox)mainWindow.FindName("UserName_TextBox");
-            TextBox Password_TextBox = (TextBox)mainWindow.FindName("Password_TextBox");
+            PasswordBox Password_TextBox = (PasswordBox)mainWindow.FindName("Password_PasswordBox");
 
 
             UserName_TextBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
@@ -134,26 +137,21 @@ namespace Car_Data_Application.Controllers
                 ((TextBox)mainWindow.FindName("UserName_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
                 PSendToApi = false;
             }
-            if (Password_TextBox.Text == "")
+            if (Password_TextBox.Password == "")
             {
                 ((TextBox)mainWindow.FindName("Password_TextBox")).Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
                 PSendToApi = false;
             }
             if(PSendToApi)
             {
-                string ApiResponse = HttpGet("https://localhost:7074/api/getuser?dbpassword=" + PDbPassword + "&login=" + UserName_TextBox.Text + "&password=" + Password_TextBox.Text);
+                string ApiResponse = HttpGet("https://localhost:7074/api/getuser?dbpassword=" + PDbPassword + "&login=" + UserName_TextBox.Text + "&password=" + Password_TextBox.Password);
 
-                if (ApiResponse == "No user found" || ApiResponse == "")
-                {
-                    MessageBox.Show("Nie udało się zalogować!");
-                    
-                }
-                else
+                if (HttpCheckRequest(ApiResponse) != "false")
                 {
                     PUser = JsonConvert.DeserializeObject<User>(ApiResponse);
                     PUser.SerializeData();
                     RefreshApp();
-                }
+                }     
 
             }
         }
@@ -233,23 +231,5 @@ namespace Car_Data_Application.Controllers
             }
         }
 
-        //private TextBox GenerateTextBoxWithHandler(string textboxname, int row, int column)
-        //{
-        //    TextBox textBox = GenerateTextBox(textboxname, row, column);
-        //    textBox.LostFocus += TextBoxLostFocus;
-        //    return textBox;
-        //}
-
-        //private void TextBoxLostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    TextBox textBox = (TextBox)sender;
-        //    textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
-
-        //    if (HttpGet("https://localhost:7074/api/checksernameexist?dbpassword=" + PDbPassword + "&login=" + textBox.Text) != "Username is available")
-        //    {
-        //        PSendToApi = false;
-        //        textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
-        //    }
-        //}
     }
 }

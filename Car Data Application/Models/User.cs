@@ -44,5 +44,11 @@ namespace Car_Data_Application.Models
             string jsonString = JsonSerializer.Serialize(this);
             File.WriteAllText(@"../../../JSON_Files/VehiclesTestJson.json", jsonString);
         }
+
+        public string SerializeData(object data)
+        {
+            string jsonString = JsonSerializer.Serialize(data);
+            return jsonString;
+        }
     }
 }

@@ -23,10 +23,9 @@ namespace Car_Data_Application.Controllers
 
         private Storyboard EntryAnimationStoryboard = new();
         private Storyboard ExitAnimationStoryboard = new();
+        private Storyboard myWidthAnimatedButtonStoryboard = new Storyboard();
 
-        public Storyboard myWidthAnimatedButtonStoryboard = new Storyboard();
-
-        private static readonly HttpClient client = new HttpClient();
+        private bool PSendToApi;
 
         public void PageGenerator(MainWindow mw, User user, RegisterPanel translation, string lastOpenedPage, Grid grayedGrid)
         {
@@ -55,12 +54,11 @@ namespace Car_Data_Application.Controllers
             {
                 RegisterWindowGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
-            RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(60) });
-            RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(60) });
-            RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(60) });
-            RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
-            RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(70) });
+            List<int> Rows = new List<int>{ 70 , 60, 60, 60, 70, 70 };
+            foreach (int row in Rows)
+            {
+                RegisterWindowGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(row) });
+            }
 
             RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RegisterTitle, PUser.UserLanguage, 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
             RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.UserName, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
@@ -68,9 +66,9 @@ namespace Car_Data_Application.Controllers
             RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.RePassword, PUser.UserLanguage, 3, 0, LightTextColor, HorizontalAlignment.Right));
             RegisterWindowGrid.Children.Add(GenerateTextBlock(translation.Email, PUser.UserLanguage, 4, 0, LightTextColor, HorizontalAlignment.Right));
 
-            RegisterWindowGrid.Children.Add(GenerateTextBox("UserName", 1, 1));
-            RegisterWindowGrid.Children.Add(GenerateTextBox("Password", 2, 1));
-            RegisterWindowGrid.Children.Add(GenerateTextBox("RePassword", 3, 1));
+            RegisterWindowGrid.Children.Add(GenerateTextBoxWithHandler("UserName", 1, 1));
+            RegisterWindowGrid.Children.Add(GeneratePasswordBox("Password", 2, 1));
+            RegisterWindowGrid.Children.Add(GeneratePasswordBox("RePassword", 3, 1));
             RegisterWindowGrid.Children.Add(GenerateTextBox("Email", 4, 1));
 
             Button RegisterButton = GenerateButton(translation.RegisterButton, PUser.UserLanguage, 5, 0);
@@ -92,25 +90,48 @@ namespace Car_Data_Application.Controllers
             PUser = user;
             LastOpenedPage = lastOpenedPage;
             GrayedGrid = grayedGrid;
-            SetButtonColor(mainWindow.WhereAreYou, ((Grid)mainWindow.FindName("SidePanel")));
+            SetButtonColor(mainWindow.WhereAreYou, (Grid)mainWindow.FindName("SidePanel"));
         }
 
-        private async void RegisterButtonClick(object sender, RoutedEventArgs e)
+        private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
+            PSendToApi = true;
+
             TextBox UserName_TextBox = (TextBox)mainWindow.FindName("UserName_TextBox");
-            TextBox Password_TextBox = (TextBox)mainWindow.FindName("Password_TextBox");
+            PasswordBox Password_PasswordBox = (PasswordBox)mainWindow.FindName("Password_PasswordBox");
+            PasswordBox RePassword_PasswordBox = (PasswordBox)mainWindow.FindName("RePassword_PasswordBox");
             TextBox Email_TextBox = (TextBox)mainWindow.FindName("Email_TextBox");
 
-            PUser.Login = UserName_TextBox.Text;
-            PUser.Password = Password_TextBox.Text;
-            PUser.Email = Email_TextBox.Text;
 
+            Password_PasswordBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            RePassword_PasswordBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            if (Password_PasswordBox.Password != RePassword_PasswordBox.Password)
+            {
+                Password_PasswordBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                RePassword_PasswordBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
+                PSendToApi = false;
+            }
+            if (PSendToApi)
+            {
+                PUser.Login = UserName_TextBox.Text;
+                PUser.Password = Password_PasswordBox.Password;
+                PUser.Email = Email_TextBox.Text;
 
+                string json = JsonSerializer.Serialize(PUser);
+                if (HttpCheckRequest(HttpPost("https://localhost:7074/api/adduser?dbpassword=" + PDbPassword, json)) != "false")
+                {
+                    PUser.SerializeData();
 
-            string json = JsonSerializer.Serialize<User>(PUser);
-
-            MessageBox.Show(HttpPost("https://localhost:7074/api/adduser?dbpassword=" + PDbPassword, json));
-
+                    string ApiResponse = HttpGet("https://localhost:7074/api/getuser?dbpassword=" + PDbPassword + "&login=" + PUser.Login + "&password=" + PUser.Password);
+                    if (HttpCheckRequest(ApiResponse) != "false")
+                    {
+                        PUser = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(ApiResponse);
+                        PUser.SerializeData();
+                        RefreshApp();
+                    }
+                }
+                
+            }
         }
 
         private void GenerateAnimation(ref Grid LoginWindowGrid, string animationType)
@@ -162,6 +183,25 @@ namespace Car_Data_Application.Controllers
                 Storyboard.SetTargetProperty(OpacityAnimation, new PropertyPath(Grid.OpacityProperty));
 
                 storyboard.Children.Add(OpacityAnimation);
+            }
+        }
+
+        private TextBox GenerateTextBoxWithHandler(string textboxname, int row, int column)
+        {
+            TextBox textBox = GenerateTextBox(textboxname, row, column);
+            textBox.LostFocus += TextBoxLostFocus;
+            return textBox;
+        }
+
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+
+            if (HttpGet("https://localhost:7074/api/checksernameexist?dbpassword=" + PDbPassword + "&login=" + textBox.Text) != "Username is available")
+            {
+                PSendToApi = false;
+                textBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundRedColor);
             }
         }
     }

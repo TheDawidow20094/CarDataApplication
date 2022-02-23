@@ -281,8 +281,15 @@ namespace Car_Data_Application.Views
 
         private void SetFooterData()
         {
-            Footer_VehicleName.Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
-            Footer_VehicleMillage.Text = User.Vehicles[User.ActiveCarIndex].CarMillage + " km";
+            if (User.Vehicles.Count == 0)
+            {
+                Footer_VehicleName.Text = "No Car Add";
+            }
+            else 
+            {
+                Footer_VehicleName.Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
+                Footer_VehicleMillage.Text = User.Vehicles[User.ActiveCarIndex].CarMillage + " km";
+            }
             UserName.Text = User.Login;
         }
 

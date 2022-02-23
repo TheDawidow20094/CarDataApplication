@@ -36,6 +36,7 @@ namespace Car_Data_Application.Controllers.ExtendedControlers
                 }
             }
 
+            catch (WebException) { source = "BadRequest"; }
             catch (Exception) { }
 
             return source;
@@ -53,6 +54,7 @@ namespace Car_Data_Application.Controllers.ExtendedControlers
             request.ContentLength = ByteArray.Length;  
 
             Stream DataStream = null;
+            string ResponseFromServer = string.Empty;
 
             try
             {
@@ -60,9 +62,9 @@ namespace Car_Data_Application.Controllers.ExtendedControlers
                 DataStream.Write(ByteArray, 0, ByteArray.Length);
                 DataStream.Close();
             }
+            catch (WebException) { ResponseFromServer = "BadRequest"; }
             catch (Exception) { }
 
-            string ResponseFromServer = string.Empty;
             StreamReader Reader = null;
             HttpWebResponse Response = null;
 
@@ -80,6 +82,39 @@ namespace Car_Data_Application.Controllers.ExtendedControlers
             catch (Exception) { }
 
             return ResponseFromServer;
+        }
+
+        public string HttpCheckRequest(string request)
+        {
+            string data = request;
+
+            if (data == "No user found")
+            {
+                MessageBox.Show("Wrong login or password");
+                data = "false";
+            }
+            if (data == "BadRequest")
+            {
+                MessageBox.Show("Request Error, Check your network connection");
+                data = "false";
+            }
+            if (data == "" || data == "No user found" || data == "No data!")
+            {
+                MessageBox.Show("Unexpected Error");
+                data = "false";
+            }
+            if (data == "False")
+            {
+                MessageBox.Show("Your request failed, please try again");
+                data = "false";
+            }
+            if (data == "Wrong Old Password!")
+            {
+                MessageBox.Show("Your typed wrong password");
+                data = "false";
+            }
+
+            return data;
         }
 
         //string url = "https://localhost:7074/api/adduser?dbpassword=" + PDbPassword;
