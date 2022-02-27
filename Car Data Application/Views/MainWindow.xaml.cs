@@ -20,6 +20,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using Car_Data_Application.Models.XML_Models;
 using System.Windows.Media.Animation;
+using Car_Data_Application.Views.UserControls;
 
 namespace Car_Data_Application.Views
 {
@@ -38,6 +39,7 @@ namespace Car_Data_Application.Views
         private AddVehiclePageGenerator AddVehiclePageGenerator = new();
         private BackupPanelGenerator BackupPanelGenerator = new();
         private Stats_DataContent Stats_DataContent = new();
+        private Stats_ChartsContent Stats_CharContentGenerator = new();
 
         private BrushConverter Converter = new BrushConverter();
         public string WhereAreYou = string.Empty;
@@ -229,6 +231,7 @@ namespace Car_Data_Application.Views
                     AddButon.Visibility = Visibility.Hidden;
                     this.WhereAreYou = "ChartsStatsPage";
                     carDataAppController.SetButtonColor(this.WhereAreYou, SidePanel);
+                    Stats_CharContentGenerator.PageGenerator(this, User);
                     break;
 
                 case "CostsPage":
