@@ -1,6 +1,10 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
+<<<<<<< HEAD
+=======
+using Newtonsoft.Json;
+>>>>>>> CA-6-API
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,12 +71,21 @@ namespace Car_Data_Application.Controllers
             }
 
             BackupWindowGrid.Children.Add(GenerateTextBlock(translation.ApiBackupTitle, PUser.UserLanguage , 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
+<<<<<<< HEAD
             BackupWindowGrid.Children.Add(GenerateButton(translation.ImportButton, PUser.UserLanguage, 1, 0, LightTextColor));
             BackupWindowGrid.Children.Add(GenerateButton(translation.ExportButton, PUser.UserLanguage, 1, 1, LightTextColor));
 
             BackupWindowGrid.Children.Add(GenerateTextBlock(translation.GoogleBackupTitle, PUser.UserLanguage, 2, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
             BackupWindowGrid.Children.Add(GenerateButton(translation.ImportButton, PUser.UserLanguage, 3, 0, LightTextColor));
             BackupWindowGrid.Children.Add(GenerateButton(translation.ExportButton, PUser.UserLanguage, 3, 1, LightTextColor));
+=======
+            BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ImportButton, PUser.UserLanguage, 1, 0, LightTextColor, "ApiImpot"));
+            BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ExportButton, PUser.UserLanguage, 1, 1, LightTextColor, "ApiExport"));
+
+            BackupWindowGrid.Children.Add(GenerateTextBlock(translation.GoogleBackupTitle, PUser.UserLanguage, 2, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
+            BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ImportButton, PUser.UserLanguage, 3, 0, LightTextColor, "GoogleImport"));
+            BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ExportButton, PUser.UserLanguage, 3, 1, LightTextColor, "GoogleExport"));
+>>>>>>> CA-6-API
 
             GrayedGrid.Children.Add(BlackOpacityGrid);
             GrayedGrid.Children.Add(BackupWindowGrid);
@@ -141,5 +154,50 @@ namespace Car_Data_Application.Controllers
             storyboard.Children.Clear();
             storyboard.Children.Add(MoveAnimation);
         }
+<<<<<<< HEAD
+=======
+
+        private Button GenerateButtonWithHandler(Translation text, string language, int row, int column, string foregroundcolor, string buttonname)
+        {
+            Button button = GenerateButton(text, language, row, column, foregroundcolor, buttonName: buttonname);
+            button.Click += ButtonClick;
+
+            return button;
+        }
+
+        private void ButtonClick(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+
+            switch (button.Name)
+            {
+                case "ApiImpot":
+
+                    string ApiResponse = HttpGet("https://localhost:7074/api/getuser?dbpassword=" + PDbPassword + "&login=" + PUser.Login + "&password=" + PUser.Password);
+                    if (HttpCheckRequest(ApiResponse) != "false")
+                    {
+                        PUser = JsonConvert.DeserializeObject<User>(ApiResponse);
+                        PUser.SerializeData();
+                        RefreshApp();
+                        MessageBox.Show("Import Successful");
+                    }
+                    break;
+
+                case "ApiExport":
+
+                    if (HttpCheckRequest(HttpPost("https://localhost:7074/api/editjson?dbpassword=" + PDbPassword + "&id=" + PUser.Id, PUser.SerializeData(PUser))) != "false")
+                    {
+                        MessageBox.Show("Export Successful");
+                    }
+                    break;
+
+                case "GoogleImport":
+                    break;
+
+                case "GoogleExport":
+                    break;
+            }
+        }
+>>>>>>> CA-6-API
     }
 }

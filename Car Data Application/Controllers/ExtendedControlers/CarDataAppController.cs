@@ -1,4 +1,8 @@
 ﻿
+<<<<<<< HEAD
+=======
+using Car_Data_Application.Controllers.ExtendedControlers;
+>>>>>>> CA-6-API
 using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
@@ -15,7 +19,7 @@ using System.Windows.Shapes;
 
 namespace Car_Data_Application.Controllers
 {
-    class CarDataAppController
+    class CarDataAppController : HttpController
     {
         public string TextBoxBackgroundColor = "#FFD6CFD3";
         public string TextBoxBackgroundRedColor = "#FFD68A8A";
@@ -27,6 +31,8 @@ namespace Car_Data_Application.Controllers
         public User PUser;
         public BrushConverter Converter = new BrushConverter();
         public Config config;
+
+
 
         public void SetButtonColor(string ButtonName, Grid SidePanel)
         {
@@ -67,6 +73,9 @@ namespace Car_Data_Application.Controllers
             Grid.SetRow(grid, row);
 
         }
+
+
+
 
         public TextBlock GenerateTextBlock(
             Translation text,
@@ -419,6 +428,41 @@ namespace Car_Data_Application.Controllers
             return comboBox;
         }
 
+        public PasswordBox GeneratePasswordBox(string passwordboxname, int row, int column,  HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, Visibility visibility = Visibility.Visible)
+        {
+            PasswordBox passwordBox = new PasswordBox();
+            passwordBox.Width = 120;
+            passwordBox.Height = 30;
+            passwordBox.Margin = new Thickness(2, 2, 6, 2);
+            passwordBox.VerticalContentAlignment = VerticalAlignment.Center;
+
+            passwordBox.FontSize = 16;
+            passwordBox.HorizontalAlignment = horizontalAlignment;
+            passwordBox.BorderThickness = new Thickness(0);
+            passwordBox.FontWeight = FontWeights.Bold;
+            passwordBox.Visibility = visibility;
+            passwordBox.Background = (Brush)Converter.ConvertFromString(TextBoxBackgroundColor);
+            passwordBox.Foreground = (Brush)Converter.ConvertFromString(DarkTextColor);
+            passwordBox.FontFamily = new FontFamily("Global User Interface");
+
+            string PasswordBoxName = String.Concat(passwordboxname.Where(c => !Char.IsWhiteSpace(c))) + "_PasswordBox";
+
+
+            if (null != mainWindow.FindName(PasswordBoxName))
+            {
+                mainWindow.UnregisterName(PasswordBoxName);
+            }
+            mainWindow.RegisterName(PasswordBoxName, passwordBox);
+            passwordBox.SetValue(FrameworkElement.NameProperty, PasswordBoxName);
+
+            Grid.SetRow(passwordBox, row);
+            Grid.SetColumn(passwordBox, column);
+
+            return passwordBox;
+        }
+
+
+
         private void ToggleSwitchClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Grid grid = (Grid)sender;
@@ -450,6 +494,13 @@ namespace Car_Data_Application.Controllers
                 str = str.Replace(c.ToString(), string.Empty); 
             }
             return str;
+        }
+
+        public void RefreshApp()
+        {
+            MainWindow RefreshApp = new MainWindow();
+            RefreshApp.Show();
+            mainWindow.Close();
         }
     }
 }

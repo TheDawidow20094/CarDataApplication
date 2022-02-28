@@ -20,6 +20,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using Car_Data_Application.Models.XML_Models;
 using System.Windows.Media.Animation;
+using Car_Data_Application.Views.UserControls;
 
 namespace Car_Data_Application.Views
 {
@@ -38,6 +39,10 @@ namespace Car_Data_Application.Views
         private AddVehiclePageGenerator AddVehiclePageGenerator = new();
         private BackupPanelGenerator BackupPanelGenerator = new();
         private Stats_DataContent Stats_DataContent = new();
+<<<<<<< HEAD
+=======
+        private Stats_ChartsContent Stats_CharContentGenerator = new();
+>>>>>>> CA-6-API
 
         private BrushConverter Converter = new BrushConverter();
         public string WhereAreYou = string.Empty;
@@ -229,6 +234,10 @@ namespace Car_Data_Application.Views
                     AddButon.Visibility = Visibility.Hidden;
                     this.WhereAreYou = "ChartsStatsPage";
                     carDataAppController.SetButtonColor(this.WhereAreYou, SidePanel);
+<<<<<<< HEAD
+=======
+                    Stats_CharContentGenerator.PageGenerator(this, User);
+>>>>>>> CA-6-API
                     break;
 
                 case "CostsPage":
@@ -281,8 +290,15 @@ namespace Car_Data_Application.Views
 
         private void SetFooterData()
         {
-            Footer_VehicleName.Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
-            Footer_VehicleMillage.Text = User.Vehicles[User.ActiveCarIndex].CarMillage + " km";
+            if (User.Vehicles.Count == 0)
+            {
+                Footer_VehicleName.Text = "No Car Add";
+            }
+            else 
+            {
+                Footer_VehicleName.Text = User.Vehicles[User.ActiveCarIndex].Brand + " " + User.Vehicles[User.ActiveCarIndex].Model;
+                Footer_VehicleMillage.Text = User.Vehicles[User.ActiveCarIndex].CarMillage + " km";
+            }
             UserName.Text = User.Login;
         }
 

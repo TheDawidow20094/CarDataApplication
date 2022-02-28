@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+<<<<<<< HEAD
+=======
+using LiveCharts.Charts;
+>>>>>>> CA-6-API
 
 namespace Car_Data_Application.Controllers
 {

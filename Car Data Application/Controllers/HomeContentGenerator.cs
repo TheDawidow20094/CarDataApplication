@@ -65,6 +65,7 @@ namespace Car_Data_Application.Controllers
                 FuelDataGridContent.RowDefinitions.Add(new RowDefinition());
             }
 
+<<<<<<< HEAD
             int LastRefuelingElement = user.Vehicles[user.ActiveCarIndex].Refulings.Count();
 
             FuelDataGridContent.Children.Add(GenerateTextBlock(translation.AverageConsumption, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
@@ -78,15 +79,90 @@ namespace Car_Data_Application.Controllers
                 FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].TotalPrice.ToString() + " zł", 2, 1));
             }
             else
+=======
+            try
+>>>>>>> CA-6-API
             {
+                int LastRefuelingElement = user.Vehicles[user.ActiveCarIndex].Refulings.Count();
 
+<<<<<<< HEAD
             }
 
             FuelDataGrid.Children.Add(FuelDataGridContent);
+=======
+                FuelDataGridContent.Children.Add(GenerateTextBlock(translation.AverageConsumption, PUser.UserLanguage, 0, 0, LightTextColor, HorizontalAlignment.Right));
+                FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastConsumption, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+                FuelDataGridContent.Children.Add(GenerateTextBlock(translation.LastFuelPrice, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+
+                FuelDataGridContent.Children.Add(GenerateTextBlock(null, Math.Round(user.Vehicles[user.ActiveCarIndex].AverageFuelConsumption, 2).ToString() + " L/100km", 0, 1));
+                if (LastRefuelingElement > 0)
+                {
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(null, Math.Round(user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].Consumption, 2).ToString() + " L/100km", 1, 1));
+                    FuelDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].Refulings[LastRefuelingElement - 1].TotalPrice.ToString() + " zł", 2, 1));
+                }
+                else
+                {
+
+                }
+
+                FuelDataGrid.Children.Add(FuelDataGridContent);
+            }
+            catch (Exception)
+            {
+
+            }
+            
+>>>>>>> CA-6-API
 
 
             return FuelDataGrid;
         }
+<<<<<<< HEAD
+
+        //private Grid CostDataGenerator(User user, CostData translation)
+        //{
+        //    Grid CostDataGrid = new Grid();
+        //    SetGridProps(ref CostDataGrid, 1);
+
+        //    CostDataGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(114) });
+        //    CostDataGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+        //    CostDataGrid.Children.Add(GenerateIcon("../../../Images/Icons/dollar.png", 0, 0));
+
+        //    Grid CostDataGridContent = new Grid();
+        //    Grid.SetColumn(CostDataGridContent, 1);
+        //    CostDataGridContent.VerticalAlignment = VerticalAlignment.Center;
+        //    CostDataGridContent.HorizontalAlignment = HorizontalAlignment.Center;
+
+        //    for (int i = 0; i < 2; i++) // 2 columns in this grid
+        //    {
+        //        ColumnDefinition FuelDataGridColumn = new ColumnDefinition();
+        //        CostDataGridContent.ColumnDefinitions.Add(FuelDataGridColumn);
+        //    }
+        //    for (int y = 0; y < 6; y++) // 6 rows in this grid
+        //    {
+        //        RowDefinition FuelDataGridRow = new RowDefinition();
+        //        CostDataGridContent.RowDefinitions.Add(FuelDataGridRow);
+        //    }
+
+        //    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounth, PUser.UserLanguage, 0, 0, DarkTextColor, HorizontalAlignment.Center, VerticalAlignment.Center, true));
+        //    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounthFuelCost, PUser.UserLanguage, 1, 0, LightTextColor, HorizontalAlignment.Right));
+        //    CostDataGridContent.Children.Add(GenerateTextBlock(translation.ThisMounthOtherCost, PUser.UserLanguage, 2, 0, LightTextColor, HorizontalAlignment.Right));
+        //    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounth, PUser.UserLanguage, 3, 0, DarkTextColor, HorizontalAlignment.Right, VerticalAlignment.Center, true));
+        //    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounthFuelCost, PUser.UserLanguage, 4, 0, LightTextColor, HorizontalAlignment.Right));
+        //    CostDataGridContent.Children.Add(GenerateTextBlock(translation.PreviousMounthOtherCost, PUser.UserLanguage, 5, 0, LightTextColor, HorizontalAlignment.Right));
+
+        //    ////CostDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].ThisMounthFuelCost.ToString() + " zł", 1, 1));
+        //    ////CostDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].ThisMounthOtherCost.ToString() + " zł", 2, 1));
+        //    ////CostDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].PreviousMounthFuelCost.ToString() + " zł", 4, 1));
+        //    ////CostDataGridContent.Children.Add(GenerateTextBlock(null, user.Vehicles[user.ActiveCarIndex].PreviousMounthOtherCost.ToString() + " zł", 5, 1));
+
+        //    CostDataGrid.Children.Add(CostDataGridContent);
+
+        //    return CostDataGrid;
+        //}
+=======
+>>>>>>> CA-6-API
 
         //private Grid CostDataGenerator(User user, CostData translation)
         //{

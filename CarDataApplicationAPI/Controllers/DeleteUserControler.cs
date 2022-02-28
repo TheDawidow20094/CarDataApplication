@@ -13,19 +13,17 @@ namespace CarDataApplicationAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(string dbpassword, int id)
         {
-            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
-            {
-                return BadRequest("Wrong Password!");
-            }
+            MySqlConnection cn = new MySqlConnection(@"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword);
 
-            return ExecuteDatabaseOperation(dbpassword, id);
+            try { cn.Open(); }
+            catch (MySqlException) { return BadRequest("Wrong Password!"); }
+
+            return ExecuteDatabaseOperation(dbpassword, id, cn);
 
         }
 
-        private IActionResult ExecuteDatabaseOperation(string dbpassword, int id)
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, int id, MySqlConnection cn)
         {
-            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword;
-            MySqlConnection cn = new MySqlConnection(Connection);
             cn.Open();
 
             string sql = "DELETE FROM users WHERE Id=" + id.ToString();
