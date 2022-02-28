@@ -17,22 +17,21 @@ namespace CarDataApplicationAPI.Controllers
         [HttpPost]
         public IActionResult ChangePassword(string dbpassword, [FromBody] JsonElement data)
         {
-            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
-            {
-                return BadRequest("Wrong Password!");
-            }
+            MySqlConnection cn = new MySqlConnection(@"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword);
+
+            try { cn.Open(); }
+            catch (MySqlException) { return BadRequest("Wrong Password!"); }
 
             AssignModelValue(data);
 
-            return ExecuteDatabaseOperation(dbpassword);
+            return ExecuteDatabaseOperation(dbpassword, cn);
         }
 
-        private IActionResult ExecuteDatabaseOperation(string dbpassword)
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, MySqlConnection cn)
         {
-            MySqlConnection cn = new MySqlConnection(@"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword);
             cn.Open();
 
-            if (CheckOldPassword(dbpassword))
+            if (CheckOldPassword(dbpassword, cn))
             {
                 string sql = "UPDATE users SET Password =" + "'" + newModel.NewPassword + "'" + "WHERE Id =" + newModel.UserId;
                 cmd = new(sql, cn);
@@ -47,10 +46,9 @@ namespace CarDataApplicationAPI.Controllers
             cn.Close();
         }
 
-        private bool CheckOldPassword(string dbpassword)
+        private bool CheckOldPassword(string dbpassword, MySqlConnection cn)
         {
             bool iscorrect = false;
-            MySqlConnection cn = new MySqlConnection(@"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword);
             cn.Open();
 
             string sql = "SELECT Password FROM `users` WHERE `Password` =" + "'" + newModel.OldPassword + "'";

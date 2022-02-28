@@ -13,19 +13,16 @@ namespace CarDataApplicationAPI.Controllers
         [HttpPost]
         public IActionResult EditJson(string dbpassword, int id, [FromBody] JsonElement data)
         {
-            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
-            {
-                return BadRequest("Wrong Password!");
-            }
+            MySqlConnection cn = new MySqlConnection(@"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword);
 
-            return ExecuteDatabaseOperation(dbpassword, id, data);
+            try { cn.Open(); }
+            catch (MySqlException) { return BadRequest("Wrong Password!"); }
+
+            return ExecuteDatabaseOperation(dbpassword, id, data, cn);
         }
 
-        private IActionResult ExecuteDatabaseOperation(string dbpassword, int id, JsonElement data)
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, int id, JsonElement data, MySqlConnection cn)
         {
-
-            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword;
-            MySqlConnection cn = new MySqlConnection(Connection);
             cn.Open();
 
             string sql = "UPDATE users SET JSON =" + "'" + data + "'" + "WHERE Id =" + id; 

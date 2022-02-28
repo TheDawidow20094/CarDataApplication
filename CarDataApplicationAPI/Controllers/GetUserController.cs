@@ -14,20 +14,17 @@ namespace CarDataApplicationAPI.Controllers
         [HttpGet()]
         public IActionResult GetUserById(string dbpassword, string login, string password)
         {
-            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
-            {
-                return BadRequest("Wrong Password!");
-            }
+            MySqlConnection cn = new MySqlConnection(@"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword);
 
-            return ExecuteDatabaseOperation(dbpassword, login, password);
+            try { cn.Open(); }
+            catch (MySqlException) { return BadRequest("Wrong Password!"); }
+
+            return ExecuteDatabaseOperation(dbpassword, login, password, cn);
 
         }
 
-        private IActionResult ExecuteDatabaseOperation(string dbpassword, string login, string password)
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, string login, string password, MySqlConnection cn)
         {
-            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword;
-            MySqlConnection cn = new MySqlConnection(Connection);
-            cn.Open();
 
             string sql = "SELECT * FROM `users` WHERE `Login` = \"" + login  + " \" AND `Password` = \"" + password + " \" ";
             MySqlCommand cmd = new MySqlCommand(sql, cn);

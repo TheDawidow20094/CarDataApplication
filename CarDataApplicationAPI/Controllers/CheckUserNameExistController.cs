@@ -12,18 +12,16 @@ namespace CarDataApplicationAPI.Controllers
         [HttpGet]
         public IActionResult ChceckUserExist(string dbpassword, string login)
         {
-            if (dbpassword != "dUmv9Fq/8D6y9Rwh")
-            {
-                return BadRequest("Wrong Password!");
-            }
+            MySqlConnection cn = new MySqlConnection(@"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword);
 
-            return ExecuteDatabaseOperation(dbpassword, login);
+            try { cn.Open(); }
+            catch (MySqlException) { return BadRequest("Wrong Password!"); }
+
+            return ExecuteDatabaseOperation(dbpassword, login, cn);
         }
 
-        private IActionResult ExecuteDatabaseOperation(string dbpassword, string login)
+        private IActionResult ExecuteDatabaseOperation(string dbpassword, string login, MySqlConnection cn)
         {
-            string Connection = @"Data Source=localhost; Database=cardataappdb; User ID=AppUser; Password=" + dbpassword;
-            MySqlConnection cn = new MySqlConnection(Connection);
             cn.Open();
 
             string sql = "SELECT Login FROM `users` WHERE `Login` =" + "'" + login + "'";

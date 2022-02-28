@@ -12,7 +12,7 @@ namespace Car_Data_Application.Controllers.ExtendedControlers
 {
     class HttpController
     {
-        public string PDbPassword = "dUmv9Fq/8D6y9Rwh";
+        public string PDbPassword = GenerateDbPassword();
 
         public static string HttpGet(string url)
         {
@@ -115,6 +115,11 @@ namespace Car_Data_Application.Controllers.ExtendedControlers
             }
 
             return data;
+        }
+
+        protected static string GenerateDbPassword()
+        {
+            return "dUmv9Fq/8D6y9Rwh";
         }
 
         //string url = "https://localhost:7074/api/adduser?dbpassword=" + PDbPassword;
