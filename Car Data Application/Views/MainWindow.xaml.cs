@@ -39,7 +39,10 @@ namespace Car_Data_Application.Views
         private AddVehiclePageGenerator AddVehiclePageGenerator = new();
         private BackupPanelGenerator BackupPanelGenerator = new();
         private Stats_DataContent Stats_DataContent = new();
+<<<<<<< HEAD
+=======
         private Stats_ChartsContent Stats_CharContentGenerator = new();
+>>>>>>> CA-6-API
 
         private BrushConverter Converter = new BrushConverter();
         public string WhereAreYou = string.Empty;
@@ -231,7 +234,10 @@ namespace Car_Data_Application.Views
                     AddButon.Visibility = Visibility.Hidden;
                     this.WhereAreYou = "ChartsStatsPage";
                     carDataAppController.SetButtonColor(this.WhereAreYou, SidePanel);
+<<<<<<< HEAD
+=======
                     Stats_CharContentGenerator.PageGenerator(this, User);
+>>>>>>> CA-6-API
                     break;
 
                 case "CostsPage":

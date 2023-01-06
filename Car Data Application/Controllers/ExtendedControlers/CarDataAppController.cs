@@ -1,5 +1,8 @@
 ﻿
+<<<<<<< HEAD
+=======
 using Car_Data_Application.Controllers.ExtendedControlers;
+>>>>>>> CA-6-API
 using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;

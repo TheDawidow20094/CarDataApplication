@@ -1,7 +1,10 @@
 ﻿using Car_Data_Application.Models;
 using Car_Data_Application.Models.XML_Models;
 using Car_Data_Application.Views;
+<<<<<<< HEAD
+=======
 using Newtonsoft.Json;
+>>>>>>> CA-6-API
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,12 +71,21 @@ namespace Car_Data_Application.Controllers
             }
 
             BackupWindowGrid.Children.Add(GenerateTextBlock(translation.ApiBackupTitle, PUser.UserLanguage , 0, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
+<<<<<<< HEAD
+            BackupWindowGrid.Children.Add(GenerateButton(translation.ImportButton, PUser.UserLanguage, 1, 0, LightTextColor));
+            BackupWindowGrid.Children.Add(GenerateButton(translation.ExportButton, PUser.UserLanguage, 1, 1, LightTextColor));
+
+            BackupWindowGrid.Children.Add(GenerateTextBlock(translation.GoogleBackupTitle, PUser.UserLanguage, 2, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
+            BackupWindowGrid.Children.Add(GenerateButton(translation.ImportButton, PUser.UserLanguage, 3, 0, LightTextColor));
+            BackupWindowGrid.Children.Add(GenerateButton(translation.ExportButton, PUser.UserLanguage, 3, 1, LightTextColor));
+=======
             BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ImportButton, PUser.UserLanguage, 1, 0, LightTextColor, "ApiImpot"));
             BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ExportButton, PUser.UserLanguage, 1, 1, LightTextColor, "ApiExport"));
 
             BackupWindowGrid.Children.Add(GenerateTextBlock(translation.GoogleBackupTitle, PUser.UserLanguage, 2, 0, horizontalAlignment: HorizontalAlignment.Center, isTitleFontSize: 28, isTitle: true));
             BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ImportButton, PUser.UserLanguage, 3, 0, LightTextColor, "GoogleImport"));
             BackupWindowGrid.Children.Add(GenerateButtonWithHandler(translation.ExportButton, PUser.UserLanguage, 3, 1, LightTextColor, "GoogleExport"));
+>>>>>>> CA-6-API
 
             GrayedGrid.Children.Add(BlackOpacityGrid);
             GrayedGrid.Children.Add(BackupWindowGrid);
@@ -142,6 +154,8 @@ namespace Car_Data_Application.Controllers
             storyboard.Children.Clear();
             storyboard.Children.Add(MoveAnimation);
         }
+<<<<<<< HEAD
+=======
 
         private Button GenerateButtonWithHandler(Translation text, string language, int row, int column, string foregroundcolor, string buttonname)
         {
@@ -184,5 +198,6 @@ namespace Car_Data_Application.Controllers
                     break;
             }
         }
+>>>>>>> CA-6-API
     }
 }
